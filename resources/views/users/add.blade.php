@@ -26,34 +26,18 @@
             <div class="card-body">
                 <div class="form-group row">
 
-                    {{-- First Name --}}
+                    {{-- Name --}}
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
-                        <span style="color:red;">*</span>First Name</label>
+                        <span style="color:red;">*</span>Name</label>
                         <input 
                             type="text" 
-                            class="form-control form-control-user @error('first_name') is-invalid @enderror" 
-                            id="exampleFirstName"
-                            placeholder="First Name" 
-                            name="first_name" 
-                            value="{{ old('first_name') }}">
+                            class="form-control form-control-user @error('name') is-invalid @enderror" 
+                            id="exampleName"
+                            placeholder="Name" 
+                            name="name" 
+                            value="{{ old('name') }}">
 
-                        @error('first_name')
-                            <span class="text-danger">{{$message}}</span>
-                        @enderror
-                    </div>
-
-                    {{-- Last Name --}}
-                    <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
-                        <span style="color:red;">*</span>Last Name</label>
-                        <input 
-                            type="text" 
-                            class="form-control form-control-user @error('last_name') is-invalid @enderror" 
-                            id="exampleLastName"
-                            placeholder="Last Name" 
-                            name="last_name" 
-                            value="{{ old('last_name') }}">
-
-                        @error('last_name')
+                        @error('name')
                             <span class="text-danger">{{$message}}</span>
                         @enderror
                     </div>

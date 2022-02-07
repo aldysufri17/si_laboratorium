@@ -18,7 +18,7 @@
             <div class="col-md-3 border-right">
                 <div class="d-flex flex-column align-items-center text-center p-3 py-5">
                     <img class="rounded-circle mt-5" width="150px" src="{{ asset('admin/img/undraw_profile.svg') }}">
-                    <span class="font-weight-bold">{{ auth()->user()->full_name }}</span>
+                    <span class="font-weight-bold">{{ auth()->user()->name }}</span>
                     <span class="text-black-50"><i>Role:
                             {{ auth()->user()->roles
                                 ? auth()->user()->roles->pluck('name')->first()
@@ -36,23 +36,12 @@
                         @csrf
                         <div class="row mt-2">
                             <div class="col-md-4">
-                                <label class="labels">First Name</label>
-                                <input type="text" class="form-control @error('first_name') is-invalid @enderror"
-                                    name="first_name" placeholder="First Name"
-                                    value="{{ old('first_name') ? old('first_name') : auth()->user()->first_name }}">
+                                <label class="labels">Name</label>
+                                <input type="text" class="form-control @error('name') is-invalid @enderror"
+                                    name="name" placeholder="Name"
+                                    value="{{ old('name') ? old('name') : auth()->user()->name }}">
 
-                                @error('first_name')
-                                    <span class="text-danger">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            <div class="col-md-4">
-                                <label class="labels">Last Name</label>
-                                <input type="text" name="last_name"
-                                    class="form-control @error('last_name') is-invalid @enderror"
-                                    value="{{ old('last_name') ? old('last_name') : auth()->user()->last_name }}"
-                                    placeholder="Last Name">
-
-                                @error('last_name')
+                                @error('name')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>

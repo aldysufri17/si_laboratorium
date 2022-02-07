@@ -1,11 +1,11 @@
 <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
 
     <!-- Sidebar - Brand -->
-    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
-        <div class="sidebar-brand-icon rotate-n-15">
-            <i class="fas fa-university"></i>
+    <a class="sidebar-brand d-flex align-items-center justify-content-center" href="#">
+        <div class="sidebar-brand-icon fa-pulse">
+            <i class="fas fa-robot"></i>
         </div>
-        <div class="sidebar-brand-text mx-3">Tech-Admin</div>
+        <div class="sidebar-brand-text mx-3">Laboratorium</div>
     </a>
 
     <!-- Divider -->

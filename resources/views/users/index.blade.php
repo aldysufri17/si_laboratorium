@@ -38,7 +38,7 @@
                         <tbody>
                             @foreach ($users as $user)
                                 <tr>
-                                    <td>{{ $user->full_name }}</td>
+                                    <td>{{ $user->name }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td>{{ $user->mobile_number }}</td>
                                     <td>{{ $user->roles ? $user->roles->pluck('name')->first() : 'N/A' }}</td>

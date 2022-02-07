@@ -52,8 +52,7 @@ class HomeController extends Controller
     {
         #Validations
         $request->validate([
-            'first_name'    => 'required',
-            'last_name'     => 'required',
+            'name'    => 'required',
             'mobile_number' => 'required|numeric|digits:10',
         ]);
 
@@ -62,8 +61,7 @@ class HomeController extends Controller
             
             #Update Profile Data
             User::whereId(auth()->user()->id)->update([
-                'first_name' => $request->first_name,
-                'last_name' => $request->last_name,
+                'name' => $request->name,
                 'mobile_number' => $request->mobile_number,
             ]);
 
