@@ -3,11 +3,9 @@
 @section('title', 'Forgot Password')
 
 @section('content')
-    <div class="row justify-content-center">
 
-        <div class="text-center m-5">
-            <h1 class="text-white">Tech-Admin - Laravel Admin Panel</h1>
-        </div>
+<div class="container">
+    <div class="row justify-content-center">
 
         <div class="col-xl-10 col-lg-12 col-md-9">
 
@@ -23,14 +21,14 @@
                                 </div>
 
                                 @if (session('error'))
-                                    <span class="text-danger"> {{ session('error') }}</span>
+                                <span class="text-danger"> {{ session('error') }}</span>
                                 @endif
 
                                 <form method="POST" action="{{ route('password.update') }}">
                                     @csrf
 
                                     <input type="hidden" name="token" value="{{ $token }}">
-                                    
+
                                     <div class="form-group">
                                         <input id="email" type="email"
                                             class="form-control form-control-user @error('email') is-invalid @enderror"
@@ -38,28 +36,29 @@
                                             autocomplete="email" autofocus placeholder="Enter Email Address.">
 
                                         @error('email')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
                                         @enderror
                                     </div>
 
                                     <div class="form-group">
                                         <input id="password" type="password"
                                             class="form-control form-control-user @error('password') is-invalid @enderror"
-                                            name="password" required autocomplete="new-password" placeholder="New Password">
+                                            name="password" required autocomplete="new-password"
+                                            placeholder="New Password">
 
                                         @error('password')
-                                            <span class="invalid-feedback" role="alert">
-                                                <strong>{{ $message }}</strong>
-                                            </span>
+                                        <span class="invalid-feedback" role="alert">
+                                            <strong>{{ $message }}</strong>
+                                        </span>
                                         @enderror
                                     </div>
 
                                     <div class="form-group">
-                                        <input id="password-confirm" type="password" class="form-control form-control-user"
-                                            name="password_confirmation" required autocomplete="new-password"
-                                            placeholder="Confirm Password">
+                                        <input id="password-confirm" type="password"
+                                            class="form-control form-control-user" name="password_confirmation" required
+                                            autocomplete="new-password" placeholder="Confirm Password">
                                     </div>
 
                                     <button class="btn btn-primary btn-user btn-block" type="submit">
@@ -73,10 +72,6 @@
             </div>
 
         </div>
-
-        <div class="text-center mt-5">
-            <h6 class="text-white">Developed By : <a class="text-white" href="https://techtoolindia.com">TechTool India</a></h6>
-        </div>
-
     </div>
+</div>
 @endsection
