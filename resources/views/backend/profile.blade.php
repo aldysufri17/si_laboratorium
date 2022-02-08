@@ -1,4 +1,4 @@
-@extends('layouts.app')
+@extends('backend.layouts.app')
 
 @section('title', 'Profile')
 
@@ -11,7 +11,7 @@
         </div>
 
         {{-- Alert Messages --}}
-        @include('common.alert')
+        @include('backend.common.alert')
 
         {{-- Page Content --}}
         <div class="row">
@@ -36,9 +36,9 @@
                         @csrf
                         <div class="row mt-2">
                             <div class="col-md-4">
-                                <label class="labels">Name</label>
+                                <label class="labels">Nama</label>
                                 <input type="text" class="form-control @error('name') is-invalid @enderror"
-                                    name="name" placeholder="Name"
+                                    name="name" placeholder="Nama"
                                     value="{{ old('name') ? old('name') : auth()->user()->name }}">
 
                                 @error('name')
@@ -46,17 +46,17 @@
                                 @enderror
                             </div>
                             <div class="col-md-4">
-                                <label class="labels">Mobile Number</label>
+                                <label class="labels">Nomor Telepon</label>
                                 <input type="text" class="form-control @error('mobile_number') is-invalid @enderror" name="mobile_number"
                                     value="{{ old('mobile_number') ? old('mobile_number') : auth()->user()->mobile_number }}"
-                                    placeholder="Mobile Number">
+                                    placeholder="Nomor Telepon">
                                 @error('mobile_number')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
                         </div>
                         <div class="mt-5 text-center">
-                            <button class="btn btn-primary profile-button" type="submit">Update Profile</button>
+                            <button class="btn btn-primary profile-button" type="submit">Simpan Profile</button>
                         </div>
                     </form>
                 </div>
@@ -65,36 +65,36 @@
                 {{-- Change Password --}}
                 <div class="p-3 py-5">
                     <div class="d-flex justify-content-between align-items-center mb-3">
-                        <h4 class="text-right">Change Password</h4>
+                        <h4 class="text-right">Ubah Password</h4>
                     </div>
 
                     <form action="{{ route('profile.change-password') }}" method="POST">
                         @csrf
                         <div class="row mt-2">
                             <div class="col-md-4">
-                                <label class="labels">Current Password</label>
-                                <input type="password" name="current_password" class="form-control @error('current_password') is-invalid @enderror" placeholder="Current Password" required>
+                                <label class="labels">Password Lama</label>
+                                <input type="password" name="current_password" class="form-control @error('current_password') is-invalid @enderror" placeholder="Password Lama" required>
                                 @error('current_password')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div class="col-md-4">
-                                <label class="labels">New Password</label>
-                                <input type="password" name="new_password" class="form-control @error('new_password') is-invalid @enderror" required placeholder="New Password">
+                                <label class="labels">Password Baru</label>
+                                <input type="password" name="new_password" class="form-control @error('new_password') is-invalid @enderror" required placeholder="Password Baru">
                                 @error('new_password')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
                             <div class="col-md-4">
-                                <label class="labels">Confirm Password</label>
-                                <input type="password" name="new_confirm_password" class="form-control @error('new_confirm_password') is-invalid @enderror" required placeholder="Confirm Password">
+                                <label class="labels">Konfirmasi Password Baru</label>
+                                <input type="password" name="new_confirm_password" class="form-control @error('new_confirm_password') is-invalid @enderror" required placeholder="Konfirmasi Password Baru">
                                 @error('new_confirm_password')
                                     <span class="text-danger">{{ $message }}</span>
                                 @enderror
                             </div>
                         </div>
                         <div class="mt-5 text-center">
-                            <button class="btn btn-success profile-button" type="submit">Change Password</button>
+                            <button class="btn btn-success profile-button" type="submit">Simpan Password</button>
                         </div>
                     </form>
                 </div>

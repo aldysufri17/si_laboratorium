@@ -34,8 +34,6 @@ Route::prefix('profile')->name('profile.')->middleware('auth')->group(function()
 // Roles
 Route::resource('roles', App\Http\Controllers\RolesController::class);
 
-// Permissions
-
 // Users 
 Route::middleware('auth')->prefix('users')->name('users.')->group(function(){
     Route::get('/', [UserController::class, 'index'])->name('index');

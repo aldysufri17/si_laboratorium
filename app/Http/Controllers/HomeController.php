@@ -28,7 +28,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        return view('backend.home');
     }
 
     /**
@@ -39,7 +39,7 @@ class HomeController extends Controller
      */
     public function getProfile()
     {
-        return view('profile');
+        return view('backend.profile');
     }
 
     /**

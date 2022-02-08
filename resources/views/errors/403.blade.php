@@ -1,5 +1,5 @@
 @auth
-    @extends('layouts.app')
+    @extends('backend.layouts.app')
 
     @section('title', 'Permission Error')
 
@@ -10,8 +10,8 @@
         <div class="text-center">
             <div class="error mx-auto" data-text="403">403</div>
             <p class="lead text-gray-800 mb-5">Permission Denied!</p>
-            <p class="text-gray-500 mb-0">It looks like you don't Have Permission to access</p>
-            <a href="{{ route('home') }}">← Back to Dashboard</a>
+            <p class="text-gray-500 mb-0">Anda tidak memiliki hak untuk mengakses halaman ini!</p>
+            <a href="{{ route('home') }}">← Kembali ke Dashboard</a>
         </div>
 
     </div>
@@ -63,7 +63,7 @@
                     <div class="col-lg-8 col-12 col-sm-10 offset-lg-2 offset-sm-1">
                         <h1 class="m-0">403</h1>
                         <h6>Permission Denied!</h6>
-                        <p>Looks Like You Don't have permission!</p>
+                        <p>Anda tidak memiliki hak untuk mengakses halaman ini!</p>
                     </div>
                 </div>
             </div>

@@ -8,7 +8,7 @@
 {{-- Head Before AUTH--}}
 @include('auth.includes.head')
 
-<body class="bg-gradient-primary">
+<body class="bg-image">
 
     <div class="container" id="wrapper">
 

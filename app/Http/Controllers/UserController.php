@@ -20,6 +20,7 @@ class UserController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('permission:admin');
 
     }
 
@@ -34,7 +35,7 @@ class UserController extends Controller
     {
         $users = User::with('roles')->paginate(10);
        
-        return view('users.index', ['users' => $users]);
+        return view('backend.users.index', ['users' => $users]);
     }
     
     /**
@@ -47,7 +48,7 @@ class UserController extends Controller
     {
         $roles = Role::all();
        
-        return view('users.add', ['roles' => $roles]);
+        return view('backend.users.add', ['roles' => $roles]);
     }
 
     /**
@@ -62,7 +63,7 @@ class UserController extends Controller
         $request->validate([
             'name'    => 'required',
             'email'         => 'required|unique:users,email',
-            'mobile_number' => 'required|numeric|digits:10',
+            'mobile_number' => 'required|numeric|max:12',
             'role_id'       =>  'required|exists:roles,id',
             'status'       =>  'required|numeric|in:0,1',
         ]);
@@ -88,7 +89,7 @@ class UserController extends Controller
 
             // Commit And Redirected To Listing
             DB::commit();
-            return redirect()->route('users.index')->with('success','User Created Successfully.');
+            return redirect()->route('backend.users.index')->with('success','User Created Successfully.');
 
         } catch (\Throwable $th) {
             // Rollback and return with Error
@@ -116,7 +117,7 @@ class UserController extends Controller
 
         // If Validations Fails
         if($validate->fails()){
-            return redirect()->route('users.index')->with('error', $validate->errors()->first());
+            return redirect()->route('backend.users.index')->with('error', $validate->errors()->first());
         }
 
         try {
@@ -127,7 +128,7 @@ class UserController extends Controller
 
             // Commit And Redirect on index with Success Message
             DB::commit();
-            return redirect()->route('users.index')->with('success','User Status Updated Successfully!');
+            return redirect()->route('backend.users.index')->with('success','User Status Updated Successfully!');
         } catch (\Throwable $th) {
 
             // Rollback & Return Error Message
@@ -145,7 +146,7 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $roles = Role::all();
-        return view('users.edit')->with([
+        return view('backend.users.edit')->with([
             'roles' => $roles,
             'user'  => $user
         ]);
@@ -188,7 +189,7 @@ class UserController extends Controller
 
             // Commit And Redirected To Listing
             DB::commit();
-            return redirect()->route('users.index')->with('success','User Updated Successfully.');
+            return redirect()->route('backend.users.index')->with('success','User Updated Successfully.');
 
         } catch (\Throwable $th) {
             // Rollback and return with Error
@@ -211,7 +212,7 @@ class UserController extends Controller
             User::whereId($user->id)->delete();
 
             DB::commit();
-            return redirect()->route('users.index')->with('success', 'User Deleted Successfully!.');
+            return redirect()->route('backend.users.index')->with('success', 'User Deleted Successfully!.');
 
         } catch (\Throwable $th) {
             DB::rollBack();

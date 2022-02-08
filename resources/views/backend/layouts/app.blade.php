@@ -2,7 +2,7 @@
 <html lang="en">
 
 {{-- Include Head --}}
-@include('common.head')
+@include('backend.common.head')
 
 <body id="page-top">
 
@@ -10,7 +10,7 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        @include('common.sidebar')
+        @include('backend.common.sidebar')
         <!-- End of Sidebar -->
 
         <!-- Content Wrapper -->
@@ -20,7 +20,7 @@
             <div id="content">
 
                 <!-- Topbar -->
-                @include('common.header')
+                @include('backend.common.header')
                 <!-- End of Topbar -->
 
                 <!-- Begin Page Content -->
@@ -31,7 +31,7 @@
             <!-- End of Main Content -->
 
             <!-- Footer -->
-            @include('common.footer')
+            @include('backend.common.footer')
             <!-- End of Footer -->
 
         </div>
@@ -46,7 +46,7 @@
     </a>
 
     <!-- Logout Modal-->
-    @include('common.logout-modal')
+    @include('backend.common.logout-modal')
 
     <!-- Bootstrap core JavaScript-->
     <script src="{{asset('js/app.js')}}"></script>

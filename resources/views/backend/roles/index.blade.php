@@ -1,6 +1,6 @@
-@extends('layouts.app')
+@extends('backend.layouts.app')
 
-@section('title', 'Roles')
+@section('title', 'Daftar Role')
 
 @section('content')
 <div class="container-fluid">
@@ -9,17 +9,17 @@
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-gray-800">Roles</h1>
         <a href="{{route('roles.create')}}" class="btn btn-sm btn-primary" >
-            <i class="fas fa-plus"></i> Add New
+            <i class="fas fa-plus"></i> Tambah Baru
         </a>
     </div>
 
     {{-- Alert Messages --}}
-    @include('common.alert')
+    @include('backend.common.alert')
    
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">All Roles</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Semua Role</h6>
             
         </div>
         <div class="card-body">
@@ -28,8 +28,8 @@
                     <thead>
                         <tr>
                             <th width="40%">ID</th>
-                            <th width="40%">Name</th>
-                            <th width="20%">Action</th>
+                            <th width="40%">Nama</th>
+                            <th width="20%">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>

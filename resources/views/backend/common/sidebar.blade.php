@@ -18,6 +18,7 @@
             <span>Dashboard</span></a>
     </li>
 
+    @hasrole('Admin')
     <!-- Divider -->
     <hr class="sidebar-divider">
 
@@ -31,21 +32,21 @@
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#taTpDropDown"
             aria-expanded="true" aria-controls="taTpDropDown">
             <i class="fas fa-user-alt"></i>
-            <span>User Management</span>
+            <span>Masters</span>
         </a>
         <div id="taTpDropDown" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
-                <h6 class="collapse-header">User Management:</h6>
-                <a class="collapse-item" href="{{ route('users.index') }}">List</a>
-                <a class="collapse-item" href="{{ route('users.create') }}">Add New</a>
+                <h6 class="collapse-header">Admin Management:</h6>
+                <a class="collapse-item" href="{{ route('users.index') }}">Daftar Master</a>
+                <a class="collapse-item" href="{{ route('users.create') }}">Tambah Master</a>
+                <a class="collapse-item" href="{{ route('roles.index') }}">Roles</a>
             </div>
         </div>
     </li>
 
-    <!-- Divider -->
+    {{-- <!-- Divider -->
     <hr class="sidebar-divider">
 
-    @hasrole('Admin')
         <!-- Heading -->
         <div class="sidebar-heading">
             Admin Section
@@ -61,13 +62,13 @@
             <div id="collapsePages" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
                 <div class="bg-white py-2 collapse-inner rounded">
                     <h6 class="collapse-header">Role & Permissions</h6>
-                    <a class="collapse-item" href="{{ route('roles.index') }}">Roles</a>
+                    
                 </div>
             </div>
         </li>
 
         <!-- Divider -->
-        <hr class="sidebar-divider d-none d-md-block">
+        <hr class="sidebar-divider d-none d-md-block"> --}}
     @endhasrole
 
     <li class="nav-item">

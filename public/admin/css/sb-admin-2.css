@@ -11320,7 +11320,15 @@ a:focus {
 .bg-login {
     background: url("https://source.unsplash.com/MChSQHxGZrQ/600x800");
     background-size: cover;
+    background-repeat: no-repeat;
 }
+
+.bg-image {
+    background-image: url('https://source.unsplash.com/5TPl_s1Kn08');     
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
 
 .bg-register-image {
     background: url("https://source.unsplash.com/Mv9hjnEUHR4/600x800");
