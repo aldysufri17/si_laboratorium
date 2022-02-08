@@ -27,16 +27,16 @@
                 <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
+                            <th width="40%">ID</th>
                             <th width="40%">Name</th>
-                            <th width="40%">Guard Name</th>
                             <th width="20%">Action</th>
                         </tr>
                     </thead>
                     <tbody>
                        @foreach ($roles as $role)
                            <tr>
+                               <td>{{$role->id}}</td>
                                <td>{{$role->name}}</td>
-                               <td>{{$role->guard_name}}</td>
                                <td style="display: flex">
                                    <a href="{{ route('roles.edit', ['role' => $role->id]) }}" class="btn btn-primary m-2">
                                         <i class="fa fa-pen"></i>

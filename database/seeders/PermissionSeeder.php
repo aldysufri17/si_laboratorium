@@ -17,18 +17,7 @@ class PermissionSeeder extends Seeder
     public function run()
     {
         $permissions = [
-            'user-list',
-            'user-create',
-            'user-edit',
-            'user-delete',
-            'role-create',
-            'role-edit',
-            'role-list',
-            'role-delete',
-            'permission-list',
-            'permission-create',
-            'permission-edit',
-            'permission-delete',
+            'admin',
         ];
 
         foreach($permissions as $permission){

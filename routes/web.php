@@ -35,7 +35,6 @@ Route::prefix('profile')->name('profile.')->middleware('auth')->group(function()
 Route::resource('roles', App\Http\Controllers\RolesController::class);
 
 // Permissions
-Route::resource('permissions', App\Http\Controllers\PermissionsController::class);
 
 // Users 
 Route::middleware('auth')->prefix('users')->name('users.')->group(function(){

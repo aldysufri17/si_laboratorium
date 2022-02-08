@@ -42,20 +42,6 @@
                         @enderror
                     </div>
 
-
-                    {{-- Email --}}
-                    <div class="col-sm-6 mb-3 mb-sm-0">
-                        <span style="color:red;">*</span>Guard Name</label>
-                        <select class="form-control form-control-user @error('guard_name') is-invalid @enderror" name="guard_name">
-                            <option selected disabled>Select Guard Name</option>
-                            <option value="web" selected>Web</option>
-                            <option value="api">Api</option>
-                        </select>
-                        @error('guard_name')
-                            <span class="text-danger">{{$message}}</span>
-                        @enderror
-                    </div>
-
                 </div>
 
                 {{-- Save Button --}}
