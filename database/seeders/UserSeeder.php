@@ -7,7 +7,7 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
-class AdminSeeder extends Seeder
+class UserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -18,7 +18,8 @@ class AdminSeeder extends Seeder
     {
         // Create Admin User
         $user = User::create([
-            'name'    => 'Admin',
+            'name'          => 'Admin',
+            'nim'          => '211312',
             'email'         =>  'admin@admin.com',
             'mobile_number' =>  '9028187696',
             'password'      =>  Hash::make('admin'),
