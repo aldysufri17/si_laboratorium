@@ -21,7 +21,7 @@
         <div class="card-header py-3">
             <h6 class="m-0 font-weight-bold text-primary">Tambah User Baru</h6>
         </div>
-        <form method="POST" action="{{route('users.store')}}">
+        <form method="POST" action="{{route('operator.store')}}">
             @csrf
             <div class="card-body">
                 <div class="form-group row">
@@ -58,22 +58,6 @@
                         @enderror
                     </div>
 
-                    {{-- NIM --}}
-                    <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
-                        <span style="color:red;">*</span>NIM</label>
-                        <input 
-                            type="text" 
-                            class="form-control form-control-user @error('nim') is-invalid @enderror" 
-                            id="exampleNim"
-                            placeholder="NIM" 
-                            name="nim" 
-                            value="{{ old('nim') }}">
-
-                        @error('nim')
-                            <span class="text-danger">{{$message}}</span>
-                        @enderror
-                    </div>
-
                     {{-- Mobile Number --}}
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
                         <span style="color:red;">*</span>No.Telp</label>
@@ -86,6 +70,19 @@
                             value="{{ old('mobile_number') }}">
 
                         @error('mobile_number')
+                            <span class="text-danger">{{$message}}</span>
+                        @enderror
+                    </div>
+
+                    {{-- Role --}}
+                    <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
+                        <span style="color:red;">*</span>Role</label>
+                        <select class="form-control form-control-user @error('role_id') is-invalid @enderror" name="role_id">
+                            <option selected disabled>Pilih Role</option>
+                                <option value="1">Admin</option>
+                                <option value="2">Operator</option>
+                        </select>
+                        @error('role_id')
                             <span class="text-danger">{{$message}}</span>
                         @enderror
                     </div>
@@ -108,7 +105,7 @@
 
             <div class="card-footer">
                 <button type="submit" class="btn btn-primary btn-user float-right mb-3">Simpan</button>
-                <a class="btn btn-danger float-right mr-3 mb-3" href="{{ route('users.index') }}">Batal</a>
+                <a class="btn btn-danger float-right mr-3 mb-3" href="{{ route('operator.index') }}">Batal</a>
             </div>
         </form>
     </div>

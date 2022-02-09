@@ -60,6 +60,22 @@
                         @enderror
                     </div>
 
+                    {{-- NIM --}}
+                    <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
+                        <span style="color:red;">*</span>NIM</label>
+                        <input 
+                            type="text" 
+                            class="form-control form-control-user @error('nim') is-invalid @enderror" 
+                            id="exampleNim"
+                            placeholder="NIM" 
+                            name="nim" 
+                            value="{{ old('nim') ? old('nim') : $user->nim }}">
+
+                        @error('nim')
+                            <span class="text-danger">{{$message}}</span>
+                        @enderror
+                    </div>
+
                     {{-- Mobile Number --}}
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
                         <span style="color:red;">*</span>No.Telp</label>
@@ -72,23 +88,6 @@
                             value="{{ old('mobile_number') ? old('mobile_number') : $user->mobile_number }}">
 
                         @error('mobile_number')
-                            <span class="text-danger">{{$message}}</span>
-                        @enderror
-                    </div>
-
-                    {{-- Role --}}
-                    <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
-                        <span style="color:red;">*</span>Role</label>
-                        <select class="form-control form-control-user @error('role_id') is-invalid @enderror" name="role_id">
-                            <option selected disabled>Pilih Role</option>
-                            @foreach ($roles as $role)
-                                <option value="{{$role->id}}" 
-                                    {{old('role_id') ? ((old('role_id') == $role->id) ? 'selected' : '') : (($user->role_id == $role->id) ? 'selected' : '')}}>
-                                    {{$role->name}}
-                                </option>
-                            @endforeach
-                        </select>
-                        @error('role_id')
                             <span class="text-danger">{{$message}}</span>
                         @enderror
                     </div>

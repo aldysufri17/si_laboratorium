@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\User;
@@ -10,7 +9,7 @@ use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
-class UserController extends Controller
+class OperatorController extends Controller
 {
     /**
      * Create a new controller instance.
@@ -33,12 +32,12 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::where('role_id', 3)->paginate(10);
+        $users = User::where('role_id', 1)->orwhere('role_id', 2)->with('roles')->paginate(5);
        
-        return view('backend.users.index', ['users' => $users]);
+        return view('backend.operator.index', ['users' => $users]);
     }
-    
-    /**
+
+        /**
      * Create User 
      * @param Nill
      * @return Array $user
@@ -48,10 +47,10 @@ class UserController extends Controller
     {
         $roles = Role::all();
        
-        return view('backend.users.add', ['roles' => $roles]);
+        return view('backend.operator.add', ['roles' => $roles]);
     }
 
-    /**
+ /**
      * Store User
      * @param Request $request
      * @return View Users
@@ -64,6 +63,7 @@ class UserController extends Controller
             'name'    => 'required',
             'email'         => 'required|unique:users,email',
             'mobile_number' => 'required|numeric',
+            'role_id'       =>  'required|exists:roles,id',
             'status'       =>  'required|numeric|in:0,1',
         ]);
 
@@ -74,9 +74,9 @@ class UserController extends Controller
                 $user = User::create([
                     'name'          => $request->name,
                     'email'         => $request->email,
-                    'nim'           => $request->nim,
+                    'nim'           => time(),
                     'mobile_number' => $request->mobile_number,
-                    'role_id'       => 3,
+                    'role_id'       => $request->role_id,
                     'status'        => $request->status,
                     'password'      => Hash::make($request->name)
                 ]);
@@ -90,12 +90,107 @@ class UserController extends Controller
 
             // Commit And Redirected To Listing
             DB::commit();
-            return redirect()->route('users.index')->with('success','User Created Successfully.');
+            return redirect()->route('operator.index')->with('success','User Created Successfully.');
 
         } catch (\Throwable $th) {
             // Rollback and return with Error
             DB::rollBack();
             return redirect()->back()->withInput()->with('error', $th->getMessage());
+        }
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(User $operator)
+    {
+        $roles = Role::all();
+        return view('backend.operator.edit')->with([
+            'roles'     => $roles,
+            'operator'  => $operator
+        ]);
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, User $operator)
+    {
+        // Validations
+        $request->validate([
+            'name'    => 'required',
+            'email'         => 'required|unique:users,email,'.$operator->id.',id',
+            'mobile_number' => 'required|numeric|digits:10',
+            'role_id'       =>  'required|exists:roles,id',
+            'status'       =>  'required|numeric|in:0,1',
+        ]);
+
+        DB::beginTransaction();
+        try {
+
+            // Store Data
+            $operator_updated = User::whereId($operator->id)->update([
+                'name'    => $request->name,
+                'email'         => $request->email,
+                'mobile_number' => $request->mobile_number,
+                'role_id'       => $request->role_id,
+                'status'        => $request->status,
+            ]);
+
+            // Delete Any Existing Role
+            DB::table('model_has_roles')->where('model_id',$operator->id)->delete();
+            
+            // Assign Role To User
+            $operator->assignRole($operator->role_id);
+
+            // Commit And Redirected To Listing
+            DB::commit();
+            return redirect()->route('operator.index')->with('success','User Updated Successfully.');
+
+        } catch (\Throwable $th) {
+            // Rollback and return with Error
+            DB::rollBack();
+            return redirect()->back()->withInput()->with('error', $th->getMessage());
+        }
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(User $operator)
+    {
+        DB::beginTransaction();
+        try {
+            // Delete User
+            User::whereId($operator->id)->delete();
+
+            DB::commit();
+            return redirect()->route('operator.index')->with('success', 'User Deleted Successfully!.');
+
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return redirect()->back()->with('error', $th->getMessage());
         }
     }
 
@@ -118,7 +213,7 @@ class UserController extends Controller
 
         // If Validations Fails
         if($validate->fails()){
-            return redirect()->route('users.index')->with('error', $validate->errors()->first());
+            return redirect()->route('operator.index')->with('error', $validate->errors()->first());
         }
 
         try {
@@ -129,7 +224,7 @@ class UserController extends Controller
 
             // Commit And Redirect on index with Success Message
             DB::commit();
-            return redirect()->route('users.index')->with('success','User Status Updated Successfully!');
+            return redirect()->route('operator.index')->with('success','User Status Updated Successfully!');
         } catch (\Throwable $th) {
 
             // Rollback & Return Error Message
@@ -137,86 +232,4 @@ class UserController extends Controller
             return redirect()->back()->with('error', $th->getMessage());
         }
     }
-
-    /**
-     * Edit User
-     * @param Integer $user
-     * @return Collection $user
-     * @author Shani Singh
-     */
-    public function edit(User $user)
-    {
-        $roles = Role::all();
-        return view('backend.users.edit')->with([
-            'roles' => $roles,
-            'user'  => $user
-        ]);
-    }
-
-    /**
-     * Update User
-     * @param Request $request, User $user
-     * @return View Users
-     * @author Shani Singh
-     */
-    public function update(Request $request, User $user)
-    {
-        // Validations
-        $request->validate([
-            'name'    => 'required',
-            'email'         => 'required|unique:users,email,'.$user->id.',id',
-            'mobile_number' => 'required|numeric|digits:10',
-            'status'       =>  'required|numeric|in:0,1',
-        ]);
-
-        DB::beginTransaction();
-        try {
-
-            // Store Data
-            $user_updated = User::whereId($user->id)->update([
-                'name'    => $request->name,
-                'email'         => $request->email,
-                'mobile_number' => $request->mobile_number,
-                'status'        => $request->status,
-            ]);
-
-            // Delete Any Existing Role
-            DB::table('model_has_roles')->where('model_id',$user->id)->delete();
-            
-            // Assign Role To User
-            $user->assignRole($user->role_id);
-
-            // Commit And Redirected To Listing
-            DB::commit();
-            return redirect()->route('users.index')->with('success','User Updated Successfully.');
-
-        } catch (\Throwable $th) {
-            // Rollback and return with Error
-            DB::rollBack();
-            return redirect()->back()->withInput()->with('error', $th->getMessage());
-        }
-    }
-
-    /**
-     * Delete User
-     * @param User $user
-     * @return Index Users
-     * @author Shani Singh
-     */
-    public function delete(User $user)
-    {
-        DB::beginTransaction();
-        try {
-            // Delete User
-            User::whereId($user->id)->delete();
-
-            DB::commit();
-            return redirect()->route('users.index')->with('success', 'User Deleted Successfully!.');
-
-        } catch (\Throwable $th) {
-            DB::rollBack();
-            return redirect()->back()->with('error', $th->getMessage());
-        }
-    }
-
 }

@@ -37,8 +37,8 @@
         <div id="taTpDropDown" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
                 <h6 class="collapse-header">Admin Management:</h6>
-                <a class="collapse-item" href="{{ route('users.index') }}">Daftar Master</a>
-                <a class="collapse-item" href="{{ route('users.create') }}">Tambah Master</a>
+                <a class="collapse-item" href="{{ route('operator.index') }}">Operator Master</a>
+                <a class="collapse-item" href="{{ route('users.index') }}">User Master</a>
                 <a class="collapse-item" href="{{ route('roles.index') }}">Roles</a>
             </div>
         </div>
