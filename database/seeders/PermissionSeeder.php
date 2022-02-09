@@ -18,6 +18,7 @@ class PermissionSeeder extends Seeder
     {
         $permissions = [
             'admin',
+            'operator'
         ];
 
         foreach($permissions as $permission){

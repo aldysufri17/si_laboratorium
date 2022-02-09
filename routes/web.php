@@ -20,6 +20,8 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
+Route::get('/front', [App\Http\Controllers\FrontController::class, 'index'])->name('front');
+
 Auth::routes(['register' => false]);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -33,6 +35,7 @@ Route::prefix('profile')->name('profile.')->middleware('auth')->group(function()
 
 // Roles
 Route::resource('roles', App\Http\Controllers\RolesController::class);
+
 
 // Users 
 Route::middleware('auth')->prefix('users')->name('users.')->group(function(){
