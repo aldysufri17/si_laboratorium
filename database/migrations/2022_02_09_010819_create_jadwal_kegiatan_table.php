@@ -14,7 +14,7 @@ class CreateJadwalKegiatanTable extends Migration
     public function up()
     {
         Schema::create('jadwal_kegiatan', function (Blueprint $table) {
-            $table->increments('id');
+            $table->increments('id_kegiatan');
             $table->text('nama');
             $table->date('tanggal');
             $table->time('jam');

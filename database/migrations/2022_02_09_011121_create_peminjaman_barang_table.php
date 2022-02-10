@@ -14,9 +14,9 @@ class CreatePeminjamanBarangTable extends Migration
     public function up()
     {
         Schema::create('peminjaman_barang', function (Blueprint $table) {
-            $table->increments('id');
-            $table->integer('id_user');
-            $table->integer('id_barang');
+            $table->increments('id_peminjaman');
+            $table->integer('user_id');
+            $table->integer('barang_id');
             $table->integer('jumlah');
             $table->text('keperluan');
             $table->date('tgl_start');
