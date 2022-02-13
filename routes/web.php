@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\HomeController;
-use App\Http\Controllers\OperatorController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -21,8 +20,6 @@ Route::get('/', function () {
     return redirect()->route('login');
 });
 
-Route::get('/front', [App\Http\Controllers\FrontController::class, 'index'])->name('front');
-
 Auth::routes(['register' => false]);
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
@@ -36,9 +33,6 @@ Route::prefix('profile')->name('profile.')->middleware('auth')->group(function()
 
 // Roles
 Route::resource('roles', App\Http\Controllers\RolesController::class);
-Route::resource('operator', App\Http\Controllers\OperatorController::class);
-Route::get('/update/status/{user_id}/{status}', [OperatorController::class, 'updateStatus'])->name('sts');
-
 
 
 // Users 
@@ -51,4 +45,13 @@ Route::middleware('auth')->prefix('users')->name('users.')->group(function(){
     Route::delete('/delete/{user}', [UserController::class, 'delete'])->name('destroy');
     Route::get('/update/status/{user_id}/{status}', [UserController::class, 'updateStatus'])->name('status');
 });
+    
+    // Operator
+    Route::resource('operator', App\Http\Controllers\OperatorController::class);
+    Route::get('/update/status/{user_id}/{status}', [OperatorController::class, 'updateStatus'])->name('sts');
+    
+    // Barang
+    Route::resource('barang', App\Http\Controllers\BarangController::class);
+
+    
 

@@ -4,9 +4,17 @@ namespace App\Http\Controllers;
 
 use App\Models\Barang;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class BarangController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('permission:admin');
+
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +22,8 @@ class BarangController extends Controller
      */
     public function index()
     {
-        //
+        $barang = DB::table('barang')->paginate(5);
+        return view('backend.barang.index', ['barang' => $barang]);
     }
 
     /**
@@ -24,7 +33,7 @@ class BarangController extends Controller
      */
     public function create()
     {
-        //
+        return view('backend.barang.add');
     }
 
     /**

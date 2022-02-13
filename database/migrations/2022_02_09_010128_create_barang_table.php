@@ -22,6 +22,7 @@ class CreateBarangTable extends Migration
             $table->text('lokasi');
             $table->text('kondisi');
             $table->text('foto');
+            $table->enum('show', [0, 1])->default(0);
             $table->timestamps();
         });
     }

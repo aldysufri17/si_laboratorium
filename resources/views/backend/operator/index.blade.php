@@ -7,7 +7,7 @@
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Operator</h1>
+        <h1 class="h3 mb-0 text-gray-800">Operator Master</h1>
         <a href="{{ route('operator.create') }}" class="btn btn-sm btn-primary">
             <i class="fas fa-plus"></i> Tambah Baru
         </a>
@@ -20,7 +20,7 @@
     <div class="card shadow mb-4">
 
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Semua User</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Semua Master</h6>
 
         </div>
         <div class="card-body">

@@ -19,7 +19,7 @@ class OperatorController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('permission:admin');
+        // $this->middleware('permission:admin');
 
     }
 
@@ -74,6 +74,7 @@ class OperatorController extends Controller
                 $user = User::create([
                     'name'          => $request->name,
                     'email'         => $request->email,
+                    'alamat'        => $request->alamat,
                     'nim'           => time(),
                     'mobile_number' => $request->mobile_number,
                     'role_id'       => $request->role_id,
@@ -107,7 +108,7 @@ class OperatorController extends Controller
      */
     public function show($id)
     {
-        //
+        dd("heelo");
     }
 
     /**
@@ -150,6 +151,7 @@ class OperatorController extends Controller
             $operator_updated = User::whereId($operator->id)->update([
                 'name'    => $request->name,
                 'email'         => $request->email,
+                'alamat'         => $request->alamat,
                 'mobile_number' => $request->mobile_number,
                 'role_id'       => $request->role_id,
                 'status'        => $request->status,

@@ -18,21 +18,14 @@
             <span>Dashboard</span></a>
     </li>
 
-    @hasrole('Admin')
-    <!-- Divider -->
-    <hr class="sidebar-divider">
-
-    <!-- Heading -->
-    <div class="sidebar-heading">
-        Management
-    </div>
+    {{-- @hasrole('') --}}
 
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#taTpDropDown"
             aria-expanded="true" aria-controls="taTpDropDown">
             <i class="fas fa-user-alt"></i>
-            <span>Masters</span>
+            <span>Masters Akun</span>
         </a>
         <div id="taTpDropDown" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="bg-white py-2 collapse-inner rounded">
@@ -40,6 +33,21 @@
                 <a class="collapse-item" href="{{ route('operator.index') }}">Operator Master</a>
                 <a class="collapse-item" href="{{ route('users.index') }}">User Master</a>
                 <a class="collapse-item" href="{{ route('roles.index') }}">Roles</a>
+            </div>
+        </div>
+    </li>
+
+    <!-- Nav Item - Pages Collapse Menu -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#barangDropDown"
+            aria-expanded="true" aria-controls="barangDropDown">
+            <i class="fas fa-user-alt"></i>
+            <span>Barang</span>
+        </a>
+        <div id="barangDropDown" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class="bg-white py-2 collapse-inner rounded">
+                <a class="collapse-item" href="{{ route('barang.index') }}">Data Barang</a>
+                <a class="collapse-item" href="{{ route('barang.create') }}">Tambah Barang</a>
             </div>
         </div>
     </li>
@@ -69,7 +77,7 @@
 
         <!-- Divider -->
         <hr class="sidebar-divider d-none d-md-block"> --}}
-    @endhasrole
+    {{-- @endhasrole --}}
 
     <li class="nav-item">
         <a class="nav-link" href="#" data-toggle="modal" data-target="#logoutModal">

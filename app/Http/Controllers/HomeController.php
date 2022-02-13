@@ -19,6 +19,9 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        // $this->middleware('permission:admin');
+        $this->middleware('permission:admin|operator', ['only' => ['index']]);
+        $this->middleware('permission:operator', ['only' => ['index']]);
     }
 
     /**
@@ -28,6 +31,9 @@ class HomeController extends Controller
      */
     public function index()
     {
+        if (auth()->user()->role_id == 3) {
+            return view('frontend.front');
+        }
         return view('backend.home');
     }
 

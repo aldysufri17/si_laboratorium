@@ -26,5 +26,16 @@ class UserSeeder extends Seeder
             'password'      =>  Hash::make('admin'),
             'role_id'       => 1
         ]);
+        
+        // Create Admin User
+        $user = User::create([
+            'name'          => 'Peminjam',
+            'nim'           => '2113412',
+            'alamat'        =>  'Semarang',
+            'email'         =>  'peminjam@admin.com',
+            'mobile_number' =>  '9028187696',
+            'password'      =>  Hash::make('peminjam'),
+            'role_id'       => 3
+        ]);
     }
 }

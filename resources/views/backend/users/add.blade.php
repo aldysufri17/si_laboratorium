@@ -58,6 +58,22 @@
                         @enderror
                     </div>
 
+                    {{-- Alamat --}}
+                    <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
+                        <span style="color:red;">*</span>Alamat</label>
+                        <input 
+                            type="text" 
+                            class="form-control form-control-user @error('alamat') is-invalid @enderror" 
+                            id="exampleAlamat"
+                            placeholder="Alamat" 
+                            name="alamat" 
+                            value="{{ old('alamat') }}">
+
+                        @error('alamat')
+                            <span class="text-danger">{{$message}}</span>
+                        @enderror
+                    </div>
+
                     {{-- NIM --}}
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
                         <span style="color:red;">*</span>NIM</label>

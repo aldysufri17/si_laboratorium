@@ -38,4 +38,14 @@ class PermissionSeeder extends Seeder
         $user = User::where('role_id', 1)->first();
         $user->assignRole($role->id);
     }
+    // $role = Role::create(['name' => 'admin']);
+    // $permission = Permission::create(['name' => 'admin']);
+    // $role->givePermissionTo($permission);
+    // $permission->assignRole($role);
+    // Role::create(['name' => 'operator']);
+
+    // $role = Role::create(['name' => 'peminjam']);
+    // $permission = Permission::create(['name' => 'peminjam']);
+    // $role->givePermissionTo($permission);
+    // $permission->assignRole($role);
 }

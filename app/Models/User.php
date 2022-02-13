@@ -22,6 +22,7 @@ class User extends Authenticatable
         'name',
         'email',
         'nim',
+        'alamat',
         'mobile_number',
         'role_id',
         'status',

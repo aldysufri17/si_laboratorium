@@ -8,7 +8,7 @@
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Edit User</h1>
+        <h1 class="h3 mb-0 text-gray-800">Edit Master</h1>
         <a href="{{route('operator.index')}}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
                 class="fas fa-arrow-left fa-sm text-white-50"></i> Kembali</a>
     </div>
@@ -19,7 +19,7 @@
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
         <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Edit User</h6>
+            <h6 class="m-0 font-weight-bold text-primary">Edit Master</h6>
         </div>
         <form method="POST" action="{{route('operator.update', $operator->id)}}">
             @csrf
@@ -56,6 +56,22 @@
                             value="{{ old('email') ? old('email') : $operator->email }}">
 
                         @error('email')
+                            <span class="text-danger">{{$message}}</span>
+                        @enderror
+                    </div>
+
+                    {{-- Alamat --}}
+                    <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
+                        <span style="color:red;">*</span>Alamat</label>
+                        <input 
+                            type="text" 
+                            class="form-control form-control-user @error('alamat') is-invalid @enderror" 
+                            id="exampleAlamat"
+                            placeholder="Alamat" 
+                            name="alamat" 
+                            value="{{ old('alamat') ? old('alamat') : $operator->alamat }}">
+
+                        @error('alamat')
                             <span class="text-danger">{{$message}}</span>
                         @enderror
                     </div>

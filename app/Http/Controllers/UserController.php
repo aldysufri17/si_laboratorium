@@ -20,7 +20,7 @@ class UserController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('permission:admin');
+        // $this->middleware('permission:admin');
 
     }
 
@@ -61,9 +61,11 @@ class UserController extends Controller
     {
         // Validations
         $request->validate([
-            'name'    => 'required',
+            'name'          => 'required',
+            'alamat'          => 'required',
             'email'         => 'required|unique:users,email',
             'mobile_number' => 'required|numeric',
+            'nim'           => 'required|numeric',
             'status'       =>  'required|numeric|in:0,1',
         ]);
 
@@ -75,6 +77,7 @@ class UserController extends Controller
                     'name'          => $request->name,
                     'email'         => $request->email,
                     'nim'           => $request->nim,
+                    'alamat'           => $request->alamat,
                     'mobile_number' => $request->mobile_number,
                     'role_id'       => 3,
                     'status'        => $request->status,
@@ -164,6 +167,7 @@ class UserController extends Controller
         // Validations
         $request->validate([
             'name'    => 'required',
+            'alamat'    => 'required',
             'email'         => 'required|unique:users,email,'.$user->id.',id',
             'mobile_number' => 'required|numeric|digits:10',
             'status'       =>  'required|numeric|in:0,1',
@@ -174,7 +178,8 @@ class UserController extends Controller
 
             // Store Data
             $user_updated = User::whereId($user->id)->update([
-                'name'    => $request->name,
+                'name'          => $request->name,
+                'alamat'        => $request->alamat,
                 'email'         => $request->email,
                 'mobile_number' => $request->mobile_number,
                 'status'        => $request->status,
