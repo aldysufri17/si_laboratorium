@@ -16,36 +16,9 @@ class PermissionSeeder extends Seeder
      */
     public function run()
     {
-        $permissions = [
-            'admin',
-            'operator'
-        ];
-
-        foreach($permissions as $permission){
-            Permission::create([
-                'name' => $permission
-            ]);
-        }
-
-        // All Permissions
-        $permission_saved = Permission::pluck('id')->toArray();
-        
-        // Give Role Admin All Access
-        $role = Role::whereId(1)->first();
-        $role->syncPermissions($permission_saved);
-        
-        // Admin Role Sync Permission
-        $user = User::where('role_id', 1)->first();
-        $user->assignRole($role->id);
+        // Permission::create([
+        //     'name' => 'show',
+        //     'guard_name' => 'web'
+        // ]);
     }
-    // $role = Role::create(['name' => 'admin']);
-    // $permission = Permission::create(['name' => 'admin']);
-    // $role->givePermissionTo($permission);
-    // $permission->assignRole($role);
-    // Role::create(['name' => 'operator']);
-
-    // $role = Role::create(['name' => 'peminjam']);
-    // $permission = Permission::create(['name' => 'peminjam']);
-    // $role->givePermissionTo($permission);
-    // $permission->assignRole($role);
 }

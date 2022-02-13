@@ -17,13 +17,16 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+    if (auth()->user()) {
+        auth()->user()->assignRole('admin');
+    }
     return redirect()->route('login');
 });
 
 Auth::routes(['register' => false]);
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-
+Route::group(['middleware' => ['role:admin']], function () {
+    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 // Profile Routes
 Route::prefix('profile')->name('profile.')->middleware('auth')->group(function(){
     Route::get('/', [HomeController::class, 'getProfile'])->name('detail');
@@ -52,6 +55,14 @@ Route::middleware('auth')->prefix('users')->name('users.')->group(function(){
     
     // Barang
     Route::resource('barang', App\Http\Controllers\BarangController::class);
+});
+
+Route::group(['middleware' => ['role: peminjam']], function () {
+ Route::get('/front', [App\Http\Controllers\FrontenController::class, 'index'])->name('front');
+});
+
+
+
 
     
 

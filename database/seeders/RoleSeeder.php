@@ -15,17 +15,17 @@ class RoleSeeder extends Seeder
      */
     public function run()
     {
-        $admin = Role::create([
+        Role::create([
             'name' => 'admin',
             'guard_name' => 'web',
         ]);
 
-        $operator = Role::create([
+        Role::create([
             'name' => 'operator',
             'guard_name' => 'web',
         ]);
 
-        $peminjam = Role::create([
+        Role::create([
             'name' => 'peminjam',
             'guard_name' => 'web',
         ]);

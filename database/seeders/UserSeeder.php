@@ -17,25 +17,37 @@ class UserSeeder extends Seeder
     public function run()
     {
         // Create Admin User
-        $user = User::create([
+        User::create([
             'name'          => 'Admin',
-            'nim'           => '211312',
+            'nim'           => '2161312',
             'alamat'        =>   'Semarang',
             'email'         =>  'admin@admin.com',
             'mobile_number' =>  '9028187696',
+            'role'          => 'admin',
             'password'      =>  Hash::make('admin'),
-            'role_id'       => 1
         ]);
-        
+
         // Create Admin User
-        $user = User::create([
+        User::create([
+            'name'          => 'Operator',
+            'nim'           => '21131523',
+            'alamat'        =>   'Semarang',
+            'email'         =>  'operator@admin.com',
+            'mobile_number' =>  '9028187696',
+            'role'          => 'operator',
+            'password'      =>  Hash::make('operator'),
+        ]);
+
+        // Create Admin User
+         User::create([
             'name'          => 'Peminjam',
-            'nim'           => '2113412',
+            'nim'           => '21131412',
             'alamat'        =>  'Semarang',
             'email'         =>  'peminjam@admin.com',
             'mobile_number' =>  '9028187696',
+            'role'          => 'peminjam',
             'password'      =>  Hash::make('peminjam'),
-            'role_id'       => 3
         ]);
+
     }
 }
