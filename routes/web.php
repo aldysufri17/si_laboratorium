@@ -17,28 +17,15 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    if (auth()->user()) {
-        auth()->user()->assignRole('admin');
-    }
     return redirect()->route('login');
 });
 
 Auth::routes(['register' => false]);
 
-Route::group(['middleware' => ['role:admin']], function () {
-    Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-// Profile Routes
-Route::prefix('profile')->name('profile.')->middleware('auth')->group(function(){
-    Route::get('/', [HomeController::class, 'getProfile'])->name('detail');
-    Route::post('/update', [HomeController::class, 'updateProfile'])->name('update');
-    Route::post('/change-password', [HomeController::class, 'changePassword'])->name('change-password');
-});
-
-// Roles
-Route::resource('roles', App\Http\Controllers\RolesController::class);
 
 
-// Users 
+Route::group(['middleware' => ['role:admin|operator']], function () {
+    // Users 
 Route::middleware('auth')->prefix('users')->name('users.')->group(function(){
     Route::get('/', [UserController::class, 'index'])->name('index');
     Route::get('/create', [UserController::class, 'create'])->name('create');
@@ -48,7 +35,16 @@ Route::middleware('auth')->prefix('users')->name('users.')->group(function(){
     Route::delete('/delete/{user}', [UserController::class, 'delete'])->name('destroy');
     Route::get('/update/status/{user_id}/{status}', [UserController::class, 'updateStatus'])->name('status');
 });
-    
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Profile Routes
+Route::prefix('profile')->name('profile.')->middleware('auth')->group(function(){
+    Route::get('/', [HomeController::class, 'getProfile'])->name('detail');
+    Route::post('/update', [HomeController::class, 'updateProfile'])->name('update');
+    Route::post('/change-password', [HomeController::class, 'changePassword'])->name('change-password');
+});
+
+// Roles
+Route::resource('roles', App\Http\Controllers\RolesController::class);
     // Operator
     Route::resource('operator', App\Http\Controllers\OperatorController::class);
     Route::get('/update/status/{user_id}/{status}', [OperatorController::class, 'updateStatus'])->name('sts');
@@ -57,8 +53,11 @@ Route::middleware('auth')->prefix('users')->name('users.')->group(function(){
     Route::resource('barang', App\Http\Controllers\BarangController::class);
 });
 
-Route::group(['middleware' => ['role: peminjam']], function () {
- Route::get('/front', [App\Http\Controllers\FrontenController::class, 'index'])->name('front');
+
+
+Route::group(['middleware' => ['role:peminjam']], function () {
+
+    Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 });
 
 

@@ -21,7 +21,6 @@ class UserController extends Controller
     {
         $this->middleware('auth');
         // $this->middleware('permission:admin');
-
     }
 
 

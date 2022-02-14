@@ -67,7 +67,7 @@
 
 </div>
 
-@include('backend.barang.delete-modal')
+{{-- @include('backend.barang.delete-modal') --}}
 
 @endsection
 

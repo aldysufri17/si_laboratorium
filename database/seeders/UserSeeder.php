@@ -4,6 +4,8 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
@@ -16,38 +18,52 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        // Create Admin User
-        User::create([
+
+        $user = User::create([
             'name'          => 'Admin',
             'nim'           => '2161312',
             'alamat'        =>   'Semarang',
             'email'         =>  'admin@admin.com',
             'mobile_number' =>  '9028187696',
-            'role'          => 'admin',
-            'password'      =>  Hash::make('admin'),
+            'role_id'          => '1',
+            'password'      =>  bcrypt('admin'),
         ]);
+    
+        $role = Role::create(['name' => 'admin']);
 
-        // Create Admin User
-        User::create([
+        $user->assignRole([$role->id]);
+
+        $user = User::create([
             'name'          => 'Operator',
             'nim'           => '21131523',
             'alamat'        =>   'Semarang',
             'email'         =>  'operator@admin.com',
             'mobile_number' =>  '9028187696',
-            'role'          => 'operator',
-            'password'      =>  Hash::make('operator'),
+            'role_id'          => '2',
+            'password'      =>  bcrypt('operator'),
         ]);
+    
+        $role = Role::create(['name' => 'operator']);   
+        // $permissions = Permission::pluck('id','id')->all();
+   
+        $user->assignRole([$role->id]);
 
-        // Create Admin User
-         User::create([
+        $user = User::create([
             'name'          => 'Peminjam',
             'nim'           => '21131412',
             'alamat'        =>  'Semarang',
             'email'         =>  'peminjam@admin.com',
             'mobile_number' =>  '9028187696',
-            'role'          => 'peminjam',
-            'password'      =>  Hash::make('peminjam'),
+            'role_id'          => '3',
+            'password'      =>  bcrypt('peminjam'),
         ]);
-
+    
+        $role = Role::create(['name' => 'peminjam']);
+     
+        // $permissions = Permission::pluck('id','id')->all();
+   
+        // $role->syncPermissions($permissions);
+     
+        $user->assignRole([$role->id]);
     }
 }
