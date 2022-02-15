@@ -23,7 +23,7 @@ class User extends Authenticatable
         'nim',
         'alamat',
         'mobile_number',
-        'role',
+        'role_id',
         'status',
         'password',
     ];

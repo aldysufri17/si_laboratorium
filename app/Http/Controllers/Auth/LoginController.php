@@ -34,10 +34,10 @@ class LoginController extends Controller
     {
 
         if ($user->role_id == 3) {
-            return redirect()->route('dashboard');
+            return redirect()->route('home');
         }
 
-        return redirect()->route('home');
+        return redirect()->route('dashboard');
 
     }
     /**

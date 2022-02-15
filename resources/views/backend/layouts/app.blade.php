@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-{{-- Include Head --}}
+{{-- Head Backend --}}
 @include('backend.common.head')
 
 <body id="page-top">
@@ -17,7 +17,7 @@
         <div id="content-wrapper" class="d-flex flex-column">
 
             <!-- Main Content -->
-            <div id="content">
+            <div id="content" >
 
                 <!-- Topbar -->
                 @include('backend.common.header')
@@ -29,10 +29,6 @@
 
             </div>
             <!-- End of Main Content -->
-
-            <!-- Footer -->
-            @include('backend.common.footer')
-            <!-- End of Footer -->
 
         </div>
         <!-- End of Content Wrapper -->

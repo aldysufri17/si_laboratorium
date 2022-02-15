@@ -264,25 +264,45 @@ body{
     </style>
 </head>
 <body>
-    <div class="scene">
-        <div class="overlay"></div>
-        <div class="overlay"></div>
-        <div class="overlay"></div>
-        <div class="overlay"></div>
-        <span class="bg-403">403</span>
-        <div class="text">
-          <span class="hero-text"></span>
-          <span class="msg">Permission Denied!</span>
-          <span class="support">
-            <span>Anda tidak memiliki hak untuk mengakses halaman ini!</span>
-            @if (auth()->user()->role_id == 3)
-            <a href="{{ route('dashboard') }}">← Kembali ke Dashboard</a>
-            @else
-            <a href="{{ route('home') }}">← Kembali ke Home</a>
-            @endif
-          </span>
-        </div>
-        <div class="lock"></div>
-      </div>
+  @guest
+  <div class="scene">
+    <div class="overlay"></div>
+    <div class="overlay"></div>
+    <div class="overlay"></div>
+    <div class="overlay"></div>
+    <span class="bg-403">403</span>
+    <div class="text">
+      <span class="hero-text"></span>
+      <span class="msg">Permission Denied!</span>
+      <span class="support">
+        <span>Anda tidak memiliki hak untuk mengakses halaman ini!</span>
+        <a href="#" onclick="history.back()">← Kembali</a>
+      </span>
+    </div>
+    <div class="lock"></div>
+  </div>
+  @endguest
+  @auth
+  <div class="scene">
+    <div class="overlay"></div>
+    <div class="overlay"></div>
+    <div class="overlay"></div>
+    <div class="overlay"></div>
+    <span class="bg-403">403</span>
+    <div class="text">
+      <span class="hero-text"></span>
+      <span class="msg">Permission Denied!</span>
+      <span class="support">
+        <span>Anda tidak memiliki hak untuk mengakses halaman ini!</span>
+        @if (auth()->user()->role_id == 3)
+        <a href="{{ route('home') }}">← Kembali ke Home</a>
+        @else
+        <a href="{{ route('dashboard') }}">← Kembali ke Dashboard</a>
+        @endif
+      </span>
+    </div>
+    <div class="lock"></div>
+  </div>
+  @endauth
 </body>
 </html>
