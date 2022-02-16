@@ -5,14 +5,17 @@
    <section id="hero" style="height: 100vh;">
 
     <div class="hero-content" data-aos="fade-up">
-        <h2>Sistem Peminjaman Barang <br> <span class="animate"></span></h2>
+        <h2>Sistem Peminjaman Barang <br> <span class="animate text-secondary typed-cursor"></span></h2>
         <div>
-            <a href="#about" class="btn-get-started scrollto">
+            <a href="{{ route('cari') }}" class="btn-get-started scrollto">
                 <i class="fa-solid fa-magnifying-glass"></i> Cari Barang
             </a>
         </div>
+        {{-- <div class="ad">
+            <input type="search" class="scrollto" placeholder="Cari Barang">
+            <i class="fa fa-search"></i>
+        </div> --}}
     </div>
-
     <div class="hero-slider swiper">
         <div class="swiper-wrapper">
             <div class="swiper-slide"
@@ -36,7 +39,7 @@
         <div class="container" data-aos="fade-up">
             <div class="row">
                 <div class="col-lg-6 about-img">
-                    <img src="{{asset('frontend/img/about-img.jpg')}}" alt="">
+                    <img src="{{asset('frontend/img/testimonial-5.jpg')}}" alt="">
                 </div>
 
                 <div class="col-lg-6 content">
@@ -71,6 +74,9 @@
             typeSpeed: 200,
             loop: true,
             loopCount: Infinity,
+            showCursor: true,
+  cursorChar: '|',
+  autoInsertCss: true
         });
     </script>
 @endsection

@@ -19,7 +19,7 @@
                             <div class="p-5">
                                 <div class="text-center mb-4">
                                     <h4 class="text-gray-900" style="margin-bottom: 1px">Selamat Datang</h4>
-                                    <a class="small" href="{{route('register')}}">Belum Punya akun?</a>
+                                    <a class="small" href="{{route('daftar')}}">Belum Punya akun?</a>
                                 </div>
 
                                 @if (session('error'))

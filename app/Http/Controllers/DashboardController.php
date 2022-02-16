@@ -2,83 +2,115 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
+use App\Rules\MatchOldPassword;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Http;
 
 class DashboardController extends Controller
 {
 
+
     /**
-     * Display a listing of the resource.
+     * Create a new controller instance.
      *
-     * @return \Illuminate\Http\Response
+     * @return void
      */
-    public function index(){
-        return view('frontend.dashboard');
+    public function __construct()
+    {
+        $this->middleware('auth');
+        // $this->middleware('permission:admin');
+        // $this->middleware('permission:admin|operator|peminjam', ['only' => ['index']]);
+        // $this->middleware('permission:peminjam', ['only' => ['coba']]);
     }
 
     /**
-     * Show the form for creating a new resource.
+     * Show the application dashboard.
      *
-     * @return \Illuminate\Http\Response
+     * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function create()
+    public function index()
     {
-        return view('frontend.checkout');
+        return view('backend.dashboard');
     }
 
     /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * User Profile
+     * @param Nill
+     * @return View Profile
+     * @author Shani Singh
      */
-    public function store(Request $request)
+    public function getProfile()
     {
-        //
+        return view('backend.profile');
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * Update Profile
+     * @param $profileData
+     * @return Boolean With Success Message
+     * @author Shani Singh
      */
-    public function show($id)
+    public function updateProfile(Request $request)
     {
-        //
+        #Validations
+        $request->validate([
+            'name'    => 'required',
+            'mobile_number' => 'required|numeric|digits:10',
+        ]);
+
+        try {
+            DB::beginTransaction();
+            
+            #Update Profile Data
+            User::whereId(auth()->user()->id)->update([
+                'name' => $request->name,
+                'mobile_number' => $request->mobile_number,
+            ]);
+
+            #Commit Transaction
+            DB::commit();
+
+            #Return To Profile page with success
+            return back()->with('success', 'Profile Updated Successfully.');
+            
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return back()->with('error', $th->getMessage());
+        }
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
+     * Change Password
+     * @param Old Password, New Password, Confirm New Password
+     * @return Boolean With Success Message
+     * @author Shani Singh
      */
-    public function edit($id)
+    public function changePassword(Request $request)
     {
-        //
-    }
+        $request->validate([
+            'current_password' => ['required', new MatchOldPassword],
+            'new_password' => ['required'],
+            'new_confirm_password' => ['same:new_password'],
+        ]);
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        //
-    }
+        try {
+            DB::beginTransaction();
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
+            #Update Password
+            User::find(auth()->user()->id)->update(['password'=> Hash::make($request->new_password)]);
+            
+            #Commit Transaction
+            DB::commit();
+
+            #Return To Profile page with success
+            return back()->with('success', 'Password Changed Successfully.');
+            
+        } catch (\Throwable $th) {
+            DB::rollBack();
+            return back()->with('error', $th->getMessage());
+        }
     }
 }

@@ -8,111 +8,94 @@ use App\Rules\MatchOldPassword;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Auth;
+
 
 class HomeController extends Controller
 {
-    /**
-     * Create a new controller instance.
+        /**
+     * Display a listing of the resource.
      *
-     * @return void
+     * @return \Illuminate\Http\Response
      */
-    public function __construct()
-    {
-        $this->middleware('auth');
-        // $this->middleware('permission:admin');
-        // $this->middleware('permission:admin|operator|peminjam', ['only' => ['index']]);
-        // $this->middleware('permission:peminjam', ['only' => ['coba']]);
+    public function index(){
+        return view('frontend.home');
+    }
+
+    public function cari(){
+        if (Auth::guest()) {
+            return redirect()->route('login');
+        }
+        dd("hello");
     }
 
     /**
-     * Show the application dashboard.
+     * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Contracts\Support\Renderable
+     * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function create()
     {
-        return view('backend.home');
-    }
-
-    public function coba(){
-        dd("coba");
+        return view('frontend.checkout');
     }
 
     /**
-     * User Profile
-     * @param Nill
-     * @return View Profile
-     * @author Shani Singh
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
      */
-    public function getProfile()
+    public function store(Request $request)
     {
-        return view('backend.profile');
+        //
     }
 
     /**
-     * Update Profile
-     * @param $profileData
-     * @return Boolean With Success Message
-     * @author Shani Singh
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
-    public function updateProfile(Request $request)
+    public function show($id)
     {
-        #Validations
-        $request->validate([
-            'name'    => 'required',
-            'mobile_number' => 'required|numeric|digits:10',
-        ]);
-
-        try {
-            DB::beginTransaction();
-            
-            #Update Profile Data
-            User::whereId(auth()->user()->id)->update([
-                'name' => $request->name,
-                'mobile_number' => $request->mobile_number,
-            ]);
-
-            #Commit Transaction
-            DB::commit();
-
-            #Return To Profile page with success
-            return back()->with('success', 'Profile Updated Successfully.');
-            
-        } catch (\Throwable $th) {
-            DB::rollBack();
-            return back()->with('error', $th->getMessage());
-        }
+        //
     }
 
     /**
-     * Change Password
-     * @param Old Password, New Password, Confirm New Password
-     * @return Boolean With Success Message
-     * @author Shani Singh
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
-    public function changePassword(Request $request)
+    public function edit($id)
     {
-        $request->validate([
-            'current_password' => ['required', new MatchOldPassword],
-            'new_password' => ['required'],
-            'new_confirm_password' => ['same:new_password'],
-        ]);
-
-        try {
-            DB::beginTransaction();
-
-            #Update Password
-            User::find(auth()->user()->id)->update(['password'=> Hash::make($request->new_password)]);
-            
-            #Commit Transaction
-            DB::commit();
-
-            #Return To Profile page with success
-            return back()->with('success', 'Password Changed Successfully.');
-            
-        } catch (\Throwable $th) {
-            DB::rollBack();
-            return back()->with('error', $th->getMessage());
-        }
+        //
     }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
+    }
+
+
+
+
 }

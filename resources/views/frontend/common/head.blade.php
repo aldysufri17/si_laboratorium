@@ -7,8 +7,8 @@
     <meta content="" name="keywords">
     <script src="https://cdn.jsdelivr.net/npm/typed.js@2.0.12"></script>
     <!-- Favicons -->
-    <link href="{{asset('frontend/img/favicon.png')}}" rel="icon">
-    <link href="{{asset('frontend/img/apple-touch-icon.png')}}" rel="apple-touch-icon">
+    {{-- ICON --}}
+    <link rel="shortcut icon" type="image/jpg" href="https://tekkom.ft.undip.ac.id/wp-content/uploads/2019/07/cropped-Ikon-Undip-180x180.png" />
 
     <!-- Google Fonts -->
     <link

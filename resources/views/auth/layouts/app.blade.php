@@ -3,6 +3,7 @@
 
 <head>
     <link href="{{ asset('admin/css/sb-admin-2.css') }}" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="{{asset('js/instascan.min.js')}}"></script>
 </head>
 
 {{-- Head Before AUTH--}}

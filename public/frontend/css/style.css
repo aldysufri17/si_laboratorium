@@ -365,8 +365,8 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: 700;
 }
 #hero .hero-content h2 span {
-  color: #50d8af;
-  text-decoration: underline;
+  color: #646464d3;
+  text-decoration: none;
 }
 @media (max-width: 767px) {
   #hero .hero-content h2 {
@@ -1104,4 +1104,61 @@ section {
 }
 #footer .credits a {
   color: #0c2e8a;
+}
+
+.ad{
+  transform: translate(-50%,-50%);
+  transition: all 1s;
+  width: 176px;
+  height: 50px;
+  background: white;
+  box-sizing: border-box;
+  border-radius: 25px;
+  border: 4px solid white;
+  padding: 5px;
+}
+
+.ad input{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;;
+  height: 42.5px;
+  line-height: 30px;
+  outline: 0;
+  border: 0;
+  font-size: 1em;
+  border-radius: 20px;
+  padding: 0 20px;
+}
+
+.ad .fa{
+  box-sizing: border-box;
+  padding: 10px;
+  width: 42.5px;
+  height: 42.5px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-radius: 50%;
+  color: #07051a;
+  text-align: center;
+  font-size: 1.2em;
+  transition: all 1s;
+}
+
+.ad:hover,
+.ad:valid{
+  cursor: pointer;
+}
+
+.ad:hover input,
+.ad:valid input{
+  display: block;
+}
+
+.ad:hover .fa,
+.ad:valid .fa{
+  background: #07051a;
+  color: white;
 }

@@ -20,24 +20,23 @@
         <div class="container d-flex justify-content-between">
 
             <div id="logo">
-                <a href="index.html"><img
+                <a href="{{ url('/') }}"><img
                         src="https://tekkom.ft.undip.ac.id/wp-content/uploads/2020/10/DEPARTEMEN-TEKKOM.png"></a>
-                <!-- Uncomment below if you prefer to use an image logo -->
-                <!-- <a href="index.html"><img src="assets/img/logo.png" alt=""></a>-->
             </div>
 
             <nav id="navbar" class="navbar">
                 <ul>
-                    <li class="dropdown"><a href="{{ url('/')}}"><span>Beranda</span> <i class="bi bi-chevron-down"></i></a>
+                    <li class="dropdown"><a href="{{ url('/')}}"><span>Beranda</span> <i
+                                class="bi bi-chevron-down"></i></a>
                         <ul>
                             <li><a href="#about">Tentang</a></li>
-                            <li><a href="#">Drop Down 2</a></li>
-                            <li><a href="#">Drop Down 3</a></li>
-                            <li><a href="#">Drop Down 4</a></li>
+                            <li><a href="#">Profile</a></li>
+                            <li><a href="#">Galeri</a></li>
                         </ul>
                     </li>
                     <li><a class="nav-link scrollto" href="#">Profil</a></li>
                     @auth
+                    @if (auth()->user()->role_id == 3)
                     <li><a class="nav-link scrollto " href="{{ route('create') }}">Checkout</a></li>
                     <li><a class="nav-link scrollto" href="{{ route('logout') }}"
                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
@@ -45,6 +44,10 @@
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         {{ csrf_field() }}
                     </form>
+                    @else
+                    <li><a class="nav-link scrollto " href="{{ route('dashboard') }}">AdminPanel</a>
+                    </li>
+                    @endif
                     @endauth
                     @guest
                     <li><a class="nav-link scrollto" href="{{ route('login') }}">Login</a></li>

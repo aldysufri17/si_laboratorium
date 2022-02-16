@@ -20,5 +20,7 @@
 
     <!-- Custom styles for this template-->
     <link href="{{asset('admin/css/sb-admin-2.min.css')}}" rel="stylesheet">
+    <script type="text/javascript" src="{{asset('js/instascan.min.js')}}"></script>
+
 
 </head>
