@@ -31,7 +31,8 @@
                     {{-- Name --}}
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
                         <span style="color:red;">*</span>Nama</label>
-                        <input 
+                        <input
+                            autocomplete="off" 
                             type="text" 
                             class="form-control form-control-user @error('name') is-invalid @enderror" 
                             id="exampleName"
@@ -47,7 +48,8 @@
                     {{-- Email --}}
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
                         <span style="color:red;">*</span>Email</label>
-                        <input 
+                        <input
+                            autocomplete="off" 
                             type="email" 
                             class="form-control form-control-user @error('email') is-invalid @enderror" 
                             id="exampleEmail"
@@ -63,7 +65,8 @@
                     {{-- Alamat --}}
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
                         <span style="color:red;">*</span>Alamat</label>
-                        <input 
+                        <input
+                            autocomplete="off" 
                             type="text" 
                             class="form-control form-control-user @error('alamat') is-invalid @enderror" 
                             id="exampleAlamat"
@@ -79,7 +82,8 @@
                     {{-- NIM --}}
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
                         <span style="color:red;">*</span>NIM</label>
-                        <input 
+                        <input
+                            autocomplete="off" 
                             type="text" 
                             class="form-control form-control-user @error('nim') is-invalid @enderror" 
                             id="exampleNim"
@@ -95,7 +99,8 @@
                     {{-- Mobile Number --}}
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
                         <span style="color:red;">*</span>No.Telp</label>
-                        <input 
+                        <input
+                            autocomplete="off" 
                             type="text" 
                             class="form-control form-control-user @error('mobile_number') is-invalid @enderror" 
                             id="exampleMobile"

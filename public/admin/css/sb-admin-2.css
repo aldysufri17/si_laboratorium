@@ -12140,14 +12140,13 @@ a:focus {
 .bg-login {
     background: url("../img/login.png");
     background-size: cover;
-    margin-top: 15px;
     left: 25px;
     padding-left: 30px;
     background-repeat: no-repeat;
 }
 
 .bg-image {
-    background-image: radial-gradient( circle farthest-corner at 10% 20%,  rgba(37,145,251,0.98) 0.1%, rgba(0,7,128,1) 99.8% );
+    background: url('	https://www.bootstrapdash.com/demo/corona-free/jquery/template/assets/images/auth/Login_bg.jpg');
 
 }
 

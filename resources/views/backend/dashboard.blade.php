@@ -4,12 +4,23 @@
 
 @section('content')
 <div class="container-fluid">
-
     <!-- Page Heading -->
+    @php
+    date_default_timezone_set('Asia/jakarta');
+    $Hour = date('G');
+    if ( $Hour >= 5 && $Hour <= 11 ) {
+    $time = "Selamat Pagi";
+    } else if ( $Hour >= 12 && $Hour <= 15 ) {
+    $time = "Selamat Siang";
+    }else if ( $Hour >= 15 && $Hour <= 18 ) {
+    $time = "Selamat Sore";
+    }else if ( $Hour >= 19 || $Hour <= 4 ) {
+    $time = "Selamat Malam";
+    }   
+   @endphp
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-light">Dashboard</h1>
+        <h1 class="h3 mb-0 text-light">{{$time .', '. auth()->user()->name}}.</h1>
     </div>
-
     <!-- Content Row -->
     <div class="row">
 
@@ -20,11 +31,11 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                Earnings (Monthly)</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
+                                Total User</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{$user}}</div>
                         </div>
                         <div class="col-auto">
-                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                            <i class="fas fa-user fa-2x text-gray-300"></i>
                         </div>
                     </div>
                 </div>
@@ -38,11 +49,11 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
-                                Earnings (Annual)</div>
-                            <div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
+                                Total Barang</div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">{{$barang}}</div>
                         </div>
                         <div class="col-auto">
-                            <i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
+                            <i class="fas fa-box fa-2x text-gray-300"></i>
                         </div>
                     </div>
                 </div>

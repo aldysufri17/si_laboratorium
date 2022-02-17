@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Barang;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Rules\MatchOldPassword;
@@ -33,7 +34,9 @@ class DashboardController extends Controller
      */
     public function index()
     {
-        return view('backend.dashboard');
+        $user = User::where('role_id', 3)->count();
+        $barang = Barang::all()->count();
+        return view('backend.dashboard',compact(['user','barang']));
     }
 
     /**

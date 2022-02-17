@@ -7,7 +7,7 @@
 
     <!-- Outer Row -->
     <div class="row justify-content-center">
-            <div class="card o-hidden border-0 shadow-lg mt-5">
+            <div class="card bgdark o-hidden border-0 shadow-lg mt-5">
                 <div class="card-body p-10">
                     <div class="text-center">
                     <h1>Scan Registrasi</h1>

@@ -9,7 +9,7 @@
     <div class="row justify-content-center" style="margin-top: 35px ">
 
         <div class="col-xl-10 col-lg-12 col-md-9">
-            <div class="card o-hidden border-0 shadow-lg my-5">
+            <div class="card bgdark o-hidden border-0 shadow-lg my-5">
                 <div class="card-body p-0">
                     <!-- Nested Row within Card Body -->
                     <div class="row">
@@ -18,7 +18,7 @@
                         <div class="col-lg-6">
                             <div class="p-5">
                                 <div class="text-center mb-4">
-                                    <h4 class="text-gray-900" style="margin-bottom: 1px">Selamat Datang</h4>
+                                    <h4 class="text-light" style="margin-bottom: 1px">Selamat Datang</h4>
                                     <a class="small" href="{{route('daftar')}}">Belum Punya akun?</a>
                                 </div>
 
@@ -28,7 +28,7 @@
                                 <form method="POST" action="{{ route('login') }}">
                                     @csrf
                                     <div class="form-group">
-                                        <input id="email" type="email"
+                                        <input autocomplete="off" id="email" type="email"
                                             class="form-control form-control-user @error('email') is-invalid @enderror"
                                             name="email" value="{{ old('email') }}" required autocomplete="email"
                                             autofocus placeholder="Email">
@@ -40,7 +40,7 @@
                                         @enderror
                                     </div>
                                     <div class="form-group">
-                                        <input id="password" type="password"
+                                        <input autocomplete="off" id="password" type="password"
                                             class="form-control form-control-user @error('password') is-invalid @enderror"
                                             name="password" required autocomplete="current-password"
                                             placeholder="Password">

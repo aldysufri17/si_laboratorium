@@ -10,7 +10,7 @@
 
     <!-- Nav Item - Dashboard -->
     <li class="nav-item active">
-        <a class="nav-link" href="{{ route('home') }}">
+        <a class="nav-link" href="{{ route('dashboard') }}">
          <span style="color: rgba(148, 148, 148, 0.938)">Dashboard</span></a>
     </li>
 
@@ -37,7 +37,7 @@
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#barangDropDown"
             aria-expanded="true" aria-controls="barangDropDown">
-            <i class="fas fa-calendar-alt text-info"></i>
+            <i class="fas fa-box text-info"></i>
             <span>Barang</span>
         </a>
         <div id="barangDropDown" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
@@ -47,7 +47,6 @@
             </div>
         </div>
     </li>
-
     <li class="nav-item">
         <a class="nav-link" href="#" data-toggle="modal" data-target="#logoutModal">
             <i class="fas fa-sign-out-alt text-danger"></i>

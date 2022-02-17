@@ -33,6 +33,7 @@
                         <input 
                             type="text" 
                             class="form-control form-control-user @error('name') is-invalid @enderror" 
+                            autocomplete="off"
                             id="exampleName"
                             placeholder="Nama" 
                             name="name" 
@@ -48,8 +49,10 @@
                         <span style="color:red;">*</span>Email</label>
                         <input 
                             type="email" 
-                            class="form-control form-control-user @error('email') is-invalid @enderror" 
+                            class="form-control  form-control-user @error('email') is-invalid @enderror" 
+                            autocomplete="off"
                             id="exampleEmail"
+                            autocomplete="off"
                             placeholder="Email" 
                             name="email" 
                             value="{{ old('email') }}">
@@ -65,6 +68,7 @@
                         <input 
                             type="text" 
                             class="form-control form-control-user @error('alamat') is-invalid @enderror" 
+                            autocomplete="off"
                             id="exampleAlamat"
                             placeholder="Alamat" 
                             name="alamat" 
@@ -81,6 +85,7 @@
                         <input 
                             type="text" 
                             class="form-control form-control-user @error('mobile_number') is-invalid @enderror" 
+                            autocomplete="off"
                             id="exampleMobile"
                             placeholder="No.Telp" 
                             name="mobile_number" 

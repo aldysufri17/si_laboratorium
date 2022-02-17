@@ -4,9 +4,9 @@
 <div class="container mt-5 h-100">
     <div class="row justify-content-center align-items-center h-100">
         <div class="col-12 col-lg-9 col-xl-7">
-            <div class="card shadow-2-strong card-registration" style="border-radius: 15px;">
+            <div class="card bgdark shadow-2-strong card-registration" style="border-radius: 15px;">
                 <div class="card-body px-2 p-md-4">
-                    <h3 class="mb-4 pb-2 pb-md-0 mb-md-5">Form Registrasi</h3>
+                    <h3 class="mb-4 pb-2 pb-md-0 text-light mb-md-5">Form Registrasi</h3>
                     @if (session('error'))
                     <span class="text-danger"> {{ session('error') }}</span>
                     @endif
@@ -17,7 +17,7 @@
                                 <label class="form-label" for="name">{{ __('Name') }}</label>
 
                                 <div class="form-outline">
-                                    <input id="name" type="text"
+                                    <input autocomplete="off" id="name" type="text"
                                         class="form-control  @error('name') is-invalid @enderror" name="name"
                                         value="{{ old('name') }}" required autocomplete="name" autofocus>
 
@@ -32,7 +32,7 @@
                                 <label class="form-label" for="nim">{{ __('NIM') }}</label>
 
                                 <div class="form-outline">
-                                    <input id="nim" type="nim" class="form-control @error('nim') is-invalid @enderror"
+                                    <input autocomplete="off" id="nim" type="nim" class="form-control @error('nim') is-invalid @enderror"
                                         name="nim" value="{{ old('nim') }}" required autocomplete="nim">
 
                                     @error('nim')
@@ -48,7 +48,7 @@
                             <div class="col-md-6 mb-4">
                                 <label for="email" class="form-label">{{ __('E-Mail') }}</label>
                                 <div class="form-outline">
-                                    <input id="email" type="email"
+                                    <input autocomplete="off" id="email" type="email"
                                         class="form-control @error('email') is-invalid @enderror" name="email"
                                         value="{{ old('email') }}" required autocomplete="email">
 
@@ -64,7 +64,7 @@
                                 <label for="alamat" class="form-label">{{ __('Alamat') }}</label>
 
                                 <div class="form-outline">
-                                    <input id="alamat" type="alamat"
+                                    <input autocomplete="off" id="alamat" type="alamat"
                                         class="form-control @error('alamat') is-invalid @enderror" name="alamat"
                                         value="{{ old('alamat') }}" required autocomplete="alamat">
 
@@ -81,7 +81,7 @@
                             <div class="col-md-6 mb-4">
                                 <label for="password" class="form-label">{{ __('Password') }}</label>
                                 <div class="form-outline">
-                                    <input id="password" type="password"
+                                    <input autocomplete="off" id="password" type="password"
                                         class="form-control @error('password') is-invalid @enderror" name="password"
                                         value="{{ old('password') }}" required autocomplete="password">
 
@@ -97,7 +97,7 @@
                                 <label for="password-confirm" class="form-label">{{ __('Confirm Password') }}</label>
 
                                 <div class="form-outline">
-                                    <input id="password-confirm" type="password" class="form-control"
+                                    <input autocomplete="off" id="password-confirm" type="password" class="form-control"
                                         name="password_confirmation" required autocomplete="new-password">
                                 </div>
                             </div>
