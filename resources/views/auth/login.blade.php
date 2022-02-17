@@ -4,10 +4,8 @@
 
 @section('content')
 <div class="container">
-
     <!-- Outer Row -->
     <div class="row justify-content-center" style="margin-top: 35px ">
-
         <div class="col-xl-10 col-lg-12 col-md-9">
             <div class="card bgdark o-hidden border-0 shadow-lg my-5">
                 <div class="card-body p-0">
@@ -19,7 +17,7 @@
                             <div class="p-5">
                                 <div class="text-center mb-4">
                                     <h4 class="text-light" style="margin-bottom: 1px">Selamat Datang</h4>
-                                    <a class="small" href="{{route('daftar')}}">Belum Punya akun?</a>
+                                    <a class="small" href="{{route('register')}}">Belum Punya akun?</a>
                                 </div>
 
                                 @if (session('error'))
@@ -77,5 +75,4 @@
         </div>
     </div>
 </div>
-
 @endsection

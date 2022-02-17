@@ -18,7 +18,6 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
 Route::get('/daftar', [App\Http\Controllers\Auth\RegisterController::class, 'daftar'])->name('daftar');
-Route::get('/cek', [App\Http\Controllers\Auth\RegisterController::class, 'cek'])->name('cek');
 Route::get('/cari', [App\Http\Controllers\HomeController::class, 'cari'])->name('cari');
 
 Auth::routes();

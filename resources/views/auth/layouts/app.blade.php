@@ -17,10 +17,8 @@
         @yield('content')
 
     </div>
-
     {{-- Scripts Before AUTH --}}
     @include('auth.includes.scripts')
-
 </body>
 
 </html>

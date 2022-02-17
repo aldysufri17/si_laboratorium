@@ -22,9 +22,6 @@ class DashboardController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        // $this->middleware('permission:admin');
-        // $this->middleware('permission:admin|operator|peminjam', ['only' => ['index']]);
-        // $this->middleware('permission:peminjam', ['only' => ['coba']]);
     }
 
     /**

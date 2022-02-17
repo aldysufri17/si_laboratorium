@@ -3,13 +3,11 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Auth\Events\Registered;
 
 
 class RegisterController extends Controller
@@ -81,12 +79,4 @@ class RegisterController extends Controller
         $user->assignRole(3);
         return $user;
     }
-
-    public function daftar(){
-        return view('auth.cek');
-    }
-    public function cek(){
-        return view('auth.register');
-    }
-    
 }
