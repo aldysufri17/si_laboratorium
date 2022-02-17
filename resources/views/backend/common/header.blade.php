@@ -1,5 +1,5 @@
-<nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow" style="margin-left: -17px">
-    <a class="sidebar-brand d-flex" style="padding: 23px; color:rgb(102, 102, 102)" href="{{ url('/') }}">
+<nav class="navbar navbar-expand navbar-light topbar mb-4 static-top shadow bgdark">
+    <a class="sidebar-brand d-flex" style=" color:rgb(202, 202, 202)" href="{{ url('/') }}">
         <div class="sidebar-brand-icon">
             <i class="fas fa-desktop"></i>
         </div>
@@ -12,7 +12,7 @@
         <li class="nav-item dropdown no-arrow">
             <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button"
                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <span class="mr-2 d-none d-lg-inline text-gray-600 small">
+                <span class="mr-2 d-none d-lg-inline text-light small">
                     {{ auth()->user()->name }}
                 </span>
                 <img class="img-profile rounded-circle"

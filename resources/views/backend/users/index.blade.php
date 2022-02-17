@@ -6,9 +6,15 @@
 <div class="container-fluid">
 
     <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-2">
+        <h1 class="h5 mb-0 text-light">User</h1>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Dashboard</a></li>
+            <li class="breadcrumb-item">Daftar User</li>
+        </ol>
+    </div>
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Users</h1>
-        <a href="{{ route('users.create') }}" class="btn btn-sm btn-primary">
+        <a href="{{ route('users.create') }}" class="btn btn-sm btn-success">
             <i class="fas fa-plus"></i> Tambah Baru
         </a>
     </div>
@@ -17,14 +23,11 @@
     @include('backend.common.alert')
 
     <!-- DataTales Example -->
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Semua User</h6>
-
-        </div>
+    <div class="card shadow mb-4 border-0 bgdark">
         <div class="card-body">
+            <h6 class="m-0 font-weight-bold text-light">Daftar Semua User</h6>
             <div class="table-responsive">
-                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                <table class="table table-borderless table-dark bgdark" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
                             <th width="20%">Nama</th>

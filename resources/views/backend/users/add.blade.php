@@ -7,23 +7,25 @@
 <div class="container-fluid">
 
     <!-- Page Heading -->
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <h1 class="h3 mb-0 text-gray-800">Tambah User</h1>
-        <a href="{{route('users.index')}}" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm"><i
-                class="fas fa-arrow-left fa-sm text-white-50"></i> Kembali</a>
+    <div class="d-sm-flex align-items-center justify-content-between mb-2">
+        <h1 class="h5 mb-0 text-light">Form Tambah Master</h1>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="{{ url('/users')}}">User</a></li>
+            <li class="breadcrumb-item">Form Tambah User</li>
+        </ol>
     </div>
 
     {{-- Alert Messages --}}
     @include('backend.common.alert')
    
     <!-- DataTales Example -->
-    <div class="card shadow mb-4">
-        <div class="card-header py-3">
-            <h6 class="m-0 font-weight-bold text-primary">Tambah User Baru</h6>
-        </div>
+    <div class="card bgdark border-0 shadow mb-4">
         <form method="POST" action="{{route('users.store')}}">
             @csrf
             <div class="card-body">
+            <h6 class="m-0 font-weight-bold text-light">Tambah User Baru</h6>
+
                 <div class="form-group row">
 
                     {{-- Name --}}
@@ -122,7 +124,7 @@
                 </div>
             </div>
 
-            <div class="card-footer">
+            <div class="card-footer bgdark border-0">
                 <button type="submit" class="btn btn-primary btn-user float-right mb-3">Simpan</button>
                 <a class="btn btn-danger float-right mr-3 mb-3" href="{{ route('users.index') }}">Batal</a>
             </div>
