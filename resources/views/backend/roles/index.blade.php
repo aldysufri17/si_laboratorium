@@ -10,9 +10,6 @@
         <h1 class="h3 mb-0 text-light">Daftar Role</h1>
     </div>
 
-    {{-- Alert Messages --}}
-    @include('backend.common.alert')
-   
     <!-- DataTales Example -->
     <div class="card bgdark border-0 shadow mb-4">
         

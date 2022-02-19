@@ -19,6 +19,7 @@ class OperatorController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware('role:admin');
     }
 
 
@@ -95,6 +96,8 @@ class OperatorController extends Controller
      */
     public function show($id)
     {
+        $user = User::findOrFail($id);
+        return view('backend.operator.detail', compact('user'));
     }
 
     /**

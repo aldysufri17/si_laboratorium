@@ -13,7 +13,7 @@
                 <button class="btn btn-danger" type="button" data-dismiss="modal">Batal</button>
                 <a class="btn btn-primary" href="{{ route('logout') }}"
                     onclick="event.preventDefault(); document.getElementById('user-delete-form').submit();">
-                    Oke
+                    Oke {{ $user->id}}
                 </a>
                 <form id="user-delete-form" method="POST" action="{{ route('users.destroy', ['user' => $user->id]) }}">
                     @csrf

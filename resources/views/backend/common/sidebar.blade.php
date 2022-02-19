@@ -14,8 +14,6 @@
          <span style="color: rgba(148, 148, 148, 0.938)">Dashboard</span></a>
     </li>
 
-    {{-- @hasrole('') --}}
-
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#taTpDropDown"
@@ -26,9 +24,11 @@
         <div id="taTpDropDown" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="py-2 collapse-inner rounded" style="background-color: rgb(230, 230, 230)">
                 <h6 class="collapse-header text-dark">Admin Management:</h6>
-                <a class="collapse-item text-red" href="{{ route('operator.index') }}">Operator Master</a>
                 <a class="collapse-item text-red" href="{{ route('users.index') }}">User Master</a>
+                @role('admin')
+                <a class="collapse-item text-red" href="{{ route('operator.index') }}">Operator Master</a>
                 <a class="collapse-item text-red" href="{{ route('roles.index') }}">Roles</a>
+                @endrole
             </div>
         </div>
     </li>

@@ -34,9 +34,9 @@
                         <tr>
                             <th width="20%">Nama</th>
                             <th width="25%">Email</th>
-                            <th width="15%">No.Telp</th>
-                            <th width="15%">Role</th>
                             <th width="15%">Status</th>
+                            <th width="15%">Role</th>
+                            <th width="15%">Detail</th>
                             <th width="10%">Aksi</th>
                         </tr>
                     </thead>
@@ -45,8 +45,10 @@
                         <tr>
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
-                            <td>{{ $user->mobile_number }}</td>
                             <td>{{ $user->roles ? $user->roles->pluck('name')->first() : 'N/A' }}</td>
+                            <td><a class="btn btn-info" href="{{ route('users.show', ['user' => $user->id]) }}">
+                                    <i class="fas fa-eye"></i>
+                                </a></td>
                             <td>
                                 @if ($user->status == 0)
                                 <span class="badge badge-danger">Inactive</span>
@@ -70,9 +72,15 @@
                                     class="btn btn-primary m-2">
                                     <i class="fa fa-pen"></i>
                                 </a>
+                                @if ($user->id==1)
+                                <a class="btn btn-danger m-2" href="#" disabled data-toggle="modal" href="#">
+                                    <i class="fas fa-trash"></i>
+                                </a>
+                                @else
                                 <a class="btn btn-danger m-2" href="#" data-toggle="modal" data-target="#deleteModal">
                                     <i class="fas fa-trash"></i>
                                 </a>
+                                @endif
                             </td>
                         </tr>
                         @endforeach
@@ -118,5 +126,6 @@
             "paging": false
         });
     });
+
 </script>
 @endsection

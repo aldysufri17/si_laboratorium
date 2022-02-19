@@ -35,8 +35,8 @@
                             <th width="20%">Nama</th>
                             <th width="15%">NIM</th>
                             <th width="25%">Email</th>
-                            <th width="15%">No.Telp</th>
                             <th width="15%">Status</th>
+                            <th width="15%">Detail</th>
                             <th width="10%">Aksi</th>
                         </tr>
                     </thead>
@@ -46,7 +46,6 @@
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->nim }}</td>
                             <td>{{ $user->email }}</td>
-                            <td>{{ $user->mobile_number }}</td>
                             <td>
                                 @if ($user->status == 0)
                                 <span class="badge badge-danger">Inactive</span>
@@ -54,22 +53,25 @@
                                 <span class="badge badge-success">Active</span>
                                 @endif
                             </td>
+                            <td><a class="btn btn-info" href="{{ route('users.show', ['user' => $user->id]) }}">
+                                <i class="fas fa-eye"></i>
+                            </a></td>
                             <td style="display: flex">
                                 @if ($user->status == 0)
                                 <a href="{{ route('users.status', ['user_id' => $user->id, 'status' => 1]) }}"
-                                    class="btn btn-success m-2">
+                                    class="btn btn-success">
                                     <i class="fa fa-check"></i>
                                 </a>
                                 @elseif ($user->status == 1)
                                 <a href="{{ route('users.status', ['user_id' => $user->id, 'status' => 0]) }}"
-                                    class="btn btn-danger m-2">
+                                    class="btn btn-danger">
                                     <i class="fa fa-ban"></i>
                                 </a>
                                 @endif
-                                <a href="{{ route('users.edit', ['user' => $user->id]) }}" class="btn btn-primary m-2">
+                                <a href="{{ route('users.edit', ['user' => $user->id]) }}" class="btn btn-primary mx-2">
                                     <i class="fa fa-pen"></i>
                                 </a>
-                                <a class="btn btn-danger m-2" href="#" data-toggle="modal" data-target="#deleteModal">
+                                <a class="btn btn-danger" href="#" data-toggle="modal" data-target="#deleteModal">
                                     <i class="fas fa-trash"></i>
                                 </a>
                             </td>
@@ -77,7 +79,6 @@
                         @endforeach
                     </tbody>
                 </table>
-
                 {{ $users->links() }}
             </div>
         </div>

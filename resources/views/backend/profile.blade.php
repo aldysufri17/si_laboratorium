@@ -15,7 +15,7 @@
     </div>
 
     {{-- Alert Messages --}}
-    @include('backend.common.alert')
+    @include('sweetalert::alert')
 
     <div class="card shadow mb-4 border-0 bgdark">
         <div class="card-body">

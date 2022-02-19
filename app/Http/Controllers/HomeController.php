@@ -13,16 +13,18 @@ use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
-        /**
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(){
+    public function index()
+    {
         return view('frontend.home');
     }
 
-    public function cari(){
+    public function cari()
+    {
         if (Auth::guest()) {
             return redirect()->route('login');
         }
@@ -94,8 +96,4 @@ class HomeController extends Controller
     {
         //
     }
-
-
-
-
 }
