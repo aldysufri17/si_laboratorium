@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\OperatorController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -21,13 +22,13 @@ Route::get('/daftar', [App\Http\Controllers\Auth\RegisterController::class, 'daf
 Route::get('/cari', [App\Http\Controllers\HomeController::class, 'cari'])->name('cari');
 
 Auth::routes();
-// --------------------------------------------------------------------------Role Admin atau Operator--------------------------------------------------------------------------
+
+// ---------------------------Role Admin atau Operator--------------------------
 Route::group(['middleware' => ['role:admin|operator']], function () {
     Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 
     // Users 
     Route::middleware('auth')->prefix('users')->name('users.')->group(function () {
-
         Route::get('/', [UserController::class, 'index'])->name('index');
         Route::get('/create', [UserController::class, 'create'])->name('create');
         Route::post('/store', [UserController::class, 'store'])->name('store');
@@ -45,14 +46,14 @@ Route::group(['middleware' => ['role:admin|operator']], function () {
     // Roles
     Route::resource('roles', App\Http\Controllers\RolesController::class);
     // Operator
-    Route::resource('operator', App\Http\Controllers\OperatorController::class);
+    Route::resource('operator', OperatorController::class);
     Route::get('/update/status/{user_id}/{status}', [OperatorController::class, 'updateStatus'])->name('sts');
     // Barang
     Route::resource('barang', App\Http\Controllers\BarangController::class);
 });
 
 
-// --------------------------------------------------------------------------Role Peminjam--------------------------------------------------------------------------
+// ----------------------Role Peminjam-----------------
 
 Route::group(['middleware' => ['role:peminjam']], function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');

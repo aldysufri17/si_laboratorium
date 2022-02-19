@@ -1,11 +1,11 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
-use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
 
@@ -31,11 +31,11 @@ class OperatorController extends Controller
     public function index()
     {
         $users = User::where('role_id', 1)->orwhere('role_id', 2)->with('roles')->paginate(5);
-       
+
         return view('backend.operator.index', ['users' => $users]);
     }
 
-        /**
+    /**
      * Create User 
      * @param Nill
      * @return Array $user
@@ -44,12 +44,13 @@ class OperatorController extends Controller
     public function create()
     {
         $roles = Role::all();
-       
+
         return view('backend.operator.add', ['roles' => $roles]);
     }
 
- /**
+    /**
      * Store User
+     * \
      * @param Request $request
      * @return View Users
      * @author Shani Singh
@@ -58,43 +59,31 @@ class OperatorController extends Controller
     {
         // Validations
         $request->validate([
-            'name'    => 'required',
+            'name'          => 'required',
             'email'         => 'required|unique:users,email',
             'mobile_number' => 'required|numeric',
             'role_id'       =>  'required|exists:roles,id',
-            'status'       =>  'required|numeric|in:0,1',
+            'status'        =>  'required|numeric|in:0,1',
         ]);
 
-        DB::beginTransaction();
-        try {
+        // Store Data
+        $user = User::create([
+            'name'          => $request->name,
+            'email'         => $request->email,
+            'alamat'        => $request->alamat,
+            'nim'           => time(),
+            'mobile_number' => $request->mobile_number,
+            'role_id'       => $request->role_id,
+            'status'        => $request->status,
+            'password'      => Hash::make($request->name)
+        ]);
 
-            // Store Data
-                $user = User::create([
-                    'name'          => $request->name,
-                    'email'         => $request->email,
-                    'alamat'        => $request->alamat,
-                    'nim'           => time(),
-                    'mobile_number' => $request->mobile_number,
-                    'role_id'       => $request->role_id,
-                    'status'        => $request->status,
-                    'password'      => Hash::make($request->name)
-                ]);
-            
-
-            // Delete Any Existing Role
-            DB::table('model_has_roles')->where('model_id',$user->id)->delete();
-            
-            // Assign Role To User
-            $user->assignRole($user->role_id);
-
-            // Commit And Redirected To Listing
-            DB::commit();
-            return redirect()->route('operator.index')->with('success','User Created Successfully.');
-
-        } catch (\Throwable $th) {
-            // Rollback and return with Error
-            DB::rollBack();
-            return redirect()->back()->withInput()->with('error', $th->getMessage());
+        // Assign Role To User
+        $user->assignRole($user->role_id);
+        if ($user) {
+            return redirect()->route('operator.index')->with('success', 'User Berhasil ditambah!.');
+        } else {
+            return redirect()->route('operator.index')->with('error', 'User Gagal ditambah!.');
         }
     }
 
@@ -106,7 +95,6 @@ class OperatorController extends Controller
      */
     public function show($id)
     {
-        dd("heelo");
     }
 
     /**
@@ -136,39 +124,30 @@ class OperatorController extends Controller
         // Validations
         $request->validate([
             'name'    => 'required',
-            'email'         => 'required|unique:users,email,'.$operator->id.',id',
+            'email'         => 'required|unique:users,email,' . $operator->id . ',id',
             'mobile_number' => 'required|numeric|digits:10',
             'role_id'       =>  'required|exists:roles,id',
-            'status'       =>  'required|numeric|in:0,1',
         ]);
 
-        DB::beginTransaction();
-        try {
+        // Store Data
+        User::whereId($operator->id)->update([
+            'name'          => $request->name,
+            'email'         => $request->email,
+            'alamat'        => $request->alamat,
+            'mobile_number' => $request->mobile_number,
+            'role_id'       => $request->role_id,
+        ]);
 
-            // Store Data
-            $operator_updated = User::whereId($operator->id)->update([
-                'name'    => $request->name,
-                'email'         => $request->email,
-                'alamat'         => $request->alamat,
-                'mobile_number' => $request->mobile_number,
-                'role_id'       => $request->role_id,
-                'status'        => $request->status,
-            ]);
+        // Delete Any Existing Role
+        DB::table('model_has_roles')->where('model_id', $operator->id)->delete();
 
-            // Delete Any Existing Role
-            DB::table('model_has_roles')->where('model_id',$operator->id)->delete();
-            
-            // Assign Role To User
-            $operator->assignRole($operator->role_id);
+        // Assign Role To User
+        $operator->assignRole($request->role_id);
 
-            // Commit And Redirected To Listing
-            DB::commit();
-            return redirect()->route('operator.index')->with('success','User Updated Successfully.');
-
-        } catch (\Throwable $th) {
-            // Rollback and return with Error
-            DB::rollBack();
-            return redirect()->back()->withInput()->with('error', $th->getMessage());
+        if ($operator) {
+            return redirect()->route('operator.index')->with('success', 'Master Berhasil dibaharui!.');
+        } else {
+            return redirect()->route('operator.index')->with('error', 'Master Gagal dibaharui!.');
         }
     }
 
@@ -180,17 +159,12 @@ class OperatorController extends Controller
      */
     public function destroy(User $operator)
     {
-        DB::beginTransaction();
-        try {
-            // Delete User
-            User::whereId($operator->id)->delete();
-
-            DB::commit();
-            return redirect()->route('operator.index')->with('success', 'User Deleted Successfully!.');
-
-        } catch (\Throwable $th) {
-            DB::rollBack();
-            return redirect()->back()->with('error', $th->getMessage());
+        // Delete User
+        $user = User::whereId($operator->id)->delete();
+        if ($user) {
+            return redirect()->route('operator.index')->with('success', 'Master Berhasil dihapus!.');
+        } else {
+            return redirect()->back()->with('error', 'Master Gagal dihapus!.');
         }
     }
 
@@ -203,7 +177,7 @@ class OperatorController extends Controller
     public function updateStatus($user_id, $status)
     {
         // Validation
-        $validate = Validator::make([
+        Validator::make([
             'user_id'   => $user_id,
             'status'    => $status
         ], [
@@ -211,25 +185,17 @@ class OperatorController extends Controller
             'status'    =>  'required|in:0,1',
         ]);
 
-        // If Validations Fails
-        if($validate->fails()){
-            return redirect()->route('operator.index')->with('error', $validate->errors()->first());
-        }
+        // Update Status
+        $user = User::whereId($user_id)->update(['status' => $status]);
 
-        try {
-            DB::beginTransaction();
-
-            // Update Status
-            User::whereId($user_id)->update(['status' => $status]);
-
-            // Commit And Redirect on index with Success Message
-            DB::commit();
-            return redirect()->route('operator.index')->with('success','User Status Updated Successfully!');
-        } catch (\Throwable $th) {
-
-            // Rollback & Return Error Message
-            DB::rollBack();
-            return redirect()->back()->with('error', $th->getMessage());
+        // Masssage
+        if ($user) {
+            if ($status == 0) {
+                return redirect()->route('operator.index')->with('info', 'Status User Inactive!.');
+            }
+            return redirect()->route('operator.index')->with('info', 'Status User Active!.');
+        } else {
+            return redirect()->route('operator.index')->with('error', 'Gagal diperbarui');
         }
     }
 }

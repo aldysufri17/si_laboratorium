@@ -15,9 +15,6 @@
             <li class="breadcrumb-item">Form Tambah Master</li>
         </ol>
     </div>
-
-    {{-- Alert Messages --}}
-    @include('backend.common.alert')
    
     <!-- DataTales Example -->
     <div class="card shadow border-0 mb-4 bgdark ">

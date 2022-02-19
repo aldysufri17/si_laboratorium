@@ -16,9 +16,6 @@
         </ol>
     </div>
 
-    {{-- Alert Messages --}}
-    @include('backend.common.alert')
-   
     <!-- DataTales Example -->
     <div class="card shadow mb-4 bgdark border-0">
         <form method="POST" action="{{route('operator.update', $operator->id)}}">
@@ -103,12 +100,8 @@
                         <span style="color:red;">*</span>Role</label>
                         <select class="form-control form-control-user @error('role_id') is-invalid @enderror" name="role_id">
                             <option selected disabled>Pilih Role</option>
-                            @foreach ($roles as $role)
-                                <option value="{{$role->id}}" 
-                                    {{old('role_id') ? ((old('role_id') == $role->id) ? 'selected' : '') : (($operator->role_id == $role->id) ? 'selected' : '')}}>
-                                    {{$role->name}}
-                                </option>
-                            @endforeach
+                            <option value="1">Admin</option>
+                            <option value="2">Operator</option>
                         </select>
                         @error('role_id')
                             <span class="text-danger">{{$message}}</span>

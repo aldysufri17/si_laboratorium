@@ -16,9 +16,6 @@
         </ol>
     </div>
 
-    {{-- Alert Messages --}}
-    @include('backend.common.alert')
-   
     <!-- DataTales Example -->
     <div class="card bgdark border-0 shadow mb-4">
         <form method="POST" action="{{route('users.update', ['user' => $user->id])}}">

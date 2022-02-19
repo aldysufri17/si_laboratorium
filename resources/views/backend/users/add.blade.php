@@ -15,9 +15,6 @@
             <li class="breadcrumb-item">Form Tambah User</li>
         </ol>
     </div>
-
-    {{-- Alert Messages --}}
-    @include('backend.common.alert')
    
     <!-- DataTales Example -->
     <div class="card bgdark border-0 shadow mb-4">
