@@ -32,13 +32,14 @@ class LoginController extends Controller
 
     protected function authenticated(Request $request, $user)
     {
-
-        if ($user->role_id == 3) {
-            return redirect()->route('home');
+        if (!Auth::user()->status == 1) {
+            Auth::logout();
+            return redirect()->route('login');
         }
-
-        return redirect()->route('dashboard');
-
+        if ($user->role_id == 3) {
+            return redirect()->route('home')->with('toast_success', "Selamat datang $user->name");
+        }
+        return redirect()->route('dashboard')->with('toast_success', "Selamat datang $user->name");;
     }
     /**
      * Create a new controller instance.

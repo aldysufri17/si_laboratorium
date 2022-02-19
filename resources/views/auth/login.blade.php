@@ -16,6 +16,7 @@
                         <div class="col-lg-6">
                             <div class="p-5">
                                 <div class="text-center mb-4">
+                                    @include('sweetalert::alert')
                                     <h4 class="text-light" style="margin-bottom: 1px">Selamat Datang</h4>
                                     <a class="small" href="{{route('register')}}">Belum Punya akun?</a>
                                 </div>

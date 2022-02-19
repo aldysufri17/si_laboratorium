@@ -33,10 +33,10 @@ class UserController extends Controller
     public function index()
     {
         $users = User::where('role_id', 3)->paginate(5);
-       
+
         return view('backend.users.index', ['users' => $users]);
     }
-    
+
     /**
      * Create User 
      * @param Nill
@@ -46,7 +46,7 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::all();
-       
+
         return view('backend.users.add', ['roles' => $roles]);
     }
 
@@ -68,37 +68,25 @@ class UserController extends Controller
             'status'       =>  'required|numeric|in:0,1',
         ]);
 
-        DB::beginTransaction();
-        try {
 
-            // Store Data
-                $user = User::create([
-                    'name'          => $request->name,
-                    'email'         => $request->email,
-                    'nim'           => $request->nim,
-                    'alamat'           => $request->alamat,
-                    'mobile_number' => $request->mobile_number,
-                    'role_id'       => 3,
-                    'status'        => $request->status,
-                    'password'      => Hash::make($request->name)
-                ]);
-            
+        // Store Data
+        $user = User::create([
+            'name'          => $request->name,
+            'email'         => $request->email,
+            'nim'           => $request->nim,
+            'alamat'           => $request->alamat,
+            'mobile_number' => $request->mobile_number,
+            'role_id'       => 3,
+            'status'        => $request->status,
+            'password'      => Hash::make($request->name)
+        ]);
 
-            // Delete Any Existing Role
-            DB::table('model_has_roles')->where('model_id',$user->id)->delete();
-            
-            // Assign Role To User
-            $user->assignRole($user->role_id);
-
-            // Commit And Redirected To Listing
-            DB::commit();
-            return redirect()->route('users.index')->with('success','User Created Successfully.');
-
-        } catch (\Throwable $th) {
-            // Rollback and return with Error
-            DB::rollBack();
-            return redirect()->back()->withInput()->with('error', $th->getMessage());
+        // Assign Role To User
+        $user->assignRole($user->role_id);
+        if ($user) {
+            return redirect()->route('users.index')->with('success', 'User berhasil ditambah.');
         }
+        return redirect()->route('users.index')->with('error', 'User gagal ditambah.');
     }
 
     /**
@@ -119,7 +107,7 @@ class UserController extends Controller
         ]);
 
         // If Validations Fails
-        if($validate->fails()){
+        if ($validate->fails()) {
             return redirect()->route('users.index')->with('error', $validate->errors()->first());
         }
 
@@ -131,7 +119,7 @@ class UserController extends Controller
 
             // Commit And Redirect on index with Success Message
             DB::commit();
-            return redirect()->route('users.index')->with('success','User Status Updated Successfully!');
+            return redirect()->route('users.index')->with('success', 'User Status Updated Successfully!');
         } catch (\Throwable $th) {
 
             // Rollback & Return Error Message
@@ -167,7 +155,7 @@ class UserController extends Controller
         $request->validate([
             'name'    => 'required',
             'alamat'    => 'required',
-            'email'         => 'required|unique:users,email,'.$user->id.',id',
+            'email'         => 'required|unique:users,email,' . $user->id . ',id',
             'mobile_number' => 'required|numeric|digits:10',
             'status'       =>  'required|numeric|in:0,1',
         ]);
@@ -185,15 +173,14 @@ class UserController extends Controller
             ]);
 
             // Delete Any Existing Role
-            DB::table('model_has_roles')->where('model_id',$user->id)->delete();
-            
+            DB::table('model_has_roles')->where('model_id', $user->id)->delete();
+
             // Assign Role To User
             $user->assignRole($user->role_id);
 
             // Commit And Redirected To Listing
             DB::commit();
-            return redirect()->route('users.index')->with('success','User Updated Successfully.');
-
+            return redirect()->route('users.index')->with('success', 'User Updated Successfully.');
         } catch (\Throwable $th) {
             // Rollback and return with Error
             DB::rollBack();
@@ -216,11 +203,9 @@ class UserController extends Controller
 
             DB::commit();
             return redirect()->route('users.index')->with('success', 'User Deleted Successfully!.');
-
         } catch (\Throwable $th) {
             DB::rollBack();
             return redirect()->back()->with('error', $th->getMessage());
         }
     }
-
 }

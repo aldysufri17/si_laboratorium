@@ -2,8 +2,8 @@
 @section('title', 'Beranda')
 @section('content')
    <!-- ======= hero Section ======= -->
-   <section id="hero" style="height: 100vh;">
-
+   <section id="hero" style="height: 85vh;">
+    @include('sweetalert::alert')
     <div class="hero-content" data-aos="fade-up">
         <h2>Sistem Peminjaman Barang <br> <span class="animate text-secondary typed-cursor"></span></h2>
         <div>
@@ -38,25 +38,14 @@
     <section id="about">
         <div class="container" data-aos="fade-up">
             <div class="row">
-                <div class="col-lg-6 about-img">
-                    <img src="{{asset('frontend/img/testimonial-5.jpg')}}" alt="">
+                <div class="col-lg-4 about-img">
+                    <img src="{{asset('frontend/img/about.png')}}" alt="">
                 </div>
 
-                <div class="col-lg-6 content">
-                    <h2>Lorem ipsum dolor sit amet, consectetur adipiscing</h2>
-                    <h3>Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit
-                        anim id est laborum.</h3>
-
-                    <ul>
-                        <li><i class="bi bi-check-circle"></i> Ullamco laboris nisi ut aliquip ex ea commodo
-                            consequat.</li>
-                        <li><i class="bi bi-check-circle"></i> Duis aute irure dolor in reprehenderit in voluptate
-                            velit.</li>
-                        <li><i class="bi bi-check-circle"></i> Ullamco laboris nisi ut aliquip ex ea commodo
-                            consequat. Duis aute irure dolor in reprehenderit in voluptate trideta storacalaperda
-                            mastiro dolore eu fugiat nulla pariatur.</li>
-                    </ul>
-
+                <div class="col-lg-7 ml-5 content">
+                    <h2>Laboratorium Sistem Tertanam dan Robotika</h2>
+                    <h3>Departemen Teknik Komputer - Universitas Diponegoro</h3>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo optio nihil dolore veritatis, delectus quisquam ab, architecto obcaecati molestiae, rem numquam! Fuga voluptatum officia fugit?</p>
                 </div>
             </div>
 

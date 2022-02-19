@@ -4,6 +4,7 @@
 
 @section('content')
 <div class="container-fluid">
+    @include('sweetalert::alert')
     <!-- Page Heading -->
     @php
     date_default_timezone_set('Asia/jakarta');

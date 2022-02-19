@@ -25,10 +25,11 @@ class UserSeeder extends Seeder
             'alamat'        =>   'Semarang',
             'email'         =>  'admin@admin.com',
             'mobile_number' =>  '9028187696',
-            'role_id'          => '1',
+            'role_id'       =>  1,
+            'status'        =>  1,
             'password'      =>  bcrypt('admin'),
         ]);
-    
+
         $role = Role::create(['name' => 'admin']);
 
         $user->assignRole([$role->id]);
@@ -39,13 +40,13 @@ class UserSeeder extends Seeder
             'alamat'        =>   'Semarang',
             'email'         =>  'operator@admin.com',
             'mobile_number' =>  '9028187696',
-            'role_id'          => '2',
+            'role_id'       => 2,
+            'status'        =>  1,
             'password'      =>  bcrypt('operator'),
         ]);
-    
-        $role = Role::create(['name' => 'operator']);   
-        // $permissions = Permission::pluck('id','id')->all();
-   
+
+        $role = Role::create(['name' => 'operator']);
+
         $user->assignRole([$role->id]);
 
         $user = User::create([
@@ -54,16 +55,13 @@ class UserSeeder extends Seeder
             'alamat'        =>  'Semarang',
             'email'         =>  'peminjam@admin.com',
             'mobile_number' =>  '9028187696',
-            'role_id'          => '3',
+            'role_id'          => 3,
+            'status'        =>  1,
             'password'      =>  bcrypt('peminjam'),
         ]);
-    
+
         $role = Role::create(['name' => 'peminjam']);
-     
-        // $permissions = Permission::pluck('id','id')->all();
-   
-        // $role->syncPermissions($permissions);
-     
+
         $user->assignRole([$role->id]);
     }
 }

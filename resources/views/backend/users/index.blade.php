@@ -3,8 +3,9 @@
 @section('title', 'Daftar User')
 
 @section('content')
-<div class="container-fluid">
 
+@if ($users->isNotEmpty())
+<div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-2">
         <h1 class="h5 mb-0 text-light">User</h1>
@@ -20,7 +21,8 @@
     </div>
 
     {{-- Alert Messages --}}
-    @include('backend.common.alert')
+    {{-- @include('backend.common.alert') --}}
+    @include('sweetalert::alert')
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4 border-0 bgdark">
@@ -80,13 +82,30 @@
             </div>
         </div>
     </div>
-
 </div>
-
 @include('backend.users.delete-modal')
-
+@else
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-2">
+        <h1 class="h5 mb-0 text-light">User</h1>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Dashboard</a></li>
+            <li class="breadcrumb-item">Daftar User</li>
+        </ol>
+    </div>
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <a href="{{ route('users.create') }}" class="btn btn-sm btn-success">
+            <i class="fas fa-plus"></i> Tambah Baru
+        </a>
+    </div>
+    <div class="align-items-center bg-light p-3 border-left-success rounded">
+        <span class="">Oops!</span><br>
+        <p><i class="fa-solid fa-circle-info text-info"></i> Belum Terdapat Data User</p>
+    </div>
+</div>
+@endif
 @endsection
-
 @section('scripts')
 <script>
     $(document).ready(function () {

@@ -12146,8 +12146,8 @@ a:focus {
 }
 
 .bg-image {
-    background: url('	https://www.bootstrapdash.com/demo/corona-free/jquery/template/assets/images/auth/Login_bg.jpg');
-
+    /* background: url('	https://www.bootstrapdash.com/demo/corona-free/jquery/template/assets/images/auth/Login_bg.jpg'); */
+    background-image: linear-gradient(to top, #6f54d3, #4460cc, #1967bd, #056aaa, #256a94, #1c6590, #105f8b, #005a87, #004e92, #003f99, #002b9a, #260092);
 }
 
 .bg-register-image {

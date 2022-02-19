@@ -23,11 +23,11 @@ Route::get('/cari', [App\Http\Controllers\HomeController::class, 'cari'])->name(
 Auth::routes();
 // --------------------------------------------------------------------------Role Admin atau Operator--------------------------------------------------------------------------
 Route::group(['middleware' => ['role:admin|operator']], function () {
-    Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard'); 
-        
+    Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
+
     // Users 
-    Route::middleware('auth')->prefix('users')->name('users.')->group(function(){
-    
+    Route::middleware('auth')->prefix('users')->name('users.')->group(function () {
+
         Route::get('/', [UserController::class, 'index'])->name('index');
         Route::get('/create', [UserController::class, 'create'])->name('create');
         Route::post('/store', [UserController::class, 'store'])->name('store');
@@ -37,7 +37,7 @@ Route::group(['middleware' => ['role:admin|operator']], function () {
         Route::get('/update/status/{user_id}/{status}', [UserController::class, 'updateStatus'])->name('status');
     });
     // Profile Routes
-    Route::prefix('profile')->name('profile.')->middleware('auth')->group(function(){
+    Route::prefix('profile')->name('profile.')->middleware('auth')->group(function () {
         Route::get('/', [DashboardController::class, 'getProfile'])->name('detail');
         Route::post('/update', [DashboardController::class, 'updateProfile'])->name('update');
         Route::post('/change-password', [DashboardController::class, 'changePassword'])->name('change-password');
@@ -58,9 +58,3 @@ Route::group(['middleware' => ['role:peminjam']], function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
     Route::get('/checkout', [App\Http\Controllers\HomeController::class, 'create'])->name('create');
 });
-
-
-
-
-    
-
