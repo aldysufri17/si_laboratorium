@@ -34,7 +34,7 @@ class LoginController extends Controller
     {
         if (!Auth::user()->status == 1) {
             Auth::logout();
-            return redirect()->route('login');
+            return redirect()->route('login')->with('toast_error', "Akun tidak terdaftar!!");
         }
         if ($user->role_id == 3) {
             return redirect()->route('home')->with('toast_success', "Selamat datang $user->name");
