@@ -15,7 +15,7 @@
             <li class="breadcrumb-item">Tambah Barang</li>
         </ol>
     </div>
-   
+
     <!-- DataTales Example -->
     <div class="card shadow border-0 mb-4 bgdark ">
         <form method="POST" action="{{route('barang.store')}}" enctype="multipart/form-data">
@@ -26,107 +26,83 @@
                     {{-- Name --}}
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
                         <span style="color:red;">*</span>Nama</label>
-                        <input 
-                            type="text" 
-                            class="form-control form-control-user @error('nama') is-invalid @enderror" 
-                            autocomplete="off"
-                            id="exampleNama"
-                            placeholder="Nama Barang" 
-                            name="nama" 
+                        <input type="text" class="form-control form-control-user @error('nama') is-invalid @enderror"
+                            autocomplete="off" id="exampleNama" placeholder="Nama Barang" name="nama"
                             value="{{ old('nama') }}">
 
                         @error('nama')
-                            <span class="text-danger">{{$message}}</span>
+                        <span class="text-danger">{{$message}}</span>
                         @enderror
                     </div>
 
                     {{-- Tipe --}}
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
                         <span style="color:red;">*</span>Tipe</label>
-                        <input 
-                            type="text" 
-                            class="form-control  form-control-user @error('tipe') is-invalid @enderror" 
-                            autocomplete="off"
-                            id="exampleTipe"
-                            autocomplete="off"
-                            placeholder="Tipe Barang" 
-                            name="tipe" 
+                        <input type="text" class="form-control  form-control-user @error('tipe') is-invalid @enderror"
+                            autocomplete="off" id="exampleTipe" autocomplete="off" placeholder="Tipe Barang" name="tipe"
                             value="{{ old('tipe') }}">
 
                         @error('tipe')
-                            <span class="text-danger">{{$message}}</span>
+                        <span class="text-danger">{{$message}}</span>
                         @enderror
                     </div>
 
-                    {{-- Berat --}}
-                    <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
-                        <span style="color:red;">*</span>Berat</label>
-                        <input 
-                            type="text" 
-                            class="form-control form-control-user @error('berat') is-invalid @enderror" 
-                            autocomplete="off"
-                            id="exampleBerat"
-                            placeholder="Berat Barang" 
-                            name="berat" 
-                            value="{{ old('berat') }}">
+                    <div class="row col-sm-6 mb-3 mt-3 pl-3 mr-2 mb-sm-0">
+                        {{-- Jumlah --}}
+                        <div class="col-sm-7">
+                            <span style="color:red;">*</span>Jumlah</label>
+                            <input type="number"
+                                class="form-control form-control-user @error('stock') is-invalid @enderror"
+                                autocomplete="off" id="examplestock" placeholder="Jumlah Barang" name="stock" min="1"
+                                value="{{ old('stock') }}">
 
-                        @error('berat')
+                            @error('stock')
                             <span class="text-danger">{{$message}}</span>
-                        @enderror
+                            @enderror
+                        </div>
+                        {{-- Satuan --}}
+                        <div class="col-sm-5">
+                            <span style="color:red;">*</span>Satuan</label>
+                            <input type="text"
+                                class="form-control form-control-user @error('satuan') is-invalid @enderror"
+                                autocomplete="off" id="examplesatuan" placeholder="Satuan Barang" name="satuan"
+                                value="{{ old('satuan') }}">
+
+                            @error('satuan')
+                            <span class="text-danger">{{$message}}</span>
+                            @enderror
+                        </div>
                     </div>
 
                     {{-- Tanggal masuk --}}
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
                         <span style="color:red;">*</span>Tanggal Masuk</label>
-                        <input 
-                            type="date" 
-                            class="form-control form-control-user @error('tgl_masuk') is-invalid @enderror" 
-                            autocomplete="off"
-                            id="exampleTgl_masuk"
-                            placeholder="Tanggal Masuk" 
-                            name="tgl_masuk" 
+                        <input type="date"
+                            class="form-control form-control-user @error('tgl_masuk') is-invalid @enderror"
+                            autocomplete="off" id="exampleTgl_masuk" placeholder="Tanggal Masuk" name="tgl_masuk"
                             value="{{ old('tgl_masuk') }}">
 
                         @error('tgl_masuk')
-                            <span class="text-danger">{{$message}}</span>
+                        <span class="text-danger">{{$message}}</span>
                         @enderror
                     </div>
 
                     {{-- Lokasi Barang --}}
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
-                        <span style="color:red;">*</span>Lokasi</label>
-                        <input 
-                            type="text" 
-                            class="form-control form-control-user @error('lokasi') is-invalid @enderror" 
-                            autocomplete="off"
-                            id="exampleLokasi"
-                            placeholder="Lokasi Barang" 
-                            name="lokasi" 
+                        <span style="color:red;">*</span>Lokasi Barang</label>
+                        <input type="text" class="form-control form-control-user @error('lokasi') is-invalid @enderror"
+                            autocomplete="off" id="exampleLokasi" placeholder="Lokasi Barang" name="lokasi"
                             value="{{ old('lokasi') }}">
 
                         @error('lokasi')
-                            <span class="text-danger">{{$message}}</span>
-                        @enderror
-                    </div>
-
-                    {{-- Kondisi Barang --}}
-                    <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
-                        <span style="color:red;">*</span>Kondisi</label>
-                        <select class="form-control form-control-user @error('kondisi') is-invalid @enderror" name="kondisi">
-                            <option selected disabled>Pilih Kondisi</option>
-                            <option value="1" selected>Baru</option>
-                            <option value="2" >Bekas</option>
-                            <option value="0">Rusak</option>
-                        </select>
-                        @error('kondisi')
-                            <span class="text-danger">{{$message}}</span>
+                        <span class="text-danger">{{$message}}</span>
                         @enderror
                     </div>
 
                     {{-- Gambar Barang --}}
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
                         <span style="color:red;">*</span>Gambar</label>
-                        <input type="file" class="form-control" name="gambar" id="gambar" >
+                        <input type="file" class="form-control" name="gambar" id="gambar">
                     </div>
 
                     {{-- Tampil --}}
@@ -138,10 +114,21 @@
                             <option value="0">Tidak</option>
                         </select>
                         @error('show')
-                            <span class="text-danger">{{$message}}</span>
+                        <span class="text-danger">{{$message}}</span>
                         @enderror
                     </div>
 
+                    {{-- info --}}
+                    <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
+                        <div class="form-group">
+                            <span style="color:red;">*</span>Informasi Tambahan</label>
+                            <textarea class="form-control @error('info') is-invalid @enderror"
+                                id="exampleFormControlTextarea1" name="info" rows="3"></textarea>
+                        </div>
+                        @error('info')
+                        <span class="text-danger">{{$message}}</span>
+                        @enderror
+                    </div>
                 </div>
             </div>
 

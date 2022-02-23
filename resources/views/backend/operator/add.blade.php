@@ -1,6 +1,6 @@
 @extends('backend.layouts.app')
 
-@section('title', 'Tambah User')
+@section('title', 'Tambah Master')
 
 @section('content')
 

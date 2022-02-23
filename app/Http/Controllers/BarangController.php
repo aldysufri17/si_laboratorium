@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Barang;
+use App\Models\Stock;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -21,7 +22,9 @@ class BarangController extends Controller
      */
     public function index()
     {
-        $barang = DB::table('barang')->paginate(5);
+        $barang = DB::table('barang')
+            ->orderBy('created_at', 'desc')
+            ->paginate(5);
         return view('backend.barang.index', ['barang' => $barang]);
     }
 
@@ -45,12 +48,11 @@ class BarangController extends Controller
     {
         $request->validate([
             'nama'      => 'required',
-            'berat'     => 'required|int',
+            'stock'     => 'required|int',
             'tipe'      => 'required',
             'tgl_masuk' => 'required',
             'show'      => 'required|in:0,1',
             'lokasi'    => 'required',
-            'kondisi'   => 'required'
         ], [
             'required' => ':attribute Bagian ini wajib diisi',
         ]);
@@ -61,24 +63,28 @@ class BarangController extends Controller
             $destination = storage_path('app/public/barang');
             $gambar->move($destination, $new_gambar);
             $barang = Barang::create([
+                'id'            => time(),
                 'nama'          => $request->nama,
-                'berat'         => $request->berat,
+                'stock'        => $request->stock,
                 'tipe'          => $request->tipe,
                 'tgl_masuk'     => $request->tgl_masuk,
                 'show'          => $request->show,
                 'lokasi'        => $request->lokasi,
-                'kondisi'       => $request->kondisi,
+                'satuan'        => $request->satuan,
+                'info'        => $request->info,
                 'gambar'        => $new_gambar,
             ]);
         } else {
             $barang = Barang::create([
+                'id'            => time(),
                 'nama'          => $request->nama,
-                'berat'         => $request->berat,
+                'stock'         => $request->stock,
                 'tipe'          => $request->tipe,
+                'satuan'        => $request->satuan,
                 'tgl_masuk'     => $request->tgl_masuk,
                 'show'          => $request->show,
                 'lokasi'        => $request->lokasi,
-                'kondisi'       => $request->kondisi,
+                'info'        => $request->info,
             ]);
         }
 
@@ -122,12 +128,12 @@ class BarangController extends Controller
     {
         $request->validate([
             'nama'      => 'required',
-            'berat'     => 'required|int',
+            'stock'     => 'required|int',
             'tipe'      => 'required',
+            'satuan'    => 'required',
             'tgl_masuk' => 'required',
             'show'      => 'required|in:0,1',
             'lokasi'    => 'required',
-            'kondisi'   => 'required'
         ], [
             'required' => ':attribute Bagian ini wajib diisi',
         ]);
@@ -141,23 +147,26 @@ class BarangController extends Controller
             $gambar->move($destination, $new_gambar);
             $barang_update = Barang::whereid($barang->id)->update([
                 'nama'          => $request->nama,
-                'berat'         => $request->berat,
+                'stock'        => $request->stock,
                 'tipe'          => $request->tipe,
                 'tgl_masuk'     => $request->tgl_masuk,
                 'show'          => $request->show,
                 'lokasi'        => $request->lokasi,
-                'kondisi'       => $request->kondisi,
+                'satuan'        => $request->satuan,
+                'info'        => $request->info,
                 'gambar'        => $new_gambar,
             ]);
         } else {
             $barang_update = Barang::whereid($barang->id)->update([
                 'nama'          => $request->nama,
-                'berat'         => $request->berat,
+                'stock'         => $request->stock,
                 'tipe'          => $request->tipe,
+                'satuan'        => $request->satuan,
                 'tgl_masuk'     => $request->tgl_masuk,
                 'show'          => $request->show,
                 'lokasi'        => $request->lokasi,
-                'kondisi'       => $request->kondisi,
+                'info'        => $request->info,
+
             ]);
         }
         if ($barang_update) {
@@ -165,6 +174,12 @@ class BarangController extends Controller
         } else {
             return redirect()->route('barang.index')->with('error', 'Barang Gagal diperbarui!.');
         }
+    }
+
+
+    public function stock($id)
+    {
+        return $this->hasOne('App\Stock')->where('id_barang', $id);
     }
 
     /**
@@ -175,7 +190,13 @@ class BarangController extends Controller
      */
     public function destroy(Barang $barang)
     {
+        if ($barang->gambar) {
+            unlink(storage_path('app/public/barang/' . $barang->gambar));
+        }
+        $id = $barang->id;
+        Stock::where('barang_id', $id)->delete();
         $barang = Barang::whereid($barang->id)->delete();
+        // $barang->stock()->delete();
         if ($barang) {
             return redirect()->route('barang.index')->with('success', 'Barang Berhasil dihapus!.');
         } else {

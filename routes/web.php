@@ -51,6 +51,8 @@ Route::group(['middleware' => ['role:admin|operator']], function () {
     Route::get('/update/status/{user_id}/{status}', [OperatorController::class, 'updateStatus'])->name('sts');
     // Barang
     Route::resource('barang', App\Http\Controllers\BarangController::class);
+    // Stock
+    Route::resource('stock', App\Http\Controllers\StockController::class);
 });
 
 

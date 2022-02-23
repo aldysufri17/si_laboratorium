@@ -17,7 +17,7 @@
         <div id="content-wrapper" class="d-flex flex-column">
 
             <!-- Main Content -->
-            <div id="content" style="background-color: #000000" >
+            <div id="content" style="background-color: #000000">
 
                 <!-- Topbar -->
                 @include('backend.common.header')
@@ -52,6 +52,10 @@
     <script src="{{asset('admin/js/sb-admin-2.min.js')}}"></script>
     <script src="{{asset('admin/vendor/datatables/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('admin/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
+    <script src="https://cdn.datatables.net/responsive/2.1.0/js/dataTables.responsive.min.js" type="text/javascript">
+    </script>
+    <script src="https://cdn.datatables.net/responsive/2.1.0/js/responsive.bootstrap.min.js" type="text/javascript">
+    </script>
     @yield('scripts')
 </body>
 

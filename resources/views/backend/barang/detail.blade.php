@@ -16,7 +16,7 @@
         {{-- Page Content --}}
 
         <div class="d-flex flex-column align-items-center text-center p-3 pt-5">
-            <img class="rounded-circle my-2" width="150px" src="{{ asset($barang->gambar ? 'storage/barang/'. $barang->gambar : 'storage/barang/none.jpg') }}">
+            <img class="rounded-circle my-2" width="150px" src="{{ asset($barang->gambar ? 'storage/barang/'. $barang->gambar : 'images/empty.jpg') }}">
             @if ($barang->show == 0)
             <span class="badge badge-danger">Hidden</span>
             @elseif ($barang->show == 1)
@@ -26,17 +26,12 @@
         <div class="d-flex text-center justify-content-around flex-wrap pt-5">
             <p class="text-light mx-5"><strong>Nama: </strong><br>{{ $barang->nama }}</p>
             <p class="text-light mx-5"><strong>Tipe: </strong><br>{{ $barang->tipe }}</p>
-            <p class="text-light mx-5"><strong>Kondisi: </strong><br>
-                @if ($barang->kondisi == 1)
-                Baru
-                @elseif($barang->kondisi == 2)
-                Bekas
-                @else
-                Rusak
-                @endif
-            </p>
-            <p class="text-light mx-5"><strong>Lokasi: </strong><br>{{ $barang->lokasi }}</p>
+            <p class="text-light mx-5"><strong>Jumlah: </strong><br>{{ $barang->jumlah }} {{$barang->satuan}}</p>
+            <p class="text-light mx-5"><strong>Lokasi Barang: </strong><br>{{ $barang->lokasi }}</p>
             <p class="text-light mx-5"><strong>Tanggal Masuk: </strong><br>{{ $barang->tgl_masuk }}</p>
+            @if($barang->info)
+                <p class="text-light mx-5"><strong>Info Tambahan: </strong><br>{{ $barang->info }}</p>
+            @endif
         </div>
         <div class="pb-5 text-center">
             <button class="btn btn-info profile-button" onclick="history.back()">Oke</button>

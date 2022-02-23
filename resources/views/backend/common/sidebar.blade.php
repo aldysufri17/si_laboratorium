@@ -19,7 +19,7 @@
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#taTpDropDown"
             aria-expanded="true" aria-controls="taTpDropDown">
             <i class="fas fa-user-alt text-warning"></i>
-            <span>Masters Akun</span>
+            <span>Masters</span>
         </a>
         <div id="taTpDropDown" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class="py-2 collapse-inner rounded" style="background-color: rgb(230, 230, 230)">
@@ -47,6 +47,22 @@
             </div>
         </div>
     </li>
+
+    <!-- Nav Item - Pages Collapse Menu -->
+    <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#stockDropDown"
+            aria-expanded="true" aria-controls="stockDropDown">
+            <i class="fa-solid fa-cubes text-primary"></i>
+            <span>Stock</span>
+        </a>
+        <div id="stockDropDown" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class=" py-2 collapse-inner rounded" style="background-color: rgb(230, 230, 230)">
+                <a class="collapse-item text-red" href="{{ route('stock.index') }}">Data Stock</a>
+                <a class="collapse-item text-red" href="{{ route('stock.create') }}">Tambah Stock</a>
+            </div>
+        </div>
+    </li>
+
     <li class="nav-item">
         <a class="nav-link" href="#" data-toggle="modal" data-target="#logoutModal">
             <i class="fas fa-sign-out-alt text-danger"></i>
@@ -57,6 +73,4 @@
     <div class="text-center d-none d-md-inline">
         <button class="rounded-circle border-0" id="sidebarToggle"></button>
     </div>
-
-
 </ul>

@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Barang;
 use App\Models\Stock;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class StockController extends Controller
 {
@@ -14,7 +16,11 @@ class StockController extends Controller
      */
     public function index()
     {
-        //
+        $stock = DB::table('stock')
+            ->leftJoin("barang", "barang.id", "=", "stock.barang_id")
+            ->orderBy('stock.created_at', 'desc')
+            ->paginate(5);
+        return view('backend.stock.index', ['stock' => $stock]);
     }
 
     /**
@@ -24,7 +30,9 @@ class StockController extends Controller
      */
     public function create()
     {
-        //
+        $barang = Barang::all();
+        return view('backend.stock.add', compact('barang'));
+        // dd($barang);
     }
 
     /**
@@ -35,7 +43,52 @@ class StockController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'barang' => 'required',
+            'status' => 'required',
+            'jumlah' => 'required',
+        ]);
+
+        $data = [
+            'barang_id'     => $request->barang,
+            'status'        => $request->status,
+            'deskripsi'     => $request->deskripsi,
+            'inventaris'    => 0,
+            'masuk'         => 0,
+            'keluar'        => 0,
+            'total'         => 0,
+        ];
+        $random = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
+        $sisa = Barang::where('id', $request->barang)->first();
+        $total = $request->jumlah;
+        if ($request->status == 1) {
+            $data['inventaris'] = 'IN' . $random;
+            $data['masuk'] = $total;
+            $data['keluar'] = 0;
+            $data['total'] = $sisa->stock + $total;
+            Barang::whereid($request->barang)->update(['stock' => $sisa->stock + $total]);
+        } else {
+            $data['inventaris'] = 'OUT' . $random;
+            $data['masuk'] = 0;
+            $data['keluar'] = $total;
+            if ($request->status == 2) {
+                Barang::whereid($request->barang)->update(['rusak' => $sisa->rusak + $total]);
+                $data['deskripsi'] = "Rusak" . " " . $request->deskripsi;
+            }
+            if ($sisa->stock - $total < 0) {
+                return redirect()->route('stock.index')->with('warning', 'Stock Tidak Boleh Kurang dari 0');
+            } else {
+                $data['total'] = $sisa->stock - $total;
+                Barang::whereid($request->barang)->update(['stock' => $sisa->stock - $total]);
+            }
+        }
+
+        $stock = Stock::create($data);
+        if ($stock) {
+            return redirect()->route('stock.index')->with('success', 'Stock Berhasil diperbarui!.');
+        } else {
+            return redirect()->route('stock.index')->with('error', 'Stock Gagal diperbarui!.');
+        }
     }
 
     /**
@@ -80,6 +133,5 @@ class StockController extends Controller
      */
     public function destroy(Stock $stock)
     {
-        //
     }
 }

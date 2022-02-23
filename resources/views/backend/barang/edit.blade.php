@@ -51,16 +51,31 @@
                         @enderror
                     </div>
 
-                    {{-- Berat --}}
-                    <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
-                        <span style="color:red;">*</span>Berat</label>
-                        <input type="text" class="form-control form-control-user @error('berat') is-invalid @enderror"
-                            autocomplete="off" id="exampleBerat" placeholder="Berat Barang" name="berat"
-                            value="{{ old('berat') ? old('berat') : $barang->berat }}">
+                    <div class="row col-sm-6 mb-3 mt-3 pl-3 mr-2 mb-sm-0">
+                        {{-- Jumlah --}}
+                        <div class="col-sm-7">
+                            <span style="color:red;">*</span>Stock</label>
+                            <input readonly="true" type="number"
+                                class="form-control form-control-user @error('stock') is-invalid @enderror"
+                                autocomplete="off" id="examplestock" placeholder="Stock Barang" name="stock" min="1"
+                                value="{{ old('stock') ? old('stock') : $barang->stock }}">
 
-                        @error('berat')
-                        <span class="text-danger">{{$message}}</span>
-                        @enderror
+                            @error('stock')
+                            <span class="text-danger">{{$message}}</span>
+                            @enderror
+                        </div>
+                        {{-- Satuan --}}
+                        <div class="col-sm-5">
+                            <span style="color:red;">*</span>Satuan</label>
+                            <input type="text"
+                                class="form-control form-control-user @error('satuan') is-invalid @enderror"
+                                autocomplete="off" id="examplesatuan" placeholder="Satuan Barang" name="satuan"
+                                value="{{ old('satuan') ? old('satuan') : $barang->satuan }}">
+
+                            @error('satuan')
+                            <span class="text-danger">{{$message}}</span>
+                            @enderror
+                        </div>
                     </div>
 
                     {{-- Tanggal masuk --}}
@@ -88,21 +103,6 @@
                         @enderror
                     </div>
 
-                    {{-- Kondisi Barang --}}
-                    <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
-                        <span style="color:red;">*</span>Kondisi</label>
-                        <select class="form-control form-control-user @error('kondisi') is-invalid @enderror"
-                            name="kondisi">
-                            <option selected disabled>Pilih Kondisi</option>
-                            <option value="1" @if($barang->kondisi == 1) selected @endif>Baru</option>
-                            <option value="2" @if($barang->kondisi == 2) selected @endif >Bekas</option>
-                            <option value="0" @if($barang->kondisi == 0) selected @endif>Rusak</option>
-                        </select>
-                        @error('kondisi')
-                        <span class="text-danger">{{$message}}</span>
-                        @enderror
-                    </div>
-
                     {{-- Gambar Barang --}}
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
                         <span style="color:red;">*</span>Gambar</label>
@@ -115,10 +115,22 @@
                         <span style="color:red;">*</span>Tampilkan</label>
                         <select class="form-control form-control-user @error('show') is-invalid @enderror" name="show">
                             <option selected disabled>Pilih Status</option>
-                            <option value="1" @if($barang->kondisi == 1) selected @endif>ya</option>
-                            <option value="0" @if($barang->kondisi == 2) selected @endif >Tidak</option>
+                            <option value="1" @if($barang->show == 1) selected @endif>ya</option>
+                            <option value="0" @if($barang->show == 0) selected @endif >Tidak</option>
                         </select>
                         @error('show')
+                        <span class="text-danger">{{$message}}</span>
+                        @enderror
+                    </div>
+                    
+                    {{-- info --}}
+                    <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
+                        <div class="form-group">
+                            <span style="color:red;">*</span>Informasi Tambahan</label>
+                            <textarea class="form-control @error('info') is-invalid @enderror"
+                                id="exampleFormControlTextarea1" name="info" rows="3">{{$barang->info}}</textarea>
+                        </div>
+                        @error('info')
                         <span class="text-danger">{{$message}}</span>
                         @enderror
                     </div>

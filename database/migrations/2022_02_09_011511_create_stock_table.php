@@ -17,11 +17,11 @@ class CreateStockTable extends Migration
             $table->increments('id');
             $table->integer('barang_id');
             $table->text('inventaris');
-            $table->integer('increase');
-            $table->integer('decrease');
-            $table->integer('remain');
+            $table->integer('masuk')->nullable();
+            $table->integer('keluar')->nullable();
+            $table->integer('total');
             $table->text('status');
-            $table->text('descripsi');
+            $table->text('deskripsi')->nullable();
             $table->timestamps();
         });
     }
