@@ -69,6 +69,7 @@ class OperatorController extends Controller
 
         // Store Data
         $user = User::create([
+            'id'            => substr(str_shuffle("0123456789"), 5, 9),
             'name'          => $request->name,
             'email'         => $request->email,
             'alamat'        => $request->alamat,

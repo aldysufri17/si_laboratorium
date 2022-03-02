@@ -11,14 +11,14 @@
     <!-- Nav Item - Dashboard -->
     <li class="nav-item active">
         <a class="nav-link" href="{{ route('dashboard') }}">
-         <span style="color: rgba(148, 148, 148, 0.938)">Dashboard</span></a>
+        <span style="color: rgba(148, 148, 148, 0.938)">Dashboard</span></a>
     </li>
 
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#taTpDropDown"
             aria-expanded="true" aria-controls="taTpDropDown">
-            <i class="fas fa-user-alt text-warning"></i>
+            <i class="fas fa-user-alt"></i>
             <span>Masters</span>
         </a>
         <div id="taTpDropDown" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
@@ -37,13 +37,14 @@
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#barangDropDown"
             aria-expanded="true" aria-controls="barangDropDown">
-            <i class="fas fa-box text-info"></i>
+            <i class="fas fa-box"></i>
             <span>Barang</span>
         </a>
         <div id="barangDropDown" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class=" py-2 collapse-inner rounded" style="background-color: rgb(230, 230, 230)">
                 <a class="collapse-item text-red" href="{{ route('barang.index') }}">Data Barang</a>
                 <a class="collapse-item text-red" href="{{ route('barang.create') }}">Tambah Barang</a>
+                <a class="collapse-item text-red" href="{{ route('damaged') }}">Barang Rusak</a>
             </div>
         </div>
     </li>
@@ -52,25 +53,36 @@
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#stockDropDown"
             aria-expanded="true" aria-controls="stockDropDown">
-            <i class="fa-solid fa-cubes text-primary"></i>
-            <span>Stock</span>
+            <i class="fa-solid fa-cubes"></i>
+            <span>Inventaris</span>
         </a>
         <div id="stockDropDown" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class=" py-2 collapse-inner rounded" style="background-color: rgb(230, 230, 230)">
-                <a class="collapse-item text-red" href="{{ route('stock.index') }}">Data Stock</a>
-                <a class="collapse-item text-red" href="{{ route('stock.create') }}">Tambah Stock</a>
+                <a class="collapse-item text-red" href="{{ route('stock.index') }}">Data Inventaris</a>
+                <a class="collapse-item text-red" href="{{ route('stock.create') }}">Tambah Inventaris</a>
             </div>
         </div>
     </li>
 
+    <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
-        <a class="nav-link" href="#" data-toggle="modal" data-target="#logoutModal">
-            <i class="fas fa-sign-out-alt text-danger"></i>
-            <span>Logout</span>
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#peminjamanDropDown"
+            aria-expanded="true" aria-controls="peminjamanDropDown">
+            <i class="fa-solid fa-handshake"></i>
+            <span>Konfirmasi</span>
+        </a>
+        <div id="peminjamanDropDown" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class=" py-2 collapse-inner rounded" style="background-color: rgb(230, 230, 230)">
+                <a class="collapse-item text-red" href="{{ route('konfirmasi.peminjaman') }}">Peminjaman</a>
+                <a class="collapse-item text-red" href="{{route('konfirmasi.pengembalian')}}">Pengembalian</a>
+            </div>
+        </div>
+    </li>
+    <!-- Nav Item - Pages Collapse Menu -->
+    <li class="nav-item">
+        <a class="nav-link" href="{{route('daftar.peminjaman')}}">
+            <i class="fa-solid fa-book"></i>
+            <span>Daftar Peminjaman</span>
         </a>
     </li>
-    <!-- Sidebar Toggler (Sidebar) -->
-    <div class="text-center d-none d-md-inline">
-        <button class="rounded-circle border-0" id="sidebarToggle"></button>
-    </div>
 </ul>

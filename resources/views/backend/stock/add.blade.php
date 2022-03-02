@@ -8,11 +8,11 @@
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-2">
-        <h1 class="h5 mb-0 text-light">Form Tambah Stock</h1>
+        <h1 class="h5 mb-0 text-light">Form Tambah Inventaris</h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Dashboard</a></li>
-            <li class="breadcrumb-item"><a href="{{ url('/stock')}}">Stock</a></li>
-            <li class="breadcrumb-item">Tambah Stock</li>
+            <li class="breadcrumb-item"><a href="{{ url('/stock')}}">Inventaris</a></li>
+            <li class="breadcrumb-item">Tambah Inventaris</li>
         </ol>
     </div>
 

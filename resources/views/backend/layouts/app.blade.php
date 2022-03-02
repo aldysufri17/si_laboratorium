@@ -17,7 +17,7 @@
         <div id="content-wrapper" class="d-flex flex-column">
 
             <!-- Main Content -->
-            <div id="content" style="background-color: #000000">
+            <div id="content" style="background-color: #141414">
 
                 <!-- Topbar -->
                 @include('backend.common.header')

@@ -80,10 +80,11 @@ class UserController extends Controller
 
         // Store Data
         $user = User::create([
+            'id'            => substr(str_shuffle("0123456789"), 0, 8),
             'name'          => $request->name,
             'email'         => $request->email,
             'nim'           => $request->nim,
-            'alamat'           => $request->alamat,
+            'alamat'        => $request->alamat,
             'mobile_number' => $request->mobile_number,
             'role_id'       => 3,
             'status'        => $request->status,

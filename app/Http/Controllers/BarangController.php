@@ -176,10 +176,10 @@ class BarangController extends Controller
         }
     }
 
-
-    public function stock($id)
+    public function damaged()
     {
-        return $this->hasOne('App\Stock')->where('id_barang', $id);
+        $barang = Barang::whereNotNull('rusak')->paginate(5);
+        return view('backend.barang.damaged', compact('barang'));
     }
 
     /**
@@ -196,7 +196,6 @@ class BarangController extends Controller
         $id = $barang->id;
         Stock::where('barang_id', $id)->delete();
         $barang = Barang::whereid($barang->id)->delete();
-        // $barang->stock()->delete();
         if ($barang) {
             return redirect()->route('barang.index')->with('success', 'Barang Berhasil dihapus!.');
         } else {

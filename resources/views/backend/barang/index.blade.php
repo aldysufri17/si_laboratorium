@@ -32,9 +32,10 @@
                 <table class="table table-borderless table-dark bgdark" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
+                            <th width="20%">Barcode</th>
                             <th width="20%">Nama</th>
-                            <th width="25%">Tipe</th>
-                            <th width="25%">Stock</th>
+                            <th width="20%">Tipe</th>
+                            <th width="20%">Stock</th>
                             <th width="25%">Lokasi Barang</th>
                             <th width="15%">Aksi</th>
                         </tr>
@@ -42,6 +43,7 @@
                     <tbody>
                         @foreach ($barang as $data)
                         <tr>
+                            <td>{{ $data->nama }}</td>
                             <td>{{ $data->nama }}</td>
                             <td>{{ $data->tipe }}</td>
                             <td>{{ $data->stock }} {{ $data->satuan }}</td>

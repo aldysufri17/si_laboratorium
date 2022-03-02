@@ -20,6 +20,7 @@ class UserSeeder extends Seeder
     {
 
         $user = User::create([
+            'id'            => substr(str_shuffle("0123456789"), 5, 9),
             'name'          => 'Admin',
             'nim'           => '2161312',
             'alamat'        =>   'Semarang',
@@ -35,6 +36,7 @@ class UserSeeder extends Seeder
         $user->assignRole([$role->id]);
 
         $user = User::create([
+            'id'            => substr(str_shuffle("0123456789"), 5, 9),
             'name'          => 'Operator',
             'nim'           => '21131523',
             'alamat'        =>   'Semarang',
@@ -50,6 +52,7 @@ class UserSeeder extends Seeder
         $user->assignRole([$role->id]);
 
         $user = User::create([
+            'id'            => substr(str_shuffle("0123456789"), 0, 8),
             'name'          => 'Peminjam',
             'nim'           => '21131412',
             'alamat'        =>  'Semarang',

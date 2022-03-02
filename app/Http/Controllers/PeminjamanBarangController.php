@@ -14,7 +14,8 @@ class PeminjamanBarangController extends Controller
      */
     public function index()
     {
-        //
+        $peminjaman = PeminjamanBarang::all();
+        return view('backend.peminjaman.index', compact('peminjaman'));
     }
 
     /**

@@ -6,16 +6,6 @@ use App\Http\Controllers\OperatorController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| Web Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register web routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| contains the "web" middleware group. Now create something great!
-|
-*/
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
 Route::get('/daftar', [App\Http\Controllers\Auth\RegisterController::class, 'daftar'])->name('daftar');
@@ -51,8 +41,17 @@ Route::group(['middleware' => ['role:admin|operator']], function () {
     Route::get('/update/status/{user_id}/{status}', [OperatorController::class, 'updateStatus'])->name('sts');
     // Barang
     Route::resource('barang', App\Http\Controllers\BarangController::class);
+    Route::get('damaged', [App\Http\Controllers\BarangController::class, 'damaged'])->name('damaged');
     // Stock
     Route::resource('stock', App\Http\Controllers\StockController::class);
+    // peminjaman
+    Route::get('/daftar-peminjaman', [App\Http\Controllers\PeminjamanController::class, 'index'])->name('daftar.peminjaman');
+    Route::get('/konfirmasi-peminjaman', [App\Http\Controllers\PeminjamanController::class, 'peminjaman'])->name('konfirmasi.peminjaman');
+    Route::get('/konfirmasi/peminjaman/{data}', [App\Http\Controllers\PeminjamanController::class, 'konfirmasiPeminjamanDetail'])->name('konfirmasi.peminjaman.detail');
+    Route::get('/konfirmasi/{user_id}/{status}/{barang_id}/{jumlah}', [App\Http\Controllers\PeminjamanController::class, 'konfirmasiStatus'])->name('konfirmasi.peminjaman.status');
+    Route::get('/konfirmasi-pengembalian', [App\Http\Controllers\PeminjamanController::class, 'pengembalian'])->name('konfirmasi.pengembalian');
+    Route::get('/scan-pengembalian', [App\Http\Controllers\PeminjamanController::class, 'pengembalianScan'])->name('pengembalian.scan');
+    Route::get('/scan/{lower}', [App\Http\Controllers\PeminjamanController::class, 'scan'])->name('scan');
 });
 
 
