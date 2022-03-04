@@ -16,7 +16,7 @@
     </div>
 
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <a href="{{ route('stock.create') }}" class="btn btn-sm btn-success">
+        <a href="{{ route('inventaris.create') }}" class="btn btn-sm btn-success">
             <i class="fas fa-plus"></i> Tambah Baru
         </a>
     </div>
@@ -62,21 +62,21 @@
 <div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-2">
-        <h1 class="h5 mb-0 text-light">Stock</h1>
+        <h1 class="h5 mb-0 text-light">Barang Rusak</h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Dashboard</a></li>
-            <li class="breadcrumb-item">Daftar Stock</li>
+            <li class="breadcrumb-item">Daftar Barang Rusak</li>
         </ol>
     </div>
     @include('sweetalert::alert')
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <a href="{{ route('stock.create') }}" class="btn btn-sm btn-success">
+        <a href="{{ route('inventaris.create') }}" class="btn btn-sm btn-success">
             <i class="fas fa-plus"></i> Tambah Baru
         </a>
     </div>
     <div class="align-items-center bg-light p-3 border-left-success rounded">
         <span class="">Oops!</span><br>
-        <p><i class="fa-solid fa-circle-info text-info"></i> Belum Terdapat Data Barang</p>
+        <p><i class="fa-solid fa-circle-info text-info"></i> Belum Terdapat Data Barang Rusak</p>
     </div>
 </div>
 @endif

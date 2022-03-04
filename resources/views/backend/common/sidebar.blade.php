@@ -51,15 +51,15 @@
 
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#stockDropDown"
-            aria-expanded="true" aria-controls="stockDropDown">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#inventarisDropDown"
+            aria-expanded="true" aria-controls="inventarisDropDown">
             <i class="fa-solid fa-cubes"></i>
             <span>Inventaris</span>
         </a>
-        <div id="stockDropDown" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+        <div id="inventarisDropDown" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class=" py-2 collapse-inner rounded" style="background-color: rgb(230, 230, 230)">
-                <a class="collapse-item text-red" href="{{ route('stock.index') }}">Data Inventaris</a>
-                <a class="collapse-item text-red" href="{{ route('stock.create') }}">Tambah Inventaris</a>
+                <a class="collapse-item text-red" href="{{ route('inventaris.index') }}">Data Inventaris</a>
+                <a class="collapse-item text-red" href="{{ route('inventaris.create') }}">Tambah Inventaris</a>
             </div>
         </div>
     </li>
@@ -83,6 +83,13 @@
         <a class="nav-link" href="{{route('daftar.peminjaman')}}">
             <i class="fa-solid fa-book"></i>
             <span>Daftar Peminjaman</span>
+        </a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" href="{{route('surat.index')}}">
+            <i class="fa-solid fa-book"></i>
+            <span>Surat Bebas Lab</span>
         </a>
     </li>
 </ul>

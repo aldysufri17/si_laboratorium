@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Barang;
-use App\Models\Stock;
+use App\Models\Inventaris;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
@@ -194,7 +194,7 @@ class BarangController extends Controller
             unlink(storage_path('app/public/barang/' . $barang->gambar));
         }
         $id = $barang->id;
-        Stock::where('barang_id', $id)->delete();
+        Inventaris::where('barang_id', $id)->delete();
         $barang = Barang::whereid($barang->id)->delete();
         if ($barang) {
             return redirect()->route('barang.index')->with('success', 'Barang Berhasil dihapus!.');

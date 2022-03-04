@@ -5,7 +5,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\OperatorController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-
+use phpDocumentor\Reflection\Types\Resource_;
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
 Route::get('/daftar', [App\Http\Controllers\Auth\RegisterController::class, 'daftar'])->name('daftar');
@@ -28,6 +28,7 @@ Route::group(['middleware' => ['role:admin|operator']], function () {
         Route::delete('/delete/{user}', [UserController::class, 'delete'])->name('destroy');
         Route::get('/update/status/{user_id}/{status}', [UserController::class, 'updateStatus'])->name('status');
     });
+
     // Profile Routes
     Route::prefix('profile')->name('profile.')->middleware('auth')->group(function () {
         Route::get('/', [DashboardController::class, 'getProfile'])->name('detail');
@@ -36,22 +37,30 @@ Route::group(['middleware' => ['role:admin|operator']], function () {
     });
     // Roles
     Route::resource('roles', App\Http\Controllers\RolesController::class);
+
     // Operator
     Route::resource('operator', OperatorController::class);
     Route::get('/update/status/{user_id}/{status}', [OperatorController::class, 'updateStatus'])->name('sts');
+
     // Barang
     Route::resource('barang', App\Http\Controllers\BarangController::class);
     Route::get('damaged', [App\Http\Controllers\BarangController::class, 'damaged'])->name('damaged');
-    // Stock
-    Route::resource('stock', App\Http\Controllers\StockController::class);
+
+    // Inventaris
+    Route::resource('inventaris', App\Http\Controllers\InventarisController::class);
+
     // peminjaman
     Route::get('/daftar-peminjaman', [App\Http\Controllers\PeminjamanController::class, 'index'])->name('daftar.peminjaman');
+    Route::get('/peminjaman/create', [App\Http\Controllers\PeminjamanController::class, 'create'])->name('peminjaman.create');
+    Route::post('/peminjaman/store', [App\Http\Controllers\PeminjamanController::class, 'store'])->name('peminjaman.store');
     Route::get('/konfirmasi-peminjaman', [App\Http\Controllers\PeminjamanController::class, 'peminjaman'])->name('konfirmasi.peminjaman');
     Route::get('/konfirmasi/peminjaman/{data}', [App\Http\Controllers\PeminjamanController::class, 'konfirmasiPeminjamanDetail'])->name('konfirmasi.peminjaman.detail');
     Route::get('/konfirmasi/{user_id}/{status}/{barang_id}/{jumlah}', [App\Http\Controllers\PeminjamanController::class, 'konfirmasiStatus'])->name('konfirmasi.peminjaman.status');
     Route::get('/konfirmasi-pengembalian', [App\Http\Controllers\PeminjamanController::class, 'pengembalian'])->name('konfirmasi.pengembalian');
-    Route::get('/scan-pengembalian', [App\Http\Controllers\PeminjamanController::class, 'pengembalianScan'])->name('pengembalian.scan');
-    Route::get('/scan/{lower}', [App\Http\Controllers\PeminjamanController::class, 'scan'])->name('scan');
+    Route::get('/scan/{status}', [App\Http\Controllers\PeminjamanController::class, 'scan'])->name('scan');
+    Route::get('/store/{id}/{status}', [App\Http\Controllers\PeminjamanController::class, 'scanStore'])->name('scan.store');
+    // Persuratan
+    Route::resource('surat', App\Http\Controllers\PersuratanController::class);
 });
 
 
