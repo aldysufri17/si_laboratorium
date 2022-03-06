@@ -35,6 +35,10 @@ class PersuratanController extends Controller
      */
     public function store(Request $request)
     {
+        $request->validate([
+            'nama'    => 'required',
+            'nim'    => 'required',
+        ]);
         // return view('frontend.surat', ['peminjaman' => $peminjaman, 'name' => $name, 'nim' => $nim,]);
         $pdf = PDF::loadview('backend.surat.bebas', compact('request'));
         return $pdf->download("Surat Bebas" . "_" . $request->nama . '_' . $request->nim . '.pdf');

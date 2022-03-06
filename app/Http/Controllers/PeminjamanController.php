@@ -19,9 +19,28 @@ class PeminjamanController extends Controller
     public function index()
     {
         $peminjaman = Peminjaman::with('user', 'barang')
-            ->where('status', '>=', 2)
+            ->where('status', '>', 2)
             ->paginate(5);
         return view('backend.transaksi.index', compact('peminjaman'));
+    }
+
+    // Konfirmasi Peminjaman
+    public function pengajuan()
+    {
+        $peminjaman = Peminjaman::withCount('user')
+            ->select('date', DB::raw('count(*) as total'))
+            ->orWhere('status', 0)
+            ->groupBy('date')
+            ->paginate(5);
+        return view('backend.transaksi.konfirmasi.pengajuan', compact('peminjaman'));
+    }
+    public function pengajuanDetail($data)
+    {
+        $peminjaman = Peminjaman::with('user', 'barang')
+            ->where('date', $data)
+            ->Where('status', 0)
+            ->paginate(5);
+        return view('backend.transaksi.konfirmasi.pengajuan-detail', compact('peminjaman'));
     }
 
     // Konfirmasi Peminjaman
@@ -29,10 +48,19 @@ class PeminjamanController extends Controller
     {
         $peminjaman = Peminjaman::withCount('user')
             ->select('date', DB::raw('count(*) as total'))
-            ->where('status', '=', 0)
+            ->where('status', '=', 2)
             ->groupBy('date')
             ->paginate(5);
         return view('backend.transaksi.konfirmasi.peminjaman.index', compact('peminjaman'));
+    }
+
+    public function konfirmasiPeminjamanDetail($data)
+    {
+        $peminjaman = Peminjaman::with('user', 'barang')
+            ->where('date', $data)
+            ->where('status', '=', 2)
+            ->paginate(5);
+        return view('backend.transaksi.konfirmasi.peminjaman.detail', compact('peminjaman'));
     }
 
     public function create()
@@ -95,19 +123,20 @@ class PeminjamanController extends Controller
         }
     }
 
-
-    public function konfirmasiPeminjamanDetail($data)
+    public function destroy($id)
     {
-        $peminjaman = Peminjaman::with('user', 'barang')
-            ->where('date', $data)
-            ->where('status', '=', 0)
-            ->paginate(5);
-        return view('backend.transaksi.konfirmasi.peminjaman.detail', compact('peminjaman'));
+        $peminjaman = Peminjaman::where('id', $id)->delete();
+        if ($peminjaman) {
+            return redirect()->back()->with('success', 'Barang Berhasil dihapus!.');
+        } else {
+            return redirect()->back()->with('error', 'Barang Gagal dihapus!.');
+        }
     }
+
 
     public function konfirmasiStatus($user_id, $status, $barang_id, $jumlah)
     {
-        if ($status == 2) {
+        if ($status == 3) {
             $random = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
             $sisa = Barang::where('id', $barang_id)->first();
             $total = $sisa->stock;
@@ -128,7 +157,7 @@ class PeminjamanController extends Controller
             if ($inventaris) {
                 return redirect()->back()->with('success', 'Peminjaman Berhasil di Setujui!.');
             }
-        } elseif ($status == 3) {
+        } elseif ($status == 4) {
             $random = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
             $sisa = Barang::where('id', $barang_id)->first();
             $total = $sisa->stock;
@@ -146,10 +175,17 @@ class PeminjamanController extends Controller
             if ($inventaris) {
                 return redirect()->back()->with('success', 'Pengembalian Berhasil di Setujui!.');
             }
+        } elseif ($status == 2) {
+            $peminjaman = Peminjaman::whereId($user_id)->update(['status' => $status]);
+            if ($peminjaman) {
+                return redirect()->back()->with('success', 'Pengajuan Berhasil di Setujui!.');
+            } else {
+                return redirect()->back()->with('error', 'Gagal diperbarui');
+            }
         } else {
             $peminjaman = Peminjaman::whereId($user_id)->update(['status' => $status]);
             if ($peminjaman) {
-                return redirect()->back()->with('info', 'Peminjaman Berhasil di Batalkan!.');
+                return redirect()->back()->with('info', 'Pengajuan Berhasil di Tolak!.');
             } else {
                 return redirect()->back()->with('error', 'Gagal diperbarui');
             }
@@ -161,7 +197,7 @@ class PeminjamanController extends Controller
     public function pengembalian()
     {
         $peminjaman = Peminjaman::with('user', 'barang')
-            ->where('status', 2)
+            ->where('status', 3)
             ->paginate(5);
         return view('backend.transaksi.konfirmasi.pengembalian.index', compact('peminjaman'));
     }
@@ -197,9 +233,11 @@ class PeminjamanController extends Controller
         $user_id = Auth::user()->id;
         $name = Auth::user()->name;
         $nim = Auth::user()->nim;
-        $peminjaman = Peminjaman::where('user_id', $user_id)->where('status', '>', 1)->get();
-        // return view('frontend.surat', ['peminjaman' => $peminjaman, 'name' => $name, 'nim' => $nim,]);
+        $peminjaman = Peminjaman::where('user_id', $user_id)->where('status', 2)->get();
         $pdf = PDF::loadview('frontend.surat', ['peminjaman' => $peminjaman, 'name' => $name, 'nim' => $nim,]);
+        if ($peminjaman->isEmpty()) {
+            return redirect()->back()->with('info', 'Pengajuan Belum disetujui!.');
+        }
         return $pdf->download("Surat Peminjaman" . "_" . $name . '_' . $nim . '.pdf');
     }
 }

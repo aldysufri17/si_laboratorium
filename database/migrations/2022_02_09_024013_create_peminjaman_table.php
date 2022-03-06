@@ -20,7 +20,7 @@ class CreatePeminjamanTable extends Migration
             $table->date('tgl_start');
             $table->date('tgl_end');
             $table->integer('jumlah');
-            $table->integer('status');
+            $table->integer('status')->nullable();
             $table->text('alasan');
             $table->date('date');
             $table->timestamps();

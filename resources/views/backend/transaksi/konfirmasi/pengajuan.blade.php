@@ -8,16 +8,11 @@
 <div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-2">
-        <h1 class="h5 mb-0 text-light">Peminjaman</h1>
+        <h1 class="h5 mb-0 text-light">Pengajuan</h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Dashboard</a></li>
-            <li class="breadcrumb-item">Daftar Peminjaman</li>
+            <li class="breadcrumb-item">Daftar Pengajuan</li>
         </ol>
-    </div>
-    <div class="d-sm-flex align-items-center mb-4">
-        <a href="{{ route('scan', 'peminjaman') }}" class="btn btn-sm btn-info mx-2">
-            <i class="fas fa-barcode"></i> Scan Barcode
-        </a>
     </div>
 
     {{-- Alert Messages --}}
@@ -42,7 +37,7 @@
                         <td class="text-center">{{ $item->date }}</td>
                         <td class="text-center">{{ $item->total }}</td>
                         <td class="d-sm-flex justify-content-center">
-                            <a href="{{route('konfirmasi.peminjaman.detail', $item->date)}}" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Show">
+                            <a href="{{route('pengajuan.detail', $item->date)}}" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Show">
                                 <i class="fa fa-eye"></i>
                             </a>
                         </td>
@@ -59,21 +54,16 @@
 <div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-2">
-        <h1 class="h5 mb-0 text-light">Peminjaman</h1>
+        <h1 class="h5 mb-0 text-light">Pengajuan</h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Dashboard</a></li>
             <li class="breadcrumb-item">Daftar User</li>
         </ol>
     </div>
     @include('sweetalert::alert')
-    <div class="d-sm-flex align-items-center mb-4">
-        <a href="{{ route('scan', 'peminjaman') }}" class="btn btn-sm btn-info mx-2">
-            <i class="fas fa-barcode"></i> Scan Barcode
-        </a>
-    </div>
     <div class="align-items-center bg-light p-3 border-left-success rounded">
         <span class="">Oops!</span><br>
-        <p><i class="fa-solid fa-circle-info text-info"></i> Belum Terdapat Peminjaman</p>
+        <p><i class="fa-solid fa-circle-info text-info"></i> Belum Terdapat Pengajuan</p>
     </div>
 </div>
 @endif

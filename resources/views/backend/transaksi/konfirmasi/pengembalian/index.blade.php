@@ -61,7 +61,7 @@
                             <td>-</td>
                             @endif
                             <td>
-                                <a href="{{ route('konfirmasi.peminjaman.status', ['user_id' => $data->id, 'status' => 3,'barang_id' => $data->barang_id, 'jumlah' => $data->jumlah]) }}"
+                                <a href="{{ route('konfirmasi.peminjaman.status', ['user_id' => $data->id, 'status' => 4,'barang_id' => $data->barang_id, 'jumlah' => $data->jumlah]) }}"
                                     class="btn btn-success mx-2" data-toggle="tooltip" data-placement="top" title="Clear">
                                     <i class="fa fa-check"></i>
                                 </a>

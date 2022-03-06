@@ -32,7 +32,6 @@
                 <table class="table table-borderless table-dark bgdark" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th width="20%">Barcode</th>
                             <th width="20%">Nama</th>
                             <th width="20%">Tipe</th>
                             <th width="20%">Stock</th>
@@ -43,7 +42,6 @@
                     <tbody>
                         @foreach ($barang as $data)
                         <tr>
-                            <td>{!! DNS2D::getBarcodeHTML(strval($data->id), 'QRCODE') !!}</td>
                             <td>{{ $data->nama }}</td>
                             <td>{{ $data->tipe }}</td>
                             <td>{{ $data->stock }} {{ $data->satuan }}</td>

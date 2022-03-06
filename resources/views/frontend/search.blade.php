@@ -25,7 +25,7 @@
                 <div class="input-group mb-5">
                     <input type="text" class="form-control" name="search" placeholder="Search..."
                         value="{{Request::get('search')}}">
-                    <button class="btn btn-primary" type="submit">Search</button>
+                    <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
                 </div>
             </form>
             @if ($barang->isNotEmpty())

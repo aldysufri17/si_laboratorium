@@ -6,7 +6,7 @@
         <div class="container">
 
             <div class="d-flex justify-content-between align-items-center">
-                <h2>Keranjang Peminjaman Barang</h2>
+                <h2>Keranjang Peminjaman</h2>
                 <ol>
                     <li><a href="index.html">Home</a></li>
                     <li>peminjaman</li>
@@ -29,7 +29,7 @@
                 <div class="card-block">
                     <table class="table">
                         <thead>
-                            <tr >
+                            <tr>
                                 <th width="15%">Nama Barang</th>
                                 <th width="10%">Jumlah</th>
                                 <th width="15%">Penggunaan</th>
@@ -62,6 +62,7 @@
                                     @endif
                                 </td>
                                 <td style="display: flex">
+                                    @if ($data->status == 0)
                                     <a href="{{route('peminjaman.edit', $data->id)}}" class="btn btn-primary m-2">
                                         <i class="fa fa-pen"></i>
                                     </a>
@@ -69,12 +70,26 @@
                                         data-target="#deleteModal">
                                         <i class="fas fa-trash"></i>
                                     </a>
+                                    @elseif ($data->status >= 1)
+                                    <a href="#" class="btn btn-secondary m-2">
+                                        <i class="fa fa-pen"></i>
+                                    </a>
+                                    <a class="btn btn-danger m-2" href="#" data-toggle="modal"
+                                        data-target="#deleteModal">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                    @endif
                                 </td>
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
-                    <a class="btn btn-primary float-right mr-3 mb-3" href="{{route('print')}}"><i class="fas fa-print"></i> Cetak Surat Peminjaman</a>
+                {{ $peminjaman->links() }}
+                    <a class="btn btn-primary float-right mr-3 mb-3" href="{{route('print')}}"><i
+                            class="fas fa-print"></i> Cetak Surat Peminjaman</a>
+                    <a class="btn btn-success" href="{{url('/search')}}">
+                        <i class="fas fa-plus"></i> Tambah Barang
+                    </a>
                 </div>
             </div>
             @else
@@ -87,6 +102,33 @@
             @endif
         </div>
     </section><!-- End Portfolio Details Section -->
+
+    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalExample"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content bgdark shadow-2-strong ">
+                <div class="modal-header bg-danger">
+                    <h5 class="modal-title text-light" id="deleteModalExample">Anda yakin ingin Menghapus?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body border-0 text-dark">Jika anda yakin ingin manghapus, Tekan Oke !!</div>
+                <div class="modal-footer border-0">
+                    <button class="btn btn-danger" type="button" data-dismiss="modal">Batal</button>
+                    <a class="btn btn-primary" href="{{ route('logout') }}"
+                        onclick="event.preventDefault(); document.getElementById('user-delete-form').submit();">
+                        Oke
+                    </a>
+                    <form id="user-delete-form" method="POST"
+                        action="{{ route('peminjaman.destroy', ['id' => $data->id]) }}">
+                        @csrf
+                        @method('DELETE')
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
 </main><!-- End #main -->
 @endsection

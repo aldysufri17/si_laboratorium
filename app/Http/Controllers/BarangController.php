@@ -208,7 +208,10 @@ class BarangController extends Controller
     public function cart()
     {
         $user_id = Auth::user()->id;
-        $peminjaman = Peminjaman::with('barang')->where('user_id',  $user_id)->get();
+        $peminjaman = Peminjaman::with('barang')
+            ->where('user_id',  $user_id)
+            ->Where('status', '<', 3)
+            ->paginate(5);
         return view('frontend.cart', compact('peminjaman'));
         // dd($peminjaman);
     }

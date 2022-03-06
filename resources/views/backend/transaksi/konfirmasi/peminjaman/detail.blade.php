@@ -56,7 +56,7 @@
                                     class="btn btn-danger mx-" data-toggle="tooltip" data-placement="top" title="Reject">
                                     <i class="fa fa-ban"></i>
                                 </a>
-                                <a href="{{ route('konfirmasi.peminjaman.status', ['user_id' => $data->id, 'status' => 2,'barang_id' => $data->barang_id, 'jumlah' => $data->jumlah]) }}"
+                                <a href="{{ route('konfirmasi.peminjaman.status', ['user_id' => $data->id, 'status' => 3,'barang_id' => $data->barang_id, 'jumlah' => $data->jumlah]) }}"
                                     class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Accept">
                                     <i class="fa fa-check"></i>
                                 </a>
