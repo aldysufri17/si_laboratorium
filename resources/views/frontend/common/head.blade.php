@@ -29,4 +29,13 @@
 
     <!-- Template Main CSS File -->
     <link href="{{asset('frontend/css/style.css')}}" rel="stylesheet">
+    <link href="{{asset('css/style.css')}}" rel="stylesheet">
+    <style>
+        .items:hover{
+            cursor: pointer;
+            transform: scale(1.1);
+            transition: all .2s ease-in-out;
+        }
+        .table th { border-top: none; }
+    </style>
 </head>

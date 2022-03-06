@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Barang;
 use App\Models\Inventaris;
+use App\Models\Peminjaman;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
@@ -201,5 +203,13 @@ class BarangController extends Controller
         } else {
             return redirect()->route('barang.index')->with('error', 'Barang Gagal dihapus!.');
         }
+    }
+
+    public function cart()
+    {
+        $user_id = Auth::user()->id;
+        $peminjaman = Peminjaman::with('barang')->where('user_id',  $user_id)->get();
+        return view('frontend.cart', compact('peminjaman'));
+        // dd($peminjaman);
     }
 }

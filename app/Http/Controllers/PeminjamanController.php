@@ -8,7 +8,10 @@ use App\Models\Inventaris;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Barryvdh\DomPDF\Facade as PDF;
+
 
 class PeminjamanController extends Controller
 {
@@ -39,17 +42,18 @@ class PeminjamanController extends Controller
         return view('backend.transaksi.konfirmasi.peminjaman.add', compact('barang', 'user'));
     }
 
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
         $request->validate([
             'jumlah' => 'required',
             'alasan' => 'required',
-            'barang' => 'required',
-            'user' => 'required'
+            'tgl_start' => 'required',
+            'tgl_end' => 'required',
         ]);
+        $user_id = Auth::user()->id;
         $peminjaman = Peminjaman::create([
-            'user_id' => $request->user,
-            'barang_id' => $request->barang,
+            'user_id'   => $user_id,
+            'barang_id' => $id,
             'tgl_start' => $request->tgl_start,
             'tgl_end'   => $request->tgl_end,
             'jumlah'    => $request->jumlah,
@@ -58,11 +62,39 @@ class PeminjamanController extends Controller
             'date'      => date('Y-m-d')
         ]);
         if ($peminjaman) {
-            return redirect()->route('konfirmasi.peminjaman')->with('success', 'Peminjaman Berhasil ditambah!.');
+            return redirect()->route('search')->with('success', 'Barang Berhasil di tambah!.');
         } else {
             return redirect()->back()->with('error', 'Gagal ditambah');
         }
     }
+
+    public function edit($id)
+    {
+        $peminjaman = Peminjaman::with('barang')->whereId($id)->first();
+        return view('frontend.edit-detail', compact('peminjaman'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'jumlah' => 'required',
+            'alasan' => 'required',
+            'tgl_start' => 'required',
+            'tgl_end' => 'required',
+        ]);
+        $peminjaman = Peminjaman::whereId($id)->update([
+            'tgl_start' => $request->tgl_start,
+            'tgl_end'   => $request->tgl_end,
+            'jumlah'    => $request->jumlah,
+            'alasan'    => $request->alasan,
+        ]);
+        if ($peminjaman) {
+            return redirect()->route('cart')->with('success', 'Barang Berhasil di edit!.');
+        } else {
+            return redirect()->back()->with('error', 'Gagal ditambah');
+        }
+    }
+
 
     public function konfirmasiPeminjamanDetail($data)
     {
@@ -146,16 +178,28 @@ class PeminjamanController extends Controller
     public function scanStore($id, $status)
     {
         $id_peminjaman = intval($id);
-        if (intval($status) == 1) {
-            $peminjaman = Peminjaman::whereid($id_peminjaman)->where('status', 0)->update(['status' => 2]);
-        } else {
-            $peminjaman = Peminjaman::whereid($id_peminjaman)->where('status', 2)->update(['status' => 3]);
-        }
+        dd($id_peminjaman);
+        // if (intval($status) == 1) {
+        //     $peminjaman = Peminjaman::whereid($id_peminjaman)->where('status', 0)->update(['status' => 2]);
+        // } else {
+        //     $peminjaman = Peminjaman::whereid($id_peminjaman)->where('status', 2)->update(['status' => 3]);
+        // }
 
-        if ($peminjaman) {
-            return redirect()->back()->with('success', 'Data Berhasil di setujui!.');
-        } else {
-            return redirect()->back()->with('error', 'Gagal disetujui');
-        }
+        // if ($peminjaman) {
+        //     return redirect()->back()->with('success', 'Data Berhasil di setujui!.');
+        // } else {
+        //     return redirect()->back()->with('error', 'Gagal disetujui');
+        // }
+    }
+
+    public function print()
+    {
+        $user_id = Auth::user()->id;
+        $name = Auth::user()->name;
+        $nim = Auth::user()->nim;
+        $peminjaman = Peminjaman::where('user_id', $user_id)->where('status', '>', 1)->get();
+        // return view('frontend.surat', ['peminjaman' => $peminjaman, 'name' => $name, 'nim' => $nim,]);
+        $pdf = PDF::loadview('frontend.surat', ['peminjaman' => $peminjaman, 'name' => $name, 'nim' => $nim,]);
+        return $pdf->download("Surat Peminjaman" . "_" . $name . '_' . $nim . '.pdf');
     }
 }

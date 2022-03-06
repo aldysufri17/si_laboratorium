@@ -58,8 +58,8 @@
         </a>
         <div id="inventarisDropDown" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class=" py-2 collapse-inner rounded" style="background-color: rgb(230, 230, 230)">
-                <a class="collapse-item text-red" href="{{ route('inventaris.index') }}">Data Inventaris</a>
-                <a class="collapse-item text-red" href="{{ route('inventaris.create') }}">Tambah Inventaris</a>
+                <a class="collapse-item text-red" href="{{ route('inventaris.index') }}">Catatan Inventaris</a>
+                <a class="collapse-item text-red" href="{{ route('inventaris.create') }}">Data Inventaris</a>
             </div>
         </div>
     </li>

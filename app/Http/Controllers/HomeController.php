@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Barang;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Rules\MatchOldPassword;
@@ -95,5 +96,23 @@ class HomeController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function search(Request $request)
+    {
+        $barang = Barang::latest();
+        if ($request->search) {
+            $barang->where('nama', 'like', '%' . $request->search . '%');
+        }
+        return view('frontend.search', ['barang' => $barang->get()]);
+    }
+
+    public function detail($id)
+    {
+        if (Auth::user()) {
+            $barang = Barang::whereId($id)->first();
+            return view('frontend.detail', compact('barang'));
+        }
+        return redirect()->route('login')->with('info', 'Login sebelum melakukan peminjaman!.');
     }
 }

@@ -43,7 +43,7 @@
                     <tbody>
                         @foreach ($barang as $data)
                         <tr>
-                            <td>{{ $data->nama }}</td>
+                            <td>{!! DNS2D::getBarcodeHTML(strval($data->id), 'QRCODE') !!}</td>
                             <td>{{ $data->nama }}</td>
                             <td>{{ $data->tipe }}</td>
                             <td>{{ $data->stock }} {{ $data->satuan }}</td>

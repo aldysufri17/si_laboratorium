@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade as PDF;
+
 
 class PersuratanController extends Controller
 {
@@ -33,7 +35,9 @@ class PersuratanController extends Controller
      */
     public function store(Request $request)
     {
-        return view('backend.surat.bebas', compact('request'));
+        // return view('frontend.surat', ['peminjaman' => $peminjaman, 'name' => $name, 'nim' => $nim,]);
+        $pdf = PDF::loadview('backend.surat.bebas', compact('request'));
+        return $pdf->download("Surat Bebas" . "_" . $request->nama . '_' . $request->nim . '.pdf');
     }
 
     /**

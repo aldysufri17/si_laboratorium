@@ -7,14 +7,10 @@
     <div class="hero-content" data-aos="fade-up">
         <h2>Sistem Peminjaman Barang <br> <span class="animate text-secondary typed-cursor"></span></h2>
         <div>
-            <a href="{{ route('cari') }}" class="btn-get-started scrollto">
+            <a href="{{ route('search') }}" class="btn-get-started scrollto">
                 <i class="fa-solid fa-magnifying-glass"></i> Cari Barang
             </a>
         </div>
-        {{-- <div class="ad">
-            <input type="search" class="scrollto" placeholder="Cari Barang">
-            <i class="fa fa-search"></i>
-        </div> --}}
     </div>
     <div class="hero-slider swiper">
         <div class="swiper-wrapper">

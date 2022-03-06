@@ -9,7 +9,8 @@ use phpDocumentor\Reflection\Types\Resource_;
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
 Route::get('/daftar', [App\Http\Controllers\Auth\RegisterController::class, 'daftar'])->name('daftar');
-Route::get('/cari', [App\Http\Controllers\HomeController::class, 'cari'])->name('cari');
+Route::get('/search', [App\Http\Controllers\HomeController::class, 'search'])->name('search');
+Route::get('/detail/{id}', [App\Http\Controllers\HomeController::class, 'detail'])->name('detail.barang');
 
 Auth::routes();
 
@@ -52,7 +53,7 @@ Route::group(['middleware' => ['role:admin|operator']], function () {
     // peminjaman
     Route::get('/daftar-peminjaman', [App\Http\Controllers\PeminjamanController::class, 'index'])->name('daftar.peminjaman');
     Route::get('/peminjaman/create', [App\Http\Controllers\PeminjamanController::class, 'create'])->name('peminjaman.create');
-    Route::post('/peminjaman/store', [App\Http\Controllers\PeminjamanController::class, 'store'])->name('peminjaman.store');
+    // Route::post('/peminjaman/store', [App\Http\Controllers\PeminjamanController::class, 'store'])->name('peminjaman.store');
     Route::get('/konfirmasi-peminjaman', [App\Http\Controllers\PeminjamanController::class, 'peminjaman'])->name('konfirmasi.peminjaman');
     Route::get('/konfirmasi/peminjaman/{data}', [App\Http\Controllers\PeminjamanController::class, 'konfirmasiPeminjamanDetail'])->name('konfirmasi.peminjaman.detail');
     Route::get('/konfirmasi/{user_id}/{status}/{barang_id}/{jumlah}', [App\Http\Controllers\PeminjamanController::class, 'konfirmasiStatus'])->name('konfirmasi.peminjaman.status');
@@ -68,5 +69,9 @@ Route::group(['middleware' => ['role:admin|operator']], function () {
 
 Route::group(['middleware' => ['role:peminjam']], function () {
     Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-    Route::get('/checkout', [App\Http\Controllers\HomeController::class, 'create'])->name('create');
+    Route::get('/cart', [App\Http\Controllers\BarangController::class, 'cart'])->name('cart');
+    Route::post('/peminjaman/store/{id}', [App\Http\Controllers\PeminjamanController::class, 'store'])->name('peminjaman.store');
+    Route::get('/peminjaman/edit/{id}', [App\Http\Controllers\PeminjamanController::class, 'edit'])->name('peminjaman.edit');
+    Route::post('/peminjaman/update/{id}', [App\Http\Controllers\PeminjamanController::class, 'update'])->name('peminjaman.update');
+    Route::get('/cetak-surat', [App\Http\Controllers\PeminjamanController::class, 'print'])->name('print');
 });

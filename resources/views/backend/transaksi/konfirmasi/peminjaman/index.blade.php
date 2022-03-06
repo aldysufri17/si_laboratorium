@@ -15,9 +15,6 @@
         </ol>
     </div>
     <div class="d-sm-flex align-items-center mb-4">
-        <a href="{{ route('peminjaman.create') }}" class="btn btn-sm btn-success mx-2">
-            <i class="fas fa-plus"></i> Tambah Baru
-        </a>
         <a href="{{ route('scan', 'peminjaman') }}" class="btn btn-sm btn-info mx-2">
             <i class="fas fa-barcode"></i> Scan Barcode
         </a>

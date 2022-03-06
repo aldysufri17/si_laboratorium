@@ -37,7 +37,7 @@
                     <li><a class="nav-link scrollto" href="#">Profil</a></li>
                     @auth
                     @if (auth()->user()->role_id == 3)
-                    <li><a class="nav-link scrollto " href="{{ route('create') }}">Checkout</a></li>
+                    <li><a class="nav-link scrollto " href="{{ route('cart') }}">Cart</a></li>
                     <li><a class="nav-link scrollto" href="{{ route('logout') }}"
                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
                     </li>

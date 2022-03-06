@@ -17,7 +17,7 @@
 
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <a href="{{ route('inventaris.create') }}" class="btn btn-sm btn-success">
-            <i class="fas fa-plus"></i> Tambah Baru
+            <i class="fas fa-plus"></i> Data Inventaris
         </a>
     </div>
 
@@ -27,7 +27,7 @@
     <!-- DataTales Example -->
     <div class="card shadow mb-4 border-0 bgdark">
         <div class="card-body">
-            <h6 class="m-0 font-weight-bold text-light">Daftar Inventaris</h6>
+            <h6 class="m-0 font-weight-bold text-light">Catatan Inventaris</h6>
             <div class="table-responsive">
                 <table id="dataTable" class="table table-borderless dt-responsive" cellspacing="0" width="100%">
                     <thead>
