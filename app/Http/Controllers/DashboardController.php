@@ -6,6 +6,7 @@ use App\Models\Barang;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Rules\MatchOldPassword;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
@@ -33,7 +34,7 @@ class DashboardController extends Controller
     {
         $user = User::where('role_id', 3)->count();
         $barang = Barang::all()->count();
-        return view('backend.dashboard',compact(['user','barang']));
+        return view('backend.dashboard', compact(['user', 'barang']));
     }
 
     /**
@@ -44,6 +45,9 @@ class DashboardController extends Controller
      */
     public function getProfile()
     {
+        if (Auth::user()->role_id == 3) {
+            return view('frontend.profile');
+        }
         return view('backend.profile');
     }
 
@@ -61,24 +65,16 @@ class DashboardController extends Controller
             'mobile_number' => 'required|numeric|digits:10',
         ]);
 
-        try {
-            DB::beginTransaction();
-            
-            #Update Profile Data
-            User::whereId(auth()->user()->id)->update([
-                'name' => $request->name,
-                'mobile_number' => $request->mobile_number,
-            ]);
+        #Update Profile Data
+        $user = User::whereId(auth()->user()->id)->update([
+            'name' => $request->name,
+            'mobile_number' => $request->mobile_number,
+        ]);
 
-            #Commit Transaction
-            DB::commit();
-
-            #Return To Profile page with success
-            return back()->with('success', 'Profile Updated Successfully.');
-            
-        } catch (\Throwable $th) {
-            DB::rollBack();
-            return back()->with('error', $th->getMessage());
+        if ($user) {
+            return back()->with('success', 'Profile Berhasil diubah.');
+        } else {
+            return redirect()->back()->with('error', 'User Gagal ditambah!.');
         }
     }
 
@@ -96,21 +92,12 @@ class DashboardController extends Controller
             'new_confirm_password' => ['same:new_password'],
         ]);
 
-        try {
-            DB::beginTransaction();
-
-            #Update Password
-            User::find(auth()->user()->id)->update(['password'=> Hash::make($request->new_password)]);
-            
-            #Commit Transaction
-            DB::commit();
-
-            #Return To Profile page with success
-            return back()->with('success', 'Password Changed Successfully.');
-            
-        } catch (\Throwable $th) {
-            DB::rollBack();
-            return back()->with('error', $th->getMessage());
+        #Update Password
+        $user = User::find(auth()->user()->id)->update(['password' => Hash::make($request->new_password)]);
+        if ($user) {
+            return back()->with('success', 'Profile Berhasil diubah.');
+        } else {
+            return redirect()->back()->with('error', 'User Gagal ditambah!.');
         }
     }
 }

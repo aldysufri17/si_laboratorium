@@ -37,9 +37,15 @@
                     <li><a class="nav-link scrollto" href="#">Profil</a></li>
                     @auth
                     @if (auth()->user()->role_id == 3)
-                    <li><a class="nav-link scrollto " href="{{ route('cart') }}">Cart</a></li>
-                    <li><a class="nav-link scrollto" href="{{ route('logout') }}"
-                            onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                    <li><a class="nav-link scrollto " href="{{ route('cart') }}"><i class="fas fa-shopping-cart" style="font-size: 18px" ></i></a></li>
+                    <li class="dropdown"><a href="#"><img class="img-profile rounded-circle" width="30px"
+                                src="{{asset('admin/img/undraw_profile.svg')}}"></a>
+                        <ul>
+                            <li><a href="{{ route('profile.detail') }}">Profile</a></li>
+                            <li><a class="nav-link scrollto" href="{{ route('logout') }}"
+                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+                            </li>
+                        </ul>
                     </li>
                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                         {{ csrf_field() }}

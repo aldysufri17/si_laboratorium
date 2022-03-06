@@ -15,13 +15,13 @@ body {
 }
 
 a {
-  color: #50d8af;
+  color: #1300bd;
   text-decoration: none;
   transition: 0.5s;
 }
 
 a:hover, a:active, a:focus {
-  color: #51d8af;
+  color: #1300be;
   outline: none;
   text-decoration: none;
 }
@@ -204,7 +204,7 @@ h1, h2, h3, h4, h5, h6 {
   transition: 0.3s;
 }
 .navbar .dropdown ul li {
-  min-width: 200px;
+  min-width: 150px;
   color: black;
 }
 .navbar .dropdown ul a {
@@ -217,7 +217,7 @@ h1, h2, h3, h4, h5, h6 {
   font-size: 12px;
 }
 .navbar .dropdown ul a:hover, .navbar .dropdown ul .active:hover, .navbar .dropdown ul li:hover > a {
-  color: #000000;
+  color: #838383;
 }
 .navbar .dropdown:hover > ul {
   opacity: 1;
