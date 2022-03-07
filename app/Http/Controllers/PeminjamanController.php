@@ -15,6 +15,11 @@ use Barryvdh\DomPDF\Facade as PDF;
 
 class PeminjamanController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('role:operator|peminjam');
+    }
     // Peminjaman
     public function index()
     {

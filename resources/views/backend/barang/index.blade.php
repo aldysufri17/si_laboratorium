@@ -14,12 +14,13 @@
             <li class="breadcrumb-item">Barang</li>
         </ol>
     </div>
-
+    @role('admin')
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <a href="{{ route('barang.create') }}" class="btn btn-sm btn-success">
             <i class="fas fa-plus"></i> Tambah Baru
         </a>
     </div>
+    @endrole
 
     {{-- Alert Messages --}}
     @include('sweetalert::alert')
@@ -36,7 +37,10 @@
                             <th width="20%">Tipe</th>
                             <th width="20%">Stock</th>
                             <th width="25%">Lokasi Barang</th>
+                            <th width="25%">Detail</th>
+                            @role('admin')
                             <th width="15%">Aksi</th>
+                            @endrole
                         </tr>
                     </thead>
                     <tbody>
@@ -46,19 +50,19 @@
                             <td>{{ $data->tipe }}</td>
                             <td>{{ $data->stock }} {{ $data->satuan }}</td>
                             <td>{{ $data->lokasi }}</td>
+                            <td><a class="btn btn-info m-2" href="{{ route('barang.show', $data->id) }}">
+                                <i class="fas fa-eye"></i>
+                            </a></td>
+                            @role('admin')
                             <td style="display: flex">
-                                <a class="btn btn-info m-2"
-                                    href="{{ route('barang.show', $data->id) }}">
-                                    <i class="fas fa-eye"></i>
-                                </a>
-                                <a href="{{ route('barang.edit', $data->id) }}"
-                                    class="btn btn-primary m-2">
+                                <a href="{{ route('barang.edit', $data->id) }}" class="btn btn-primary m-2">
                                     <i class="fa fa-pen"></i>
                                 </a>
                                 <a class="btn btn-danger m-2" href="#" data-toggle="modal" data-target="#deleteModal">
                                     <i class="fas fa-trash"></i>
                                 </a>
                             </td>
+                            @endrole
                         </tr>
                         @endforeach
                     </tbody>
@@ -83,11 +87,13 @@
         </ol>
     </div>
     @include('sweetalert::alert')
+    @role('admin')
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <a href="{{ route('barang.create') }}" class="btn btn-sm btn-success">
             <i class="fas fa-plus"></i> Tambah Baru
         </a>
     </div>
+    @endrole
     <div class="align-items-center bg-light p-3 border-left-success rounded">
         <span class="">Oops!</span><br>
         <p><i class="fa-solid fa-circle-info text-info"></i> Belum Terdapat Data Barang</p>

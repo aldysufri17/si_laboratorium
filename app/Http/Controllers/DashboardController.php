@@ -62,12 +62,14 @@ class DashboardController extends Controller
         #Validations
         $request->validate([
             'name'    => 'required',
+            'jk'    => 'required',
             'mobile_number' => 'required|numeric|digits:10',
         ]);
 
         #Update Profile Data
         $user = User::whereId(auth()->user()->id)->update([
             'name' => $request->name,
+            'jk' => $request->jk,
             'mobile_number' => $request->mobile_number,
         ]);
 
@@ -98,6 +100,29 @@ class DashboardController extends Controller
             return back()->with('success', 'Profile Berhasil diubah.');
         } else {
             return redirect()->back()->with('error', 'User Gagal ditambah!.');
+        }
+    }
+
+    public function updateFoto(Request $request, User $user)
+    {
+        $user_id = Auth::user()->id;
+        if ($request->foto) {
+            if ($user->foto) {
+                unlink(storage_path('app/public/user/' . $user->foto));
+            }
+            $foto = $request->foto;
+            $new_foto = date('Y-m-d') . "-" . Auth::user()->name . "-" . Auth::user()->nim . "." . $foto->getClientOriginalExtension();
+            $destination = storage_path('app/public/user');
+            $foto->move($destination, $new_foto);
+            // Store Data
+            $user_updated = User::whereId($user_id)->update([
+                'foto'          => $new_foto,
+            ]);
+        }
+        if ($user_updated) {
+            return redirect()->back()->with('success', 'Foto Berhasil diperbarui!.');
+        } else {
+            return redirect()->back()->withInput()->with('error', 'Foto Gagal diperbarui!.');
         }
     }
 }

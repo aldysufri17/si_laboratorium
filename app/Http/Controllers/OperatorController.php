@@ -61,6 +61,7 @@ class OperatorController extends Controller
         // Validations
         $request->validate([
             'name'          => 'required',
+            'jk'          => 'required',
             'email'         => 'required|unique:users,email',
             'mobile_number' => 'required|numeric',
             'role_id'       =>  'required|exists:roles,id',
@@ -73,6 +74,7 @@ class OperatorController extends Controller
             'name'          => $request->name,
             'email'         => $request->email,
             'alamat'        => $request->alamat,
+            'jk'            => $request->jk,
             'nim'           => time(),
             'mobile_number' => $request->mobile_number,
             'role_id'       => $request->role_id,
@@ -127,7 +129,8 @@ class OperatorController extends Controller
     {
         // Validations
         $request->validate([
-            'name'    => 'required',
+            'name'          => 'required',
+            'jk'            => 'required',
             'email'         => 'required|unique:users,email,' . $operator->id . ',id',
             'mobile_number' => 'required|numeric|digits:10',
             'role_id'       =>  'required|exists:roles,id',
@@ -138,6 +141,7 @@ class OperatorController extends Controller
             'name'          => $request->name,
             'email'         => $request->email,
             'alamat'        => $request->alamat,
+            'jk'            => $request->jk,
             'mobile_number' => $request->mobile_number,
             'role_id'       => $request->role_id,
         ]);

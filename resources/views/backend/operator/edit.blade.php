@@ -43,7 +43,18 @@
                             <span class="text-danger">{{$message}}</span>
                         @enderror
                     </div>
-
+                    {{-- JK --}}
+                    <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
+                        <span style="color:red;">*</span>Jenis Kelamin</label>
+                        <select class="form-control form-control-user @error('jk') is-invalid @enderror" name="jk">
+                            <option selected disabled>Select Jenis Kelamin</option>
+                            <option value="L" {{old('jk') ? ((old('jk') == "L") ? 'selected' : '') : (($user->jk == "L") ? 'selected' : '')}}>Laki-Laki</option>
+                            <option value="P" {{old('jk') ? ((old('jk') == "P") ? 'selected' : '') : (($user->jk == "P") ? 'selected' : '')}}>Perempuan</option>
+                        </select>
+                        @error('jk')
+                            <span class="text-danger">{{$message}}</span>
+                        @enderror
+                    </div>
                     {{-- Email --}}
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
                         <span style="color:red;">*</span>Email</label>

@@ -24,7 +24,7 @@ class CreateBarangTable extends Migration
             $table->text('info')->nullable();
             $table->integer('rusak')->nullable();
             $table->string('gambar')->nullable();
-            $table->enum('show', [0, 1])->default(0);
+            $table->integer('show');
             $table->timestamps();
         });
     }

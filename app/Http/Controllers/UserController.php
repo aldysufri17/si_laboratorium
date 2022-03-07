@@ -71,26 +71,46 @@ class UserController extends Controller
         // Validations
         $request->validate([
             'name'          => 'required',
-            'alamat'          => 'required',
+            'alamat'        => 'required',
             'email'         => 'required|unique:users,email',
+            'jk'            => 'required',
             'mobile_number' => 'required|numeric',
             'nim'           => 'required|numeric',
-            'status'       =>  'required|numeric|in:0,1',
+            'status'        =>  'required|numeric|in:0,1',
         ]);
 
-        // Store Data
-        $user = User::create([
-            'id'            => substr(str_shuffle("0123456789"), 0, 8),
-            'name'          => $request->name,
-            'email'         => $request->email,
-            'nim'           => $request->nim,
-            'alamat'        => $request->alamat,
-            'mobile_number' => $request->mobile_number,
-            'role_id'       => 3,
-            'status'        => $request->status,
-            'password'      => Hash::make($request->name)
-        ]);
-
+        if ($request->foto) {
+            $foto = $request->foto;
+            $new_foto = date('Y-m-d') . "-" . $request->name . "-" . $request->nim . "." . $foto->getClientOriginalExtension();
+            $destination = storage_path('app/public/user');
+            $foto->move($destination, $new_foto);
+            $user = User::create([
+                'id'            => substr(str_shuffle("0123456789"), 0, 8),
+                'name'          => $request->name,
+                'email'         => $request->email,
+                'nim'           => $request->nim,
+                'alamat'        => $request->alamat,
+                'mobile_number' => $request->mobile_number,
+                'role_id'       => 3,
+                'jk'            => $request->jk,
+                'status'        => $request->status,
+                'foto'          => $new_foto,
+                'password'      => Hash::make($request->name)
+            ]);
+        } else {
+            $user = User::create([
+                'id'            => substr(str_shuffle("0123456789"), 0, 8),
+                'name'          => $request->name,
+                'email'         => $request->email,
+                'nim'           => $request->nim,
+                'alamat'        => $request->alamat,
+                'mobile_number' => $request->mobile_number,
+                'role_id'       => 3,
+                'jk'            => $request->jk,
+                'status'        => $request->status,
+                'password'      => Hash::make($request->name)
+            ]);
+        }
         // Assign Role To User
         $user->assignRole($user->role_id);
         if ($user) {
@@ -155,19 +175,40 @@ class UserController extends Controller
     {
         // Validations
         $request->validate([
-            'name'    => 'required',
-            'alamat'    => 'required',
+            'name'          => 'required',
+            'alamat'        => 'required',
+            'jk'            => 'required',
             'email'         => 'required|unique:users,email,' . $user->id . ',id',
-            'mobile_number' => 'required|numeric|digits:10',
+            'mobile_number' => 'required|numeric',
         ]);
-        // Store Data
-        $user_updated = User::whereId($user->id)->update([
-            'name'          => $request->name,
-            'alamat'        => $request->alamat,
-            'nim'           => $request->nim,
-            'email'         => $request->email,
-            'mobile_number' => $request->mobile_number,
-        ]);
+        if ($request->foto) {
+            if ($user->foto) {
+                unlink(storage_path('app/public/user/' . $user->foto));
+            }
+            $foto = $request->foto;
+            $new_foto = date('Y-m-d') . "-" . $request->name . "-" . $request->nim . "." . $foto->getClientOriginalExtension();
+            $destination = storage_path('app/public/user');
+            $foto->move($destination, $new_foto);
+            // Store Data
+            $user_updated = User::whereId($user->id)->update([
+                'name'          => $request->name,
+                'alamat'        => $request->alamat,
+                'jk'            => $request->jk,
+                'nim'           => $request->nim,
+                'email'         => $request->email,
+                'foto'          => $new_foto,
+                'mobile_number' => $request->mobile_number,
+            ]);
+        } else {
+            $user_updated = User::whereId($user->id)->update([
+                'name'          => $request->name,
+                'alamat'        => $request->alamat,
+                'jk'            => $request->jk,
+                'nim'           => $request->nim,
+                'email'         => $request->email,
+                'mobile_number' => $request->mobile_number,
+            ]);
+        }
         if ($user_updated) {
             return redirect()->route('users.index')->with('success', 'User Berhasil diperbarui!.');
         } else {
@@ -183,6 +224,9 @@ class UserController extends Controller
      */
     public function delete(User $user)
     {
+        if ($user->foto) {
+            unlink(storage_path('app/public/user/' . $user->foto));
+        }
         // Delete User
         $user = User::whereId($user->id)->delete();
         if ($user) {

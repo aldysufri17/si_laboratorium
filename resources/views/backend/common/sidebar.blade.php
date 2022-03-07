@@ -43,7 +43,9 @@
         <div id="barangDropDown" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class=" py-2 collapse-inner rounded" style="background-color: rgb(230, 230, 230)">
                 <a class="collapse-item text-red" href="{{ route('barang.index') }}">Data Barang</a>
+                @role('admin')
                 <a class="collapse-item text-red" href="{{ route('barang.create') }}">Tambah Barang</a>
+                @endrole
                 <a class="collapse-item text-red" href="{{ route('damaged') }}">Barang Rusak</a>
             </div>
         </div>
@@ -65,6 +67,7 @@
     </li>
 
     <!-- Nav Item - Pages Collapse Menu -->
+    @role('operator')
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#peminjamanDropDown"
             aria-expanded="true" aria-controls="peminjamanDropDown">
@@ -79,6 +82,7 @@
             </div>
         </div>
     </li>
+    @endrole
     <!-- Nav Item - Pages Collapse Menu -->
     <li class="nav-item">
         <a class="nav-link" href="{{route('daftar.peminjaman')}}">

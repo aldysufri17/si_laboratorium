@@ -1,4 +1,4 @@
-@extends('frontend.layouts.app')   
+@extends('frontend.layouts.app')
 @section('title', 'Beranda')
 @section('content')
 <main id="main">
@@ -16,22 +16,58 @@
 
         </div>
     </section><!-- Breadcrumbs Section -->
-    <div class="container-fluid">    
+    <div class="container-fluid">
         {{-- Alert Messages --}}
         @include('sweetalert::alert')
-    
+
         <div class="card shadow mb-4 border-0 bgdark">
             <div class="card-body">
                 {{-- Page Content --}}
                 <div class="row">
                     <div class="col-md-3">
                         <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-                            <img class="rounded-circle mt-5" width="150px"
-                                src="{{ asset('admin/img/undraw_profile.svg') }}">
+                            <div class="profilepic">
+                                <img class="rounded-circle my-2 profilepic__image" width="150px"
+                                    src="{{ asset(auth()->user()->foto ? 'storage/user/'. auth()->user()->foto : 'admin/img/undraw_profile.svg') }}">
+                                <div class="profilepic__content">
+                                    <button type="button" class="btn btn-secondary" data-toggle="modal"
+                                        data-target="#exampleModal"><i class="fas fa-camera"></i>
+                                    </button>
+                                    <span class="profilepic__text">Edit Profile</span>
+                                </div>
+                            </div>
                             <span class="font-weight-bold">{{ auth()->user()->name }}</span>
+                            <span class="text-dark">{{ auth()->user()->nim }}</span>
                             <span class="text-dark">{{ auth()->user()->email }}</span>
                         </div>
                     </div>
+                    {{-- Modal Update Foto --}}
+                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
+                        aria-labelledby="exampleModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body text-center">
+                                    <img class="rounded-circle my-2 profilepic__image" width="150px"
+                                    src="{{ asset(auth()->user()->foto ? 'storage/user/'. auth()->user()->foto : 'admin/img/undraw_profile.svg') }}">
+                                    <form action="{{route('profile.foto')}}" method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                    <input type="file" name="foto">
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                    <button type="submit" class="btn btn-primary">Ubah</button>
+                                </div>
+                            </form>
+                            </div>
+                        </div>
+                    </div>
+
                     <div class="col-md-9">
                         {{-- Profile --}}
                         <div class="p-3 py-5">
@@ -43,17 +79,38 @@
                                 <div class="row mt-2">
                                     <div class="col-md-4">
                                         <label class="labels">Nama</label>
-                                        <input autocomplete="off"  type="text" class="form-control @error('name') is-invalid @enderror"
-                                            name="name" placeholder="Nama"
+                                        <input autocomplete="off" type="text"
+                                            class="form-control @error('name') is-invalid @enderror" name="name"
+                                            placeholder="Nama"
                                             value="{{ old('name') ? old('name') : auth()->user()->name }}">
-    
+
                                         @error('name')
                                         <span class="text-danger">{{ $message }}</span>
                                         @enderror
                                     </div>
+
+                                    <div class="col-md-4">
+                                        <label class="labels">Jenis Kelamin</label>
+                                        <select class="form-control form-control-user @error('jk') is-invalid @enderror"
+                                            name="jk">
+                                            <option selected disabled>Select Jenis Kelamin</option>
+                                            <option value="L"
+                                                {{old('jk') ? ((old('jk') == "L") ? 'selected' : '') : ((auth()->user()->jk == "L") ? 'selected' : '')}}>
+                                                Laki-Laki</option>
+                                            <option value="P"
+                                                {{old('jk') ? ((old('jk') == "P") ? 'selected' : '') : ((auth()->user()->jk == "P") ? 'selected' : '')}}>
+                                                Perempuan</option>
+                                        </select>
+
+                                        @error('jk')
+                                        <span class="text-danger">{{ $message }}</span>
+                                        @enderror
+                                    </div>
+
                                     <div class="col-md-4">
                                         <label class="labels">Nomor Telepon</label>
-                                        <input autocomplete="off"  type="text" class="form-control @error('mobile_number') is-invalid @enderror"
+                                        <input autocomplete="off" type="text"
+                                            class="form-control @error('mobile_number') is-invalid @enderror"
                                             name="mobile_number"
                                             value="{{ old('mobile_number') ? old('mobile_number') : auth()->user()->mobile_number }}"
                                             placeholder="Nomor Telepon">
@@ -67,20 +124,20 @@
                                 </div>
                             </form>
                         </div>
-    
+
                         <hr>
                         {{-- Change Password --}}
                         <div class="p-3 py-5">
                             <div class="d-flex justify-content-between align-items-center mb-3">
                                 <h4 class="text-right">Ubah Password</h4>
                             </div>
-    
+
                             <form action="{{ route('profile.change-password') }}" method="POST">
                                 @csrf
                                 <div class="row mt-2">
                                     <div class="col-md-4">
                                         <label class="labels">Password Lama</label>
-                                        <input autocomplete="off"  type="password" name="current_password"
+                                        <input autocomplete="off" type="password" name="current_password"
                                             class="form-control @error('current_password') is-invalid @enderror"
                                             placeholder="Password Lama" required>
                                         @error('current_password')
@@ -89,7 +146,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <label class="labels">Password Baru</label>
-                                        <input autocomplete="off"  type="password" name="new_password"
+                                        <input autocomplete="off" type="password" name="new_password"
                                             class="form-control @error('new_password') is-invalid @enderror" required
                                             placeholder="Password Baru">
                                         @error('new_password')
@@ -98,7 +155,7 @@
                                     </div>
                                     <div class="col-md-4">
                                         <label class="labels">Konfirmasi Password Baru</label>
-                                        <input autocomplete="off"  type="password" name="new_confirm_password"
+                                        <input autocomplete="off" type="password" name="new_confirm_password"
                                             class="form-control @error('new_confirm_password') is-invalid @enderror"
                                             required placeholder="Konfirmasi Password Baru">
                                         @error('new_confirm_password')
@@ -107,7 +164,8 @@
                                     </div>
                                 </div>
                                 <div class="mt-5 text-center">
-                                    <button class="btn btn-success profile-button" type="submit">Simpan Password</button>
+                                    <button class="btn btn-success profile-button" type="submit">Simpan
+                                        Password</button>
                                 </div>
                             </form>
                         </div>

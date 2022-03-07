@@ -38,8 +38,8 @@
                     @auth
                     @if (auth()->user()->role_id == 3)
                     <li><a class="nav-link scrollto " href="{{ route('cart') }}"><i class="fas fa-shopping-cart" style="font-size: 18px" ></i></a></li>
-                    <li class="dropdown"><a href="#"><img class="img-profile rounded-circle" width="30px"
-                                src="{{asset('admin/img/undraw_profile.svg')}}"></a>
+                    <li class="dropdown"><a href="#"><img class="rounded-circle my-2" width="30px"
+                                src="{{ asset(auth()->user()->foto ? 'storage/user/'. auth()->user()->foto : 'admin/img/undraw_profile.svg') }}"></a>
                         <ul>
                             <li><a href="{{ route('profile.detail') }}">Profile</a></li>
                             <li><a class="nav-link scrollto" href="{{ route('logout') }}"

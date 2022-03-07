@@ -28,6 +28,7 @@ class UserSeeder extends Seeder
             'mobile_number' =>  '9028187696',
             'role_id'       =>  1,
             'status'        =>  1,
+            'jk'            => 'L',
             'password'      =>  bcrypt('admin'),
         ]);
 
@@ -44,6 +45,7 @@ class UserSeeder extends Seeder
             'mobile_number' =>  '9028187696',
             'role_id'       => 2,
             'status'        =>  1,
+            'jk'            => 'L',
             'password'      =>  bcrypt('operator'),
         ]);
 
@@ -60,6 +62,7 @@ class UserSeeder extends Seeder
             'mobile_number' =>  '9028187696',
             'role_id'          => 3,
             'status'        =>  1,
+            'jk'            => 'L',
             'password'      =>  bcrypt('peminjam'),
         ]);
 

@@ -53,6 +53,18 @@
                                     @enderror
                                 </div>
                                 <div class="col-md-4">
+                                    <label class="labels">Jenis Kelamin</label>
+                                    <select class="form-control form-control-user @error('jk') is-invalid @enderror" name="jk">
+                                        <option selected disabled>Select Jenis Kelamin</option>
+                                        <option value="L" {{old('jk') ? ((old('jk') == "L") ? 'selected' : '') : ((auth()->user()->jk == "L") ? 'selected' : '')}}>Laki-Laki</option>
+                                        <option value="P" {{old('jk') ? ((old('jk') == "P") ? 'selected' : '') : ((auth()->user()->jk == "P") ? 'selected' : '')}}>Perempuan</option>
+                                    </select>
+
+                                    @error('jk')
+                                    <span class="text-danger">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                                <div class="col-md-4">
                                     <label class="labels">Nomor Telepon</label>
                                     <input autocomplete="off"  type="text" class="form-control @error('mobile_number') is-invalid @enderror"
                                         name="mobile_number"

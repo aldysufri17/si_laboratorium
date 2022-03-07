@@ -24,14 +24,6 @@ class HomeController extends Controller
         return view('frontend.home');
     }
 
-    public function cari()
-    {
-        if (Auth::guest()) {
-            return redirect()->route('login');
-        }
-        dd("hello");
-    }
-
     /**
      * Show the form for creating a new resource.
      *
@@ -100,11 +92,11 @@ class HomeController extends Controller
 
     public function search(Request $request)
     {
-        $barang = Barang::latest();
+        $barang = Barang::where('show', 1)->latest();
         if ($request->search) {
             $barang->where('nama', 'like', '%' . $request->search . '%');
         }
-        return view('frontend.search', ['barang' => $barang->get()]);
+        return view('frontend.search', ['barang' => $barang->paginate(7)]);
     }
 
     public function detail($id)

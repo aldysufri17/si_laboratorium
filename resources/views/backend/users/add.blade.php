@@ -18,7 +18,7 @@
    
     <!-- DataTales Example -->
     <div class="card bgdark border-0 shadow mb-4">
-        <form method="POST" action="{{route('users.store')}}">
+        <form method="POST" action="{{route('users.store')}}" enctype="multipart/form-data">
             @csrf
             <div class="card-body">
             <h6 class="m-0 font-weight-bold text-light">Tambah User Baru</h6>
@@ -38,6 +38,19 @@
                             value="{{ old('name') }}">
 
                         @error('name')
+                            <span class="text-danger">{{$message}}</span>
+                        @enderror
+                    </div>
+
+                    {{-- JK --}}
+                    <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
+                        <span style="color:red;">*</span>Jenis Kelamin</label>
+                        <select class="form-control form-control-user @error('jk') is-invalid @enderror" name="jk">
+                            <option selected disabled>Jenis Kelamin</option>
+                            <option value="L" >Laki-Laki</option>
+                            <option value="P" >Perempuan</option>
+                        </select>
+                        @error('jk')
                             <span class="text-danger">{{$message}}</span>
                         @enderror
                     </div>
@@ -121,6 +134,12 @@
                         @error('status')
                             <span class="text-danger">{{$message}}</span>
                         @enderror
+                    </div>
+
+                    {{-- Foto --}}
+                    <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
+                        <span style="color:red;">*</span>Foto</label>
+                        <input type="file" class="form-control" name="foto" id="foto">
                     </div>
 
                 </div>

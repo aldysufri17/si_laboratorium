@@ -19,6 +19,7 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('profile')->name('profile.')->middleware('auth')->group(function () {
         Route::get('/', [DashboardController::class, 'getProfile'])->name('detail');
         Route::post('/update', [DashboardController::class, 'updateProfile'])->name('update');
+        Route::post('/update/foto', [DashboardController::class, 'updateFoto'])->name('foto');
         Route::post('/change-password', [DashboardController::class, 'changePassword'])->name('change-password');
     });
 

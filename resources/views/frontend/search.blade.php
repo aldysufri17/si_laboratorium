@@ -41,6 +41,7 @@
                 </div>
             </a>
             @endforeach
+            {{ $barang->links() }}
             @else
             <div class="card shadow-sm p-3 mb-4 bg-white rounded" style="border-left: solid 4px rgb(0, 54, 233);">
                 <div class="card-block">

@@ -21,8 +21,7 @@
         <div class="card shadow-sm mx-4 mb-4 bg-white rounded">
             <div class="row">
                 <div class="col-md-4 border-right">
-                    <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img
-                            class="rounded-circle mt-5" src="{{asset('images/empty.jpg')}}" width="175"><span
+                    <div class="d-flex flex-column align-items-center text-center p-3 py-5">            <img class="my-2" width="250px" src="{{ asset($barang->gambar ? 'storage/barang/'. $barang->gambar : 'images/empty.jpg') }}"><span
                             class="font-weight-bold">{{$barang->nama}} {{$barang->tipe}}</span><span
                             class="text-black-50">Stock : {{$barang->stock}}</span><span>{{$barang->lokasi}}</span>
                     </div>
@@ -40,9 +39,9 @@
                             <div class="row mt-2">
                                 <div class="col-md-6">
                                     <span>Jumlah</span>
-                                    <input type="text"
+                                    <input type="number"
                                         class="form-control mt-2 mb-3 @error('jumlah') is-invalid @enderror"
-                                        placeholder="Jumlah" name="jumlah">
+                                        placeholder="Jumlah" name="jumlah" min="1">
                                     @error('jumlah')
                                     <span class="text-danger">{{$message}}</span>
                                     @enderror

@@ -25,6 +25,7 @@
         </div>
         <div class="d-flex text-center justify-content-around flex-wrap pt-5">
             <p class="text-light mx-5"><strong>Nama: </strong><br>{{ $user->name }}</p>
+            <p class="text-light mx-5"><strong>Jenis Kelamin: </strong><br>{{ $user->jk }}</p>
             <p class="text-light mx-5"><strong>NIM: </strong><br>{{ $user->nim }}</p>
             <p class="text-light mx-5"><strong>Email: </strong><br>{{ $user->email }}</p>
             <p class="text-light mx-5"><strong>Alamat: </strong><br>{{ $user->alamat }}</p>

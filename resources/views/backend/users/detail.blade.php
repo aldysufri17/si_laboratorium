@@ -16,7 +16,7 @@
         {{-- Page Content --}}
 
         <div class="d-flex flex-column align-items-center text-center p-3 pt-5">
-            <img class="rounded-circle my-2" width="150px" src="{{ asset('admin/img/undraw_profile.svg') }}">
+            <img class="rounded-circle my-2" width="150px" src="{{ asset($user->foto ? 'storage/user/'. $user->foto : 'admin/img/undraw_profile.svg') }}">
             @if ($user->status == 0)
             <span class="badge badge-danger">Inactive</span>
             @elseif ($user->status == 1)
@@ -25,6 +25,7 @@
         </div>
         <div class="d-flex text-center justify-content-around flex-wrap">
             <p class="text-light mx-5"><strong>Nama: </strong><br>{{ $user->name }}</p>
+            <p class="text-light mx-5"><strong>Jenis Kelamin: </strong><br>{{ $user->jk }}</p>
             <p class="text-light mx-5"><strong>NIM: </strong><br>{{ $user->nim }}</p>
             <p class="text-light mx-5"><strong>Email: </strong><br>{{ $user->email }}</p>
             <p class="text-light mx-5"><strong>Alamat: </strong><br>{{ $user->alamat }}</p>
