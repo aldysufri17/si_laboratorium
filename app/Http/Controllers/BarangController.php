@@ -9,6 +9,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
+use Barryvdh\DomPDF\Facade as PDF;
+
 
 class BarangController extends Controller
 {
@@ -214,5 +216,12 @@ class BarangController extends Controller
             ->paginate(5);
         return view('frontend.cart', compact('peminjaman'));
         // dd($peminjaman);
+    }
+
+    public function qrcode()
+    {
+        $barang = Barang::all();
+        $pdf = PDF::loadview('backend.barang.qrcode', compact('barang'));
+        return $pdf->download("Qr-Code_barang" . '.pdf');
     }
 }

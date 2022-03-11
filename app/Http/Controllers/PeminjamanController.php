@@ -18,8 +18,9 @@ class PeminjamanController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('role:operator|peminjam');
+        // $this->middleware('role:operator|peminjam');
     }
+
     // Peminjaman
     public function index()
     {
@@ -39,6 +40,7 @@ class PeminjamanController extends Controller
             ->paginate(5);
         return view('backend.transaksi.konfirmasi.pengajuan', compact('peminjaman'));
     }
+
     public function pengajuanDetail($data)
     {
         $peminjaman = Peminjaman::with('user', 'barang')
@@ -85,6 +87,7 @@ class PeminjamanController extends Controller
         ]);
         $user_id = Auth::user()->id;
         $peminjaman = Peminjaman::create([
+            'id'        => substr(str_shuffle("0123456789"), 0, 8),
             'user_id'   => $user_id,
             'barang_id' => $id,
             'tgl_start' => $request->tgl_start,
@@ -175,7 +178,7 @@ class PeminjamanController extends Controller
                 'keluar'        => 0,
                 'total'         => $total + $jumlah,
             ]);
-            Barang::whereid($barang_id)->update(['stock' => $total + $jumlah]);
+            Barang::whereId($barang_id)->update(['stock' => $total + $jumlah]);
             Peminjaman::whereId($user_id)->update(['status' => $status]);
             if ($inventaris) {
                 return redirect()->back()->with('success', 'Pengembalian Berhasil di Setujui!.');
@@ -218,19 +221,62 @@ class PeminjamanController extends Controller
 
     public function scanStore($id, $status)
     {
+        // Status 1 = peminjaman
+        // Status 0 = Pengembalian
         $id_peminjaman = intval($id);
-        dd($id_peminjaman);
-        // if (intval($status) == 1) {
-        //     $peminjaman = Peminjaman::whereid($id_peminjaman)->where('status', 0)->update(['status' => 2]);
-        // } else {
-        //     $peminjaman = Peminjaman::whereid($id_peminjaman)->where('status', 2)->update(['status' => 3]);
-        // }
+        $sts = intval($status);
+        $cek = Peminjaman::whereid($id_peminjaman)->get();
+        if ($cek->isEmpty()) {
+            return redirect()->back()->with('info', 'Barang Tidak ditemukan!.');
+        }
 
-        // if ($peminjaman) {
-        //     return redirect()->back()->with('success', 'Data Berhasil di setujui!.');
-        // } else {
-        //     return redirect()->back()->with('error', 'Gagal disetujui');
-        // }
+        if ($sts == 1) {
+            // Peminjaman
+            $barang = Peminjaman::whereid($id_peminjaman)->where('status', 2)->value('barang_id');
+            $jumlah = Peminjaman::whereid($id_peminjaman)->where('status', 2)->value('jumlah');
+            $random = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
+            $sisa = Barang::whereId(intval($barang))->value('stock');
+            if ($sisa - $jumlah < 0) {
+                return redirect()->back()->with('warning', 'Inventaris Barang tidak mencukupi!.');
+            }
+            Inventaris::create([
+                'barang_id'         => intval($barang),
+                'status'            => 0,
+                'deskripsi'         => "Active",
+                'kode_inventaris'   => 'OUT' . $random,
+                'masuk'             => 0,
+                'keluar'            => $jumlah,
+                'total'             => $sisa - $jumlah,
+            ]);
+            Barang::whereId(intval($barang))->update(['stock' => $sisa - $jumlah]);
+            $peminjaman = Peminjaman::whereId($id_peminjaman)->update(['status' => 3]);
+            if ($peminjaman) {
+                return redirect()->back()->with('success', 'Peminjaman Berhasil di Setujui!.');
+            } else {
+                return redirect()->back()->with('info', 'Barang Tidak ditemukan!.');
+            }
+        } else {
+            $barang = Peminjaman::whereid($id_peminjaman)->where('status', 3)->value('barang_id');
+            $jumlah = Peminjaman::whereid($id_peminjaman)->where('status', 3)->value('jumlah');
+            $random = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
+            $sisa = Barang::whereId($barang)->value('stock');
+            Inventaris::create([
+                'barang_id'         => $barang,
+                'status'            => 1,
+                'deskripsi'         => "Clear",
+                'kode_inventaris'   => 'IN' . $random,
+                'masuk'             => $jumlah,
+                'keluar'            => 0,
+                'total'             => $sisa + $jumlah,
+            ]);
+            Barang::whereId($barang)->update(['stock' => $sisa + $jumlah]);
+            $peminjaman = Peminjaman::whereId($id_peminjaman)->update(['status' => 4]);
+            if ($peminjaman) {
+                return redirect()->back()->with('success', 'Pengembalian Berhasil di Setujui!.');
+            } else {
+                return redirect()->back()->with('info', 'Barang Tidak ditemukan!.');
+            }
+        }
     }
 
     public function print()

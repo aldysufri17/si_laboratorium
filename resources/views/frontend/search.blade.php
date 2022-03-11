@@ -9,7 +9,7 @@
             <div class="d-flex justify-content-between align-items-center">
                 <h2>Pencarian Barang</h2>
                 <ol>
-                    <li><a class="text-primary" href="index.html">Home</a></li>
+                    <li><a href="{{route('home')}}">Home</a></li>
                     <li>Search</li>
                 </ol>
             </div>

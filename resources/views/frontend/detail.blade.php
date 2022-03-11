@@ -8,7 +8,7 @@
             <div class="d-flex justify-content-between align-items-center">
                 <h2>Detail Barang</h2>
                 <ol>
-                    <li><a href="index.html">Home</a></li>
+                    <li><a href="{{route('home')}}">Home</a></li>
                     <li><a href="portfolio.html">Daftar Barang</a></li>
                     <li>Detail Barang</li>
                 </ol>

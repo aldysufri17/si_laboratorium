@@ -19,7 +19,7 @@ class InventarisController extends Controller
         $inventaris = DB::table('inventaris')
             ->leftJoin("barang", "barang.id", "=", "inventaris.barang_id")
             ->orderBy('inventaris.created_at', 'desc')
-            ->paginate(5);
+            ->paginate(10);
         return view('backend.inventaris.index', ['inventaris' => $inventaris]);
     }
 
@@ -50,6 +50,7 @@ class InventarisController extends Controller
         ]);
 
         $data = [
+            'id'        => substr(str_shuffle("0123456789"), 0, 8),
             'barang_id'     => $request->barang,
             'status'        => $request->status,
             'deskripsi'     => $request->deskripsi,

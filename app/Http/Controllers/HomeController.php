@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Barang;
+use App\Models\Peminjaman;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Rules\MatchOldPassword;
@@ -51,9 +52,14 @@ class HomeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function ad()
     {
-        //
+        $user_id = Auth::user()->id;
+        $peminjaman = Peminjaman::with('barang')
+            ->where('user_id',  $user_id)
+            ->Where('status', '<', 0)
+            ->paginate(7);
+        return view('frontend.show-peminjaman', compact('peminjaman'));
     }
 
     /**
@@ -106,5 +112,15 @@ class HomeController extends Controller
             return view('frontend.detail', compact('barang'));
         }
         return redirect()->route('login')->with('info', 'Login sebelum melakukan peminjaman!.');
+    }
+
+    public function riwayat()
+    {
+        $user_id = Auth::user()->id;
+        $peminjaman = Peminjaman::with('barang')
+            ->where('user_id',  $user_id)
+            ->Where('status', '>', 0)
+            ->paginate(7);
+        return view('frontend.show-peminjaman', compact('peminjaman'));
     }
 }

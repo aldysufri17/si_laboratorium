@@ -17,7 +17,7 @@
 
     <!-- ======= Header ======= -->
     <header id="header" class="d-flex align-items-center" style="background-color: #001349">
-        <div class="container d-flex justify-content-between">
+        <div class="container d-flex justify-content-between px-5">
 
             <div id="logo">
                 <a href="{{ url('/') }}"><img
@@ -30,8 +30,8 @@
                                 class="bi bi-chevron-down"></i></a>
                         <ul>
                             <li><a href="#about">Tentang</a></li>
-                            <li><a href="#">Profile</a></li>
-                            <li><a href="#">Galeri</a></li>
+                            <li><a href="#services">layanan</a></li>
+                            <li><a href="#portfolio">Galeri</a></li>
                         </ul>
                     </li>
                     <li><a class="nav-link scrollto" href="#">Profil</a></li>
@@ -42,6 +42,7 @@
                                 src="{{ asset(auth()->user()->foto ? 'storage/user/'. auth()->user()->foto : 'admin/img/undraw_profile.svg') }}"></a>
                         <ul>
                             <li><a href="{{ route('profile.detail') }}">Profile</a></li>
+                            <li><a href="{{ route('daftar.riwayat') }}">Riwayat Peminjaman</a></li>
                             <li><a class="nav-link scrollto" href="{{ route('logout') }}"
                                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
                             </li>

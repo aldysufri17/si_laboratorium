@@ -591,7 +591,7 @@ section {
 }
 #services .box .icon i:before {
   background: #0c2e8a;
-  background: linear-gradient(45deg, #50d8af 0%, #a3ebd5 100%);
+  background: linear-gradient(45deg, #1300bd 0%, #a3ebd5 100%);
   background-clip: border-box;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -683,7 +683,7 @@ section {
 }
 #portfolio #portfolio-flters li:hover, #portfolio #portfolio-flters li.filter-active {
   color: #fff;
-  background: #50d8af;
+  background: #1300bd;
 }
 #portfolio #portfolio-flters li:last-child {
   margin-right: 0;
@@ -705,7 +705,7 @@ section {
   bottom: -50px;
   z-index: 3;
   transition: all ease-in-out 0.3s;
-  background: #50d8af;
+  background: #1300bd;
   padding: 15px 20px;
 }
 #portfolio .portfolio-item .portfolio-info h4 {
@@ -758,10 +758,10 @@ section {
   height: 12px;
   background-color: #fff;
   opacity: 1;
-  border: 1px solid #50d8af;
+  border: 1px solid #1300bd;
 }
 .portfolio-details .portfolio-details-slider .swiper-pagination .swiper-pagination-bullet-active {
-  background-color: #50d8af;
+  background-color: #1300bd;
 }
 .portfolio-details .portfolio-info {
   padding: 30px;
@@ -858,10 +858,10 @@ section {
   height: 12px;
   background-color: #fff;
   opacity: 1;
-  border: 1px solid #50d8af;
+  border: 1px solid #1300bd;
 }
 #testimonials .swiper-pagination .swiper-pagination-bullet-active {
-  background-color: #50d8af;
+  background-color: #1300bd;
 }
 
 /* Call To Action Section
@@ -900,8 +900,8 @@ section {
   color: #fff;
 }
 #call-to-action .cta-btn:hover {
-  background: #50d8af;
-  border: 3px solid #50d8af;
+  background: #1300bd;
+  border: 3px solid #1300bd;
 }
 
 /* Our Team Section
@@ -922,7 +922,7 @@ section {
   max-width: 100%;
 }
 #team .member .details {
-  background: #50d8af;
+  background: #1300bd;
   color: #fff;
   padding: 15px;
   border-radius: 0 0 3px 3px;
@@ -961,7 +961,7 @@ section {
   font-size: 48px;
   display: inline-block;
   margin-bottom: 10px;
-  color: #50d8af;
+  color: #1300bd;
 }
 #contact .contact-info address, #contact .contact-info p {
   margin-bottom: 0;

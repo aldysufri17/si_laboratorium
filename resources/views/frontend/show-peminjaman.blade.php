@@ -6,10 +6,10 @@
         <div class="container">
 
             <div class="d-flex justify-content-between align-items-center">
-                <h2>Keranjang Peminjaman</h2>
+                <h2>Riwayat Peminjaman</h2>
                 <ol>
                     <li><a href="{{route('home')}}">Home</a></li>
-                    <li>peminjaman</li>
+                    <li>Riwayat</li>
                 </ol>
             </div>
 
@@ -23,7 +23,7 @@
             @if ($peminjaman->isNotEmpty())
             <div class="card shadow-sm p-4 mb-4 bg-white rounded">
                 <center>
-                    <h1>Daftar Peminjaman</h1>
+                    <h1>Riwayat Peminjaman</h1>
                     <p>Total: {{$peminjaman->count()}} Barang</p>
                 </center>
                 <div class="card-block">
@@ -36,7 +36,6 @@
                                 <th width="15%">Pengembalian</th>
                                 <th width="10%">Kondisi</th>
                                 <th width="10%">Status</th>
-                                <th width="10%" class="text-center">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -53,42 +52,16 @@
                                 <td>{{$data->tgl_end}}</td>
                                 <td><span class="badge badge-success">Baik</span></td>
                                 <td>
-                                    @if ($data->status == 0)
-                                    <span class="badge badge-secondary">Proses</span>
-                                    @elseif ($data->status == 1)
-                                    <span class="badge badge-danger">Reject</span>
-                                    @elseif($data->status == 2)
-                                    <span class="badge badge-success">Accept</span>
-                                    @endif
-                                </td>
-                                <td style="display: flex">
-                                    @if ($data->status == 0)
-                                    <a href="{{route('peminjaman.edit', $data->id)}}" class="btn btn-primary m-2">
-                                        <i class="fa fa-pen"></i>
-                                    </a>
-                                    <a class="btn btn-danger m-2" href="#" data-toggle="modal"
-                                        data-target="#deleteModal">
-                                        <i class="fas fa-trash"></i>
-                                    </a>
-                                    @elseif ($data->status >= 1)
-                                    <a href="#" class="btn btn-secondary m-2">
-                                        <i class="fa fa-pen"></i>
-                                    </a>
-                                    <a class="btn btn-danger m-2" href="#" data-toggle="modal"
-                                        data-target="#deleteModal">
-                                        <i class="fas fa-trash"></i>
-                                    </a>
+                                    @if ($data->status == 3)
+                                    <span class="badge badge-success">Active</span>
+                                    @elseif ($data->status == 4)
+                                    <span class="badge badge-primary">Clear</span>
                                     @endif
                                 </td>
                             </tr>
                             @endforeach
                         </tbody>
                     </table>
-                    <a class="btn btn-primary float-right mr-3 mb-3" href="{{route('print')}}"><i
-                            class="fas fa-print"></i> Cetak Surat Peminjaman</a>
-                    <a class="btn btn-success" href="{{url('/search')}}">
-                        <i class="fas fa-plus"></i> Tambah Barang
-                    </a>
                 </div>
             </div>
             {{-- Modal Delete --}}

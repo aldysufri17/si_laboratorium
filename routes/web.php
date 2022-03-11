@@ -49,6 +49,7 @@ Route::middleware(['auth'])->group(function () {
         // Barang
         Route::resource('barang', App\Http\Controllers\BarangController::class);
         Route::get('damaged', [App\Http\Controllers\BarangController::class, 'damaged'])->name('damaged');
+        Route::get('/qr-code', [App\Http\Controllers\BarangController::class, 'qrcode'])->name('qrcode');
 
         // Inventaris
         Route::resource('inventaris', App\Http\Controllers\InventarisController::class);
@@ -56,7 +57,6 @@ Route::middleware(['auth'])->group(function () {
         // peminjaman
         Route::get('/daftar-peminjaman', [App\Http\Controllers\PeminjamanController::class, 'index'])->name('daftar.peminjaman');
         Route::get('/peminjaman/create', [App\Http\Controllers\PeminjamanController::class, 'create'])->name('peminjaman.create');
-        // Route::post('/peminjaman/store', [App\Http\Controllers\PeminjamanController::class, 'store'])->name('peminjaman.store');
         Route::get('/konfirmasi-pengajuan', [App\Http\Controllers\PeminjamanController::class, 'pengajuan'])->name('konfirmasi.pengajuan');
         Route::get('/konfirmasi/pengajuan/{data}', [App\Http\Controllers\PeminjamanController::class, 'pengajuanDetail'])->name('pengajuan.detail');
         Route::get('/konfirmasi-peminjaman', [App\Http\Controllers\PeminjamanController::class, 'peminjaman'])->name('konfirmasi.peminjaman');
@@ -65,6 +65,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/konfirmasi-pengembalian', [App\Http\Controllers\PeminjamanController::class, 'pengembalian'])->name('konfirmasi.pengembalian');
         Route::get('/scan/{status}', [App\Http\Controllers\PeminjamanController::class, 'scan'])->name('scan');
         Route::get('/store/{id}/{status}', [App\Http\Controllers\PeminjamanController::class, 'scanStore'])->name('scan.store');
+
         // Persuratan
         Route::resource('surat', App\Http\Controllers\PersuratanController::class);
     });
@@ -75,6 +76,7 @@ Route::middleware(['auth'])->group(function () {
     Route::group(['middleware' => ['role:peminjam']], function () {
         Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
         Route::get('/cart', [App\Http\Controllers\BarangController::class, 'cart'])->name('cart');
+        Route::get('/daftar/riwayat', [App\Http\Controllers\HomeController::class, 'riwayat'])->name('daftar.riwayat');
         Route::post('/peminjaman/store/{id}', [App\Http\Controllers\PeminjamanController::class, 'store'])->name('peminjaman.store');
         Route::get('/peminjaman/edit/{id}', [App\Http\Controllers\PeminjamanController::class, 'edit'])->name('peminjaman.edit');
         Route::post('/peminjaman/update/{id}', [App\Http\Controllers\PeminjamanController::class, 'update'])->name('peminjaman.update');
