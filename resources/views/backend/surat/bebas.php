@@ -79,7 +79,7 @@
 
 <body>
     <section id="header certificate">
-        <img class="center" style="width:695px; height:120px; padding:11px 0;" src="<?= storage_path('app/public/kop.png') ?>">
+        <img class="center" style="width:695px; height:120px; padding:11px 0;" src="https://i.ibb.co/9bk6jMs/kop.png">
     </section>
     <section class="font-cambria">
         <div class="yth">Kepada Yth.<br>Kepala Laboratorium<br>SISTEM TERTANAM DAN ROBOTIKA</div>
