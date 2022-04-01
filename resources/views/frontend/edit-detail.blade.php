@@ -21,8 +21,10 @@
         <div class="card shadow-sm mx-4 mb-4 bg-white rounded">
             <div class="row">
                 <div class="col-md-4 border-right">
-                    <div class="d-flex flex-column align-items-center text-center p-3 py-5"><img
-                            class="rounded-circle mt-5" src="{{asset('images/empty.jpg')}}" width="175"><span
+                    <div class="d-flex flex-column align-items-center text-center p-3 py-5"> <a href="{{ asset($peminjaman->barang->gambar ? 'storage/barang/'. $peminjaman->barang->gambar : 'images/empty.jpg') }}"
+                        data-gallery="portfolioGallery" class="portfolio-lightbox preview-link mb-3">
+                        <img src="{{ asset($peminjaman->barang->gambar ? 'storage/barang/'. $peminjaman->barang->gambar : 'images/empty.jpg') }}"
+                            class="img-fluid" alt=""></a><span
                             class="font-weight-bold">{{$peminjaman->barang->nama}}
                             {{$peminjaman->barang->tipe}}</span><span class="text-black-50">Stock :
                             {{$peminjaman->barang->stock}}</span><span>{{$peminjaman->barang->lokasi}}</span>

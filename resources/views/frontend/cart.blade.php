@@ -31,6 +31,7 @@
                         <thead>
                             <tr>
                                 <th width="15%">Nama Barang</th>
+                                <th width="15%">Kategori</th>
                                 <th width="10%">Jumlah</th>
                                 <th width="15%">Penggunaan</th>
                                 <th width="15%">Pengembalian</th>
@@ -48,6 +49,17 @@
                                         <div class="row text-muted">{{$data->barang->tipe}}</div>
                                     </div>
                                 </td>
+                                <td>
+                                    @if ($data->kategori == 1)
+                                    Laboratorium Sistem Tertanam dan Robotika
+                                    @elseif ($data->kategori == 2)
+                                    Laboratorium Rekayasa Perangkat Lunak
+                                    @elseif($data->kategori == 3)
+                                    Laboratorium Jaringan dan Keamanan Komputer
+                                    @elseif($data->kategori == 4)
+                                    Laboratorium Multimedia
+                                    @endif
+                                </td>
                                 <td>{{$data->jumlah}}</td>
                                 <td>{{$data->tgl_start}}</td>
                                 <td>{{$data->tgl_end}}</td>
@@ -59,6 +71,8 @@
                                     <span class="badge badge-danger">Reject</span>
                                     @elseif($data->status == 2)
                                     <span class="badge badge-success">Accept</span>
+                                    @elseif($data->status == 3)
+                                    <span class="badge badge-info">Active</span>
                                     @endif
                                 </td>
                                 <td style="display: flex">

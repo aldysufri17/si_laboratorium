@@ -98,20 +98,22 @@ class HomeController extends Controller
 
     public function search(Request $request)
     {
-        $barang = Barang::where('show', 1)->latest();
-        if ($request->search) {
-            $barang->where('nama', 'like', '%' . $request->search . '%');
+        if ($request->kategori) {
+            $barang = Barang::where('show', 1)->where('kategori', $request->kategori)->latest();
+            if ($request->search) {
+                $barang->where('nama', 'like', '%' . $request->search . '%');
+            }
+        } else {
+            $barang = Barang::where('show', 1)->where('kategori', 1)->latest();
         }
+
         return view('frontend.search', ['barang' => $barang->paginate(7)]);
     }
 
     public function detail($id)
     {
-        if (Auth::user()) {
-            $barang = Barang::whereId($id)->first();
-            return view('frontend.detail', compact('barang'));
-        }
-        return redirect()->route('login')->with('info', 'Login sebelum melakukan peminjaman!.');
+        $barang = Barang::whereId($id)->first();
+        return view('frontend.detail', compact('barang'));
     }
 
     public function riwayat()
@@ -119,7 +121,7 @@ class HomeController extends Controller
         $user_id = Auth::user()->id;
         $peminjaman = Peminjaman::with('barang')
             ->where('user_id',  $user_id)
-            ->Where('status', '>', 0)
+            ->Where('status', 4)
             ->paginate(7);
         return view('frontend.show-peminjaman', compact('peminjaman'));
     }

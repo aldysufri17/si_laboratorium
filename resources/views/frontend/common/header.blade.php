@@ -26,17 +26,11 @@
 
             <nav id="navbar" class="navbar">
                 <ul>
-                    <li class="dropdown"><a href="{{ url('/')}}"><span>Beranda</span> <i
-                                class="bi bi-chevron-down"></i></a>
-                        <ul>
-                            <li><a href="#about">Tentang</a></li>
-                            <li><a href="#services">layanan</a></li>
-                            <li><a href="#portfolio">Galeri</a></li>
-                        </ul>
-                    </li>
-                    <li><a class="nav-link scrollto" href="#">Profil</a></li>
+                    <li><a class="nav-link scrollto" href="{{ url('/')}}">Beranda</a></li>
+                    <li><a class="nav-link scrollto" href="#">Daftar Barang</a></li>
+                    <li><a class="nav-link scrollto" href="#">Langkah Peminjaman</a></li>
                     @auth
-                    @if (auth()->user()->role_id == 3)
+                    @if (auth()->user()->role_id == 1)
                     <li><a class="nav-link scrollto " href="{{ route('cart') }}"><i class="fas fa-shopping-cart" style="font-size: 18px" ></i></a></li>
                     <li class="dropdown"><a href="#"><img class="rounded-circle my-2" width="30px"
                                 src="{{ asset(auth()->user()->foto ? 'storage/user/'. auth()->user()->foto : 'admin/img/undraw_profile.svg') }}"></a>

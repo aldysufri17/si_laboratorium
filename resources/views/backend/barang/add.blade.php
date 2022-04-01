@@ -90,10 +90,14 @@
                     {{-- Lokasi Barang --}}
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
                         <span style="color:red;">*</span>Lokasi Barang</label>
-                        <input type="text" class="form-control form-control-user @error('lokasi') is-invalid @enderror"
-                            autocomplete="off" id="exampleLokasi" placeholder="Lokasi Barang" name="lokasi"
-                            value="{{ old('lokasi') }}">
-
+                            <select class="form-control form-control-user  @error('lokasi') is-invalid @enderror" name="lokasi" aria-label="Default select example">
+                                <option selected disabled>Pilih Lokasi</option>
+                                <option  value="Laboratorium Sistem Tertanam dan
+                                Robotika">Laboratorium Sistem Tertanam dan Robotika</option>
+                                <option value="Laboratorium Rekayasa Perangkat Lunak">Laboratorium Rekayasa Perangkat Lunak</option>
+                                <option value="Laboratorium Jaringan dan Keamanan Komputer">Laboratorium Jaringan dan Keamanan Komputer</option>
+                                <option value="Laboratorium Multimedia">Laboratorium Multimedia</option>
+                            </select>
                         @error('lokasi')
                         <span class="text-danger">{{$message}}</span>
                         @enderror

@@ -14,26 +14,32 @@
             <li class="breadcrumb-item">Barang</li>
         </ol>
     </div>
-    @role('admin')
+
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
         <a href="{{ route('barang.create') }}" class="btn btn-sm btn-success">
             <i class="fas fa-plus"></i> Tambah Baru
         </a>
-        <a href="{{ route('qrcode') }}" class="btn btn-sm btn-primary">
+        <a href="{{ route('qrcode', 0) }}" class="btn btn-sm btn-primary">
             <i class="fas fa-qrcode"></i> Cetak Semua QR-Code
         </a>
+        @endrole
     </div>
-    @endrole
 
     {{-- Alert Messages --}}
     @include('sweetalert::alert')
-
+    
     <!-- DataTales Example -->
     <div class="card shadow mb-4 border-0 bgdark">
         <div class="card-body">
+            @hasanyrole('admin')
+            <h6 class="m-0 font-weight-bold text-light">Daftar Laboratorium</h6>
+            @else
             <h6 class="m-0 font-weight-bold text-light">Daftar Semua Barang</h6>
+            @endhasanyrole
             <div class="table-responsive">
                 <table id="dataTable" class="table table-borderless dt-responsive" cellspacing="0" width="100%">
+                    @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
                     <thead>
                         <tr>
                             <th width="15%">Nama</th>
@@ -42,7 +48,7 @@
                             <th width="10%">Status</th>
                             <th width="15%">Lokasi Barang</th>
                             <th width="15%">Detail</th>
-                            @role('admin')
+                            @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
                             <th width="25%">Aksi</th>
                             @endrole
                         </tr>
@@ -60,9 +66,9 @@
                                 @endif</td>
                             <td>{{ $data->lokasi }}</td>
                             <td><a class="btn btn-info m-2" href="{{ route('barang.show', $data->id) }}">
-                                <i class="fas fa-eye"></i>
-                            </a></td>
-                            @role('admin')
+                                    <i class="fas fa-eye"></i>
+                                </a></td>
+                            @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
                             <td style="display: flex">
                                 <a href="{{ route('barang.edit', $data->id) }}" class="btn btn-primary m-2">
                                     <i class="fa fa-pen"></i>
@@ -75,6 +81,40 @@
                         </tr>
                         @endforeach
                     </tbody>
+                    @include('backend.barang.delete-modal')
+                    @endrole
+                    @role('admin')
+                    <thead>
+                        <tr>
+                            <th width="20%" class="text-center">Kategori</th>
+                            <th width="10%" class="text-center">Jumlah</th>
+                            <th width="10%" class="text-center">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($barang as $data)
+                        <tr>
+                            <td class="text-center">
+                                @if ($data->kategori == 1)
+                                Laboratorium Sistem Tertanam dan Robotika
+                                @elseif ($data->kategori == 2)
+                                Laboratorium Rekayasa Perangkat Lunak
+                                @elseif($data->kategori == 3)
+                                Laboratorium Jaringan dan Keamanan Komputer
+                                @elseif($data->kategori == 4)
+                                Laboratorium Multimedia
+                                @endif</td>
+                            <td class="text-center">{{ $data->total }}</td>
+                            <td class="d-sm-flex justify-content-center">
+                                <a href="{{route('admin.barang', $data->kategori)}}" class="btn btn-primary" data-toggle="tooltip" data-placement="top"
+                                    title="Show">
+                                    <i class="fa fa-eye"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                    @endrole
                 </table>
 
                 {{ $barang->links() }}
@@ -84,7 +124,6 @@
 
 </div>
 
-@include('backend.barang.delete-modal')
 @else
 <div class="container-fluid">
     <!-- Page Heading -->
@@ -96,7 +135,7 @@
         </ol>
     </div>
     @include('sweetalert::alert')
-    @role('admin')
+    @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <a href="{{ route('barang.create') }}" class="btn btn-sm btn-success">
             <i class="fas fa-plus"></i> Tambah Baru
@@ -119,7 +158,9 @@
             "paging": false,
             responsive: true,
             autoWidth: false,
-            "order": [[ 0, "desc" ]]
+            "order": [
+                [0, "desc"]
+            ]
         });
     });
 

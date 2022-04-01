@@ -8,11 +8,11 @@
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-2">
-        <h1 class="h5 mb-0 text-light">Form Tambah Master</h1>
+        <h1 class="h5 mb-0 text-light">Form Tambah Pengurus</h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Dashboard</a></li>
-            <li class="breadcrumb-item"><a href="{{ url('/operator')}}">Master</a></li>
-            <li class="breadcrumb-item">Form Tambah Master</li>
+            <li class="breadcrumb-item"><a href="{{ url('/operator')}}">Pengurus</a></li>
+            <li class="breadcrumb-item">Form Tambah Pengurus</li>
         </ol>
     </div>
 
@@ -21,7 +21,7 @@
         <form method="POST" action="{{route('operator.store')}}">
             @csrf
             <div class="card-body ">
-                <h6 class="m-0 font-weight-bold text-light">Form Tambah Master Baru</h6>
+                <h6 class="m-0 font-weight-bold text-light">Form Tambah Pengurus Baru</h6>
                 <div class="form-group row">
 
                     {{-- Name --}}

@@ -26,10 +26,36 @@ class BarangController extends Controller
      */
     public function index()
     {
+        if (Auth::user()->role_id == 3) {
+            $kategori = 1;
+        } elseif (Auth::user()->role_id == 4) {
+            $kategori = 2;
+        } elseif (Auth::user()->role_id == 5) {
+            $kategori = 3;
+        } elseif (Auth::user()->role_id == 6) {
+            $kategori = 4;
+        }
+
+        if (Auth::user()->role_id == 2) {
+            $barang = Barang::select('kategori', DB::raw('count(*) as total'))
+                ->groupBy('kategori')
+                ->paginate(5);
+        } else {
+            $barang = DB::table('barang')
+                ->where('kategori', $kategori)
+                ->orderBy('created_at', 'desc')
+                ->paginate(5);
+        }
+        return view('backend.barang.index', ['barang' => $barang]);
+    }
+
+    public function adminBarang($data)
+    {
         $barang = DB::table('barang')
+            ->where('kategori', $data)
             ->orderBy('created_at', 'desc')
             ->paginate(5);
-        return view('backend.barang.index', ['barang' => $barang]);
+        return view('backend.barang.admin-detail', ['barang' => $barang]);
     }
 
     /**
@@ -52,14 +78,25 @@ class BarangController extends Controller
     {
         $request->validate([
             'nama'      => 'required',
+            'satuan'      => 'required',
             'stock'     => 'required|int',
             'tipe'      => 'required',
             'tgl_masuk' => 'required',
             'show'      => 'required|in:0,1',
             'lokasi'    => 'required',
         ], [
-            'required' => ':attribute Bagian ini wajib diisi',
+            'required' => ':attribute wajib diisi',
         ]);
+
+        if (Auth::user()->role_id == 3) {
+            $kategori = 1;
+        } elseif (Auth::user()->role_id == 4) {
+            $kategori = 2;
+        } elseif (Auth::user()->role_id == 5) {
+            $kategori = 3;
+        } elseif (Auth::user()->role_id == 6) {
+            $kategori = 4;
+        }
 
         if ($request->gambar) {
             $gambar = $request->gambar;
@@ -69,16 +106,32 @@ class BarangController extends Controller
             $barang = Barang::create([
                 'id'            => time(),
                 'nama'          => $request->nama,
-                'stock'        => $request->stock,
+                'stock'         => $request->stock,
                 'tipe'          => $request->tipe,
                 'tgl_masuk'     => $request->tgl_masuk,
                 'show'          => $request->show,
                 'lokasi'        => $request->lokasi,
+                'kategori'      => $kategori,
                 'satuan'        => $request->satuan,
-                'info'        => $request->info,
+                'info'          => $request->info,
                 'gambar'        => $new_gambar,
             ]);
+
+            // Inventaris
+            $random = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
+            Inventaris::create([
+                'id'                => substr(str_shuffle("0123456789"), 0, 8),
+                'barang_id'         => time(),
+                'status'            => 1,
+                'deskripsi'         => 'Baru',
+                'kode_inventaris'   => 'IN' . $random,
+                'masuk'             => $request->stock,
+                'kategori'          => $kategori,
+                'keluar'            => 0,
+                'total'             => $request->stock,
+            ]);
         } else {
+            // Barang
             $barang = Barang::create([
                 'id'            => time(),
                 'nama'          => $request->nama,
@@ -88,7 +141,22 @@ class BarangController extends Controller
                 'tgl_masuk'     => $request->tgl_masuk,
                 'show'          => $request->show,
                 'lokasi'        => $request->lokasi,
-                'info'        => $request->info,
+                'kategori'      => $kategori,
+                'info'          => $request->info,
+            ]);
+
+            // Inventaris
+            $random = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
+            Inventaris::create([
+                'id'                => substr(str_shuffle("0123456789"), 0, 8),
+                'barang_id'         => time(),
+                'status'            => 1,
+                'deskripsi'         => 'Baru',
+                'kode_inventaris'   => 'IN' . $random,
+                'masuk'             => $request->stock,
+                'kategori'          => $kategori,
+                'keluar'            => 0,
+                'total'             => $request->stock,
             ]);
         }
 
@@ -151,13 +219,13 @@ class BarangController extends Controller
             $gambar->move($destination, $new_gambar);
             $barang_update = Barang::whereid($barang->id)->update([
                 'nama'          => $request->nama,
-                'stock'        => $request->stock,
+                'stock'         => $request->stock,
                 'tipe'          => $request->tipe,
                 'tgl_masuk'     => $request->tgl_masuk,
                 'show'          => $request->show,
                 'lokasi'        => $request->lokasi,
                 'satuan'        => $request->satuan,
-                'info'        => $request->info,
+                'info'          => $request->info,
                 'gambar'        => $new_gambar,
             ]);
         } else {
@@ -182,7 +250,7 @@ class BarangController extends Controller
 
     public function damaged()
     {
-        $barang = Barang::whereNotNull('rusak')->paginate(5);
+        $barang = Barang::whereNotNull('jml_rusak')->paginate(5);
         return view('backend.barang.damaged', compact('barang'));
     }
 
@@ -212,16 +280,42 @@ class BarangController extends Controller
         $user_id = Auth::user()->id;
         $peminjaman = Peminjaman::with('barang')
             ->where('user_id',  $user_id)
-            ->Where('status', '<', 3)
+            ->Where('status', '<=', 3)
             ->paginate(5);
         return view('frontend.cart', compact('peminjaman'));
         // dd($peminjaman);
     }
 
-    public function qrcode()
+    public function qrcode($data)
     {
-        $barang = Barang::all();
+        if (Auth::user()->role_id == 2) {
+            $kategori = $data;
+            if ($data == 1) {
+                $name = 'Laboratorium Sistem Tertanam dan Robotika';
+            } elseif ($data == 2) {
+                $name = 'Laboratorium Rekayasa Perangkat Lunak';
+            } elseif ($data == 3) {
+                $name = 'Laboratorium Jaringan dan Keamanan Komputer';
+            } elseif ($data == 4) {
+                $name = 'Laboratorium Multimedia';
+            }
+        }
+
+        if (Auth::user()->role_id == 3) {
+            $kategori = 1;
+            $name = 'Laboratorium Sistem Tertanam dan Robotika';
+        } elseif (Auth::user()->role_id == 4) {
+            $kategori = 2;
+            $name = 'Laboratorium Rekayasa Perangkat Lunak';
+        } elseif (Auth::user()->role_id == 5) {
+            $kategori = 3;
+            $name = 'Laboratorium Jaringan dan Keamanan Komputer';
+        } elseif (Auth::user()->role_id == 6) {
+            $kategori = 4;
+            $name = 'Laboratorium Multimedia';
+        }
+        $barang = Barang::where('kategori', $kategori)->get();
         $pdf = PDF::loadview('backend.barang.qrcode', compact('barang'));
-        return $pdf->download("Qr-Code_barang" . '.pdf');
+        return $pdf->download("Qr-Code_barang" . "-" . $name . '.pdf');
     }
 }

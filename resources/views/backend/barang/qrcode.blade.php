@@ -9,6 +9,7 @@
 </head>
 
 <body>
+    <h4>Dicetak pada :  {{date('d-m-Y') . " " . date("h:i:sa")}} </h4>
     @foreach ($barang as $item)
     @php
     $qr = 'ID = '.$item->id . ' - '. 'Nama = '. $item->nama .' '. $item->tipe .' - '. 'Lokasi = '. $item->lokasi

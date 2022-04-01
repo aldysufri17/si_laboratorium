@@ -8,10 +8,10 @@
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-2">
-        <h1 class="h5 mb-0 text-light">Master</h1>
+        <h1 class="h5 mb-0 text-light">Pengurus</h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Dashboard</a></li>
-            <li class="breadcrumb-item">Master</li>
+            <li class="breadcrumb-item">Pengurus</li>
         </ol>
     </div>
 
@@ -27,15 +27,15 @@
     <!-- DataTales Example -->
     <div class="card shadow mb-4 border-0 bgdark">
         <div class="card-body">
-            <h6 class="m-0 font-weight-bold text-light">Daftar Semua Master</h6>
+            <h6 class="m-0 font-weight-bold text-light">Daftar Semua Pengurus</h6>
             <div class="table-responsive">
                 <table class="table table-borderless table-dark bgdark" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
                             <th width="20%">Nama</th>
                             <th width="25%">Email</th>
-                            <th width="15%">Status</th>
                             <th width="15%">Role</th>
+                            <th width="15%">Status</th>
                             <th width="15%">Detail</th>
                             <th width="10%">Aksi</th>
                         </tr>
@@ -46,9 +46,6 @@
                             <td>{{ $user->name }}</td>
                             <td>{{ $user->email }}</td>
                             <td>{{ $user->roles ? $user->roles->pluck('name')->first() : 'N/A' }}</td>
-                            <td><a class="btn btn-info" href="{{ route('users.show', ['user' => $user->id]) }}">
-                                    <i class="fas fa-eye"></i>
-                                </a></td>
                             <td>
                                 @if ($user->status == 0)
                                 <span class="badge badge-danger">Inactive</span>
@@ -56,6 +53,9 @@
                                 <span class="badge badge-success">Active</span>
                                 @endif
                             </td>
+                            <td><a class="btn btn-info" href="{{ route('users.show', ['user' => $user->id]) }}">
+                                    <i class="fas fa-eye"></i>
+                                </a></td>
                             <td style="display: flex">
                                 @if ($user->status == 0)
                                 <a href="{{ route('sts', ['user_id' => $user->id, 'status' => 1]) }}"
@@ -99,10 +99,10 @@
 <div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-2">
-        <h1 class="h5 mb-0 text-light">User</h1>
+        <h1 class="h5 mb-0 text-light">Pengurus</h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Dashboard</a></li>
-            <li class="breadcrumb-item">Daftar User</li>
+            <li class="breadcrumb-item">Daftar Pengurus</li>
         </ol>
     </div>
     @include('sweetalert::alert')

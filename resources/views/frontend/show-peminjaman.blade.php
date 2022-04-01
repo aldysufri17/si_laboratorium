@@ -31,6 +31,7 @@
                         <thead>
                             <tr>
                                 <th width="15%">Nama Barang</th>
+                                <th width="15%">Kategori</th>
                                 <th width="10%">Jumlah</th>
                                 <th width="15%">Penggunaan</th>
                                 <th width="15%">Pengembalian</th>
@@ -47,16 +48,23 @@
                                         <div class="row text-muted">{{$data->barang->tipe}}</div>
                                     </div>
                                 </td>
+                                <td>
+                                    @if ($data->kategori == 1)
+                                    Laboratorium Sistem Tertanam dan Robotika
+                                    @elseif ($data->kategori == 2)
+                                    Laboratorium Rekayasa Perangkat Lunak
+                                    @elseif($data->kategori == 3)
+                                    Laboratorium Jaringan dan Keamanan Komputer
+                                    @elseif($data->kategori == 4)
+                                    Laboratorium Multimedia
+                                    @endif
+                                </td>
                                 <td>{{$data->jumlah}}</td>
                                 <td>{{$data->tgl_start}}</td>
                                 <td>{{$data->tgl_end}}</td>
                                 <td><span class="badge badge-success">Baik</span></td>
                                 <td>
-                                    @if ($data->status == 3)
-                                    <span class="badge badge-success">Active</span>
-                                    @elseif ($data->status == 4)
                                     <span class="badge badge-primary">Clear</span>
-                                    @endif
                                 </td>
                             </tr>
                             @endforeach

@@ -19,10 +19,11 @@ class CreateBarangTable extends Migration
             $table->integer('stock');
             $table->text('satuan');
             $table->text('tipe');
+            $table->text('kategori')->nullable();
             $table->date('tgl_masuk');
             $table->text('lokasi');
             $table->text('info')->nullable();
-            $table->integer('rusak')->nullable();
+            $table->integer('jml_rusak')->nullable();
             $table->string('gambar')->nullable();
             $table->integer('show');
             $table->timestamps();

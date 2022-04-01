@@ -21,6 +21,7 @@ class CreateinventarisTable extends Migration
             $table->integer('keluar')->nullable();
             $table->integer('total');
             $table->text('status');
+            $table->text('kategori');
             $table->text('deskripsi')->nullable();
             $table->timestamps();
         });

@@ -22,9 +22,20 @@
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <h1 class="h3 mb-0 text-light">{{$time .', '. auth()->user()->name}}.</h1>
     </div>
+    @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
+    @if($peminjaman->isNotEmpty())
+        @if ($message = Session::get('eror'))
+        <div class="alert alert-info alert-dismissible" role="alert">
+            <button type="button" class="close" data-dismiss="alert">
+                <i class="fa fa-times"></i>
+            </button>
+            <strong>{{ $message }}</strong> {{ session('error') }}
+        </div>
+        @endif
+    @endif
+    @endrole
     <!-- Content Row -->
     <div class="row">
-
         <!-- Earnings (Monthly) Card Example -->
         <div class="col-xl-3 col-md-6 mb-4">
             <div class="card border-left-primary bgdark border-0 shadow h-100 py-2">
@@ -108,8 +119,5 @@
             </div>
         </div>
     </div>
-
-    
-
 </div>
 @endsection

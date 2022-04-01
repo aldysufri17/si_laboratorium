@@ -8,11 +8,11 @@
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-2">
-        <h1 class="h5 mb-0 text-light">Form Edit Master</h1>
+        <h1 class="h5 mb-0 text-light">Form Edit Pengurus</h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Dashboard</a></li>
-            <li class="breadcrumb-item"><a href="{{ url('/operator')}}">Master</a></li>
-            <li class="breadcrumb-item">Form Edit Master</li>
+            <li class="breadcrumb-item"><a href="{{ url('/operator')}}">Pengurus</a></li>
+            <li class="breadcrumb-item">Form Edit Pengurus</li>
         </ol>
     </div>
 
@@ -23,7 +23,7 @@
             @method('PUT')
 
             <div class="card-body">
-            <h6 class="m-0 font-weight-bold text-light">Edit Master</h6>
+            <h6 class="m-0 font-weight-bold text-light">Edit Pengurus</h6>
 
                 <div class="form-group row">
 
@@ -48,8 +48,8 @@
                         <span style="color:red;">*</span>Jenis Kelamin</label>
                         <select class="form-control form-control-user @error('jk') is-invalid @enderror" name="jk">
                             <option selected disabled>Select Jenis Kelamin</option>
-                            <option value="L" {{old('jk') ? ((old('jk') == "L") ? 'selected' : '') : (($user->jk == "L") ? 'selected' : '')}}>Laki-Laki</option>
-                            <option value="P" {{old('jk') ? ((old('jk') == "P") ? 'selected' : '') : (($user->jk == "P") ? 'selected' : '')}}>Perempuan</option>
+                            <option value="L" {{old('jk') ? ((old('jk') == "L") ? 'selected' : '') : (($operator->jk == "L") ? 'selected' : '')}}>Laki-Laki</option>
+                            <option value="P" {{old('jk') ? ((old('jk') == "P") ? 'selected' : '') : (($operator->jk == "P") ? 'selected' : '')}}>Perempuan</option>
                         </select>
                         @error('jk')
                             <span class="text-danger">{{$message}}</span>
@@ -111,8 +111,8 @@
                         <span style="color:red;">*</span>Role</label>
                         <select class="form-control form-control-user @error('role_id') is-invalid @enderror" name="role_id">
                             <option selected disabled>Pilih Role</option>
-                            <option value="1">Admin</option>
-                            <option value="2">Operator</option>
+                            <option value="1" {{old('role_id') ? ((old('role_id') == 2) ? 'selected' : '') : (($operator->role_id == 2) ? 'selected' : '')}}>Admin</option>
+                            <option value="2" {{old('role_id') ? ((old('role_id') > 2) ? 'selected' : '') : (($operator->role_id > 2) ? 'selected' : '')}}>Operator</option>
                         </select>
                         @error('role_id')
                             <span class="text-danger">{{$message}}</span>
@@ -137,7 +137,7 @@
 
             <div class="card-footer bgdark border-0">
                 <button type="submit" class="btn btn-primary btn-user float-right mb-3">Simpan</button>
-                <a class="btn btn-danger float-right mr-3 mb-3" href="{{ route('users.index') }}">Batal</a>
+                <a class="btn btn-danger float-right mr-3 mb-3" href="{{ route('operator.index') }}">Batal</a>
             </div>
         </form>
     </div>

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Barang;
+use App\Models\Peminjaman;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Rules\MatchOldPassword;
@@ -30,11 +31,28 @@ class DashboardController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
+        // index
         $user = User::where('role_id', 3)->count();
         $barang = Barang::all()->count();
-        return view('backend.dashboard', compact(['user', 'barang']));
+        // notifikasi
+        if (Auth::user()->role_id > 2) {
+            if (Auth::user()->role_id == 3) {
+                $kategori = 1;
+            } elseif (Auth::user()->role_id == 4) {
+                $kategori = 2;
+            } elseif (Auth::user()->role_id == 5) {
+                $kategori = 3;
+            } elseif (Auth::user()->role_id == 6) {
+                $kategori = 4;
+            }
+            $peminjaman = Peminjaman::where('kategori', $kategori)->where('status', 0)->get();
+            $total = Peminjaman::where('kategori', $kategori)->where('status', 0)->count();
+            $request->session()->flash('eror', "$total pengajuan belum disetujui !!!");
+            return view('backend.dashboard',  compact(['user', 'barang', 'peminjaman']));
+        }
+        return view('backend.dashboard',  compact(['user', 'barang']));
     }
 
     /**
@@ -45,7 +63,7 @@ class DashboardController extends Controller
      */
     public function getProfile()
     {
-        if (Auth::user()->role_id == 3) {
+        if (Auth::user()->role_id == 1) {
             return view('frontend.profile');
         }
         return view('backend.profile');
@@ -63,6 +81,7 @@ class DashboardController extends Controller
         $request->validate([
             'name'    => 'required',
             'jk'    => 'required',
+            'alamat'    => 'required',
             'mobile_number' => 'required|numeric|digits:10',
         ]);
 
@@ -71,6 +90,7 @@ class DashboardController extends Controller
             'name' => $request->name,
             'jk' => $request->jk,
             'mobile_number' => $request->mobile_number,
+            'alamat' => $request->alamat,
         ]);
 
         if ($user) {
@@ -123,6 +143,29 @@ class DashboardController extends Controller
             return redirect()->back()->with('success', 'Foto Berhasil diperbarui!.');
         } else {
             return redirect()->back()->withInput()->with('error', 'Foto Gagal diperbarui!.');
+        }
+    }
+
+    public function updateKTM(Request $request, User $user)
+    {
+        $user_id = Auth::user()->id;
+        if ($request->ktm) {
+            if ($user->ktm) {
+                unlink(storage_path('app/public/user/ktm' . $user->ktm));
+            }
+            $ktm = $request->ktm;
+            $new_ktm = date('Y-m-d') . "-" . Auth::user()->name . "-" . Auth::user()->nim . "." . $ktm->getClientOriginalExtension();
+            $destination = storage_path('app/public/user/ktm');
+            $ktm->move($destination, $new_ktm);
+            // Store Data
+            $user_updated = User::whereId($user_id)->update([
+                'ktm'          => $new_ktm,
+            ]);
+        }
+        if ($user_updated) {
+            return redirect()->back()->with('success', 'KTM Berhasil diperbarui!.');
+        } else {
+            return redirect()->back()->withInput()->with('error', 'KTM Gagal diperbarui!.');
         }
     }
 }

@@ -24,18 +24,54 @@ class PeminjamanController extends Controller
     // Peminjaman
     public function index()
     {
+        if (Auth::user()->role_id == 2) {
+            $peminjaman = Peminjaman::with('user', 'barang')
+                ->select('kategori', DB::raw('count(*) as total'))
+                ->groupBy('kategori')
+                ->paginate(5);
+        } else {
+            if (Auth::user()->role_id == 3) {
+                $kategori = 1;
+            } elseif (Auth::user()->role_id == 4) {
+                $kategori = 2;
+            } elseif (Auth::user()->role_id == 5) {
+                $kategori = 3;
+            } elseif (Auth::user()->role_id == 6) {
+                $kategori = 4;
+            }
+            $peminjaman = Peminjaman::with('user', 'barang')
+                ->where('kategori', $kategori)
+                ->where('status', '>', 2)
+                ->paginate(5);
+        }
+        return view('backend.transaksi.index', compact('peminjaman'));
+    }
+
+    public function adminPeminjaman($data)
+    {
         $peminjaman = Peminjaman::with('user', 'barang')
+            ->where('kategori', $data)
             ->where('status', '>', 2)
             ->paginate(5);
-        return view('backend.transaksi.index', compact('peminjaman'));
+        return view('backend.transaksi.admin-peminjaman', compact('peminjaman'));
     }
 
     // Konfirmasi Peminjaman
     public function pengajuan()
     {
+        if (Auth::user()->role_id == 3) {
+            $kategori = 1;
+        } elseif (Auth::user()->role_id == 4) {
+            $kategori = 2;
+        } elseif (Auth::user()->role_id == 5) {
+            $kategori = 3;
+        } elseif (Auth::user()->role_id == 6) {
+            $kategori = 4;
+        }
         $peminjaman = Peminjaman::withCount('user')
             ->select('date', DB::raw('count(*) as total'))
-            ->orWhere('status', 0)
+            ->where('kategori', $kategori)
+            ->where('status', 0)
             ->groupBy('date')
             ->paginate(5);
         return view('backend.transaksi.konfirmasi.pengajuan', compact('peminjaman'));
@@ -53,8 +89,18 @@ class PeminjamanController extends Controller
     // Konfirmasi Peminjaman
     public function peminjaman()
     {
+        if (Auth::user()->role_id == 3) {
+            $kategori = 1;
+        } elseif (Auth::user()->role_id == 4) {
+            $kategori = 2;
+        } elseif (Auth::user()->role_id == 5) {
+            $kategori = 3;
+        } elseif (Auth::user()->role_id == 6) {
+            $kategori = 4;
+        }
         $peminjaman = Peminjaman::withCount('user')
             ->select('date', DB::raw('count(*) as total'))
+            ->where('kategori', $kategori)
             ->where('status', '=', 2)
             ->groupBy('date')
             ->paginate(5);
@@ -70,37 +116,47 @@ class PeminjamanController extends Controller
         return view('backend.transaksi.konfirmasi.peminjaman.detail', compact('peminjaman'));
     }
 
-    public function create()
-    {
-        $barang = Barang::all();
-        $user = User::where('role_id', 3)->get();
-        return view('backend.transaksi.konfirmasi.peminjaman.add', compact('barang', 'user'));
-    }
+    // public function create()
+    // {
+    //     $barang = Barang::all();
+    //     $user = User::where('role_id', 3)->get();
+    //     return view('backend.transaksi.konfirmasi.peminjaman.add', compact('barang', 'user'));
+    // }
 
     public function store(Request $request, $id)
     {
-        $request->validate([
-            'jumlah' => 'required',
-            'alasan' => 'required',
-            'tgl_start' => 'required',
-            'tgl_end' => 'required',
-        ]);
-        $user_id = Auth::user()->id;
-        $peminjaman = Peminjaman::create([
-            'id'        => substr(str_shuffle("0123456789"), 0, 8),
-            'user_id'   => $user_id,
-            'barang_id' => $id,
-            'tgl_start' => $request->tgl_start,
-            'tgl_end'   => $request->tgl_end,
-            'jumlah'    => $request->jumlah,
-            'alasan'    => $request->alasan,
-            'status'    => 0,
-            'date'      => date('Y-m-d')
-        ]);
-        if ($peminjaman) {
-            return redirect()->route('search')->with('success', 'Barang Berhasil di tambah!.');
+        $barang = Barang::whereId($id)->first();
+        $stok = $barang->stock;
+        $kategori = $barang->kategori;
+        if ($request->jumlah > $stok) {
+            return redirect()->back()->with('eror', 'Stok Barang tidak mencukupi...!!');
+        } elseif ($request->tgl_end < $request->tgl_start) {
+            return redirect()->back()->with('eror', 'Tanggal peminjaman tidak falid...!!');
         } else {
-            return redirect()->back()->with('error', 'Gagal ditambah');
+            $request->validate([
+                'jumlah' => 'required',
+                'alasan' => 'required',
+                'tgl_start' => 'required',
+                'tgl_end' => 'required',
+            ]);
+            $user_id = Auth::user()->id;
+            $peminjaman = Peminjaman::create([
+                'id'        => substr(str_shuffle("0123456789"), 0, 8),
+                'user_id'   => $user_id,
+                'barang_id' => $id,
+                'tgl_start' => $request->tgl_start,
+                'tgl_end'   => $request->tgl_end,
+                'jumlah'    => $request->jumlah,
+                'kategori'  => $kategori,
+                'alasan'    => $request->alasan,
+                'status'    => 0,
+                'date'      => date('Y-m-d')
+            ]);
+            if ($peminjaman) {
+                return redirect()->route('search')->with('success', 'Barang Berhasil di tambah!.');
+            } else {
+                return redirect()->back()->with('error', 'Gagal ditambah');
+            }
         }
     }
 
@@ -148,17 +204,19 @@ class PeminjamanController extends Controller
             $random = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
             $sisa = Barang::where('id', $barang_id)->first();
             $total = $sisa->stock;
+            $kategori = $sisa->kategori;
             if ($total - $jumlah < 0) {
                 return redirect()->back()->with('warning', 'Inventaris Barang tidak mencukupi!.');
             }
             $inventaris = Inventaris::create([
-                'barang_id'     => $barang_id,
-                'status'        => 0,
-                'deskripsi'     => "Active",
-                'kode_inventaris'    => 'OUT' . $random,
-                'masuk'         => 0,
-                'keluar'        => $jumlah,
-                'total'         => $total - $jumlah,
+                'barang_id'         => $barang_id,
+                'status'            => 0,
+                'deskripsi'         => "Active",
+                'kode_inventaris'   => 'OUT' . $random,
+                'masuk'             => 0,
+                'keluar'            => $jumlah,
+                'kategori'          => $kategori,
+                'total'             => $total - $jumlah,
             ]);
             Barang::whereid($barang_id)->update(['stock' => $total - $jumlah]);
             Peminjaman::whereId($user_id)->update(['status' => $status]);
@@ -169,14 +227,16 @@ class PeminjamanController extends Controller
             $random = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
             $sisa = Barang::where('id', $barang_id)->first();
             $total = $sisa->stock;
+            $kategori = $sisa->kategori;
             $inventaris = Inventaris::create([
-                'barang_id'     => $barang_id,
-                'status'        => 1,
-                'deskripsi'     => "Clear",
-                'kode_inventaris'    => 'IN' . $random,
-                'masuk'         => $jumlah,
-                'keluar'        => 0,
-                'total'         => $total + $jumlah,
+                'barang_id'         => $barang_id,
+                'status'            => 1,
+                'deskripsi'         => "Clear",
+                'kode_inventaris'   => 'IN' . $random,
+                'masuk'             => $jumlah,
+                'keluar'            => 0,
+                'kategori'          => $kategori,
+                'total'             => $total + $jumlah,
             ]);
             Barang::whereId($barang_id)->update(['stock' => $total + $jumlah]);
             Peminjaman::whereId($user_id)->update(['status' => $status]);
@@ -204,7 +264,17 @@ class PeminjamanController extends Controller
     // Konfirmasi Pengembalian
     public function pengembalian()
     {
+        if (Auth::user()->role_id == 3) {
+            $kategori = 1;
+        } elseif (Auth::user()->role_id == 4) {
+            $kategori = 2;
+        } elseif (Auth::user()->role_id == 5) {
+            $kategori = 3;
+        } elseif (Auth::user()->role_id == 6) {
+            $kategori = 4;
+        }
         $peminjaman = Peminjaman::with('user', 'barang')
+            ->where('kategori', $kategori)
             ->where('status', 3)
             ->paginate(5);
         return view('backend.transaksi.konfirmasi.pengembalian.index', compact('peminjaman'));
@@ -284,8 +354,11 @@ class PeminjamanController extends Controller
         $user_id = Auth::user()->id;
         $name = Auth::user()->name;
         $nim = Auth::user()->nim;
+        $alamat = Auth::user()->alamat;
         $peminjaman = Peminjaman::where('user_id', $user_id)->where('status', 2)->get();
-        $pdf = PDF::loadview('frontend.surat', ['peminjaman' => $peminjaman, 'name' => $name, 'nim' => $nim,]);
+        $pdf = PDF::loadview('frontend.surat', ['peminjaman' => $peminjaman, 'name' => $name, 'nim' => $nim, 'alamat' => $alamat]);
+        // return view('frontend.surat', ['peminjaman' => $peminjaman, 'name' => $name, 'nim' => $nim, 'alamat' => $alamat]);
+
         if ($peminjaman->isEmpty()) {
             return redirect()->back()->with('info', 'Pengajuan Belum disetujui!.');
         }

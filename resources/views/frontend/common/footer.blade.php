@@ -10,13 +10,13 @@
             <div class="col-md-3 mt-5">
                 <div class="d-flex flex-column align-items-center text-left p-3 py-5">
                     <h5 class="text-info">KONTAK</h5>
-                    <p class="text-light"><strong>Alamat:</strong> Jl. Prof. H. Soedarto, SH Tembalang, Semarang, Indonesia 1269<br><strong>Email</strong>: siskom[at]undip.ac.id<br><strong>No. Telepon</strong>: (024) 76480609</p>
+                    <p class="text-light"><strong>Alamat:</strong> Jl. Prof. H. Soedarto, SH Tembalang, Semarang, Indonesia 1269<br><strong>Email</strong>: siskom@undip.ac.id<br><strong>No. Telepon</strong>: (024) 76480609</p>
                 </div>
             </div>
             <div class="col-md-3 mt-5">
                 <div class="d-flex flex-column align-items-center text-left p-3 py-5">
                     <h5 class="text-info">LAYANAN</h5>
-                    <p class="text-light">Peminjmana Barang Lab<br>Ruang Lab. Sistem Tertanam dan Robotika Dept. Tekkom: GKB. Lt2</p>
+                    <p class="text-light">Peminjaman Barang Laboratorium<br><br>Ruang Tata Usaha Dept. Tekkom: Lt. 1 Gd. Departemen Teknik Komputer (Sebelah Dekanat Lama)</p>
                 </div>
             </div>
             <div class="col-md-3 mt-5">

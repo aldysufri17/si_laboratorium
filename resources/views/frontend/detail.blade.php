@@ -1,6 +1,14 @@
 @extends('frontend.layouts.app')
 @section('content')
 <main id="main">
+    @if ($message = Session::get('eror'))
+    <div class="alert alert-danger alert-dismissible" role="alert">
+        <button type="button" class="close" data-dismiss="alert">
+            <i class="fa fa-times"></i>
+        </button>
+        <strong>{{ $message }}</strong> {{ session('error') }}
+    </div>
+    @endif
     <!-- ======= Breadcrumbs Section ======= -->
     <section class="breadcrumbs">
         <div class="container">
@@ -21,9 +29,13 @@
         <div class="card shadow-sm mx-4 mb-4 bg-white rounded">
             <div class="row">
                 <div class="col-md-4 border-right">
-                    <div class="d-flex flex-column align-items-center text-center p-3 py-5">            <img class="my-2" width="250px" src="{{ asset($barang->gambar ? 'storage/barang/'. $barang->gambar : 'images/empty.jpg') }}"><span
-                            class="font-weight-bold">{{$barang->nama}} {{$barang->tipe}}</span><span
-                            class="text-black-50">Stock : {{$barang->stock}}</span><span>{{$barang->lokasi}}</span>
+                    <div class="d-flex flex-column align-items-center text-center p-3 py-5">
+                        <a href="{{ asset($barang->gambar ? 'storage/barang/'. $barang->gambar : 'images/empty.jpg') }}"
+                            data-gallery="portfolioGallery" class="portfolio-lightbox preview-link mb-3">
+                            <img src="{{ asset($barang->gambar ? 'storage/barang/'. $barang->gambar : 'images/empty.jpg') }}"
+                                class="img-fluid" alt=""></a>
+                            <span class="font-weight-bold">{{$barang->nama}} - {{$barang->tipe}}</span><span class="text-black-50">Stock :
+                            {{$barang->stock}}</span><span>{{$barang->lokasi}}</span>
                     </div>
                 </div>
                 <div class="col-md-8">

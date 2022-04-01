@@ -22,6 +22,7 @@ class CreatePeminjamanTable extends Migration
             $table->integer('jumlah');
             $table->integer('status');
             $table->text('alasan');
+            $table->text('kategori');
             $table->date('date');
             $table->timestamps();
         });

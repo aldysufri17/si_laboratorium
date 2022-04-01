@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Barang;
 use App\Models\Inventaris;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class InventarisController extends Controller
@@ -16,11 +17,40 @@ class InventarisController extends Controller
      */
     public function index()
     {
+        if (Auth::user()->role_id == 2) {
+            $inventaris = DB::table('inventaris')
+                ->leftJoin("barang", "barang.id", "=", "inventaris.barang_id")
+                ->select('inventaris.kategori', DB::raw('count(*) as total'))
+                ->groupBy('inventaris.kategori')
+                ->orderBy('inventaris.created_at', 'desc')
+                ->paginate(10);
+        } else {
+            if (Auth::user()->role_id == 3) {
+                $kategori = 1;
+            } elseif (Auth::user()->role_id == 4) {
+                $kategori = 2;
+            } elseif (Auth::user()->role_id == 5) {
+                $kategori = 3;
+            } elseif (Auth::user()->role_id == 6) {
+                $kategori = 4;
+            }
+            $inventaris = DB::table('inventaris')
+                ->leftJoin("barang", "barang.id", "=", "inventaris.barang_id")
+                ->where('inventaris.kategori', $kategori)
+                ->orderBy('inventaris.created_at', 'desc')
+                ->paginate(10);
+        }
+        return view('backend.inventaris.index', ['inventaris' => $inventaris]);
+    }
+
+    public function adminInventaris($data)
+    {
         $inventaris = DB::table('inventaris')
             ->leftJoin("barang", "barang.id", "=", "inventaris.barang_id")
+            ->where('inventaris.kategori', $data)
             ->orderBy('inventaris.created_at', 'desc')
             ->paginate(10);
-        return view('backend.inventaris.index', ['inventaris' => $inventaris]);
+        return view('backend.inventaris.admin-inventaris', ['inventaris' => $inventaris]);
     }
 
     /**
@@ -28,9 +58,18 @@ class InventarisController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function add($data)
     {
-        $barang = Barang::all();
+        if ($data == 3) {
+            $kategori = 1;
+        } elseif ($data == 4) {
+            $kategori = 2;
+        } elseif ($data == 5) {
+            $kategori = 3;
+        } elseif ($data == 6) {
+            $kategori = 4;
+        }
+        $barang = Barang::where('kategori', $kategori)->get();
         return view('backend.inventaris.add', compact('barang'));
         // dd($barang);
     }
@@ -43,6 +82,16 @@ class InventarisController extends Controller
      */
     public function store(Request $request)
     {
+        if (Auth::user()->role_id == 3) {
+            $kategori = 1;
+        } elseif (Auth::user()->role_id == 4) {
+            $kategori = 2;
+        } elseif (Auth::user()->role_id == 5) {
+            $kategori = 3;
+        } elseif (Auth::user()->role_id == 6) {
+            $kategori = 4;
+        }
+
         $request->validate([
             'barang' => 'required',
             'status' => 'required',
@@ -50,14 +99,15 @@ class InventarisController extends Controller
         ]);
 
         $data = [
-            'id'        => substr(str_shuffle("0123456789"), 0, 8),
-            'barang_id'     => $request->barang,
-            'status'        => $request->status,
-            'deskripsi'     => $request->deskripsi,
-            'kode_inventaris'    => 0,
-            'masuk'         => 0,
-            'keluar'        => 0,
-            'total'         => 0,
+            'id'                => substr(str_shuffle("0123456789"), 0, 8),
+            'barang_id'         => $request->barang,
+            'status'            => $request->status,
+            'deskripsi'         => $request->deskripsi,
+            'kode_inventaris'   => 0,
+            'kategori'          => $kategori,
+            'masuk'             => 0,
+            'keluar'            => 0,
+            'total'             => 0,
         ];
         $random = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
         $sisa = Barang::where('id', $request->barang)->first();
@@ -73,7 +123,7 @@ class InventarisController extends Controller
             $data['masuk'] = 0;
             $data['keluar'] = $total;
             if ($request->status == 2) {
-                Barang::whereid($request->barang)->update(['rusak' => $sisa->rusak + $total]);
+                Barang::whereid($request->barang)->update(['jml_rusak' => $sisa->jml_rusak + $total]);
                 $data['deskripsi'] = "Rusak" . " " . $request->deskripsi;
             }
             if ($sisa->stock - $total < 0) {
@@ -91,6 +141,7 @@ class InventarisController extends Controller
             return redirect()->route('inventaris.index')->with('error', 'Inventaris Gagal diperbarui!.');
         }
     }
+
 
     /**
      * Display the specified resource.

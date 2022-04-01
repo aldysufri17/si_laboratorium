@@ -39,67 +39,13 @@
                 </div>
 
                 <div class="col-lg-7 ml-5 content">
-                    <h2>Laboratorium Sistem Tertanam dan Robotika</h2>
+                    <h2>Laboratorium</h2>
                     <h3>Departemen Teknik Komputer - Universitas Diponegoro</h3>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo optio nihil dolore veritatis,
-                        delectus quisquam ab, architecto obcaecati molestiae, rem numquam! Fuga voluptatum officia
-                        fugit?</p>
+                    <p>Laboratorium sebagai Sarana Prasarana yang dapat digunakan oleh Mahasiswa / i Teknik Komputer Undip dalam Proses Pembelajaran serta Dosen-Dosen Teknik Komputer Undip dalam melakukan Riset / Penelitian.</p>
                 </div>
             </div>
         </div>
     </section><!-- End About Section -->
-    <!-- ======= Services Section ======= -->
-    <section id="services">
-        <div class="container" data-aos="fade-up">
-            <div class="section-header">
-                <h2>Layanan</h2>
-                <p>Sed tamen tempor magna labore dolore dolor sint tempor duis magna elit veniam aliqua esse amet veniam
-                    enim export quid quid veniam aliqua eram noster malis nulla duis fugiat culpa esse aute nulla ipsum
-                    velit export irure minim illum fore</p>
-            </div>
-
-            <div class="row gy-4">
-
-                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="100">
-                    <div class="box">
-                        <div class="icon"><i class="bi bi-briefcase"></i></div>
-                        <h4 class="title"><a href="">Lorem Ipsum</a></h4>
-                        <p class="description">Voluptatum deleniti atque corrupti quos dolores et quas molestias
-                            excepturi sint occaecati cupiditate non provident etiro rabeta lingo.</p>
-                    </div>
-                </div>
-
-                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="200">
-                    <div class="box">
-                        <div class="icon"><i class="bi bi-card-checklist"></i></div>
-                        <h4 class="title"><a href="">Dolor Sitema</a></h4>
-                        <p class="description">Minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip
-                            ex ea commodo consequat tarad limino ata nodera clas.</p>
-                    </div>
-                </div>
-
-                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="300">
-                    <div class="box">
-                        <div class="icon"><i class="bi bi-bar-chart"></i></div>
-                        <h4 class="title"><a href="">Sed ut perspiciatis</a></h4>
-                        <p class="description">Duis aute irure dolor in reprehenderit in voluptate velit esse cillum
-                            dolore eu fugiat nulla pariatur trinige zareta lobur trade.</p>
-                    </div>
-                </div>
-
-                <div class="col-lg-6" data-aos="fade-up" data-aos-delay="400">
-                    <div class="box">
-                        <div class="icon"><i class="bi bi-binoculars"></i></div>
-                        <h4 class="title"><a href="">Magni Dolores</a></h4>
-                        <p class="description">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
-                            deserunt mollit anim id est laborum rideta zanox satirente madera</p>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-    </section><!-- End Services Section -->
 
     <!-- ======= Call To Action Section ======= -->
     <section id="call-to-action">
@@ -107,10 +53,10 @@
           <div class="row">
             <div class="col-lg-9 text-center text-lg-start">
               <h3 class="cta-title">Perlu Bantuan?</h3>
-              <p class="cta-text"> Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</p>
+              <p class="cta-text"> Jika anda perlu bantuan kami, hubungi kami sekarang... </p>
             </div>
             <div class="col-lg-3 cta-btn-container text-center">
-              <a class="cta-btn align-middle" href="#"><i class="fab fa-whatsapp"></i> Hubungi Kami</a>
+              <a class="cta-btn align-middle" href="https://api.whatsapp.com/send?phone=089XXXXXXXX&text=Hello+Admin%2C+Saya+mau+bertanya"><i class="fab fa-whatsapp"></i> Hubungi Kami</a>
             </div>
           </div>
         </div>
@@ -121,48 +67,34 @@
         <div class="container" data-aos="fade-up">
             <div class="section-header">
                 <h2>Galeri</h2>
-                <p>Sed tamen tempor magna labore dolore dolor sint tempor duis magna elit veniam aliqua esse amet veniam
-                    enim export quid quid veniam aliqua eram noster malis nulla duis fugiat culpa esse aute nulla ipsum
-                    velit export irure minim illum fore</p>
+                <p>Dokumentasi foto aktivitas yang dilakukan pada club riset laboratorium Departemen Teknik Komputer,</p>
             </div>
 
             <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
 
                 <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-                    <img src="{{asset('frontend/img/portfolio/portfolio-7.jpg')}}" class="img-fluid" alt="">
+                    <a href="https://embedded.undip.ac.id/img/landing/pengabdian-masyarakat-di-smk-nu-ungaran.JPG" data-gallery="portfolioGallery"
+                            class="portfolio-lightbox preview-link mt-4" title="Pengabdian Masyarakat di SMK NU Ungaran"><img src="https://embedded.undip.ac.id/img/landing/pengabdian-masyarajat-di-smk-nu-ungaran.JPG" class="img-fluid" alt=""></a>
                     <div class="portfolio-info">
-                        <h4>Card 1</h4>
-                        <p>Card</p>
-                        <a href="{{asset('frontend/img/portfolio/portfolio-7.jpg')}}" data-gallery="portfolioGallery"
-                            class="portfolio-lightbox preview-link" title="Card 1"><i class="bx bx-plus"></i></a>
-                        <a href="portfolio-details.html" class="details-link" title="More Details"><i
-                                class="bx bx-link"></i></a>
+                        <h4>Pengabdian Masyarakat di SMK NU Ungaran</h4>
                     </div>
                 </div>
-
                 <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-                    <img src="{{asset('frontend/img/portfolio/portfolio-8.jpg')}}" class="img-fluid" alt="">
+                    <a href="https://embedded.undip.ac.id/img/landing/pengabdian-masyarakat-di-smk-n-4-semarang.jpg" data-gallery="portfolioGallery"
+                            class="portfolio-lightbox preview-link mt-4" title="Pengabdian Masyarakat di SMK N 4 Semarang"><img style="height: 237px; width:360px" src="https://embedded.undip.ac.id/img/landing/pengabdian-masyarakat-di-smk-n-4-semarang.jpg" class="img-fluid" alt=""></a>
                     <div class="portfolio-info">
-                        <h4>Card 3</h4>
-                        <p>Card</p>
-                        <a href="{{asset('frontend/img/portfolio/portfolio-8.jpg')}}" data-gallery="portfolioGallery"
-                            class="portfolio-lightbox preview-link" title="Card 3"><i class="bx bx-plus"></i></a>
-                        <a href="portfolio-details.html" class="details-link" title="More Details"><i
-                                class="bx bx-link"></i></a>
+                        <h4>Pengabdian Masyarakat di SMK N 4 Semarang</h4>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 portfolio-item filter-card">
+                    <a href="{{asset('frontend/img/hero-carousel/5.jpg')}}" data-gallery="portfolioGallery"
+                            class="portfolio-lightbox preview-link mt-4" title="EMBRIO CLASS CERC di TEKNIK KOMPUTER ANGKATAN 2018"><img style="height: 237px; width:360px" src="{{asset('frontend/img/hero-carousel/5.jpg')}}" class="img-fluid" alt=""></a>
+                    <div class="portfolio-info">
+                        <h4>EMBRIO CLASS CERC di TEKNIK KOMPUTER ANGKATAN 2018</h4>
                     </div>
                 </div>
 
-                <div class="col-lg-4 col-md-6 portfolio-item filter-web">
-                    <img src="{{asset('frontend/img/portfolio/portfolio-9.jpg')}}" class="img-fluid" alt="">
-                    <div class="portfolio-info">
-                        <h4>Web 3</h4>
-                        <p>Web</p>
-                        <a href="{{asset('frontend/img/portfolio/portfolio-9.jpg')}}" data-gallery="portfolioGallery"
-                            class="portfolio-lightbox preview-link" title="Web 3"><i class="bx bx-plus"></i></a>
-                        <a href="portfolio-details.html" class="details-link" title="More Details"><i
-                                class="bx bx-link"></i></a>
-                    </div>
-                </div>
+                
 
             </div>
 
@@ -174,7 +106,7 @@
 @section('script')
 <script>
     var typed = new Typed('.animate', {
-        strings: ["Laboratorium", "Sistem Tertanam", "dan Robotika", "Teknik Komputer"],
+        strings: ["Laboratorium", "Department", "Teknik Komputer"],
         startDelay: 10,
         // shuffle: true,
         typeSpeed: 200,

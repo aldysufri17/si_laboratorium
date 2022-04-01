@@ -5,7 +5,6 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\OperatorController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
-use phpDocumentor\Reflection\Types\Resource_;
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
 Route::get('/daftar', [App\Http\Controllers\Auth\RegisterController::class, 'daftar'])->name('daftar');
@@ -19,12 +18,13 @@ Route::middleware(['auth'])->group(function () {
     Route::prefix('profile')->name('profile.')->middleware('auth')->group(function () {
         Route::get('/', [DashboardController::class, 'getProfile'])->name('detail');
         Route::post('/update', [DashboardController::class, 'updateProfile'])->name('update');
+        Route::post('/update/ktm', [DashboardController::class, 'updateKTM'])->name('ktm');
         Route::post('/update/foto', [DashboardController::class, 'updateFoto'])->name('foto');
         Route::post('/change-password', [DashboardController::class, 'changePassword'])->name('change-password');
     });
 
     // ---------------------------Role Admin atau Operator--------------------------
-    Route::group(['middleware' => ['role:admin|operator']], function () {
+    Route::group(['middleware' => ['role:admin|operator embedded|operator rpl|operator jarkom|operator mulmed']], function () {
         Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
 
         // Users 
@@ -48,14 +48,18 @@ Route::middleware(['auth'])->group(function () {
 
         // Barang
         Route::resource('barang', App\Http\Controllers\BarangController::class);
+        Route::get('laboratoirum/{data}', [App\Http\Controllers\BarangController::class, 'adminBarang'])->name('admin.barang');
         Route::get('damaged', [App\Http\Controllers\BarangController::class, 'damaged'])->name('damaged');
-        Route::get('/qr-code', [App\Http\Controllers\BarangController::class, 'qrcode'])->name('qrcode');
+        Route::get('/qr-code/{data}', [App\Http\Controllers\BarangController::class, 'qrcode'])->name('qrcode');
 
         // Inventaris
         Route::resource('inventaris', App\Http\Controllers\InventarisController::class);
+        Route::get('add/{data}', [App\Http\Controllers\InventarisController::class, 'add'])->name('inventaris.add');
+        Route::get('kategori/{data}', [App\Http\Controllers\InventarisController::class, 'adminInventaris'])->name('admin.inventaris');
 
         // peminjaman
         Route::get('/daftar-peminjaman', [App\Http\Controllers\PeminjamanController::class, 'index'])->name('daftar.peminjaman');
+        Route::get('peminjaman/{data}', [App\Http\Controllers\PeminjamanController::class, 'adminPeminjaman'])->name('admin.peminjaman');
         Route::get('/peminjaman/create', [App\Http\Controllers\PeminjamanController::class, 'create'])->name('peminjaman.create');
         Route::get('/konfirmasi-pengajuan', [App\Http\Controllers\PeminjamanController::class, 'pengajuan'])->name('konfirmasi.pengajuan');
         Route::get('/konfirmasi/pengajuan/{data}', [App\Http\Controllers\PeminjamanController::class, 'pengajuanDetail'])->name('pengajuan.detail');

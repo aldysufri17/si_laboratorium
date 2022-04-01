@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,79 +8,101 @@
     <title>Document</title>
     <style>
         * {
-        line-height: 1.2em;
-        font-size: 12pt;
-        margin: 0 8px;
-    
-    }
-    
-    .font-arial {
-        font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif
-    }
-    
-    .font-cambria {
-        font-family: Cambria, Georgia, serif
-    }
-    
-    .text-center {
-        text-align: center
-    }
-    
-    .margin-bottom {
-        margin-bottom: 1.2em
-    }
-    
-    table {
-        border-collapse: collapse;
-        width: 100%
-    }
-    
-    table.line-height-table {
-        line-height: 2em
-    }
-    
-    table .col-center {
-        text-align: center
-    }
-    
-    #header table td {
-        padding: 5px
-    }
-    
-    img.center {
-        display: block;
-        margin: 0 auto
-    }
-    
-    img.logo {
-        width: 93px;
-        height: 123px
-    }
-    
-    img.certificate {
-        padding: 0 10px;
-        width: 110px;
-        height: 64px
-    }
-    
-    .head-info td {
-        vertical-align: top;
-        font-size: 8pt
-    }
-    
-    .yth {
-        padding: 20px 0
-    }
-    
-    .align-top {
-        vertical-align: top
-    }
+            line-height: 1.2em;
+            font-size: 12pt;
+            margin: 0;
+
+        }
+
+        body {
+            margin-left: 4;
+        }
+
+        .font-arial {
+            font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif
+        }
+
+        .font-cambria {
+            font-family: Cambria, Georgia, serif
+        }
+
+        .text-center {
+            text-align: center
+        }
+
+        .margin-bottom {
+            margin-bottom: 1.2em
+        }
+
+        table {
+            border-collapse: collapse;
+            width: 100%
+        }
+
+        table.line-height-table {
+            line-height: 2em
+        }
+
+        table .col-center {
+            text-align: center
+        }
+
+        #header table td {
+            padding: 5px
+        }
+
+        img.center {
+            display: block;
+            margin: 0 auto
+        }
+
+        img.logo {
+            width: 93px;
+            height: 123px
+        }
+
+        img.certificate {
+            padding: 0 10px;
+            width: 110px;
+            height: 64px
+        }
+
+        .head-info td {
+            vertical-align: top;
+            font-size: 8pt
+        }
+
+        .yth {
+            padding: 20px 0
+        }
+
+        .align-top {
+            vertical-align: top
+        }
+
     </style>
 </head>
-<body>
-    <section id="header certificate">
-        <img class="center" style="width:695px; height:120px; padding:11px 0;"
-            src="https://i.ibb.co/9bk6jMs/kop.png">
+
+<body style="margin: 0 20px">
+    <section id="header">
+        <table collapse="collapse" class="font-arial">
+            <tr>
+                <td rowspan="1"><img class="center logo" style="width:100px; height:100px;"
+                        src="https://rekreartive.com/wp-content/uploads/2018/10/Logo-Undip-Universitas-Diponegoro-Semarang-Warna.jpg">
+                </td>
+                <td colspan="2" class="text-center">
+                    <span style="font-size: 15pt; font-weight: bold">Peminjaman Barang Laboratorium<br>Departemen Teknik Komputer</span><br>
+                    <span style="font-size: 10pt; ">1. Sistem Tertanam dan
+                        Robotika 2. Rekayasa Perangkat Lunak</span><br>
+                    <span style="font-size: 10pt;">3. Keamanan dan Jaringan Komputer 4. Multimedia</span><br>
+                    <span style="font-size: 10pt;">Jl. Prof.Soedarto, Tembalang, Kec. Tembalang, Kota Semarang, Jawa
+                        Tengah 50275</span><br>
+                    <span style="font-size: 6pt;">Kontak : (024) 76480609<br>Email: siskom@undip.ac.id</span>
+                </td>
+            </tr>
+
+        </table>
+        <hr widht="200px;">
     </section>
     <section class="font-cambria">
         <div class="yth">Kepada Yth.<br>Kepala Laboratorium<br>SMK DHARMA ANALITIKA MEDAN</div>
@@ -98,25 +121,25 @@
                 <td>{{$nim}}</td>
             </tr>
             <tr>
-                <td>Jurusan</td>
+                <td>Alamat</td>
                 <td>:</td>
-                <td></td>
+                <td>{{$alamat}}</td>
             </tr>
         </table>
     </section>
     <section>
-        <div>Mengajukan permohonan peminjaman barang di Laboratorium Sistem Tertanam dan Robotika<br>Adapun barang yang
-            akan
-            saya pinjam adalah :</div>
+        <div>Mengajukan permohonan peminjaman barang di Laboratorium Departemen Teknik Komputer
+            <br>Adapun barang yang akan saya pinjam adalah :</div>
     </section>
     <br>
-    
+
     <section>
         <table border="1" class="bordered highlight responsive-table">
             <thead>
                 <tr>
                     <th>Barcode</th>
                     <th>Nama Barang</th>
+                    <th>Kategori</th>
                     <th>jumlah</th>
                     <th>Tanggal Peminjaman</th>
                     <th>Tanggal Pengembalian</th>
@@ -125,12 +148,23 @@
             <tbody>
                 @foreach ($peminjaman as $key=>$a)
                 <tr>
-                    <td align="center" style="padding: 10px 2px">
-                        {!! DNS1D::getBarcodeHTML(strval($a->id), "C128",4.5,50) !!}
+                    <td>
+                        {!! DNS1D::getBarcodeHTML(strval($a->id), "C128",3.5,45) !!}
                     </td>
                     <td align="center">
                         <div class="row">{{ $a->barang->nama}}</div>
                         <div class="row text-muted">{{ $a->barang->tipe}}</div>
+                    </td>
+                    <td align="center">
+                        @if ($a->barang->kategori == 1)
+                        Laboratorium Sistem Tertanam dan Robotika
+                        @elseif ($a->barang->kategori == 2)
+                        Laboratorium Rekayasa Perangkat Lunak
+                        @elseif($a->barang->kategori == 3)
+                        Laboratorium Jaringan dan Keamanan Komputer
+                        @elseif($a->barang->kategori == 4)
+                        Laboratorium Multimedia
+                        @endif
                     </td>
                     <td align="center">{{$a->jumlah }}</td>
                     <td align="center">{{$a->tgl_start }}</td>
@@ -176,4 +210,5 @@
         </table>
     </section>
 </body>
+
 </html>

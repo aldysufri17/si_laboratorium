@@ -14,12 +14,14 @@
             <li class="breadcrumb-item">inventaris</li>
         </ol>
     </div>
-
+    @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <a href="{{ route('inventaris.create') }}" class="btn btn-sm btn-success">
+       
+        <a href="{{ route('inventaris.add', auth()->user()->role_id) }}" class="btn btn-sm btn-success">
             <i class="fas fa-plus"></i> Data Inventaris
         </a>
     </div>
+    @endrole
 
     {{-- Alert Messages --}}
     @include('sweetalert::alert')
@@ -30,6 +32,7 @@
             <h6 class="m-0 font-weight-bold text-light">Catatan Inventaris</h6>
             <div class="table-responsive">
                 <table id="dataTable" class="table table-borderless dt-responsive" cellspacing="0" width="100%">
+                    @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
                     <thead>
                         <tr>
                             <th width="20%">ID Barang</th>
@@ -55,17 +58,49 @@
                             <td>{{ $data->keluar }}</td>
                             <td>{{ $data->total }}</td>
                             <td>@if ($data->status == 1)
-                            <span class="badge badge-success">Masuk</span>
-                            @else
-                            <span class="badge badge-danger">Keluar</span>
-                            @endif</td>
+                                <span class="badge badge-success">Masuk</span>
+                                @else
+                                <span class="badge badge-danger">Keluar</span>
+                                @endif</td>
                             <td>{{ $data->deskripsi }}</td>
                             <td>{{ $data->created_at }}</td>
                         </tr>
                         @endforeach
                     </tbody>
+                    @endrole
+                    @role('admin')
+                    <thead>
+                        <tr>
+                            <th width="20%" class="text-center">Kategori</th>
+                            <th width="10%" class="text-center">Jumlah</th>
+                            <th width="10%" class="text-center">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($inventaris as $data)
+                        <tr>
+                            <td class="text-center">
+                                @if ($data->kategori == 1)
+                                Laboratorium Sistem Tertanam dan Robotika
+                                @elseif ($data->kategori == 2)
+                                Laboratorium Rekayasa Perangkat Lunak
+                                @elseif($data->kategori == 3)
+                                Laboratorium Jaringan dan Keamanan Komputer
+                                @elseif($data->kategori == 4)
+                                Laboratorium Multimedia
+                                @endif</td>
+                            <td class="text-center">{{ $data->total }}</td>
+                            <td class="d-sm-flex justify-content-center">
+                                <a href="{{route('admin.inventaris', $data->kategori)}}" class="btn btn-primary" data-toggle="tooltip" data-placement="top"
+                                    title="Show">
+                                    <i class="fa fa-eye"></i>
+                                </a>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                    @endrole
                 </table>
-
                 {{ $inventaris->links() }}
             </div>
         </div>
@@ -84,11 +119,13 @@
         </ol>
     </div>
     @include('sweetalert::alert')
+    @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <a href="{{ route('inventaris.create') }}" class="btn btn-sm btn-success">
+        <a href="{{ route('inventaris.add', auth()->user()->role_id)}}" class="btn btn-sm btn-success">
             <i class="fas fa-plus"></i> Tambah Inventaris
         </a>
     </div>
+    @endrole
     <div class="align-items-center bg-light p-3 border-left-success rounded">
         <span class="">Oops!</span><br>
         <p><i class="fa-solid fa-circle-info text-info"></i> Belum Terdapat Data Inventaris</p>
@@ -105,7 +142,9 @@
             "paging": false,
             responsive: true,
             autoWidth: false,
-            "order": [[ 0, "desc" ]]
+            "order": [
+                [0, "desc"]
+            ]
         });
     });
 
