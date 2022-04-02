@@ -74,10 +74,10 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'alamat' => $data['alamat'],
             'status' => 0,
-            'role_id' => 3,
-            'password' => Hash::make($data['password']),
+            'role_id' => 1,
+            'password' => bcrypt($data['password']),
         ]);
-        $user->assignRole(3);
+        $user->assignRole(1);
         return $user;
     }
 }

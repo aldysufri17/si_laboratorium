@@ -17,7 +17,7 @@
                 <h2>Detail Barang</h2>
                 <ol>
                     <li><a href="{{route('home')}}">Home</a></li>
-                    <li><a href="portfolio.html">Daftar Barang</a></li>
+                    <li><a href="{{route('search')}}">Daftar Barang</a></li>
                     <li>Detail Barang</li>
                 </ol>
             </div>
@@ -60,12 +60,16 @@
                                 </div>
                                 <div class="col-md-6">
                                     <span>Keperluan</span>
-                                    <input type="text"
-                                        class="form-control mt-2 mb-3 @error('alasan') is-invalid @enderror"
-                                        placeholder="Keperluan" name="alasan">
-                                    @error('alasan')
-                                    <span class="text-danger">{{$message}}</span>
-                                    @enderror
+                                    <select class="form-control form-control-user @error('alasan') is-invalid @enderror"
+                                    name="alasan">
+                                    <option selected disabled>Select Keperluan</option>
+                                    <option value="praktikum">Praktikum</option>
+                                    <option value="penelitian">Penelitian</option>
+                                    <option value="lainnya">Lainnya</option>
+                                </select>
+                                @error('alasan')
+                                <span class="text-danger">{{ $message }}</span>
+                                @enderror
                                 </div>
                             </div>
 

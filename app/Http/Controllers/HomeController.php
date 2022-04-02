@@ -125,4 +125,15 @@ class HomeController extends Controller
             ->paginate(7);
         return view('frontend.show-peminjaman', compact('peminjaman'));
     }
+
+    public function langkahPeminjaman()
+    {
+        return view('frontend.langkah-peminjaman');
+    }
+
+    public function inventaris()
+    {
+        $barang = DB::table('barang')->where('show', 1)->paginate(5);;
+        return view('frontend.inventaris', compact('barang'));
+    }
 }

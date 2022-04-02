@@ -2,6 +2,7 @@
 @section('title', 'Detail User')
 @section('content')
 <div class="container-fluid">
+    @include('sweetalert::alert')
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-2">
@@ -11,7 +12,9 @@
             <li class="breadcrumb-item">Detail</li>
         </ol>
     </div>
-
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <a class="btn btn-sm btn-danger" href="{{ route('operator.index') }}"><i class="fas fa-angle-double-left"></i> Kembali</a>
+    </div>
     <div class="card shadow mb-4 border-0 bgdark">
         {{-- Page Content --}}
 
@@ -32,7 +35,33 @@
             <p class="text-light mx-5"><strong>No.Telp: </strong><br>{{ $user->mobile_number }}</p>
         </div>
         <div class="pb-5 text-center">
-            <button class="btn btn-info profile-button" onclick="history.back()">Oke</button>
+            <a class="btn btn-warning" href="#" data-toggle="modal" data-target="#reset">
+                <i class="fa-solid fa-clock-rotate-left"></i> Reset Password
+            </a>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="reset" tabindex="-1" role="dialog" aria-labelledby="resetExample"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content bgdark shadow-2-strong ">
+            <div class="modal-header bg-danger">
+                <h5 class="modal-title text-light" id="resetExample">Anda yakin ingin reset password {{$user->name}}?</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body border-0 text-light">Jika anda yakin ingin Reset, Tekan Oke !!</div>
+            <div class="modal-footer border-0">
+                <button class="btn btn-danger" type="button" data-dismiss="modal">Batal</button>
+                <a class="btn btn-primary" href="{{ route('logout') }}"
+                    onclick="event.preventDefault(); document.getElementById('user-reset-form').submit();">
+                    Oke
+                </a>
+                <form id="user-reset-form" method="POST" action="{{ route('users.reset', ['user' => $user->id, 'name' => $user->name]) }}">
+                    @csrf
+                </form>
+            </div>
         </div>
     </div>
 </div>

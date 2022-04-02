@@ -6,10 +6,10 @@
         <div class="container">
 
             <div class="d-flex justify-content-between align-items-center">
-                <h2>Keranjang Peminjaman</h2>
+                <h2>Keranjang Pengajuan</h2>
                 <ol>
                     <li><a href="{{route('home')}}">Home</a></li>
-                    <li>peminjaman</li>
+                    <li>pengajuan</li>
                 </ol>
             </div>
 
@@ -23,7 +23,7 @@
             @if ($peminjaman->isNotEmpty())
             <div class="card shadow-sm p-4 mb-4 bg-white rounded">
                 <center>
-                    <h1>Daftar Peminjaman</h1>
+                    <h1>Daftar Barang Pengajuan</h1>
                     <p>Total: {{$peminjaman->count()}} Barang</p>
                 </center>
                 <div class="card-block">

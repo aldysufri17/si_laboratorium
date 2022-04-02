@@ -41,7 +41,9 @@
                 <div class="col-lg-7 ml-5 content">
                     <h2>Laboratorium</h2>
                     <h3>Departemen Teknik Komputer - Universitas Diponegoro</h3>
-                    <p>Laboratorium sebagai Sarana Prasarana yang dapat digunakan oleh Mahasiswa / i Teknik Komputer Undip dalam Proses Pembelajaran serta Dosen-Dosen Teknik Komputer Undip dalam melakukan Riset / Penelitian.</p>
+                    <p>Laboratorium sebagai Sarana Prasarana yang dapat digunakan oleh Mahasiswa / i Teknik Komputer
+                        Undip dalam Proses Pembelajaran serta Dosen-Dosen Teknik Komputer Undip dalam melakukan Riset /
+                        Penelitian.</p>
                 </div>
             </div>
         </div>
@@ -50,56 +52,124 @@
     <!-- ======= Call To Action Section ======= -->
     <section id="call-to-action">
         <div class="container" data-aos="zoom-out">
-          <div class="row">
-            <div class="col-lg-9 text-center text-lg-start">
-              <h3 class="cta-title">Perlu Bantuan?</h3>
-              <p class="cta-text"> Jika anda perlu bantuan kami, hubungi kami sekarang... </p>
+            <div class="row">
+                <div class="col-lg-9 text-center text-lg-start">
+                    <h3 class="cta-title">Perlu Bantuan?</h3>
+                    <p class="cta-text"> Jika anda perlu bantuan kami, hubungi kami sekarang... </p>
+                </div>
+                <div class="col-lg-3 cta-btn-container text-center">
+                    <a class="cta-btn align-middle"
+                        href="https://api.whatsapp.com/send?phone=089XXXXXXXX&text=Hello+Admin%2C+Saya+mau+bertanya"><i
+                            class="fab fa-whatsapp"></i> Hubungi Kami</a>
+                </div>
             </div>
-            <div class="col-lg-3 cta-btn-container text-center">
-              <a class="cta-btn align-middle" href="https://api.whatsapp.com/send?phone=089XXXXXXXX&text=Hello+Admin%2C+Saya+mau+bertanya"><i class="fab fa-whatsapp"></i> Hubungi Kami</a>
-            </div>
-          </div>
         </div>
-      </section><!-- End Call To Action Section -->
+    </section><!-- End Call To Action Section -->
 
-    <!-- ======= Portfolio Section ======= -->
+    <!-- ======= Galeri Section ======= -->
     <section id="portfolio" class="portfolio">
         <div class="container" data-aos="fade-up">
             <div class="section-header">
                 <h2>Galeri</h2>
-                <p>Dokumentasi foto aktivitas yang dilakukan pada club riset laboratorium Departemen Teknik Komputer,</p>
+                <p>Foto dokumentasi aktivitas yang dilakukan club riset laboratorium Departemen Teknik Komputer,
+                </p>
             </div>
 
             <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
 
                 <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-                    <a href="https://embedded.undip.ac.id/img/landing/pengabdian-masyarakat-di-smk-nu-ungaran.JPG" data-gallery="portfolioGallery"
-                            class="portfolio-lightbox preview-link mt-4" title="Pengabdian Masyarakat di SMK NU Ungaran"><img src="https://embedded.undip.ac.id/img/landing/pengabdian-masyarajat-di-smk-nu-ungaran.JPG" class="img-fluid" alt=""></a>
+                    <a href="https://embedded.undip.ac.id/img/landing/pengabdian-masyarakat-di-smk-nu-ungaran.JPG"
+                        data-gallery="portfolioGallery" class="portfolio-lightbox preview-link mt-4"
+                        title="Pengabdian Masyarakat di SMK NU Ungaran"><img
+                            src="https://embedded.undip.ac.id/img/landing/pengabdian-masyarakat-di-smk-nu-ungaran.JPG"
+                            class="img-fluid" alt=""></a>
                     <div class="portfolio-info">
                         <h4>Pengabdian Masyarakat di SMK NU Ungaran</h4>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 portfolio-item filter-card">
-                    <a href="https://embedded.undip.ac.id/img/landing/pengabdian-masyarakat-di-smk-n-4-semarang.jpg" data-gallery="portfolioGallery"
-                            class="portfolio-lightbox preview-link mt-4" title="Pengabdian Masyarakat di SMK N 4 Semarang"><img style="height: 237px; width:360px" src="https://embedded.undip.ac.id/img/landing/pengabdian-masyarakat-di-smk-n-4-semarang.jpg" class="img-fluid" alt=""></a>
+                    <a href="https://embedded.undip.ac.id/img/landing/pengabdian-masyarakat-di-smk-n-4-semarang.jpg"
+                        data-gallery="portfolioGallery" class="portfolio-lightbox preview-link mt-4"
+                        title="Pengabdian Masyarakat di SMK N 4 Semarang"><img style="height: 237px; width:360px"
+                            src="https://embedded.undip.ac.id/img/landing/pengabdian-masyarakat-di-smk-n-4-semarang.jpg"
+                            class="img-fluid" alt=""></a>
                     <div class="portfolio-info">
                         <h4>Pengabdian Masyarakat di SMK N 4 Semarang</h4>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6 portfolio-item filter-card">
                     <a href="{{asset('frontend/img/hero-carousel/5.jpg')}}" data-gallery="portfolioGallery"
-                            class="portfolio-lightbox preview-link mt-4" title="EMBRIO CLASS CERC di TEKNIK KOMPUTER ANGKATAN 2018"><img style="height: 237px; width:360px" src="{{asset('frontend/img/hero-carousel/5.jpg')}}" class="img-fluid" alt=""></a>
+                        class="portfolio-lightbox preview-link mt-4"
+                        title="EMBRIO CLASS CERC di TEKNIK KOMPUTER ANGKATAN 2018"><img
+                            style="height: 237px; width:360px" src="{{asset('frontend/img/hero-carousel/5.jpg')}}"
+                            class="img-fluid" alt=""></a>
                     <div class="portfolio-info">
                         <h4>EMBRIO CLASS CERC di TEKNIK KOMPUTER ANGKATAN 2018</h4>
                     </div>
                 </div>
 
-                
+
 
             </div>
 
         </div>
-    </section><!-- End Portfolio Section -->
+    </section><!-- End Galeri Section -->
+
+    <!-- ======= Kegiatan Section ======= -->
+    <section id="portfolio" class="portfolio">
+        <div class="container" data-aos="fade-up">
+            <div class="section-header">
+                <h2>Kegiatan</h2>
+                <p>Daftar kegiatan laboratorium sebagai penunjang praktikum Mahasiswa Teknik Komputer</p>
+            </div>
+
+
+            <div class="portfolio-item filter-web">
+                <table id="dataTable" class="table table-borderless dt-responsive" cellspacing="0" width="100%">
+                    <thead>
+                        <tr>
+                            <th width="15%">Laboratorium Sistem Tertanam dan Robotika</th>
+                            <th width="15%">Laboratorium Rekayasa Perangkat Lunak</th>
+                            <th width="15%">Laboratorium Jaringan dan Keamanan Komputer</th>
+                            <th width="15%">Laboratorium Multimedia</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Praktikum Sistem Digital</td>
+                            <td>Praktikum Dasar Komputer</td>
+                            <td>Praktikum Jaringan Komputer I</td>
+                            <td>Praktikum Multimedia</td>
+                        </tr>
+                        <tr>
+                            <td>Praktikum Mikroprosesor dan Preipheral</td>
+                            <td>Praktikum Sistem Basis Data</td>
+                            <td>Praktikum Jaringan Komputer II</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Praktikum Sistem Digital Lanjut</td>
+                            <td>Praktikum Rekayasa Perangkat Lunak</td>
+                            <td>Praktikum Jaringan Komputer Lanjut</td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td>Praktikum Robotika</td>
+                            <td>Praktikum Pemrograman Perangkat Bergerak</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>Praktikum Rekayasa Perangkat Lunak Berbasis Komponen</td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section><!-- End kegiatan Section -->
 </main><!-- End #main -->
 @endsection
 

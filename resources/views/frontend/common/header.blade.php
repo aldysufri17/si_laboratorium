@@ -26,12 +26,19 @@
 
             <nav id="navbar" class="navbar">
                 <ul>
-                    <li><a class="nav-link scrollto" href="{{ url('/')}}">Beranda</a></li>
-                    <li><a class="nav-link scrollto" href="#">Daftar Barang</a></li>
-                    <li><a class="nav-link scrollto" href="#">Langkah Peminjaman</a></li>
+                    <li><a class="nav-link scrollto" href="{{ url('/')}}">BERANDA</a></li>
+                    <li class="dropdown"><a href="{{ url('/')}}"><span>BARANG</span> <i
+                                class="bi bi-chevron-down"></i></a>
+                        <ul>
+                            <li><a href="{{route('search')}}">Cari Barang</a></li>
+                            <li><a href="{{route('home.inventaris')}}">Daftar Barang</a></li>
+                        </ul>
+                    </li>
+                    <li><a class="nav-link scrollto" href="{{route('langkahPeminjaman')}}">LANGKAH PEMINJAMAN</a></li>
                     @auth
                     @if (auth()->user()->role_id == 1)
-                    <li><a class="nav-link scrollto " href="{{ route('cart') }}"><i class="fas fa-shopping-cart" style="font-size: 18px" ></i></a></li>
+                    <li><a class="nav-link scrollto " href="{{ route('cart') }}"><i class="fas fa-shopping-cart"
+                                style="font-size: 18px"></i></a></li>
                     <li class="dropdown"><a href="#"><img class="rounded-circle my-2" width="30px"
                                 src="{{ asset(auth()->user()->foto ? 'storage/user/'. auth()->user()->foto : 'admin/img/undraw_profile.svg') }}"></a>
                         <ul>
@@ -51,7 +58,7 @@
                     @endif
                     @endauth
                     @guest
-                    <li><a class="nav-link scrollto" href="{{ route('login') }}">Login</a></li>
+                    <li><a class="nav-link scrollto" href="{{ route('login') }}">LOGIN</a></li>
                     @endguest
                 </ul>
                 <i class="bi bi-list mobile-nav-toggle"></i>

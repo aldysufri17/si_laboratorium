@@ -9,6 +9,8 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
 Route::get('/daftar', [App\Http\Controllers\Auth\RegisterController::class, 'daftar'])->name('daftar');
 Route::get('/search', [App\Http\Controllers\HomeController::class, 'search'])->name('search');
+Route::get('/langkah-peminjaman', [App\Http\Controllers\HomeController::class, 'langkahPeminjaman'])->name('langkahPeminjaman');
+Route::get('/home/inventaris', [App\Http\Controllers\HomeController::class, 'inventaris'])->name('home.inventaris');
 Route::get('/detail/{id}', [App\Http\Controllers\HomeController::class, 'detail'])->name('detail.barang');
 
 Auth::routes();
@@ -34,6 +36,7 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/store', [UserController::class, 'store'])->name('store');
             Route::get('/detail/{user}', [UserController::class, 'show'])->name('show');
             Route::get('/edit/{user}', [UserController::class, 'edit'])->name('edit');
+            Route::post('/reset/{user}/{name}', [UserController::class, 'reset'])->name('reset');
             Route::put('/update/{user}', [UserController::class, 'update'])->name('update');
             Route::delete('/delete/{user}', [UserController::class, 'delete'])->name('destroy');
             Route::get('/update/status/{user_id}/{status}', [UserController::class, 'updateStatus'])->name('status');

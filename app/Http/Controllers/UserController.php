@@ -78,6 +78,7 @@ class UserController extends Controller
             'nim'           => 'required|numeric',
             'status'        =>  'required|numeric|in:0,1',
         ]);
+        $trim = str_replace(' ', '', $request->name);
 
         if ($request->foto) {
             $foto = $request->foto;
@@ -91,11 +92,11 @@ class UserController extends Controller
                 'nim'           => $request->nim,
                 'alamat'        => $request->alamat,
                 'mobile_number' => $request->mobile_number,
-                'role_id'       => 3,
+                'role_id'       => 1,
                 'jk'            => $request->jk,
                 'status'        => $request->status,
                 'foto'          => $new_foto,
-                'password'      => Hash::make($request->name)
+                'password'      => bcrypt($trim)
             ]);
         } else {
             $user = User::create([
@@ -105,10 +106,10 @@ class UserController extends Controller
                 'nim'           => $request->nim,
                 'alamat'        => $request->alamat,
                 'mobile_number' => $request->mobile_number,
-                'role_id'       => 3,
+                'role_id'       => 1,
                 'jk'            => $request->jk,
                 'status'        => $request->status,
-                'password'      => Hash::make($request->name)
+                'password'      => bcrypt($trim)
             ]);
         }
         // Assign Role To User
@@ -234,5 +235,12 @@ class UserController extends Controller
         } else {
             return redirect()->back()->with('error', 'User Gagal dihapus!.');
         }
+    }
+
+    public function reset($user, $name)
+    {
+        $trim = str_replace(' ', '', $name);
+        $user = User::whereId($user)->update(['password' => bcrypt($trim)]);
+        return redirect()->back()->with('success', 'Password Berhasil direset!.');
     }
 }
