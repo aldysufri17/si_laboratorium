@@ -11,7 +11,7 @@
         <h1 class="h5 mb-0 text-light">Form Tambah Inventaris</h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Dashboard</a></li>
-            <li class="breadcrumb-item"><a href="{{ url('/inventaris')}}">Inventaris</a></li>
+            <li class="breadcrumb-item"><a href="{{ url('/inventaris')}}">Catatan Inventaris</a></li>
             <li class="breadcrumb-item">Tambah Inventaris</li>
         </ol>
     </div>

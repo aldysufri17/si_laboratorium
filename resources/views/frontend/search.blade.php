@@ -1,19 +1,17 @@
 @extends('frontend.layouts.app')
-@section('title', 'Beranda')
+@section('title', 'Pencarian Barang')
 @section('content')
 <main id="main">
     <!-- ======= Breadcrumbs Section ======= -->
     <section class="breadcrumbs">
         <div class="container">
-
             <div class="d-flex justify-content-between align-items-center">
                 <h2>Pencarian Barang</h2>
                 <ol>
                     <li><a href="{{route('home')}}">Home</a></li>
-                    <li>Search</li>
+                    <li>Pencarian Barang</li>
                 </ol>
             </div>
-
         </div>
     </section><!-- Breadcrumbs Section -->
     @include('sweetalert::alert')
@@ -55,7 +53,7 @@
             <div class="card shadow-sm p-3 mb-4 bg-white rounded" style="border-left: solid 4px rgb(0, 54, 233);">
                 <div class="card-block">
                     <span class="">Oops!</span><br>
-                    <p><i class="fa-solid fa-circle-info text-primary"></i> Data tidak ditemukan</p>
+                    <p><i class="fa-solid fa-circle-info text-primary"></i> Barang Tidak Ditemukan</p>
                 </div>
             </div>
             @endif

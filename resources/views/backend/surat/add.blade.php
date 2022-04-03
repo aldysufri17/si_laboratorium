@@ -1,6 +1,6 @@
 @extends('backend.layouts.app')
 
-@section('title', 'Tambah Peminjaman')
+@section('title', 'Tambah Surat')
 
 @section('content')
 
@@ -12,13 +12,13 @@
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Dashboard</a></li>
             <li class="breadcrumb-item"><a href="{{ url('/surat/bebas')}}">Persuratan</a></li>
-            <li class="breadcrumb-item">Surat Bebas</li>
+            <li class="breadcrumb-item">Buat Surat Bebas</li>
         </ol>
     </div>
 
     <!-- DataTales Example -->
     <div class="card shadow border-0 mb-4 bgdark ">
-        <form method="POST" action="{{route('surat.store')}}">
+        <form method="POST" action="{{route('persuratan.store')}}">
             @csrf
             <div class="card-body ">
                 <div class="form-group row">
@@ -27,15 +27,15 @@
                         <span style="color:red;">*</span>Nama</label>
                         <input type="text"
                             class="form-control form-control-user @error('nama') is-invalid @enderror"
-                            autocomplete="off" id="examplenama" placeholder="Nama" name="nama"
+                            autocomplete="off" id="examplenama" placeholder="Nama" name="name"
                             value="{{ old('nama') }}">
 
-                        @error('nama')
+                        @error('name')
                         <span class="text-danger">{{$message}}</span>
                         @enderror
                     </div>
 
-                    {{-- Tgl_end --}}
+                    {{-- nim --}}
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
                         <span style="color:red;">*</span>Nim</label>
                         <input type="text"
@@ -48,15 +48,15 @@
                         @enderror
                     </div>
 
-                    {{-- Jumlah --}}
+                    {{-- Alamat --}}
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
-                        <span style="color:red;">*</span>Jurusan</label>
+                        <span style="color:red;">*</span>Alamat</label>
                         <input type="text"
-                            class="form-control  form-control-user @error('jurusan') is-invalid @enderror"
-                            autocomplete="off" id="examplejurusan" autocomplete="off" placeholder="jurusan" name="jurusan" min="1"
-                            value="{{ old('jurusan') }}">
+                            class="form-control  form-control-user @error('alamat') is-invalid @enderror"
+                            autocomplete="off" id="examplealamat" autocomplete="off" placeholder="alamat" name="alamat" min="1"
+                            value="{{ old('alamat') }}">
 
-                        @error('jurusan')
+                        @error('alamat')
                         <span class="text-danger">{{$message}}</span>
                         @enderror
                     </div>

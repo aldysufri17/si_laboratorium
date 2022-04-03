@@ -11,16 +11,15 @@
         <h1 class="h5 mb-0 text-light">Daftar Barang Rusak</h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="{{ url('/barang')}}">Daftar Barang</a></li>
             <li class="breadcrumb-item">Barang Rusak</li>
         </ol>
     </div>
-    @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
+
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <a href="{{ route('inventaris.create') }}" class="btn btn-sm btn-success">
-            <i class="fas fa-plus"></i> Tambah Baru
-        </a>
+        <a class="btn btn-sm btn-danger" href="{{ route('damaged') }}"><i class="fas fa-angle-double-left"></i> Kembali</a>
     </div>
-    @endrole
+
     {{-- Alert Messages --}}
     @include('sweetalert::alert')
 
@@ -29,36 +28,6 @@
         <div class="card-body">
             <div class="table-responsive">
                 <table id="dataTable" class="table table-borderless dt-responsive" cellspacing="0" width="100%">
-                    @hasanyrole('admin')
-                    <thead>
-                        <tr>
-                            <th width="20%" class="text-center">Kategori</th>
-                            <th width="10%" class="text-center">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($barang as $data)
-                        <tr>
-                            <td class="text-center">
-                                @if ($data->kategori == 1)
-                                Laboratorium Sistem Tertanam dan Robotika
-                                @elseif ($data->kategori == 2)
-                                Laboratorium Rekayasa Perangkat Lunak
-                                @elseif($data->kategori == 3)
-                                Laboratorium Jaringan dan Keamanan Komputer
-                                @elseif($data->kategori == 4)
-                                Laboratorium Multimedia
-                                @endif</td>
-                            <td class="d-sm-flex justify-content-center">
-                                <a href="{{route('admin.damaged', $data->kategori)}}" class="btn btn-primary" data-toggle="tooltip" data-placement="top"
-                                    title="Show">
-                                    <i class="fa fa-eye"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                    @else
                     <thead>
                         <tr>
                             <th width="10%">Status</th>
@@ -79,7 +48,6 @@
                         </tr>
                         @endforeach
                     </tbody>
-                    @endhasanyrole
                 </table>
 
                 {{ $barang->links() }}
@@ -100,13 +68,6 @@
         </ol>
     </div>
     @include('sweetalert::alert')
-    @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <a href="{{ route('inventaris.create') }}" class="btn btn-sm btn-success">
-            <i class="fas fa-plus"></i> Tambah Baru
-        </a>
-    </div>
-    @endrole
     <div class="align-items-center bg-light p-3 border-left-success rounded">
         <span class="">Oops!</span><br>
         <p><i class="fa-solid fa-circle-info text-info"></i> Belum Terdapat Data Barang Rusak</p>

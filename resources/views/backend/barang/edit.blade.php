@@ -1,6 +1,6 @@
 @extends('backend.layouts.app')
 
-@section('title', 'Edit User')
+@section('title', 'Edit Barang')
 
 @section('content')
 
@@ -8,11 +8,11 @@
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-2">
-        <h1 class="h5 mb-0 text-light">Form Edit Master</h1>
+        <h1 class="h5 mb-0 text-light">Form Edit Barang</h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Dashboard</a></li>
-            <li class="breadcrumb-item"><a href="{{ url('/operator')}}">Master</a></li>
-            <li class="breadcrumb-item">Form Edit Master</li>
+            <li class="breadcrumb-item"><a href="{{ route('cart')}}">Keranjang Pengajuan</a></li>
+            <li class="breadcrumb-item">Form Edit Barang</li>
         </ol>
     </div>
 
@@ -23,7 +23,7 @@
             @method('PUT')
 
             <div class="card-body">
-                <h6 class="m-0 font-weight-bold text-light">Edit Master</h6>
+                <h6 class="m-0 font-weight-bold text-light">Edit Barang</h6>
 
                 <div class="form-group row">
 

@@ -1,16 +1,18 @@
 @extends('frontend.layouts.app')
 @section('content')
+@section('title', 'Edit Barang')
+
 <main id="main">
     <!-- ======= Breadcrumbs Section ======= -->
     <section class="breadcrumbs">
         <div class="container">
 
             <div class="d-flex justify-content-between align-items-center">
-                <h2>Detail Barang</h2>
+                <h2>Edit Barang</h2>
                 <ol>
                     <li><a href="{{route('home')}}">Home</a></li>
-                    <li><a href="portfolio.html">Daftar Barang</a></li>
-                    <li>Detail Barang</li>
+                    <li><a href="{{route('cart')}}">Keranjang Peminjaman</a></li>
+                    <li>Edit Barang</li>
                 </ol>
             </div>
 
@@ -34,7 +36,7 @@
                     <div class="p-3 py-5">
                         <div class="d-flex justify-content-center align-items-center mb-3">
                             <div class="d-flex flex-row align-items-center">
-                                <h5>Form Penggunaan Barang</h5>
+                                <h5>Form Edit Penggunaan Barang</h5>
                                 <hr>
                             </div>
                         </div>

@@ -30,7 +30,7 @@
                     <li class="dropdown"><a href="{{ url('/')}}"><span>BARANG</span> <i
                                 class="bi bi-chevron-down"></i></a>
                         <ul>
-                            <li><a href="{{route('search')}}">Cari Barang</a></li>
+                            <li><a href="{{route('search')}}">Pencarian Barang</a></li>
                             <li><a href="{{route('home.inventaris')}}">Daftar Barang</a></li>
                         </ul>
                     </li>
@@ -44,6 +44,7 @@
                         <ul>
                             <li><a href="{{ route('profile.detail') }}">Profile</a></li>
                             <li><a href="{{ route('daftar.riwayat') }}">Riwayat Peminjaman</a></li>
+                            <li><a href="{{ route('surat.index') }}">Surat Bebas Lab</a></li>
                             <li><a class="nav-link scrollto" href="{{ route('logout') }}"
                                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
                             </li>

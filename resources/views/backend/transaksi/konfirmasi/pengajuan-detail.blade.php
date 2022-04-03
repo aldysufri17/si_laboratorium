@@ -1,6 +1,6 @@
 @extends('backend.layouts.app')
 
-@section('title', 'Peminjaman')
+@section('title', 'Daftar Pengajuan')
 
 @section('content')
 
@@ -8,14 +8,15 @@
 <div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-2">
-        <h1 class="h5 mb-0 text-light">Pengajuan</h1>
+        <h1 class="h5 mb-0 text-light">Daftar Pengajuan</h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="{{ url('konfirmasi-pengajuan')}}">Filter Pengajuan</a></li>
             <li class="breadcrumb-item">Daftar Pengajuan</li>
         </ol>
     </div>
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <a href="{{ route('konfirmasi.peminjaman') }}" class="btn btn-sm btn-danger">
+        <a href="{{ route('konfirmasi.pengajuan') }}" class="btn btn-sm btn-danger">
             <i class="fas fa-angle-double-left"></i> Kembali
         </a>
     </div>
@@ -34,7 +35,6 @@
                             <th width="15%">NIM</th>
                             <th width="15%">Nama</th>
                             <th width="10%">Barang</th>
-                            <th width="10%">Tipe</th>
                             <th width="5%">Jumlah</th>
                             <th width="10%">Peminjaman</th>
                             <th width="10%">Pengembalian</th>
@@ -46,12 +46,14 @@
                         <tr>
                             <td>{{ $data->user->nim }}</td>
                             <td>{{ $data->user->name }}</td>
-                            <td>{{ $data->barang->nama }}</td>
-                            <td>{{ $data->barang->tipe }}</td>
-                            <td>{{ $data->jumlah }}</td>
+                            <td>{{ $data->barang->nama }} - {{ $data->barang->tipe }}</td>
+                            <td>{{ $data->jumlah }} {{ $data->barang->satuan }}</td>
                             <td>{{ $data->tgl_start }}</td>
                             <td>{{ $data->tgl_end }}</td>
                             <td style="display: flex">
+                                <a class="btn btn-info" href="{{ route('konfirmasi.peminjaman.show', $data->id) }}" title="Show">
+                                    <i class="fas fa-eye"></i>
+                                </a>
                                 <a href="{{ route('konfirmasi.peminjaman.status', ['user_id' => $data->id, 'status' => 1, 'barang_id' => $data->barang_id, 'jumlah' => $data->jumlah]) }}"
                                     class="btn btn-danger mx-" data-toggle="tooltip" data-placement="top" title="Reject">
                                     <i class="fa fa-ban"></i>
@@ -75,9 +77,10 @@
 <div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-2">
-        <h1 class="h5 mb-0 text-light">Pengajuan</h1>
+        <h1 class="h5 mb-0 text-light">konfirmasi-pengajuan</h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Dashboard</a></li>
+            <li class="breadcrumb-item"><a href="{{ url('konfirmasi-pengajuan')}}">Filter Pengajuan</a></li>
             <li class="breadcrumb-item">Daftar Pengajuan</li>
         </ol>
     </div>

@@ -1,5 +1,5 @@
 @extends('frontend.layouts.app')
-@section('title', 'Beranda')
+@section('title', 'Daftar Barang Laboratorium')
 @section('content')
 <main id="main">
     <!-- ======= Breadcrumbs Section ======= -->
@@ -26,9 +26,9 @@
                     <table id="dataTable" class="table table-borderless dt-responsive" cellspacing="0" width="100%">
                         <thead>
                             <tr>
-                                <th width="15%">Kategori</th>
+                                <th width="15%">Tgl Masuk</th>
+                                <th width="15%">Kategori Lab</th>
                                 <th width="15%">Nama</th>
-                                <th width="15%">Tipe</th>
                                 <th width="15%">Stock</th>
                                 <th width="15%">Lokasi Barang</th>
                                 <th width="15%">Keterangan</th>
@@ -37,6 +37,7 @@
                         <tbody>
                             @foreach ($barang as $data)
                             <tr>
+                                <td>{{ $data->tgl_masuk }}</td>
                                 <td>
                                     @if ($data->kategori == 1)
                                     Laboratorium Sistem Tertanam dan Robotika
@@ -48,8 +49,7 @@
                                     Laboratorium Multimedia
                                     @endif
                                 </td>
-                                <td>{{ $data->nama }}</td>
-                                <td>{{ $data->tipe }}</td>
+                                <td>{{ $data->nama }} - {{ $data->tipe }}</td>
                                 <td>{{ $data->stock }} {{ $data->satuan }}</td>
                                 <td>{{ $data->lokasi }}</td>
                                 <td>@if ($data->info == null)

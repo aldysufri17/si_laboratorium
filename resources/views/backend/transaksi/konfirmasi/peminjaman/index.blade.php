@@ -1,6 +1,6 @@
 @extends('backend.layouts.app')
 
-@section('title', 'Daftar Peminjaman')
+@section('title', 'Filter Peminjaman')
 
 @section('content')
 
@@ -8,10 +8,10 @@
 <div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-2">
-        <h1 class="h5 mb-0 text-light">Peminjaman</h1>
+        <h1 class="h5 mb-0 text-light">Filter Peminjaman</h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Dashboard</a></li>
-            <li class="breadcrumb-item">Daftar Peminjaman</li>
+            <li class="breadcrumb-item">Filter Peminjaman</li>
         </ol>
     </div>
     <div class="d-sm-flex align-items-center mb-4">
@@ -62,7 +62,7 @@
         <h1 class="h5 mb-0 text-light">Peminjaman</h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Dashboard</a></li>
-            <li class="breadcrumb-item">Daftar User</li>
+            <li class="breadcrumb-item">Filter Peminjaman</li>
         </ol>
     </div>
     @include('sweetalert::alert')

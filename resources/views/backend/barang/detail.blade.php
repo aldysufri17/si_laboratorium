@@ -1,14 +1,14 @@
 @extends('backend.layouts.app')
-@section('title', 'Detail User')
+@section('title', 'Detail Barang')
 @section('content')
 <div class="container-fluid">
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-2">
-        <h1 class="h5 mb-0 text-light">Detail</h1>
+        <h1 class="h5 mb-0 text-light">Detail Barang</h1>
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('barang.index')}}">Barang</a></li>
-            <li class="breadcrumb-item">Detail</li>
+            <li class="breadcrumb-item"><a href="{{ url('/barang')}}">Daftar Barang</a></li>
+            <li class="breadcrumb-item">Detail Barang</li>
         </ol>
     </div>
 

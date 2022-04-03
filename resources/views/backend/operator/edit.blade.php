@@ -1,6 +1,6 @@
 @extends('backend.layouts.app')
 
-@section('title', 'Edit User')
+@section('title', 'Edit Pengurus')
 
 @section('content')
 
@@ -8,11 +8,11 @@
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-2">
-        <h1 class="h5 mb-0 text-light">Form Edit Pengurus</h1>
+        <h1 class="h5 mb-0 text-light">Edit Pengurus</h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Dashboard</a></li>
-            <li class="breadcrumb-item"><a href="{{ url('/operator')}}">Pengurus</a></li>
-            <li class="breadcrumb-item">Form Edit Pengurus</li>
+            <li class="breadcrumb-item"><a href="{{ url('/operator')}}">Daftar Pengurus</a></li>
+            <li class="breadcrumb-item">Edit Pengurus</li>
         </ol>
     </div>
 

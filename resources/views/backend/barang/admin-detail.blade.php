@@ -10,7 +10,7 @@
         <h1 class="h5 mb-0 text-light">Barang</h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Dashboard</a></li>
-            <li class="breadcrumb-item">Barang</li>
+            <li class="breadcrumb-item">Daftar Barang</li>
         </ol>
     </div>
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -49,7 +49,7 @@
                                 <span class="badge badge-success">Show</span>
                                 @endif</td>
                             <td>{{ $data->lokasi }}</td>
-                            <td><a class="btn btn-info m-2" href="{{ route('barang.show', $data->id) }}">
+                            <td><a class="btn btn-info m-2" href="{{ route('barang.show', $data->id) }}" title="Show">
                                 <i class="fas fa-eye"></i>
                             </a></td>
                         </tr>

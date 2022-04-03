@@ -1,6 +1,6 @@
 @extends('backend.layouts.app')
 
-@section('title', 'Tambah Master')
+@section('title', 'Tambah Pengurus')
 
 @section('content')
 
@@ -11,7 +11,7 @@
         <h1 class="h5 mb-0 text-light">Form Tambah Pengurus</h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Dashboard</a></li>
-            <li class="breadcrumb-item"><a href="{{ url('/operator')}}">Pengurus</a></li>
+            <li class="breadcrumb-item"><a href="{{ url('/operator')}}">Daftar Pengurus</a></li>
             <li class="breadcrumb-item">Form Tambah Pengurus</li>
         </ol>
     </div>
@@ -92,8 +92,11 @@
                         <select class="form-control form-control-user @error('role_id') is-invalid @enderror"
                             name="role_id">
                             <option selected disabled>Pilih Role</option>
-                            <option value="1">Admin</option>
-                            <option value="2">Operator</option>
+                            <option value="2">Admin</option>
+                            <option value="3">Operator Sistem Embedded dan Robotika</option>
+                            <option value="4">Operator Rekayasa Perangkat Lunak</option>
+                            <option value="5">Operator Jaringan dan Keamanan Komputer</option>
+                            <option value="6">Operator Multimedia</option>
                         </select>
                         @error('role_id')
                         <span class="text-danger">{{$message}}</span>

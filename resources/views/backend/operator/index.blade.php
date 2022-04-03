@@ -1,6 +1,6 @@
 @extends('backend.layouts.app')
 
-@section('title', 'Daftar User')
+@section('title', 'Daftar Pengurus')
 
 @section('content')
 @if ($users->isNotEmpty())
@@ -8,10 +8,10 @@
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-2">
-        <h1 class="h5 mb-0 text-light">Pengurus</h1>
+        <h1 class="h5 mb-0 text-light">Daftar Pengurus</h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Dashboard</a></li>
-            <li class="breadcrumb-item">Pengurus</li>
+            <li class="breadcrumb-item">Daftar Pengurus</li>
         </ol>
     </div>
 
@@ -53,34 +53,32 @@
                                 <span class="badge badge-success">Active</span>
                                 @endif
                             </td>
-                            <td><a class="btn btn-info" href="{{ route('users.show', ['user' => $user->id]) }}">
+                            <td><a class="btn btn-info" href="{{ route('operator.show', ['operator' => $user->id]) }}"
+                                    title="Show">
                                     <i class="fas fa-eye"></i>
                                 </a></td>
                             <td style="display: flex">
                                 @if ($user->status == 0)
                                 <a href="{{ route('sts', ['user_id' => $user->id, 'status' => 1]) }}"
-                                    class="btn btn-success m-2">
+                                    class="btn btn-success mx-2" title="Inactive">
                                     <i class="fa fa-check"></i>
                                 </a>
                                 @elseif ($user->status == 1)
                                 <a href="{{ route('sts', ['user_id' => $user->id, 'status' => 0]) }}"
-                                    class="btn btn-danger m-2">
+                                    class="btn btn-danger mx-2" title="Active">
                                     <i class="fa fa-ban"></i>
                                 </a>
                                 @endif
+                                <a class="btn btn-warning mx-2" data-toggle="modal" data-target="#reset"
+                                    title="Reset Password"><i class="fa-solid fa-clock-rotate-left"></i></a>
                                 <a href="{{ route('operator.edit', ['operator' => $user->id]) }}"
-                                    class="btn btn-primary m-2">
+                                    class="btn btn-primary mx-2" title="Edit">
                                     <i class="fa fa-pen"></i>
                                 </a>
-                                @if ($user->id==1)
-                                <a class="btn btn-danger m-2" href="#" disabled data-toggle="modal" href="#">
+                                <a class="btn btn-danger mx-2" href="#" data-toggle="modal" data-target="#deleteModal"
+                                    title="Delete">
                                     <i class="fas fa-trash"></i>
                                 </a>
-                                @else
-                                <a class="btn btn-danger m-2" href="#" data-toggle="modal" data-target="#deleteModal">
-                                    <i class="fas fa-trash"></i>
-                                </a>
-                                @endif
                             </td>
                         </tr>
                         @endforeach
@@ -91,42 +89,90 @@
             </div>
         </div>
     </div>
-
+    <div class="modal fade" id="reset" tabindex="-1" role="dialog" aria-labelledby="resetExample" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content bgdark shadow-2-strong ">
+                <div class="modal-header bg-danger">
+                    <h5 class="modal-title text-light" id="resetExample">Anda yakin ingin reset password
+                        {{$user->name}}?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body border-0 text-light">Jika anda yakin ingin Reset, Tekan Oke !!</div>
+                <div class="modal-footer border-0">
+                    <button class="btn btn-danger" type="button" data-dismiss="modal">Batal</button>
+                    <a class="btn btn-primary" href="{{ route('logout') }}"
+                        onclick="event.preventDefault(); document.getElementById('user-reset-form').submit();">
+                        Oke
+                    </a>
+                    <form id="user-reset-form" method="POST"
+                        action="{{ route('users.reset', ['user' => $user->id, 'name' => $user->name]) }}">
+                        @csrf
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade" id="reset" tabindex="-1" role="dialog" aria-labelledby="resetExample" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content bgdark shadow-2-strong ">
+                <div class="modal-header bg-danger">
+                    <h5 class="modal-title text-light" id="resetExample">Anda yakin ingin reset password
+                        {{$user->name}}?</h5>
+                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                </div>
+                <div class="modal-body border-0 text-light">Jika anda yakin ingin Reset, Tekan Oke !!</div>
+                <div class="modal-footer border-0">
+                    <button class="btn btn-danger" type="button" data-dismiss="modal">Batal</button>
+                    <a class="btn btn-primary" href="{{ route('logout') }}"
+                        onclick="event.preventDefault(); document.getElementById('user-reset-form').submit();">
+                        Oke
+                    </a>
+                    <form id="user-reset-form" method="POST"
+                        action="{{ route('users.reset', ['user' => $user->id, 'name' => $user->name]) }}">
+                        @csrf
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
+    @include('backend.operator.delete-modal')
+    @else
+    <div class="container-fluid">
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-2">
+            <h1 class="h5 mb-0 text-light">Pengurus</h1>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Dashboard</a></li>
+                <li class="breadcrumb-item">Daftar Pengurus</li>
+            </ol>
+        </div>
+        @include('sweetalert::alert')
+        <div class="d-sm-flex align-items-center justify-content-between mb-4">
+            <a href="{{ route('users.create') }}" class="btn btn-sm btn-success">
+                <i class="fas fa-plus"></i> Tambah Baru
+            </a>
+        </div>
+        <div class="align-items-center bg-light p-3 border-left-success rounded">
+            <span class="">Oops!</span><br>
+            <p><i class="fa-solid fa-circle-info text-info"></i> Belum Terdapat Data Pengurus</p>
+        </div>
+    </div>
+    @endif
+    @endsection
 
-@include('backend.operator.delete-modal')
-@else
-<div class="container-fluid">
-    <!-- Page Heading -->
-    <div class="d-sm-flex align-items-center justify-content-between mb-2">
-        <h1 class="h5 mb-0 text-light">Pengurus</h1>
-        <ol class="breadcrumb">
-            <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Dashboard</a></li>
-            <li class="breadcrumb-item">Daftar Pengurus</li>
-        </ol>
-    </div>
-    @include('sweetalert::alert')
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <a href="{{ route('users.create') }}" class="btn btn-sm btn-success">
-            <i class="fas fa-plus"></i> Tambah Baru
-        </a>
-    </div>
-    <div class="align-items-center bg-light p-3 border-left-success rounded">
-        <span class="">Oops!</span><br>
-        <p><i class="fa-solid fa-circle-info text-info"></i> Belum Terdapat Data User</p>
-    </div>
-</div>
-@endif
-@endsection
-
-@section('scripts')
-<script>
-    $(document).ready(function () {
-        $('#dataTable').DataTable({
-            "bInfo": false,
-            "paging": false
+    @section('scripts')
+    <script>
+        $(document).ready(function () {
+            $('#dataTable').DataTable({
+                "bInfo": false,
+                "paging": false
+            });
         });
-    });
 
-</script>
-@endsection
+    </script>
+    @endsection

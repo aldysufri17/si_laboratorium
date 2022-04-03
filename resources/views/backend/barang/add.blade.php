@@ -11,7 +11,7 @@
         <h1 class="h5 mb-0 text-light">Form Tambah Barang</h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Dashboard</a></li>
-            <li class="breadcrumb-item"><a href="{{ url('/barang')}}">Barang</a></li>
+            <li class="breadcrumb-item"><a href="{{ url('/barang')}}">Daftar Barang</a></li>
             <li class="breadcrumb-item">Tambah Barang</li>
         </ol>
     </div>

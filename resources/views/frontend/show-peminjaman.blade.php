@@ -1,4 +1,6 @@
 @extends('frontend.layouts.app')
+@section('title', 'Histori Peminjaman')
+
 @section('content')
 <main id="main">
     <!-- ======= Breadcrumbs Section ======= -->
@@ -6,10 +8,10 @@
         <div class="container">
 
             <div class="d-flex justify-content-between align-items-center">
-                <h2>Riwayat Peminjaman</h2>
+                <h2>Histori Peminjaman</h2>
                 <ol>
                     <li><a href="{{route('home')}}">Home</a></li>
-                    <li>Riwayat</li>
+                    <li>Histori Peminjaman</li>
                 </ol>
             </div>
 
@@ -19,15 +21,32 @@
 
     <!-- ======= Portfolio Details Section ======= -->
     <section id="portfolio-details" class="portfolio-details">
-        <div class="container">
-            @if ($peminjaman->isNotEmpty())
-            <div class="card shadow-sm p-4 mb-4 bg-white rounded">
+        @if ($peminjaman->isNotEmpty())
+        <div class="card shadow mx-4 p-3 mb-4 border-0">
+            <div class="card-body">
                 <center>
-                    <h1>Riwayat Peminjaman</h1>
-                    <p>Total: {{$peminjaman->count()}} Barang</p>
+                    <h1>Histori Peminjaman</h1>
                 </center>
-                <div class="card-block">
-                    <table class="table">
+                <div class="row d-flex justify-content-center my-4">
+                    <div class="col-xl-3 col-md-3">
+                        <div class="card shadow p-0" style="border-left: 5px solid rgb(179, 255, 0)">
+                            <div class="d-flex align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                        Total Pengajuan Barang </div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="d-flex align-items-center">
+                                        <h3 style="font-weight: bold" class="mx-2 mt-3">{{ App\Models\Peminjaman::where('user_id', auth()->user()->id)->where('status', 4)->count() }}</h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <table id="dataTable" class="table table-borderless dt-responsive" cellspacing="0" width="100%">
                         <thead>
                             <tr>
                                 <th width="15%">Nama Barang</th>
@@ -59,7 +78,7 @@
                                     Laboratorium Multimedia
                                     @endif
                                 </td>
-                                <td>{{$data->jumlah}}</td>
+                                <td>{{$data->jumlah}} {{$data->barang->satuan}}</td>
                                 <td>{{$data->tgl_start}}</td>
                                 <td>{{$data->tgl_end}}</td>
                                 <td><span class="badge badge-success">Baik</span></td>
@@ -69,6 +88,7 @@
                             </tr>
                             @endforeach
                         </tbody>
+                        {{ $peminjaman->links() }}
                     </table>
                 </div>
             </div>
@@ -103,14 +123,23 @@
             <div class="card shadow-sm p-3 mb-4 bg-white rounded" style="border-left: solid 4px rgb(0, 54, 233);">
                 <div class="card-block">
                     <span class="">Oops!</span><br>
-                    <p><i class="fa-solid fa-circle-info text-primary"></i> Data tidak ditemukan</p>
+                    <p><i class="fa-solid fa-circle-info text-primary"></i> Belum Terdapat Peminjaman</p>
                 </div>
             </div>
             @endif
         </div>
     </section><!-- End Portfolio Details Section -->
-
-
-
 </main><!-- End #main -->
+@endsection
+
+@section('script')
+<script>
+    $(document).ready(function () {
+        $('#dataTable').DataTable({
+            "bInfo": false,
+            "paging": false
+        });
+    });
+
+</script>
 @endsection

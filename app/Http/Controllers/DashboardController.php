@@ -33,9 +33,6 @@ class DashboardController extends Controller
      */
     public function index(Request $request)
     {
-        // index
-        $user = User::where('role_id', 3)->count();
-        $barang = Barang::all()->count();
         // notifikasi
         if (Auth::user()->role_id > 2) {
             if (Auth::user()->role_id == 3) {
@@ -50,9 +47,9 @@ class DashboardController extends Controller
             $peminjaman = Peminjaman::where('kategori', $kategori)->where('status', 0)->get();
             $total = Peminjaman::where('kategori', $kategori)->where('status', 0)->count();
             $request->session()->flash('eror', "$total pengajuan belum disetujui !!!");
-            return view('backend.dashboard',  compact(['user', 'barang', 'peminjaman']));
+            return view('backend.dashboard',  compact(['peminjaman']));
         }
-        return view('backend.dashboard',  compact(['user', 'barang']));
+        return view('backend.dashboard');
     }
 
     /**
@@ -127,8 +124,9 @@ class DashboardController extends Controller
     {
         $user_id = Auth::user()->id;
         if ($request->foto) {
-            if ($user->foto) {
-                unlink(storage_path('app/public/user/' . $user->foto));
+            $usercek = User::whereid($user_id)->first();
+            if ($usercek->foto) {
+                unlink(storage_path('app/public/user/' . $usercek->foto));
             }
             $foto = $request->foto;
             $new_foto = date('Y-m-d') . "-" . Auth::user()->name . "-" . Auth::user()->nim . "." . $foto->getClientOriginalExtension();
@@ -146,12 +144,13 @@ class DashboardController extends Controller
         }
     }
 
-    public function updateKTM(Request $request, User $user)
+    public function updateKTM(Request $request)
     {
         $user_id = Auth::user()->id;
         if ($request->ktm) {
-            if ($user->ktm) {
-                unlink(storage_path('app/public/user/ktm' . $user->ktm));
+            $usercek = User::whereid($user_id)->first();
+            if ($usercek->ktm) {
+                unlink(storage_path('app/public/user/ktm/' . $usercek->ktm));
             }
             $ktm = $request->ktm;
             $new_ktm = date('Y-m-d') . "-" . Auth::user()->name . "-" . Auth::user()->nim . "." . $ktm->getClientOriginalExtension();
@@ -161,6 +160,8 @@ class DashboardController extends Controller
             $user_updated = User::whereId($user_id)->update([
                 'ktm'          => $new_ktm,
             ]);
+        } else {
+            return redirect()->back()->with('warning', 'Masukkan Foto..!!.');
         }
         if ($user_updated) {
             return redirect()->back()->with('success', 'KTM Berhasil diperbarui!.');

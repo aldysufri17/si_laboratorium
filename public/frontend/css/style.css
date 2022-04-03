@@ -1218,3 +1218,30 @@ section {
   color: #000;
   text-align: center;
 }
+
+.shake {
+  animation: shake 0.5s;
+  animation-iteration-count: infinite;
+}
+
+@keyframes shake {
+  0% { transform: translateX(0) }
+  25% { transform: translateX(5px) }
+  50% { transform: translateX(-5px) }
+  75% { transform: translateX(5px) }
+  100% { transform: translateX(0) }
+ }
+
+ .dot {
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+  display: inline-block;
+  border: 2px solid black;
+  font-weight: bold;
+  font-size: 15px;
+}
+
+.dot p{
+  color: rgb(0, 214, 46);
+}

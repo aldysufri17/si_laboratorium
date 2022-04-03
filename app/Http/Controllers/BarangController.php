@@ -250,8 +250,33 @@ class BarangController extends Controller
 
     public function damaged()
     {
-        $barang = Barang::whereNotNull('jml_rusak')->paginate(5);
-        return view('backend.barang.damaged', compact('barang'));
+        if (Auth::user()->role_id == 2) {
+            $barang = Barang::whereNotNull('jml_rusak')
+                ->select('kategori', DB::raw('count(*) as total'))
+                // ->selectRaw(DB::raw("SUM(jml_rusak) as total"))
+                ->groupBy('kategori')
+                ->paginate(5);
+            // dd($barang);
+            return view('backend.barang.damaged', compact('barang'));
+        } else {
+            if (Auth::user()->role_id == 3) {
+                $kategori = 1;
+            } elseif (Auth::user()->role_id == 4) {
+                $kategori = 2;
+            } elseif (Auth::user()->role_id == 5) {
+                $kategori = 3;
+            } elseif (Auth::user()->role_id == 6) {
+                $kategori = 4;
+            }
+            $barang = Barang::whereNotNull('jml_rusak')->where('kategori', $kategori)->paginate(5);
+            return view('backend.barang.damaged', compact('barang'));
+        }
+    }
+
+    public function adminDamaged($data)
+    {
+        $barang = Barang::whereNotNull('jml_rusak')->where('kategori', $data)->paginate(5);
+        return view('backend.barang.admin-damaged', compact('barang'));
     }
 
     /**

@@ -1,5 +1,5 @@
 @extends('frontend.layouts.app')
-@section('title', 'Beranda')
+@section('title', 'Langkah Peminjaman')
 @section('content')
 <main id="main">
     <!-- ======= Breadcrumbs Section ======= -->

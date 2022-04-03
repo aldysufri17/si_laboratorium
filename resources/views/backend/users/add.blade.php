@@ -1,6 +1,6 @@
 @extends('backend.layouts.app')
 
-@section('title', 'Tambah User')
+@section('title', 'Tambah Pengguna')
 
 @section('content')
 
@@ -8,11 +8,11 @@
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-2">
-        <h1 class="h5 mb-0 text-light">Form Tambah Master</h1>
+        <h1 class="h5 mb-0 text-light">Tambah Pengguna</h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Dashboard</a></li>
-            <li class="breadcrumb-item"><a href="{{ url('/users')}}">User</a></li>
-            <li class="breadcrumb-item">Form Tambah User</li>
+            <li class="breadcrumb-item"><a href="{{ url('/users')}}">Daftar Pengguna</a></li>
+            <li class="breadcrumb-item">Form Tambah Pengguna</li>
         </ol>
     </div>
    
@@ -21,7 +21,7 @@
         <form method="POST" action="{{route('users.store')}}" enctype="multipart/form-data">
             @csrf
             <div class="card-body">
-            <h6 class="m-0 font-weight-bold text-light">Tambah User Baru</h6>
+            <h6 class="m-0 font-weight-bold text-light">Tambah Pengguna Baru</h6>
 
                 <div class="form-group row">
 

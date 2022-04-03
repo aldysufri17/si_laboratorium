@@ -294,7 +294,7 @@ body{
       <span class="msg">Permission Denied!</span>
       <span class="support">
         <span>Anda tidak memiliki hak untuk mengakses halaman ini!</span>
-        @if (auth()->user()->role_id == 3)
+        @if (auth()->user()->role_id == 1)
         <a href="{{ route('home') }}">← Kembali ke Home</a>
         @else
         <a href="{{ route('dashboard') }}">← Kembali ke Dashboard</a>

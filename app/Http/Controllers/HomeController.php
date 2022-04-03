@@ -20,8 +20,19 @@ class HomeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        // $request->session()->flash('eror', "pengajuan belum disetujui !!!");
+        // example:
+        if (Auth::check()) {
+            $user_id = Auth::user()->id;
+            $peminjaman = Peminjaman::where('user_id', $user_id)->where('status', 0)->get();
+            if ($peminjaman) {
+                $total = Peminjaman::where('user_id', $user_id)->where('status', 0)->count();
+                $request->session()->flash('in', "$total PENGAJUAN MASIH DALAM PROSES");
+            }
+            return view('frontend.home', compact('peminjaman'));
+        }
         return view('frontend.home');
     }
 

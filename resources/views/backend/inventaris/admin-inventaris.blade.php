@@ -1,16 +1,16 @@
 @extends('backend.layouts.app')
 
-@section('title', 'Daftar inventaris')
+@section('title', 'Catatan Inventaris')
 
 @section('content')
 <div class="container-fluid">
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-2">
-        <h1 class="h5 mb-0 text-light">inventaris</h1>
+        <h1 class="h5 mb-0 text-light">Catatan Inventaris</h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Dashboard</a></li>
-            <li class="breadcrumb-item">inventaris</li>
+            <li class="breadcrumb-item">Catatan Inventaris</li>
         </ol>
     </div>
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -28,25 +28,24 @@
                 <table id="dataTable" class="table table-borderless dt-responsive" cellspacing="0" width="100%">
                     <thead>
                         <tr>
-                            <th width="20%">ID Barang</th>
-                            <th width="25%">Nama Barang</th>
-                            <th width="25%">Tipe</th>
                             <th width="25%">ID Inventaris</th>
-                            <th width="25%">Penambahan</th>
-                            <th width="25%">Pengurangan</th>
+                            <th width="20%">ID Barang</th>
+                            <th width="25%">Tanggal</th>
+                            <th width="25%">Barang</th>
+                            <th width="10%">Penambahan</th>
+                            <th width="10%">Pengurangan</th>
                             <th width="25%">Sisa</th>
                             <th width="25%">Status</th>
                             <th width="25%">Deskripsi</th>
-                            <th width="25%">Tanggal</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($inventaris as $data)
                         <tr>
-                            <td>{{ $data->id }}</td>
-                            <td>{{ $data->nama }}</td>
-                            <td>{{ $data->tipe }}</td>
                             <td>{{ $data->kode_inventaris }}</td>
+                            <td>{{ $data->id }}</td>
+                            <td>{{ $data->created_at }}</td>
+                            <td>{{ $data->nama }} - {{ $data->tipe }}</td>
                             <td>{{ $data->masuk }}</td>
                             <td>{{ $data->keluar }}</td>
                             <td>{{ $data->total }}</td>
@@ -56,7 +55,6 @@
                                 <span class="badge badge-danger">Keluar</span>
                                 @endif</td>
                             <td>{{ $data->deskripsi }}</td>
-                            <td>{{ $data->created_at }}</td>
                         </tr>
                         @endforeach
                     </tbody>

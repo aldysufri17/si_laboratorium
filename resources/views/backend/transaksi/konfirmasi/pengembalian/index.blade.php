@@ -32,7 +32,6 @@
                             <th width="10%">NIM</th>
                             <th width="15%">Nama</th>
                             <th width="15%">Barang</th>
-                            <th width="10%">Tipe</th>
                             <th width="10%">Jumlah</th>
                             <th width="15%">Peminjaman</th>
                             <th width="15%">Pengembalian</th>
@@ -45,9 +44,8 @@
                         <tr>
                             <td>{{ $data->user->nim }}</td>
                             <td>{{ $data->user->name }}</td>
-                            <td>{{ $data->barang->nama }}</td>
-                            <td>{{ $data->barang->tipe }}</td>
-                            <td>{{ $data->jumlah }}</td>
+                            <td>{{ $data->barang->nama }} - {{ $data->barang->tipe }}</td>
+                            <td>{{ $data->jumlah }} {{ $data->barang->satuan }}</td>
                             <td>{{ $data->tgl_start }}</td>
                             <td>{{ $data->tgl_end }}</td>
                             @if ($data->tgl_end < date('Y-m-d'))

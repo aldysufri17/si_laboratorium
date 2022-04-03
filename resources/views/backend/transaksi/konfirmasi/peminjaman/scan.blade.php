@@ -9,7 +9,7 @@
         <h1 class="h5 mb-0 text-light">Peminjaman</h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Dashboard</a></li>
-            <li class="breadcrumb-item"><a href="{{ route('konfirmasi.peminjaman')}}">Peminjaman</a></li>
+            <li class="breadcrumb-item"><a href="{{ route('konfirmasi.peminjaman')}}">Filter Peminjaman</a></li>
             <li class="breadcrumb-item">Scan</li>
         </ol>
     </div>

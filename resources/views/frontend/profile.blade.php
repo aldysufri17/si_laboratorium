@@ -1,5 +1,5 @@
 @extends('frontend.layouts.app')
-@section('title', 'Beranda')
+@section('title', 'Profile')
 @section('content')
 <main id="main">
     <!-- ======= Breadcrumbs Section ======= -->
@@ -62,7 +62,7 @@
                                 <div class="modal-body text-center">
                                     <img class="my-2"
                                     width="250px"
-                                    src="{{ asset(auth()->user()->ktm ? 'storage/user/ktm'. auth()->user()->ktm : 'images/empty.jpg') }}">
+                                    src="{{ asset(auth()->user()->ktm ? 'storage/user/ktm/'. auth()->user()->ktm : 'images/empty.jpg') }}">
                                     <form action="{{route('profile.ktm')}}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     <input type="file" name="ktm">
@@ -75,7 +75,6 @@
                             </div>
                         </div>
                     </div>
-
                     {{-- Modal Update Foto --}}
                     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog"
                         aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -107,7 +106,7 @@
                         {{-- Profile --}}
                         <div class="p-3 py-5">
                             <div class="d-flex justify-content-between align-items-center mb-3">
-                                <h4 class="text-right">Profile</h4>
+                                <h4 class="text-right">Edit Profile</h4>
                             </div>
                             <form action="{{ route('profile.update') }}" method="POST">
                                 @csrf

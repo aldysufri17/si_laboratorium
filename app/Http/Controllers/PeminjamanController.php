@@ -26,6 +26,7 @@ class PeminjamanController extends Controller
     {
         if (Auth::user()->role_id == 2) {
             $peminjaman = Peminjaman::with('user', 'barang')
+                ->where('status', '>', 2)
                 ->select('kategori', DB::raw('count(*) as total'))
                 ->groupBy('kategori')
                 ->paginate(5);
@@ -45,6 +46,12 @@ class PeminjamanController extends Controller
                 ->paginate(5);
         }
         return view('backend.transaksi.index', compact('peminjaman'));
+    }
+
+    public function show($data)
+    {
+        $peminjaman = Peminjaman::with('user', 'barang')->whereId($data)->first();
+        return view('backend.transaksi.show', compact('peminjaman'));
     }
 
     public function adminPeminjaman($data)
@@ -79,7 +86,17 @@ class PeminjamanController extends Controller
 
     public function pengajuanDetail($data)
     {
+        if (Auth::user()->role_id == 3) {
+            $kategori = 1;
+        } elseif (Auth::user()->role_id == 4) {
+            $kategori = 2;
+        } elseif (Auth::user()->role_id == 5) {
+            $kategori = 3;
+        } elseif (Auth::user()->role_id == 6) {
+            $kategori = 4;
+        }
         $peminjaman = Peminjaman::with('user', 'barang')
+            ->where('kategori', $kategori)
             ->where('date', $data)
             ->Where('status', 0)
             ->paginate(5);
@@ -355,13 +372,20 @@ class PeminjamanController extends Controller
         $name = Auth::user()->name;
         $nim = Auth::user()->nim;
         $alamat = Auth::user()->alamat;
-        $peminjaman = Peminjaman::where('user_id', $user_id)->where('status', 2)->get();
-        $pdf = PDF::loadview('frontend.surat', ['peminjaman' => $peminjaman, 'name' => $name, 'nim' => $nim, 'alamat' => $alamat]);
+        $peminjaman = Peminjaman::where('user_id', $user_id)->where('status', '>', 2)->get();
+        $pdf = PDF::loadview('frontend.surat-peminjaman', ['peminjaman' => $peminjaman, 'name' => $name, 'nim' => $nim, 'alamat' => $alamat]);
         // return view('frontend.surat', ['peminjaman' => $peminjaman, 'name' => $name, 'nim' => $nim, 'alamat' => $alamat]);
 
         if ($peminjaman->isEmpty()) {
-            return redirect()->back()->with('info', 'Pengajuan Belum disetujui!.');
+            return redirect()->back()->with('info', 'Belum terdapat pengajuan disetujui!.');
         }
         return $pdf->download("Surat Peminjaman" . "_" . $name . '_' . $nim . '.pdf');
+    }
+
+    public function suratBebas()
+    {
+        $id = Auth::user()->id;
+        $user = User::where('id', $id)->first();
+        return view('frontend.surat', compact('user'));
     }
 }

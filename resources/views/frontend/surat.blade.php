@@ -1,214 +1,248 @@
-<!DOCTYPE html>
-<html lang="en">
+@extends('frontend.layouts.app')
+@section('title', 'Surat Bebas Laboratorium')
+@section('content')
+@if ($message = Session::get('gagal_surat'))
+<div class="alert alert-danger alert-dismissible shake" style="margin-bottom: -6px; margin:0 5px" role="alert">
+    <button type="button" class="close" data-dismiss="alert">
+        <i class="fa fa-times"></i>
+    </button>
+    <strong>{{ $message }}</strong> {{ session('error') }}
+</div>
+@endif
+@include('sweetalert::alert')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-    <style>
-        * {
-            line-height: 1.2em;
-            font-size: 12pt;
-            margin: 0;
+<main id="main">
+    <!-- ======= Breadcrumbs Section ======= -->
+    <section class="breadcrumbs">
+        <div class="container">
 
-        }
+            <div class="d-flex justify-content-between align-items-center">
+                <h2>Surat Bebas Laboratorium</h2>
+                <ol>
+                    <li><a href="{{route('home')}}">Home</a></li>
+                    <li>Surat Bebas Laboratorium</li>
+                </ol>
+            </div>
 
-        body {
-            margin-left: 4;
-        }
+        </div>
+    </section><!-- Breadcrumbs Section -->
 
-        .font-arial {
-            font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif
-        }
+    <section id="portfolio-details" class="portfolio-details">
+        @if ($surat->isNotEmpty())
+        <div class="card shadow mx-5 px-3 mb-4 border-0">
+            <div class="ml-4 mt-3 mb-3">
+                <a class="btn btn-success" href="#" data-toggle="modal" data-target="#formModal">
+                    <i class="fa-solid fa-square-plus"></i> Buat Surat
+                </a>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="dataTable" class="table table-borderless dt-responsive" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th width="10%">Nama</th>
+                                <th width="10%">Nim</th>
+                                <th width="15%">Nomor Telepon</th>
+                                <th width="15%">Alamat</th>
+                                <th width="15%" class="text-center">Tracking</th>
+                                <th width="15%">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                @foreach ($surat as $data)
+                                <td>{{$data->user->name}}</td>
+                                <td>{{$data->user->nim}}</td>
+                                <td>{{$data->user->mobile_number}}</td>
+                                <td>{{$data->user->alamat}}</td>
+                                <td>
+                                    <div class="d-flex">
+                                        @if($data->status == 0)
+                                        <div class="circle">
+                                            <center><span class="dot text-center"
+                                                    style="border: 2px solid rgb(0, 214, 46);">
+                                                    <p>1</p>
+                                                </span></center>
+                                            <p class="text-center" style="font-size: 12px; color: rgb(0, 214, 46)">
+                                                PENGAJUAN</p>
+                                        </div>
+                                        <div class="circle mx-2">
+                                            <center><span class="dot text-center">2</span></center>
+                                            <p class="text-center" style="font-size: 12px">DITOLAK</p>
+                                        </div>
+                                        <div class="circle">
+                                            <center><span class="dot text-center">3</span></center>
+                                            <p class="text-center" style="font-size: 12px">DISETUJUI</p>
+                                        </div>
+                                        @elseif($data->status == 1)
+                                        <div class="circle">
+                                            <center><span class="dot text-center"
+                                                    style="border: 2px solid rgb(0, 214, 46);">
+                                                    <p>1</p>
+                                                </span></center>
+                                            <p class="text-center" style="font-size: 12px; color: rgb(0, 214, 46)">
+                                                PENGAJUAN</p>
+                                        </div>
+                                        <div class="circle mx-2">
+                                            <center><span class="dot text-center"
+                                                    style="border: 2px solid rgb(214, 0, 0);">
+                                                    <p style="color: rgb(214, 0, 0)">2</p>
+                                                </span></center>
+                                            <p class="text-center" style="font-size: 12px; color: rgb(214, 0, 0)">
+                                                DITOLAK</p>
+                                        </div>
+                                        <div class="circle">
+                                            <center><span class="dot text-center">3</span></center>
+                                            <p class="text-center" style="font-size: 12px">DISETUJUI</p>
+                                        </div>
+                                        @elseif($data->status == 2)
+                                        <div class="circle">
+                                            <center><span class="dot text-center"
+                                                    style="border: 2px solid rgb(0, 214, 46);">
+                                                    <p>1</p>
+                                                </span></center>
+                                            <p class="text-center" style="font-size: 12px; color: rgb(0, 214, 46)">
+                                                PENGAJUAN</p>
+                                        </div>
+                                        <div class="circle mx-2">
+                                            <center><span class="dot text-center">2</span></center>
+                                            <p class="text-center" style="font-size: 12px">DITOLAK</p>
+                                        </div>
+                                        <div class="circle">
+                                            <center><span class="dot text-center"
+                                                    style="border: 2px solid rgb(0, 214, 46);">
+                                                    <p>3</p>
+                                                </span></center>
+                                            <p class="text-center" style="font-size: 12px; color: rgb(0, 214, 46)">
+                                                DISETUJUI</p>
+                                        </div>
+                                        @endif
+                                    </div>
+                                </td>
+                                <td>
+                                    <a href="{{route('surat.show', ['surat' => $data->id])}}"
+                                        class="btn btn-primary mx-2" title="Unduh">
+                                        <i class="fa-solid fa-print"></i>
+                                    </a>
+                                    <a class="btn btn-danger" href="#" data-toggle="modal" title="Delete"
+                                        data-target="#deleteModal">
+                                        <i class="fas fa-trash"></i>
+                                    </a>
+                                </td>
+                                @endforeach
+                            </tr>
+                        </tbody>
+                    </table>
+                    {{ $surat->links() }}
+                </div>
+            </div>
+        </div>
 
-        .font-cambria {
-            font-family: Cambria, Georgia, serif
-        }
-
-        .text-center {
-            text-align: center
-        }
-
-        .margin-bottom {
-            margin-bottom: 1.2em
-        }
-
-        table {
-            border-collapse: collapse;
-            width: 100%
-        }
-
-        table.line-height-table {
-            line-height: 2em
-        }
-
-        table .col-center {
-            text-align: center
-        }
-
-        #header table td {
-            padding: 5px
-        }
-
-        img.center {
-            display: block;
-            margin: 0 auto
-        }
-
-        img.logo {
-            width: 93px;
-            height: 123px
-        }
-
-        img.certificate {
-            padding: 0 10px;
-            width: 110px;
-            height: 64px
-        }
-
-        .head-info td {
-            vertical-align: top;
-            font-size: 8pt
-        }
-
-        .yth {
-            padding: 20px 0
-        }
-
-        .align-top {
-            vertical-align: top
-        }
-
-    </style>
-</head>
-
-<body style="margin: 0 20px">
-    <section id="header">
-        <table collapse="collapse" class="font-arial">
-            <tr>
-                <td rowspan="1"><img class="center logo" style="width:100px; height:100px;"
-                        src="https://rekreartive.com/wp-content/uploads/2018/10/Logo-Undip-Universitas-Diponegoro-Semarang-Warna.jpg">
-                </td>
-                <td colspan="2" class="text-center">
-                    <span style="font-size: 15pt; font-weight: bold">Peminjaman Barang Laboratorium<br>Departemen Teknik Komputer</span><br>
-                    <span style="font-size: 10pt; ">1. Sistem Tertanam dan
-                        Robotika 2. Rekayasa Perangkat Lunak</span><br>
-                    <span style="font-size: 10pt;">3. Keamanan dan Jaringan Komputer 4. Multimedia</span><br>
-                    <span style="font-size: 10pt;">Jl. Prof.Soedarto, Tembalang, Kec. Tembalang, Kota Semarang, Jawa
-                        Tengah 50275</span><br>
-                    <span style="font-size: 6pt;">Kontak : (024) 76480609<br>Email: siskom@undip.ac.id</span>
-                </td>
-            </tr>
-
-        </table>
-        <hr widht="200px;">
+        {{-- Modal Delete --}}
+        <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalExample"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content bgdark shadow-2-strong ">
+                    <div class="modal-header bg-danger">
+                        <h5 class="modal-title text-light" id="deleteModalExample"><strong>Anda yakin ingin
+                                Menghapus?</strong>
+                        </h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body border-0 text-dark">Jika anda yakin ingin manghapus, Tekan Oke !!</div>
+                    <div class="modal-footer border-0">
+                        <button class="btn btn-danger" type="button" data-dismiss="modal">Batal</button>
+                        <a class="btn btn-primary" href="{{ route('logout') }}"
+                            onclick="event.preventDefault(); document.getElementById('user-delete-form').submit();">
+                            Oke
+                        </a>
+                        <form id="user-delete-form" method="POST"
+                            action="{{route('surat.destroy', ['surat' => $data->id])}}">
+                            @csrf
+                            @method('DELETE')
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        @else
+        <div class="ml-4 mt-3 mb-3">
+            <a class="btn btn-success" href="#" data-toggle="modal" data-target="#formModal">
+                <i class="fa-solid fa-square-plus"></i> Buat Surat
+            </a>
+        </div>
+        <div class="card shadow-sm p-3 mx-3 mb-4 bg-white rounded" style="border-left: solid 4px rgb(0, 54, 233);">
+            <div class="card-block">
+                <span class="">Oops!</span><br>
+                <p><i class="fa-solid fa-circle-info text-primary"></i> Belum Terdapat Surat Bebas Laboratorium</p>
+            </div>
+        </div>
+        @endif
     </section>
-    <section class="font-cambria">
-        <div class="yth">Kepada Yth.<br>Kepala Laboratorium<br>SMK DHARMA ANALITIKA MEDAN</div>
-        <div>Dengan hormat,<br>Yang bertanda tangan dibawah ini, saya :</div>
-    </section>
-    <section>
-        <table class="line-height-table">
-            <tr>
-                <td style="width: 20%">Nama</td>
-                <td style="width: 2%">:</td>
-                <td>{{$name}}</td>
-            </tr>
-            <tr>
-                <td>NIM</td>
-                <td>:</td>
-                <td>{{$nim}}</td>
-            </tr>
-            <tr>
-                <td>Alamat</td>
-                <td>:</td>
-                <td>{{$alamat}}</td>
-            </tr>
-        </table>
-    </section>
-    <section>
-        <div>Mengajukan permohonan peminjaman barang di Laboratorium Departemen Teknik Komputer
-            <br>Adapun barang yang akan saya pinjam adalah :</div>
-    </section>
-    <br>
+</main><!-- End #main -->
+{{-- form modal --}}
+<div class="modal fade" id="formModal" tabindex="-1" role="dialog" aria-labelledby="formModalExample"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content bgdark shadow-2-strong ">
+            <div class="modal-header bg-primary">
+                <h5 class="modal-title text-light" id="formModalExample"><strong>Form Pengajuan Surat Bebas Lab</strong>
+                </h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body border-0 text-dark">
+                <p class="text-danger mb-0">* Isi data sesuai profile akun</p>
+                <form method="POST" action="{{route('surat.store')}}">
+                    @csrf
+                    <div class="form-row">
+                        <div class="row">
+                            <div class="col">
+                                <span>Nama</span>
+                                <input type="text" name="nama" class="form-control mt-2" readonly
+                                    value="{{auth()->user()->name}}" placeholder="Name">
+                            </div>
+                            <div class="col">
+                                <span>Nim</span>
+                                <input type="text" name="nim" class="form-control mt-2" readonly
+                                    value="{{auth()->user()->nim}}" placeholder="NIM">
+                            </div>
+                        </div>
+                        <div class="row mt-3">
+                            <div class="col">
+                                <span>Nomor Telepon</span>
+                                <input type="text" name="mobile_number" class="form-control mt-2" readonly
+                                    value="{{auth()->user()->mobile_number}}" placeholder="Jenis kelamin">
+                            </div>
+                            <div class="col">
+                                <span>Alamat</span>
+                                <input type="text" name="alamat" class="form-control mt-2" readonly placeholder="Alamat"
+                                    value="{{auth()->user()->alamat}}">
+                            </div>
+                        </div>
+                    </div>
+            </div>
+            <div class="modal-footer border-0">
+                <button class="btn btn-danger" type="button" data-dismiss="modal">Batal</button>
+                <button class="btn btn-primary" type="submit">Buat</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
 
-    <section>
-        <table border="1" class="bordered highlight responsive-table">
-            <thead>
-                <tr>
-                    <th>Barcode</th>
-                    <th>Nama Barang</th>
-                    <th>Kategori</th>
-                    <th>jumlah</th>
-                    <th>Tanggal Peminjaman</th>
-                    <th>Tanggal Pengembalian</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($peminjaman as $key=>$a)
-                <tr>
-                    <td>
-                        {!! DNS1D::getBarcodeHTML(strval($a->id), "C128",3.5,45) !!}
-                    </td>
-                    <td align="center">
-                        <div class="row">{{ $a->barang->nama}}</div>
-                        <div class="row text-muted">{{ $a->barang->tipe}}</div>
-                    </td>
-                    <td align="center">
-                        @if ($a->barang->kategori == 1)
-                        Laboratorium Sistem Tertanam dan Robotika
-                        @elseif ($a->barang->kategori == 2)
-                        Laboratorium Rekayasa Perangkat Lunak
-                        @elseif($a->barang->kategori == 3)
-                        Laboratorium Jaringan dan Keamanan Komputer
-                        @elseif($a->barang->kategori == 4)
-                        Laboratorium Multimedia
-                        @endif
-                    </td>
-                    <td align="center">{{$a->jumlah }}</td>
-                    <td align="center">{{$a->tgl_start }}</td>
-                    <td align="center">{{ $a->tgl_end}}</td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </section>
-    <br>
-    <section id="ttd">
-        <table>
-            <tr>
-                <td style="width: 70%;"></td>
-                <td style="width: 30%;">Semarang, <?= date('d-m-Y') ?></td>
-            </tr>
-            <tr>
-                <td colspan="2">Mengetahui,</td>
-            </tr>
-            <tr>
-                <td>Dosen pengampu/pembimbing,</td>
-                <td>Hormat saya,</td>
-            </tr>
-            <tr>
-                <td colspan="2" style="height: 70px"></td>
-            </tr>
-            <tr>
-                <td class="align-top">(............................................................)</td>
-                <td class="align-top">(............................................................)</td>
-            </tr>
-        </table>
-        <br>
-        <table>
-            <tr>
-                <td class="col-center">Menyetujui,<br>Kepala Laboratorium</td>
-            </tr>
-            <tr>
-                <td style="height: 70px"></td>
-            </tr>
-            <tr>
-                <td class="align-top col-center">(............................................................)</td>
-            </tr>
-        </table>
-    </section>
-</body>
+@endsection
+@section('script')
+<script>
+    $(document).ready(function () {
+        $('#dataTable').DataTable({
+            "bInfo": false,
+            "paging": false
+        });
+    });
 
-</html>
+</script>
+@endsection

@@ -42,11 +42,11 @@
         </a>
         <div id="barangDropDown" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class=" py-2 collapse-inner rounded" style="background-color: rgb(230, 230, 230)">
-                <a class="collapse-item text-red" href="{{ route('barang.index') }}">Data Barang</a>
                 @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
                 <a class="collapse-item text-red" href="{{ route('barang.create') }}">Tambah Barang</a>
-                <a class="collapse-item text-red" href="{{ route('damaged') }}">Barang Rusak</a>
                 @endrole
+                <a class="collapse-item text-red" href="{{ route('damaged') }}">Barang Rusak</a>
+                <a class="collapse-item text-red" href="{{ route('barang.index') }}">Data Barang</a>
             </div>
         </div>
     </li>
@@ -92,11 +92,20 @@
             <span>Daftar Peminjaman</span>
         </a>
     </li>
-
+    @role('admin')
     <li class="nav-item">
-        <a class="nav-link" href="{{route('surat.index')}}">
-            <i class="fa-solid fa-book"></i>
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#suratDropDown"
+            aria-expanded="true" aria-controls="suratDropDown">
+            <i class="fa-solid fa-file-lines"></i>
             <span>Surat Bebas Lab</span>
         </a>
+        <div id="suratDropDown" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
+            <div class=" py-2 collapse-inner rounded" style="background-color: rgb(230, 230, 230)">
+                <a class="collapse-item text-red" href="{{ route('persuratan.create') }}">Buat Surat</a>
+                <a class="collapse-item text-red" href="{{ route('persuratan.konfirmasi') }}">Konfirmasi Surat</a>
+                <a class="collapse-item text-red" href="{{ route('persuratan.riwayat') }}">Riwayat Surat</a>
+            </div>
+        </div>
     </li>
+    @endrole
 </ul>

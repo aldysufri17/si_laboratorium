@@ -1,6 +1,6 @@
 @extends('backend.layouts.app')
 
-@section('title', 'Daftar inventaris')
+@section('title', 'Catatan Inventaris')
 
 @section('content')
 @if ($inventaris->isNotEmpty())
@@ -8,17 +8,17 @@
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-2">
-        <h1 class="h5 mb-0 text-light">inventaris</h1>
+        <h1 class="h5 mb-0 text-light">Catatan Inventaris</h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Dashboard</a></li>
-            <li class="breadcrumb-item">inventaris</li>
+            <li class="breadcrumb-item">Catatan Inventaris</li>
         </ol>
     </div>
     @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
        
         <a href="{{ route('inventaris.add', auth()->user()->role_id) }}" class="btn btn-sm btn-success">
-            <i class="fas fa-plus"></i> Data Inventaris
+            <i class="fas fa-plus"></i> Tambah Inventaris
         </a>
     </div>
     @endrole
@@ -112,10 +112,10 @@
 <div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-2">
-        <h1 class="h5 mb-0 text-light">Inventaris</h1>
+        <h1 class="h5 mb-0 text-light">Catatan Inventaris</h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Dashboard</a></li>
-            <li class="breadcrumb-item">Daftar inventaris</li>
+            <li class="breadcrumb-item">Catatan Inventaris</li>
         </ol>
     </div>
     @include('sweetalert::alert')
