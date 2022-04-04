@@ -91,13 +91,22 @@
                         src="https://rekreartive.com/wp-content/uploads/2018/10/Logo-Undip-Universitas-Diponegoro-Semarang-Warna.jpg">
                 </td>
                 <td colspan="2" class="text-center">
-                    <span style="font-size: 15pt; font-weight: bold">PEMINJAMAN BARANG LABORATORIUM<br>DEPARTMENT TEKNIK KOMPUTER</span><br>
+                    <span style="font-size: 15pt; font-weight: bold">PEMINJAMAN BARANG LABORATORIUM<br>DEPARTMENT TEKNIK
+                        KOMPUTER</span><br>
                     <span style="font-size: 10pt; ">1. Sistem Tertanam dan
                         Robotika 2. Rekayasa Perangkat Lunak</span><br>
                     <span style="font-size: 10pt;">3. Keamanan dan Jaringan Komputer 4. Multimedia</span><br>
                     <span style="font-size: 10pt;">Jl. Prof.Soedarto, Tembalang, Kec. Tembalang, Kota Semarang, Jawa
                         Tengah 50275</span><br>
                     <span style="font-size: 6pt;">Kontak : (024) 76480609<br>Email: siskom@undip.ac.id</span>
+                </td>
+                @php
+                date_default_timezone_set('Asia/jakarta');
+                $date = date("l jS \of F Y h:i:s A");
+                $surat = "Created $date \n website: http://silab18.herokuapp.com/"
+                @endphp
+                <td rowspan="1"><img src="data:image/png;base64,{{DNS2D::getBarcodePNG(strval($surat), 'QRCODE',3,3)}}"
+                        style="background-color: rgb(255, 255, 255); padding:5px; border-radius:1px" alt="barcode" />
                 </td>
             </tr>
         </table>

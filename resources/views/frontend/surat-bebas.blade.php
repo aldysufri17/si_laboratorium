@@ -100,6 +100,7 @@
                         Tengah 50275</span><br>
                     <span style="font-size: 6pt;">Kontak : (024) 76480609<br>Email: siskom@undip.ac.id</span>
                     @php
+                    date_default_timezone_set('Asia/jakarta');
                     $date = date("l jS \of F Y h:i:s A");
                     $surat = "Created $date \n website: http://silab18.herokuapp.com/"
                     @endphp
