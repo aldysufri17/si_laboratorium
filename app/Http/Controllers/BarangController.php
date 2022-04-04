@@ -381,7 +381,7 @@ class BarangController extends Controller
         } elseif (Auth::user()->role_id == 6) {
             $name = "Laboratorium Multimedia";
         }
-        return Excel::download(new BarangExport($data), 'Data Barang' . '-' . $name . '.xlsx');
+        return Excel::download(new BarangExport($data), 'Data Barang' . '-' . $name . date('Y-m-d') . '.xlsx');
     }
 
     public function import()

@@ -14,20 +14,34 @@
             <li class="breadcrumb-item">Daftar Peminjaman</li>
         </ol>
     </div>
+    @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
     <div class="d-sm-flex align-items-center mb-4">
-        <a href="{{ route('users.create') }}" class="btn btn-sm btn-primary">
-            <i class="fas fa-file-export"></i> Export
+        <a href="{{ route('export.peminjaman', 0) }}" class="btn btn-sm btn-warning">
+            <i class="fa-solid fa-file-csv"></i> Export .csv
         </a>
     </div>
+    @endrole
 
     {{-- Alert Messages --}}
-    {{-- @include('backend.common.alert') --}}
     @include('sweetalert::alert')
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4 border-0 bgdark">
         <div class="card-body">
             <div class="table-responsive">
+                @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
+                <div class="my-2">
+                    <form action="{{route('daftar.peminjaman')}}" method="GET">
+                        @csrf
+                        <h6 class="mb-0 my-3 text-warning">* Filter Berdasarkan Date</h6>
+                        <div class="input-group mb-3">
+                            <input type="date" class="form-control" value="{{Request::get('start_date')}}" name="start_date">
+                            <input type="date" class="form-control" value="{{Request::get('end_date')}}" name="end_date">
+                            <button class="btn btn-primary" type="submit">Filter</button>
+                        </div>
+                    </form>
+                </div>
+                @endrole
                 <table class="table table-borderless table-dark bgdark" id="dataTable" width="100%" cellspacing="0">
                     @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
                     <thead>
@@ -114,11 +128,6 @@
         </ol>
     </div>
     @include('sweetalert::alert')
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <a href="{{ route('users.create') }}" class="btn btn-sm btn-primary">
-            <i class="fas fa-file-export"></i> Export
-        </a>
-    </div>
     <div class="align-items-center bg-light p-3 border-left-success rounded">
         <span class="">Oops!</span><br>
         <p><i class="fa-solid fa-circle-info text-info"></i> Belum Terdapat Peminjaman</p>

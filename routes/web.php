@@ -67,6 +67,8 @@ Route::middleware(['auth'])->group(function () {
         // transaksi
         Route::get('/daftar-peminjaman', [App\Http\Controllers\PeminjamanController::class, 'index'])->name('daftar.peminjaman');
         Route::get('peminjaman/{data}', [App\Http\Controllers\PeminjamanController::class, 'adminPeminjaman'])->name('admin.peminjaman');
+        Route::get('peminjaman/export-csv/{data}', [App\Http\Controllers\PeminjamanController::class, 'export'])->name('export.peminjaman');
+
 
         // pengajuan
         Route::get('/konfirmasi-pengajuan', [App\Http\Controllers\PeminjamanController::class, 'pengajuan'])->name('konfirmasi.pengajuan');

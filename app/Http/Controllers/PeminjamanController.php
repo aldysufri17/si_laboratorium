@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\PeminjamanExport;
 use App\Models\Barang;
 use App\Models\Peminjaman;
 use App\Models\Inventaris;
@@ -11,7 +12,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Barryvdh\DomPDF\Facade as PDF;
-
+use Maatwebsite\Excel\Facades\Excel;
 
 class PeminjamanController extends Controller
 {
@@ -24,6 +25,16 @@ class PeminjamanController extends Controller
     // Peminjaman
     public function index()
     {
+        if (Auth::user()->role_id == 3) {
+            $kategori = 1;
+        } elseif (Auth::user()->role_id == 4) {
+            $kategori = 2;
+        } elseif (Auth::user()->role_id == 5) {
+            $kategori = 3;
+        } elseif (Auth::user()->role_id == 6) {
+            $kategori = 4;
+        }
+
         if (Auth::user()->role_id == 2) {
             $peminjaman = Peminjaman::with('user', 'barang')
                 ->where('status', '>', 2)
@@ -31,19 +42,20 @@ class PeminjamanController extends Controller
                 ->groupBy('kategori')
                 ->paginate(5);
         } else {
-            if (Auth::user()->role_id == 3) {
-                $kategori = 1;
-            } elseif (Auth::user()->role_id == 4) {
-                $kategori = 2;
-            } elseif (Auth::user()->role_id == 5) {
-                $kategori = 3;
-            } elseif (Auth::user()->role_id == 6) {
-                $kategori = 4;
+            if (request()->start_date || request()->end_date) {
+                $start_date = Carbon::parse(request()->start_date)->format('Y-m-d');
+                $end_date = Carbon::parse(request()->end_date)->format('Y-m-d');
+                $peminjaman = Peminjaman::with('user', 'barang')
+                    ->where('kategori', $kategori)
+                    ->where('status', '>', 2)
+                    ->whereBetween('date', [$start_date, $end_date])
+                    ->paginate(5);
+            } else {
+                $peminjaman = Peminjaman::with('user', 'barang')
+                    ->where('kategori', $kategori)
+                    ->where('status', '>', 2)
+                    ->paginate(5);
             }
-            $peminjaman = Peminjaman::with('user', 'barang')
-                ->where('kategori', $kategori)
-                ->where('status', '>', 2)
-                ->paginate(5);
         }
         return view('backend.transaksi.index', compact('peminjaman'));
     }
@@ -56,10 +68,20 @@ class PeminjamanController extends Controller
 
     public function adminPeminjaman($data)
     {
-        $peminjaman = Peminjaman::with('user', 'barang')
-            ->where('kategori', $data)
-            ->where('status', '>', 2)
-            ->paginate(5);
+        if (request()->start_date || request()->end_date) {
+            $start_date = Carbon::parse(request()->start_date)->format('Y-m-d');
+            $end_date = Carbon::parse(request()->end_date)->format('Y-m-d');
+            $peminjaman = Peminjaman::with('user', 'barang')
+                ->where('kategori', $data)
+                ->where('status', '>', 2)
+                ->whereBetween('date', [$start_date, $end_date])
+                ->paginate(5);
+        } else {
+            $peminjaman = Peminjaman::with('user', 'barang')
+                ->where('kategori', $data)
+                ->where('status', '>', 2)
+                ->paginate(5);
+        }
         return view('backend.transaksi.admin-peminjaman', compact('peminjaman'));
     }
 
@@ -387,5 +409,33 @@ class PeminjamanController extends Controller
         $id = Auth::user()->id;
         $user = User::where('id', $id)->first();
         return view('frontend.surat', compact('user'));
+    }
+
+    public function export($data)
+    {
+        if (Auth::user()->role_id == 2) {
+            if (Auth::user()->role_id == 2) {
+                if ($data == 1) {
+                    $name = 'Laboratorium Sistem Tertanam dan Robotika';
+                } elseif ($data == 2) {
+                    $name = 'Laboratorium Rekayasa Perangkat Lunak';
+                } elseif ($data == 3) {
+                    $name = 'Laboratorium Jaringan dan Keamanan Komputer';
+                } elseif ($data == 4) {
+                    $name = 'Laboratorium Multimedia';
+                }
+            }
+        }
+
+        if (Auth::user()->role_id == 3) {
+            $name = "Laboratorium Sistem Tertanam dan Robotika";
+        } elseif (Auth::user()->role_id == 4) {
+            $name = "Laboratorium Rekayasa Perangkat Lunak";
+        } elseif (Auth::user()->role_id == 5) {
+            $name = "Laboratorium Jaringan dan Keamanan Komputer";
+        } elseif (Auth::user()->role_id == 6) {
+            $name = "Laboratorium Multimedia";
+        }
+        return Excel::download(new PeminjamanExport($data), 'Data Peminjaman' . '-' . $name . '-' . date('Y-m-d') . '.xlsx');
     }
 }

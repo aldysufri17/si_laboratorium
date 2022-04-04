@@ -13,10 +13,10 @@
             <li class="breadcrumb-item">Daftar Peminjaman</li>
         </ol>
     </div>
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <div class="d-sm-flex align-items-center mb-4">
         <a class="btn btn-sm btn-danger" href="{{ route('daftar.peminjaman') }}"><i class="fas fa-angle-double-left"></i> Kembali</a>
-        <a href="{{ route('users.create') }}" class="btn btn-sm btn-primary">
-            <i class="fas fa-file-export"></i> Export
+        <a href="{{ route('export.peminjaman', Request::route('data')) }}" class="btn btn-sm btn-warning mx-3">
+            <i class="fa-solid fa-file-csv"></i> Export .csv
         </a>
     </div>
 
@@ -27,6 +27,17 @@
     <div class="card shadow mb-4 border-0 bgdark">
         <div class="card-body">
             <div class="table-responsive">
+                <div class="my-2">
+                    <form action="{{route('admin.peminjaman', Request::route('data'))}}" method="GET">
+                        @csrf
+                        <h6 class="mb-0 my-3 text-warning">* Filter Berdasarkan Date</h6>
+                        <div class="input-group mb-3">
+                            <input type="date" class="form-control" value="{{Request::get('start_date')}}" name="start_date">
+                            <input type="date" class="form-control" value="{{Request::get('end_date')}}" name="end_date">
+                            <button class="btn btn-primary" type="submit">Filter</button>
+                        </div>
+                    </form>
+                </div>
                 <table class="table table-borderless table-dark bgdark" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
