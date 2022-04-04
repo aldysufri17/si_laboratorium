@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\UsersExport;
+use App\Imports\UsersImport;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
 {
@@ -242,5 +245,26 @@ class UserController extends Controller
         $trim = str_replace(' ', '', $name);
         $user = User::whereId($user)->update(['password' => bcrypt($trim)]);
         return redirect()->back()->with('success', 'Password Berhasil direset!.');
+    }
+
+    public function import()
+    {
+        $this->validate(request(), [
+            'file' => 'mimes:csv,xls,xlsx'
+        ]);
+
+        if (request()->file('file') == null) {
+            return redirect()->back()->with('info', 'Masukkan file terlebih dahulu!.');
+        }
+        $fileName = date('Y-m-d') . '_' . 'Import Barang' . '_' . 'Pengguna';
+        request()->file('file')->storeAs('reports', $fileName, 'public');
+        Excel::import(new UsersImport, request()->file('file'));
+        return redirect()->back()->with('success', 'Pengguna berhasil ditambah!.');
+    }
+
+    public function export()
+    {
+        $fileName = date('Y-m-d') . '_' . 'Data Pengguna' . '.xlsx';
+        return Excel::download(new UsersExport,  $fileName);
     }
 }

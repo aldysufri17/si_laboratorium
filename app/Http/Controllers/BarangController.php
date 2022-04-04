@@ -291,10 +291,18 @@ class BarangController extends Controller
      */
     public function destroy($barang)
     {
+
+        $peminjaman = Peminjaman::where('barang_id', $barang)->where('status', '<', 4)->get();
+        if ($peminjaman->isNotEmpty()) {
+            request()->session()->flash('active', "Barang gagal dihapus, Masih terdapat transaksi peminjaman");
+            return redirect()->route('barang.index');
+        }
+
         $fotoBarang = Barang::whereId($barang)->first();
         if ($fotoBarang->gambar) {
             unlink(storage_path('app/public/barang/' . $fotoBarang->gambar));
         }
+        Peminjaman::where('barang_id', $barang)->delete();
         Inventaris::where('barang_id', $barang)->delete();
         $barang = Barang::whereid($barang)->delete();
         if ($barang) {

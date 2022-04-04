@@ -32,10 +32,11 @@
                     @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
                     <thead>
                         <tr>
+                            <th width="15%">Date</th>
                             <th width="10%">NIM</th>
                             <th width="15%">Nama</th>
                             <th width="15%">Barang</th>
-                            <th width="15%">Tipe</th>
+                            <th width="15%">Jumlah</th>
                             <th width="15%">Peminjaman</th>
                             <th width="15%">Pengembalian</th>
                             <th width="10%" class="text-center">Status</th>
@@ -44,10 +45,11 @@
                     <tbody>
                         @foreach ($peminjaman as $result => $data)
                         <tr>
+                            <td>{{ $data->created_at }}</td>
                             <td>{{ $data->user->nim }}</td>
                             <td>{{ $data->user->name }}</td>
-                            <td>{{ $data->barang->nama }}</td>
-                            <td>{{ $data->barang->tipe }}</td>
+                            <td>{{ $data->barang->nama }} - {{ $data->barang->tipe }}</td>
+                            <td>{{ $data->jumlah }} {{ $data->barang->satuan }}</td>
                             <td>{{ $data->tgl_start }}</td>
                             <td>{{ $data->tgl_end }}</td>
                             <td>

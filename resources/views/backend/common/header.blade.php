@@ -3,12 +3,14 @@
     <div class="text-center d-none d-md-inline mr-4">
         <button class="rounded-circle border-0" style="background-color: #4caf4f00;" id="sidebarToggle"><i class="fa-solid fa-align-justify text-light"></i></button>
     </div><i class="fa-solid fa-arrow-left-to-line"></i>
+    @role('admin')
     <a class="sidebar-brand d-flex" style=" color:rgb(202, 202, 202)" href="{{ url('/') }}">
         <div class="sidebar-brand-icon">
             <i class="fas fa-desktop"></i>
         </div>
         <div class="sidebar-brand-text mx-2">Web</div>
     </a>
+    @endrole
     <!-- Topbar Navbar -->
     <ul class="navbar-nav ml-auto">
 

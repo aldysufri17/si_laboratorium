@@ -40,6 +40,8 @@ Route::middleware(['auth'])->group(function () {
             Route::put('/update/{user}', [UserController::class, 'update'])->name('update');
             Route::delete('/delete/{user}', [UserController::class, 'delete'])->name('destroy');
             Route::get('/update/status/{user_id}/{status}', [UserController::class, 'updateStatus'])->name('status');
+            Route::post('/import-csv', [UserController::class, 'import'])->name('import');
+            Route::get('/export-csv', [UserController::class, 'export'])->name('export');
         });
 
         // Roles
@@ -50,7 +52,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/update/status/{user_id}/{status}', [OperatorController::class, 'updateStatus'])->name('sts');
         // Barang
         Route::resource('barang', App\Http\Controllers\BarangController::class);
-        // Route::delete('hapus/{barang}', [UserController::class, 'destroy'])->name('barang.destroy');
         Route::get('laboratoirum/{data}', [App\Http\Controllers\BarangController::class, 'adminBarang'])->name('admin.barang');
         Route::get('damaged', [App\Http\Controllers\BarangController::class, 'damaged'])->name('damaged');
         Route::get('damaged/{data}', [App\Http\Controllers\BarangController::class, 'adminDamaged'])->name('admin.damaged');
