@@ -13,10 +13,13 @@
             <li class="breadcrumb-item">Daftar Barang</li>
         </ol>
     </div>
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <div class="d-sm-flex align-items-center mb-4">
         <a class="btn btn-sm btn-danger" href="{{ route('barang.index') }}"><i class="fas fa-angle-double-left"></i> Kembali</a>
-        <a href="{{ route('qrcode', Request::route('data')) }}" class="btn btn-sm btn-primary">
+        <a href="{{ route('qrcode', Request::route('data')) }}" class="btn btn-sm btn-primary mx-3">
             <i class="fas fa-qrcode"></i> Cetak Semua QR-Code
+        </a>
+        <a href="{{ route('export.barang', Request::route('data')) }}" class="btn btn-sm btn-warning">
+            <i class="fa-solid fa-file-csv"></i> Export .csv
         </a>
     </div>
     {{-- Alert Messages --}}

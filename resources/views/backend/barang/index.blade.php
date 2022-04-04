@@ -15,20 +15,25 @@
         </ol>
     </div>
 
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <div class="d-sm-flex align-items-center mb-4">
         @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
         <a href="{{ route('barang.create') }}" class="btn btn-sm btn-success">
             <i class="fas fa-plus"></i> Tambah Baru
         </a>
-        <a href="{{ route('qrcode', 0) }}" class="btn btn-sm btn-primary">
+        <a href="{{ route('qrcode', 0) }}" class="btn btn-sm btn-primary mx-3">
             <i class="fas fa-qrcode"></i> Cetak Semua QR-Code
         </a>
+        <a href="{{ route('export.barang', 0) }}" class="btn btn-sm btn-warning">
+            <i class="fa-solid fa-file-csv"></i> Export .csv
+        </a>
+        <a class="btn btn-sm btn-secondary ml-3" data-toggle="modal" data-target="#importModal">
+            <i class="fa-solid fa-file-csv"></i> Import .csv</a>
         @endrole
     </div>
 
     {{-- Alert Messages --}}
     @include('sweetalert::alert')
-    
+
     <!-- DataTales Example -->
     <div class="card shadow mb-4 border-0 bgdark">
         <div class="card-body">
@@ -70,10 +75,12 @@
                                 </a></td>
                             @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
                             <td style="display: flex">
-                                <a href="{{ route('barang.edit', $data->id) }}" class="btn btn-primary m-2" title="Edit">
+                                <a href="{{ route('barang.edit', $data->id) }}" class="btn btn-primary m-2"
+                                    title="Edit">
                                     <i class="fa fa-pen"></i>
                                 </a>
-                                <a class="btn btn-danger m-2" href="#" data-toggle="modal" data-target="#deleteModal" title="Delete">
+                                <a class="btn btn-danger m-2" href="#" data-toggle="modal" data-target="#deleteModal"
+                                    title="Delete">
                                     <i class="fas fa-trash"></i>
                                 </a>
                             </td>
@@ -81,7 +88,6 @@
                         </tr>
                         @endforeach
                     </tbody>
-                    @include('backend.barang.delete-modal')
                     @endrole
                     @role('admin')
                     <thead>
@@ -106,8 +112,8 @@
                                 @endif</td>
                             <td class="text-center">{{ $data->total }}</td>
                             <td class="d-sm-flex justify-content-center">
-                                <a href="{{route('admin.barang', $data->kategori)}}" class="btn btn-primary" data-toggle="tooltip" data-placement="top"
-                                    title="Show">
+                                <a href="{{route('admin.barang', $data->kategori)}}" class="btn btn-primary"
+                                    data-toggle="tooltip" data-placement="top" title="Show">
                                     <i class="fa fa-eye"></i>
                                 </a>
                             </td>
@@ -116,14 +122,12 @@
                     </tbody>
                     @endrole
                 </table>
-
                 {{ $barang->links() }}
             </div>
         </div>
     </div>
-
 </div>
-
+@include('backend.barang.barang-modal')
 @else
 <div class="container-fluid">
     <!-- Page Heading -->
@@ -140,6 +144,8 @@
         <a href="{{ route('barang.create') }}" class="btn btn-sm btn-success">
             <i class="fas fa-plus"></i> Tambah Baru
         </a>
+        <a class="btn btn-sm btn-secondary ml-3" data-toggle="modal" data-target="#importModal">
+            <i class="fa-solid fa-file-csv"></i> Import .csv</a>
     </div>
     @endrole
     <div class="align-items-center bg-light p-3 border-left-success rounded">

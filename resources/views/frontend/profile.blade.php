@@ -36,21 +36,21 @@
                                     <span class="profilepic__text">Edit Profile</span>
                                 </div>
                             </div>
-                            
+
                             <span class="font-weight-bold">{{ auth()->user()->name }}</span>
                             <span class="text-dark">Nim : {{ auth()->user()->nim }}</span>
                             <span class="text-dark">Email : {{ auth()->user()->email }}</span>
                             <div class="mt-2 text-center">
                                 <button class="btn btn-secondary profile-button" data-toggle="modal"
-                                data-target="#ktmModal">Lihat KTM</button>
+                                    data-target="#ktmModal">Lihat KTM</button>
                             </div>
-                            
+
                         </div>
                     </div>
 
                     {{-- Modal KTM --}}
-                    <div class="modal fade" id="ktmModal" tabindex="-1" role="dialog"
-                        aria-labelledby="ktmModalLabel" aria-hidden="true">
+                    <div class="modal fade" id="ktmModal" tabindex="-1" role="dialog" aria-labelledby="ktmModalLabel"
+                        aria-hidden="true">
                         <div class="modal-dialog" role="document">
                             <div class="modal-content">
                                 <div class="modal-header">
@@ -60,18 +60,17 @@
                                     </button>
                                 </div>
                                 <div class="modal-body text-center">
-                                    <img class="my-2"
-                                    width="250px"
-                                    src="{{ asset(auth()->user()->ktm ? 'storage/user/ktm/'. auth()->user()->ktm : 'images/empty.jpg') }}">
+                                    <img class="my-2" width="250px"
+                                        src="{{ asset(auth()->user()->ktm ? 'storage/user/ktm/'. auth()->user()->ktm : 'images/empty.jpg') }}">
                                     <form action="{{route('profile.ktm')}}" method="POST" enctype="multipart/form-data">
-                                    @csrf
-                                    <input type="file" name="ktm">
+                                        @csrf
+                                        <input type="file" name="ktm">
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
                                     <button type="submit" class="btn btn-primary">Ubah</button>
                                 </div>
-                            </form>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -88,16 +87,17 @@
                                 </div>
                                 <div class="modal-body text-center">
                                     <img class="rounded-circle my-2 profilepic__image" width="150px"
-                                    src="{{ asset(auth()->user()->foto ? 'storage/user/'. auth()->user()->foto : 'admin/img/undraw_profile.svg') }}">
-                                    <form action="{{route('profile.foto')}}" method="POST" enctype="multipart/form-data">
-                                    @csrf
-                                    <input type="file" name="foto">
+                                        src="{{ asset(auth()->user()->foto ? 'storage/user/'. auth()->user()->foto : 'admin/img/undraw_profile.svg') }}">
+                                    <form action="{{route('profile.foto')}}" method="POST"
+                                        enctype="multipart/form-data">
+                                        @csrf
+                                        <input type="file" name="foto">
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
                                     <button type="submit" class="btn btn-primary">Ubah</button>
                                 </div>
-                            </form>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -156,8 +156,7 @@
                                     <div class="col-md-4 mt-3">
                                         <label class="labels">Alamat</label>
                                         <input autocomplete="off" type="text"
-                                            class="form-control @error('alamat') is-invalid @enderror"
-                                            name="alamat"
+                                            class="form-control @error('alamat') is-invalid @enderror" name="alamat"
                                             value="{{ old('alamat') ? old('alamat') : auth()->user()->alamat }}"
                                             placeholder="Alamat">
                                         @error('alamat')

@@ -10,6 +10,10 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Barryvdh\DomPDF\Facade as PDF;
+use App\Exports\BarangExport;
+use App\Imports\BarangImport;
+use App\Models\User;
+use Maatwebsite\Excel\Facades\Excel;
 
 
 class BarangController extends Controller
@@ -285,14 +289,14 @@ class BarangController extends Controller
      * @param  \App\Models\Barang  $barang
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Barang $barang)
+    public function destroy($barang)
     {
-        if ($barang->gambar) {
-            unlink(storage_path('app/public/barang/' . $barang->gambar));
+        $fotoBarang = Barang::whereId($barang)->first();
+        if ($fotoBarang->gambar) {
+            unlink(storage_path('app/public/barang/' . $fotoBarang->gambar));
         }
-        $id = $barang->id;
-        Inventaris::where('barang_id', $id)->delete();
-        $barang = Barang::whereid($barang->id)->delete();
+        Inventaris::where('barang_id', $barang)->delete();
+        $barang = Barang::whereid($barang)->delete();
         if ($barang) {
             return redirect()->route('barang.index')->with('success', 'Barang Berhasil dihapus!.');
         } else {
@@ -342,5 +346,57 @@ class BarangController extends Controller
         $barang = Barang::where('kategori', $kategori)->get();
         $pdf = PDF::loadview('backend.barang.qrcode', compact('barang'));
         return $pdf->download("Qr-Code_barang" . "-" . $name . '.pdf');
+    }
+
+    public function export($data)
+    {
+        if (Auth::user()->role_id == 2) {
+            if (Auth::user()->role_id == 2) {
+                if ($data == 1) {
+                    $name = 'Laboratorium Sistem Tertanam dan Robotika';
+                } elseif ($data == 2) {
+                    $name = 'Laboratorium Rekayasa Perangkat Lunak';
+                } elseif ($data == 3) {
+                    $name = 'Laboratorium Jaringan dan Keamanan Komputer';
+                } elseif ($data == 4) {
+                    $name = 'Laboratorium Multimedia';
+                }
+            }
+        }
+
+        if (Auth::user()->role_id == 3) {
+            $name = "Laboratorium Sistem Tertanam dan Robotika";
+        } elseif (Auth::user()->role_id == 4) {
+            $name = "Laboratorium Rekayasa Perangkat Lunak";
+        } elseif (Auth::user()->role_id == 5) {
+            $name = "Laboratorium Jaringan dan Keamanan Komputer";
+        } elseif (Auth::user()->role_id == 6) {
+            $name = "Laboratorium Multimedia";
+        }
+        return Excel::download(new BarangExport($data), 'Data Barang' . '-' . $name . '.xlsx');
+    }
+
+    public function import()
+    {
+        $this->validate(request(), [
+            'file' => 'mimes:csv,xls,xlsx'
+        ]);
+        if (Auth::user()->role_id == 3) {
+            $name = "Laboratorium Sistem Tertanam dan Robotika";
+        } elseif (Auth::user()->role_id == 4) {
+            $name = "Laboratorium Rekayasa Perangkat Lunak";
+        } elseif (Auth::user()->role_id == 5) {
+            $name = "Laboratorium Jaringan dan Keamanan Komputer";
+        } elseif (Auth::user()->role_id == 6) {
+            $name = "Laboratorium Multimedia";
+        }
+
+        if (request()->file('file') == null) {
+            return redirect()->back()->with('info', 'Masukkan file terlebih dahulu!.');
+        }
+        $fileName = date('Y-m-d') . '_' . 'Import Barang' . '_' . $name;
+        request()->file('file')->storeAs('reports', $fileName, 'public');
+        Excel::import(new BarangImport, request()->file('file'));
+        return redirect()->back()->with('success', 'Barang berhasil ditambah!.');
     }
 }

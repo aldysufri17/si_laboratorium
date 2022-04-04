@@ -48,13 +48,15 @@ Route::middleware(['auth'])->group(function () {
         // Operator
         Route::resource('operator', OperatorController::class);
         Route::get('/update/status/{user_id}/{status}', [OperatorController::class, 'updateStatus'])->name('sts');
-
         // Barang
         Route::resource('barang', App\Http\Controllers\BarangController::class);
+        // Route::delete('hapus/{barang}', [UserController::class, 'destroy'])->name('barang.destroy');
         Route::get('laboratoirum/{data}', [App\Http\Controllers\BarangController::class, 'adminBarang'])->name('admin.barang');
         Route::get('damaged', [App\Http\Controllers\BarangController::class, 'damaged'])->name('damaged');
         Route::get('damaged/{data}', [App\Http\Controllers\BarangController::class, 'adminDamaged'])->name('admin.damaged');
         Route::get('/qr-code/{data}', [App\Http\Controllers\BarangController::class, 'qrcode'])->name('qrcode');
+        Route::get('export-csv/{data}', [App\Http\Controllers\BarangController::class, 'export'])->name('export.barang');
+        Route::post('import-csv', [App\Http\Controllers\BarangController::class, 'import'])->name('import.barang');
 
         // Inventaris
         Route::resource('inventaris', App\Http\Controllers\InventarisController::class);
