@@ -1,3 +1,4 @@
+@role('operator embedded|operator rpl|operator jarkom|operator mulmed')
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalExample"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -15,7 +16,7 @@
                     onclick="event.preventDefault(); document.getElementById('user-delete-form').submit();">
                     Oke
                 </a>
-                <form id="user-delete-form" method="POST" action="{{ route('barang.destroy', $data->id) }}">
+                <form id="user-delete-form" method="POST" action="{{ route('barang.destroy', ['barang' => $data->id]) }}">
                     @csrf
                     @method('DELETE')
                 </form>
@@ -23,6 +24,7 @@
         </div>
     </div>
 </div>
+@endrole
 
 <div class="modal fade" id="importModal" tabindex="-1" role="dialog" aria-labelledby="importModalExample"
     aria-hidden="true">
