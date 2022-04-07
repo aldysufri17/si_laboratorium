@@ -22,7 +22,7 @@ class InventarisController extends Controller
                 ->leftJoin("barang", "barang.id", "=", "inventaris.barang_id")
                 ->select('inventaris.kategori', DB::raw('count(*) as total'))
                 ->groupBy('inventaris.kategori')
-                ->orderBy('inventaris.created_at', 'desc')
+                // ->orderBy('inventaris.created_at', 'desc')
                 ->paginate(10);
         } else {
             if (Auth::user()->role_id == 3) {
