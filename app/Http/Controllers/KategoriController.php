@@ -60,8 +60,23 @@ class KategoriController extends Controller
             $kategori_lab = 4;
         }
 
+        $max = Kategori::max('id');
+        $kode = $max + 1;
+        if (strlen($kode) == 1) {
+            $kode_id = "KT-000" . $kode;
+        } else if (strlen($kode) == 2) {
+            $kode_id = "KT-00" . $kode;
+        } else if (strlen($kode) == 3) {
+            $kode_id = "KT-0" . $kode;
+        } else if (strlen($kode) == 4) {
+            $kode_id = "KT-" . $kode;
+        } else {
+            $kode_id = $kode;
+        }
+
         $kategori = Kategori::create([
             'nama' => $request->nama,
+            'kode' => $kode_id,
             'kategori_lab' => $kategori_lab,
         ]);
 

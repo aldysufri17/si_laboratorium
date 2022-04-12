@@ -60,9 +60,24 @@ class SatuanController extends Controller
             $kategori_lab = 4;
         }
 
+        $max = Satuan::max('id');
+        $kode = $max + 1;
+        if (strlen($kode) == 1) {
+            $kode_id = "ST-000" . $kode;
+        } else if (strlen($kode) == 2) {
+            $kode_id = "ST-00" . $kode;
+        } else if (strlen($kode) == 3) {
+            $kode_id = "ST-0" . $kode;
+        } else if (strlen($kode) == 4) {
+            $kode_id = "ST-" . $kode;
+        } else {
+            $kode_id = $kode;
+        }
+
         $satuan = Satuan::create([
             'nama' => $request->nama,
             'kategori_lab' => $kategori_lab,
+            'kode' => $kode_id,
         ]);
 
         if ($satuan) {

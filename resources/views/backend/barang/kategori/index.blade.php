@@ -40,6 +40,7 @@
                 <table id="dataTable" class="table table-borderless dt-responsive" cellspacing="0" width="100%">
                     <thead>
                         <tr>
+                            <th width="25%">Kode</th>
                             <th width="25%">Nama</th>
                             <th width="15%">Aksi</th>
                         </tr>
@@ -47,6 +48,7 @@
                     <tbody>
                         @foreach ($kategori as $data)
                         <tr>
+                            <td>{{ $data->kode }}</td>
                             <td>{{ $data->nama }}</td>
                             <td style="display: flex">
                                 <a class="btn btn-info m-2" href="{{ route('kategori.show', $data->id) }}" title="Show">

@@ -40,6 +40,7 @@
                 <table id="dataTable" class="table table-borderless dt-responsive" cellspacing="0" width="100%">
                     <thead>
                         <tr>
+                            <th width="25%">Kode</th>
                             <th width="25%">Nama</th>
                             <th width="15%">Aksi</th>
                         </tr>
@@ -47,6 +48,7 @@
                     <tbody>
                         @foreach ($satuan as $data)
                         <tr>
+                            <td>{{ $data->kode }}</td>
                             <td>{{ $data->nama }}</td>
                             <td style="display: flex">
                                 <a href="{{ route('satuan.edit', $data->id) }}" class="btn btn-primary m-2"
