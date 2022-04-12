@@ -33,7 +33,7 @@
                 <div class="my-2">
                     <form action="{{route('daftar.peminjaman')}}" method="GET">
                         @csrf
-                        <h6 class="mb-0 my-3 text-warning">* Filter Berdasarkan Date</h6>
+                        <h6 class="mb-0 my-3 text-warning">* Filter Berdasarkan Tanggal</h6>
                         <div class="input-group mb-3">
                             <input type="date" class="form-control" value="{{Request::get('start_date')}}" name="start_date">
                             <input type="date" class="form-control" value="{{Request::get('end_date')}}" name="end_date">
@@ -46,7 +46,7 @@
                     @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
                     <thead>
                         <tr>
-                            <th width="15%">Date</th>
+                            <th width="15%">Tanggal</th>
                             <th width="10%">NIM</th>
                             <th width="15%">Nama</th>
                             <th width="15%">Barang</th>
@@ -63,7 +63,7 @@
                             <td>{{ $data->user->nim }}</td>
                             <td>{{ $data->user->name }}</td>
                             <td>{{ $data->barang->nama }} - {{ $data->barang->tipe }}</td>
-                            <td>{{ $data->jumlah }} {{ $data->barang->satuan }}</td>
+                            <td>{{ $data->jumlah }} {{ $data->barang->satuan->nama }}</td>
                             <td>{{ $data->tgl_start }}</td>
                             <td>{{ $data->tgl_end }}</td>
                             <td>

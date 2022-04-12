@@ -28,47 +28,51 @@
     <!-- DataTales Example -->
     <div class="card shadow mb-4 border-0 bgdark">
         <div class="card-body">
-            <div class="table-responsive">
-                <table id="dataTable" class="table table-borderless dt-responsive" cellspacing="0" width="100%">
-                    <thead>
-                        <tr>
-                            <th width="15%">NIM</th>
-                            <th width="15%">Nama</th>
-                            <th width="10%">Barang</th>
-                            <th width="5%">Jumlah</th>
-                            <th width="10%">Peminjaman</th>
-                            <th width="10%">Pengembalian</th>
-                            <th width="15%" class="text-center">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($peminjaman as $result => $data)
-                        <tr>
-                            <td>{{ $data->user->nim }}</td>
-                            <td>{{ $data->user->name }}</td>
-                            <td>{{ $data->barang->nama }} - {{ $data->barang->tipe }}</td>
-                            <td>{{ $data->jumlah }} {{$data->barang->satuan->nama}}</td>
-                            <td>{{ $data->tgl_start }}</td>
-                            <td>{{ $data->tgl_end }}</td>
-                            <td style="display: flex">
-                                <a class="btn btn-info" href="{{ route('konfirmasi.peminjaman.show', $data->id) }}" title="Show">
-                                    <i class="fas fa-eye"></i>
-                                </a>
-                                <a href="{{ route('konfirmasi.peminjaman.status', ['user_id' => $data->id, 'status' => 1, 'barang_id' => $data->barang_id, 'jumlah' => $data->jumlah]) }}"
-                                    class="btn btn-danger mx-" data-toggle="tooltip" data-placement="top" title="Reject">
-                                    <i class="fa fa-ban"></i>
-                                </a>
-                                <a href="{{ route('konfirmasi.peminjaman.status', ['user_id' => $data->id, 'status' => 3,'barang_id' => $data->barang_id, 'jumlah' => $data->jumlah]) }}"
-                                    class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Accept">
-                                    <i class="fa fa-check"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-                {{ $peminjaman->links() }}
-            </div>
+                <div class="table-responsive">
+                    <table id="dataTable" class="table table-borderless dt-responsive" cellspacing="0" width="100%">
+                        <thead>
+                            <tr>
+                                <th width="15%">NIM</th>
+                                <th width="15%">Nama</th>
+                                <th width="10%">Barang</th>
+                                <th width="5%">Jumlah</th>
+                                <th width="10%">Peminjaman</th>
+                                <th width="10%">Pengembalian</th>
+                                <th width="15%" class="text-center">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($peminjaman as $result => $data)
+                            <tr>
+
+                                <td>{{ $data->user->nim }}</td>
+                                <td>{{ $data->user->name }}</td>
+                                <td>{{ $data->barang->nama }} - {{ $data->barang->tipe }}</td>
+                                <td>{{ $data->jumlah }} {{$data->barang->satuan->nama}}</td>
+                                <td>{{ $data->tgl_start }}</td>
+                                <td>{{ $data->tgl_end }}</td>
+                                <td style="display: flex">
+                                    <a class="btn btn-info" href="{{ route('konfirmasi.peminjaman.show', $data->id) }}"
+                                        title="Show">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="{{ route('konfirmasi.peminjaman.status', ['user_id' => $data->id, 'status' => 1, 'barang_id' => $data->barang_id, 'jumlah' => $data->jumlah]) }}"
+                                        class="btn btn-danger mx-" data-toggle="tooltip" data-placement="top"
+                                        title="Reject">
+                                        <i class="fa fa-ban"></i>
+                                    </a>
+                                    <a href="{{ route('konfirmasi.peminjaman.status', ['user_id' => $data->id, 'status' => 3,'barang_id' => $data->barang_id, 'jumlah' => $data->jumlah]) }}"
+                                        class="btn btn-success" data-toggle="tooltip" data-placement="top"
+                                        title="Accept">
+                                        <i class="fa fa-check"></i>
+                                    </a>
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                    {{ $peminjaman->links() }}
+                </div>
         </div>
     </div>
 </div>

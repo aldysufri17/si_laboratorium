@@ -44,6 +44,7 @@
                         <h6 class="card-subtitle mb-2 text-muted">Stock : {{$data->stock}} {{$data->satuan->nama}}</h6>
                         <span class="badge badge-info">{{$data->lokasi}}</span>
                         <span class="badge badge-success">Baik</span>
+                        <span class="badge badge-primary">{{$data->kategori->nama}}</span>
                     </div>
                 </div>
             </a>

@@ -37,7 +37,6 @@
                         <tr>
                             <th width="20%">ID Barang</th>
                             <th width="25%">Nama Barang</th>
-                            <th width="25%">Tipe</th>
                             <th width="25%">ID Inventaris</th>
                             <th width="25%">Penambahan</th>
                             <th width="25%">Pengurangan</th>
@@ -51,8 +50,7 @@
                         @foreach ($inventaris as $data)
                         <tr>
                             <td>{{ $data->id }}</td>
-                            <td>{{ $data->nama }}</td>
-                            <td>{{ $data->tipe }}</td>
+                            <td>{{ $data->nama }} - {{ $data->tipe }}</td>
                             <td>{{ $data->kode_inventaris }}</td>
                             <td>{{ $data->masuk }}</td>
                             <td>{{ $data->keluar }}</td>
@@ -143,7 +141,7 @@
             responsive: true,
             autoWidth: false,
             "order": [
-                [0, "ASC"]
+                [0, "desc"]
             ]
         });
     });

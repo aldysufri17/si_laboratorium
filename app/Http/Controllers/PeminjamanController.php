@@ -348,15 +348,14 @@ class PeminjamanController extends Controller
         if ($cek->isEmpty()) {
             return redirect()->back()->with('info', 'Barcode barang tidak ditemukan!.');
         }
+        $cekaja = Peminjaman::whereid($id_peminjaman)->first();
 
         if ($sts == 1) {
             // Peminjaman
-            $cekaja = Peminjaman::whereid($id_peminjaman)->where('status', 2)->get();
-            if ($cekaja->isEmpty()) {
-                return redirect()->back()->with('info', 'Barang tidak terdaftar dalam peminjaman!.');
-            } else {
-                $barang = Peminjaman::whereid($id_peminjaman)->where('status', 2)->value('barang_id');
-                $jumlah = Peminjaman::whereid($id_peminjaman)->where('status', 2)->value('jumlah');
+            // dd($cekaja->status);
+            if ($cekaja->status < 3) {
+                $barang = Peminjaman::whereid($id_peminjaman)->value('barang_id');
+                $jumlah = Peminjaman::whereid($id_peminjaman)->value('jumlah');
                 $random = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
                 $sisa = Barang::whereId(intval($barang))->value('stock');
                 if ($sisa - $jumlah < 0) {
@@ -372,21 +371,18 @@ class PeminjamanController extends Controller
                     'keluar'            => $jumlah,
                     'total'             => $sisa - $jumlah,
                 ]);
-                Barang::whereId(intval($barang))->update(['stock' => $sisa - $jumlah]);
-                $peminjaman = Peminjaman::whereId($id_peminjaman)->update(['status' => 3]);
-                if ($peminjaman) {
-                    return redirect()->back()->with('success', 'Peminjaman Berhasil di Setujui!.');
-                } else {
-                    return redirect()->back()->with('success', 'Peminjaman Sudah di Setujui!.');
-                }
+                Barang::whereId($barang)->update(['stock' => $sisa - $jumlah]);
+                Peminjaman::whereId($id_peminjaman)->where('status', 2)->update(['status' => 3]);
+                return redirect()->back()->with('success', 'Peminjaman berhasil disetujui!.');
+            } else if ($cekaja->status == 3) {
+                return redirect()->back()->with('success', 'Peminjaman berhasil disetujui!.');
+            } else if ($cekaja->status > 3) {
+                return redirect()->back()->with('warning', 'Tidak terdaftar dalam aktivasi peminjaman!.');
             }
         } else {
-            $cekaja = Peminjaman::whereid($id_peminjaman)->where('status', 3)->get();
-            if ($cekaja->isEmpty()) {
-                return redirect()->back()->with('info', 'Barang tidak terdaftar pada pengembalian!.');
-            } else {
-                $barang = Peminjaman::whereid($id_peminjaman)->where('status', 3)->value('barang_id');
-                $jumlah = Peminjaman::whereid($id_peminjaman)->where('status', 3)->value('jumlah');
+            if ($cekaja->status == 3) {
+                $barang = Peminjaman::whereid($id_peminjaman)->value('barang_id');
+                $jumlah = Peminjaman::whereid($id_peminjaman)->value('jumlah');
                 $random = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
                 $sisa = Barang::whereId($barang)->value('stock');
                 Inventaris::create([
@@ -400,12 +396,12 @@ class PeminjamanController extends Controller
                     'total'             => $sisa + $jumlah,
                 ]);
                 Barang::whereId($barang)->update(['stock' => $sisa + $jumlah]);
-                $peminjaman = Peminjaman::whereId($id_peminjaman)->update(['status' => 4]);
-                if ($peminjaman) {
-                    return redirect()->back()->with('success', 'Pengembalian Berhasil di Setujui!.');
-                } else {
-                    return redirect()->back()->with('info', 'Barang Tidak ditemukan!.');
-                }
+                Peminjaman::whereId($id_peminjaman)->where('status', 3)->update(['status' => 4]);
+                return redirect()->back()->with('success', 'Pengembalian berhasil disetujui!.');
+            } else if (($cekaja->status < 3)) {
+                return redirect()->back()->with('warning', 'Peminjaman belum aktif!.');
+            } else if ($cekaja->status == 4) {
+                return redirect()->back()->with('success', 'Pengembalian berhasil disetujui!.');
             }
         }
     }
@@ -459,5 +455,17 @@ class PeminjamanController extends Controller
             $name = "Laboratorium Multimedia";
         }
         return Excel::download(new PeminjamanExport($data), 'Data Peminjaman' . '-' . $name . '-' . date('Y-m-d') . '.xlsx');
+    }
+
+    public function updateAll(Request $request)
+    {
+        $id = $request->ckd_chld;
+        if ($id) {
+            foreach ($id as $user) {
+                Peminjaman::where('id', $user)->update(['status' => 4]);
+            }
+            return redirect()->back()->with('success', 'Pengembalian berhasil disetujui!.');
+        }
+        return redirect()->back()->with('warning', 'Belum terdapat data yang dipilih!.');
     }
 }

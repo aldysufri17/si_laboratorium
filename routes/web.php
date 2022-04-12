@@ -87,6 +87,7 @@ Route::middleware(['auth'])->group(function () {
 
         // pengembalian
         Route::get('/konfirmasi-pengembalian', [App\Http\Controllers\PeminjamanController::class, 'pengembalian'])->name('konfirmasi.pengembalian');
+        Route::post('/update/all', [App\Http\Controllers\PeminjamanController::class, 'updateAll'])->name('status.update');
 
         // scan
         Route::get('/scan/{status}', [App\Http\Controllers\PeminjamanController::class, 'scan'])->name('scan');

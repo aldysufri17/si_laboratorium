@@ -17,7 +17,6 @@ class CreateBarangTable extends Migration
             $table->bigIncrements('id');
             $table->integer('satuan_id');
             $table->integer('kategori_id');
-            $table->text('kode');
             $table->string('nama');
             $table->integer('stock');
             $table->text('tipe');

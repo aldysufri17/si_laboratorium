@@ -3,6 +3,14 @@
 @section('title', 'Scan Peminjaman')
 
 @section('content')
+@if ($message = Session::get('empty'))
+<div class="alert alert-info alert-dismissible" role="alert">
+    <button type="button" class="close" data-dismiss="alert">
+        <i class="fa fa-times"></i>
+    </button>
+    <strong>{{ $message }}</strong> {{ session('error') }}
+</div>
+@endif
 <div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-2">

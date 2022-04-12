@@ -116,8 +116,21 @@ class HomeController extends Controller
 
     public function search(Request $request)
     {
+        if (Auth::check()) {
+            $data = Peminjaman::where('user_id', Auth::user()->id)->where('status', '<', 4)->pluck('barang_id');
+        }
         if ($request->kategori_lab) {
-            $barang = Barang::where('show', 1)->where('kategori_lab', $request->kategori_lab)->latest();
+            if (Auth::check()) {
+                $barang = Barang::where('show', 1)
+                    ->where('kategori_lab', $request->kategori_lab)
+                    ->whereNotIn('id', $data)
+                    ->latest();
+            } else {
+                $barang = Barang::where('show', 1)
+                    ->where('kategori_lab', $request->kategori_lab)
+                    ->latest();
+            }
+
             if ($request->search) {
                 $barang->where('nama', 'like', '%' . $request->search . '%');
             }
