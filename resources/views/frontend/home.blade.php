@@ -188,7 +188,7 @@
 @section('script')
 <script>
     var typed = new Typed('.animate', {
-        strings: ["Laboratorium", "Department", "Teknik Komputer"],
+        strings: ["Laboratorium", "Departemen", "Teknik Komputer"],
         startDelay: 10,
         // shuffle: true,
         typeSpeed: 200,

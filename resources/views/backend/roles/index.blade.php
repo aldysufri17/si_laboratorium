@@ -12,7 +12,7 @@
 
     <!-- DataTales Example -->
     <div class="card bgdark border-0 shadow mb-4">
-        
+
         <div class="card-body bgdark border-0">
             <h6 class="m-0 font-weight-bold text-primary">Semua Role</h6>
             <div class="table-responsive">
@@ -24,12 +24,12 @@
                         </tr>
                     </thead>
                     <tbody>
-                       @foreach ($roles as $role)
-                           <tr>
-                               <td>{{$role->id}}</td>
-                               <td>{{$role->name}}</td>
-                           </tr>
-                       @endforeach
+                        @foreach ($roles as $role)
+                        <tr>
+                            <td>{{$role->id}}</td>
+                            <td>{{$role->name}}</td>
+                        </tr>
+                        @endforeach
                     </tbody>
                 </table>
 

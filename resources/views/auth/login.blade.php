@@ -66,7 +66,7 @@
                                 <hr>
                                 <div class="text-center">
                                     <a class="small" href="{{route('password.request')}}">Lupa Password?</a><br>                                   
-                                    <a class="small" href="{{url('/')}}"><i class="fas fa-fw fa-home"></i> Beranda</a>
+                                    <a class="small" href="{{url('/app')}}"><i class="fas fa-fw fa-home"></i> Beranda</a>
                                 </div>
                             </div>
                         </div>

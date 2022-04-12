@@ -20,23 +20,23 @@ class InventarisController extends Controller
         if (Auth::user()->role_id == 2) {
             $inventaris = DB::table('inventaris')
                 ->leftJoin("barang", "barang.id", "=", "inventaris.barang_id")
-                ->select('inventaris.kategori', DB::raw('count(*) as total'))
-                ->groupBy('inventaris.kategori')
+                ->select('inventaris.kategori_lab', DB::raw('count(*) as total'))
+                ->groupBy('inventaris.kategori_lab')
                 // ->orderBy('inventaris.created_at', 'desc')
                 ->paginate(10);
         } else {
             if (Auth::user()->role_id == 3) {
-                $kategori = 1;
+                $kategori_lab = 1;
             } elseif (Auth::user()->role_id == 4) {
-                $kategori = 2;
+                $kategori_lab = 2;
             } elseif (Auth::user()->role_id == 5) {
-                $kategori = 3;
+                $kategori_lab = 3;
             } elseif (Auth::user()->role_id == 6) {
-                $kategori = 4;
+                $kategori_lab = 4;
             }
             $inventaris = DB::table('inventaris')
                 ->leftJoin("barang", "barang.id", "=", "inventaris.barang_id")
-                ->where('inventaris.kategori', $kategori)
+                ->where('inventaris.kategori_lab', $kategori_lab)
                 ->orderBy('inventaris.created_at', 'desc')
                 ->paginate(10);
         }
@@ -47,7 +47,7 @@ class InventarisController extends Controller
     {
         $inventaris = DB::table('inventaris')
             ->leftJoin("barang", "barang.id", "=", "inventaris.barang_id")
-            ->where('inventaris.kategori', $data)
+            ->where('inventaris.kategori_lab', $data)
             ->orderBy('inventaris.created_at', 'desc')
             ->paginate(10);
         return view('backend.inventaris.admin-inventaris', ['inventaris' => $inventaris]);
@@ -61,15 +61,15 @@ class InventarisController extends Controller
     public function add($data)
     {
         if ($data == 3) {
-            $kategori = 1;
+            $kategori_lab = 1;
         } elseif ($data == 4) {
-            $kategori = 2;
+            $kategori_lab = 2;
         } elseif ($data == 5) {
-            $kategori = 3;
+            $kategori_lab = 3;
         } elseif ($data == 6) {
-            $kategori = 4;
+            $kategori_lab = 4;
         }
-        $barang = Barang::where('kategori', $kategori)->get();
+        $barang = Barang::where('kategori_lab', $kategori_lab)->get();
         return view('backend.inventaris.add', compact('barang'));
         // dd($barang);
     }
@@ -83,13 +83,13 @@ class InventarisController extends Controller
     public function store(Request $request)
     {
         if (Auth::user()->role_id == 3) {
-            $kategori = 1;
+            $kategori_lab = 1;
         } elseif (Auth::user()->role_id == 4) {
-            $kategori = 2;
+            $kategori_lab = 2;
         } elseif (Auth::user()->role_id == 5) {
-            $kategori = 3;
+            $kategori_lab = 3;
         } elseif (Auth::user()->role_id == 6) {
-            $kategori = 4;
+            $kategori_lab = 4;
         }
 
         $request->validate([
@@ -104,7 +104,7 @@ class InventarisController extends Controller
             'status'            => $request->status,
             'deskripsi'         => $request->deskripsi,
             'kode_inventaris'   => 0,
-            'kategori'          => $kategori,
+            'kategori_lab'          => $kategori_lab,
             'masuk'             => 0,
             'keluar'            => 0,
             'total'             => 0,

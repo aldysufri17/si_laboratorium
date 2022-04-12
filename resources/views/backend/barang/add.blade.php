@@ -22,6 +22,31 @@
             @csrf
             <div class="card-body ">
                 <div class="form-group row">
+                    @php
+                    $kode = $max+1;
+                    if (strlen($kode) == 1) {
+                    $kode = "KR-000".$kode;
+                    } else if(strlen($kode) == 2) {
+                    $kode = "KR-00".$kode;
+                    } else if(strlen($kode) == 3) {
+                    $kode = "KR-0".$kode;
+                    } else if(strlen($kode) == 4) {
+                    $kode = "KR-".$kode;
+                    } else {
+                    $kode = $kode;
+                    }
+                    @endphp
+                    {{-- Kode Barang --}}
+                    <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
+                        <span style="color:red;">*</span>Kode Barang</label>
+                        <input readonly type="text" class="form-control form-control-user @error('kode') is-invalid @enderror"
+                            autocomplete="off" id="exampleNama" placeholder="Nama Barang" name="kode"
+                            value="{{ $kode }}">
+
+                        @error('kode')
+                        <span class="text-danger">{{$message}}</span>
+                        @enderror
+                    </div>
 
                     {{-- Name --}}
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
@@ -47,6 +72,21 @@
                         @enderror
                     </div>
 
+                    {{-- Kategori --}}
+                    <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
+                        <span style="color:red;">*</span>Kategori</label>
+                        <select class="form-control form-control-user @error('kategori_id') is-invalid @enderror"
+                            name="kategori_id">
+                            <option selected disabled>Pilih Kategori</option>
+                            @foreach ($kategori as $data)
+                            <option value="{{$data->id}}">{{ $data->nama }}</option>
+                            @endforeach
+                        </select>
+                        @error('kategori_id')
+                        <span class="text-danger">{{$message}}</span>
+                        @enderror
+                    </div>
+
                     <div class="row col-sm-6 mb-3 mt-3 pl-3 mr-2 mb-sm-0">
                         {{-- Jumlah --}}
                         <div class="col-sm-7">
@@ -60,19 +100,23 @@
                             <span class="text-danger">{{$message}}</span>
                             @enderror
                         </div>
+
                         {{-- Satuan --}}
                         <div class="col-sm-5">
                             <span style="color:red;">*</span>Satuan</label>
-                            <input type="text"
-                                class="form-control form-control-user @error('satuan') is-invalid @enderror"
-                                autocomplete="off" id="examplesatuan" placeholder="Satuan Barang" name="satuan"
-                                value="{{ old('satuan') }}">
-
-                            @error('satuan')
+                            <select class="form-control form-control-user @error('satuan_id') is-invalid @enderror"
+                                name="satuan_id">
+                                <option selected disabled>Pilih Satuan</option>
+                                @foreach ($satuan as $data)
+                                <option value="{{$data->id}}">{{ $data->nama }}</option>
+                                @endforeach
+                            </select>
+                            @error('satuan_id')
                             <span class="text-danger">{{$message}}</span>
                             @enderror
                         </div>
                     </div>
+
 
                     {{-- Tanggal masuk --}}
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
@@ -80,8 +124,7 @@
                         <input type="date"
                             class="form-control form-control-user @error('tgl_masuk') is-invalid @enderror"
                             autocomplete="off" id="exampleTgl_masuk" placeholder="Tanggal Masuk" name="tgl_masuk"
-                            value="{{ old('tgl_masuk') }}">
-
+                            value="{{ date('Y-m-d')}}">
                         @error('tgl_masuk')
                         <span class="text-danger">{{$message}}</span>
                         @enderror
@@ -90,14 +133,17 @@
                     {{-- Lokasi Barang --}}
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
                         <span style="color:red;">*</span>Lokasi Barang</label>
-                            <select class="form-control form-control-user  @error('lokasi') is-invalid @enderror" name="lokasi" aria-label="Default select example">
-                                <option selected disabled>Pilih Lokasi</option>
-                                <option  value="Laboratorium Sistem Tertanam dan
+                        <select class="form-control form-control-user  @error('lokasi') is-invalid @enderror"
+                            name="lokasi" aria-label="Default select example">
+                            <option selected disabled>Pilih Lokasi</option>
+                            <option value="Laboratorium Sistem Tertanam dan
                                 Robotika">Laboratorium Sistem Tertanam dan Robotika</option>
-                                <option value="Laboratorium Rekayasa Perangkat Lunak">Laboratorium Rekayasa Perangkat Lunak</option>
-                                <option value="Laboratorium Jaringan dan Keamanan Komputer">Laboratorium Jaringan dan Keamanan Komputer</option>
-                                <option value="Laboratorium Multimedia">Laboratorium Multimedia</option>
-                            </select>
+                            <option value="Laboratorium Rekayasa Perangkat Lunak">Laboratorium Rekayasa Perangkat Lunak
+                            </option>
+                            <option value="Laboratorium Jaringan dan Keamanan Komputer">Laboratorium Jaringan dan
+                                Keamanan Komputer</option>
+                            <option value="Laboratorium Multimedia">Laboratorium Multimedia</option>
+                        </select>
                         @error('lokasi')
                         <span class="text-danger">{{$message}}</span>
                         @enderror
@@ -144,6 +190,4 @@
     </div>
 
 </div>
-
-
 @endsection

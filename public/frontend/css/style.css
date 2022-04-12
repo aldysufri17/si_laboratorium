@@ -14,6 +14,10 @@ body {
   font-family: "Open Sans", sans-serif;
 }
 
+.fisa{
+  background:#ff0d0dda; width: 20px; height:20px; border-radius: 50%; margin-top: -15px; margin-left: -7px; text-align: center; color: white;
+}
+
 a {
   color: #1300bd;
   text-decoration: none;

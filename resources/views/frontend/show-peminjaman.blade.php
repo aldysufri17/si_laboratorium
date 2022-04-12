@@ -68,13 +68,13 @@
                                     </div>
                                 </td>
                                 <td>
-                                    @if ($data->kategori == 1)
+                                    @if ($data->kategori_lab == 1)
                                     Laboratorium Sistem Tertanam dan Robotika
-                                    @elseif ($data->kategori == 2)
+                                    @elseif ($data->kategori_lab == 2)
                                     Laboratorium Rekayasa Perangkat Lunak
-                                    @elseif($data->kategori == 3)
+                                    @elseif($data->kategori_lab == 3)
                                     Laboratorium Jaringan dan Keamanan Komputer
-                                    @elseif($data->kategori == 4)
+                                    @elseif($data->kategori_lab == 4)
                                     Laboratorium Multimedia
                                     @endif
                                 </td>

@@ -22,12 +22,12 @@
             <form action="{{route('search')}}" method="get">
                 <div class="input-group mb-5">
                     <div class="input-group-prepend">
-                        <select class="form-select" name="kategori" aria-label="Default select example">
-                            <option @if (Request::get('kategori') == 1) selected @endif value="1">Sistem Tertanam dan
+                        <select class="form-select" name="kategori_lab" aria-label="Default select example">
+                            <option @if (Request::get('kategori_lab') == 1) selected @endif value="1">Sistem Tertanam dan
                                 Robotika</option>
-                            <option @if (Request::get('kategori') == 2) selected @endif value="2">Rekayasa Perangkat Lunak</option>
-                            <option @if (Request::get('kategori') == 3) selected @endif  value="3">Jaringan dan Keamanan Komputer</option>
-                            <option @if (Request::get('kategori') == 4) selected @endif  value="4">Multimedia</option>
+                            <option @if (Request::get('kategori_lab') == 2) selected @endif value="2">Rekayasa Perangkat Lunak</option>
+                            <option @if (Request::get('kategori_lab') == 3) selected @endif  value="3">Jaringan dan Keamanan Komputer</option>
+                            <option @if (Request::get('kategori_lab') == 4) selected @endif  value="4">Multimedia</option>
                         </select>
                     </div>
                     <input type="text" class="form-control" name="search" placeholder="Search..."
@@ -41,7 +41,7 @@
                 <div class="card items shadow-sm p-4 mb-4 bg-white rounded">
                     <div class="card-block">
                         <h4 class="card-title text-dark">{{$data->nama}} - {{$data->tipe}}</h4>
-                        <h6 class="card-subtitle mb-2 text-muted">Stock : {{$data->stock}} {{$data->satuan}}</h6>
+                        <h6 class="card-subtitle mb-2 text-muted">Stock : {{$data->stock}} {{$data->satuan->nama}}</h6>
                         <span class="badge badge-info">{{$data->lokasi}}</span>
                         <span class="badge badge-success">Baik</span>
                     </div>

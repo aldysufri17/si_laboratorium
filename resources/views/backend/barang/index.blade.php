@@ -26,7 +26,7 @@
     <div class="d-sm-flex align-items-center mb-4">
         @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
         <a href="{{ route('barang.create') }}" class="btn btn-sm btn-success">
-            <i class="fas fa-plus"></i> Tambah Baru
+            <i class="fas fa-plus"></i> Tambah Barang
         </a>
         <a href="{{ route('qrcode', 0) }}" class="btn btn-sm btn-primary mx-3">
             <i class="fas fa-qrcode"></i> Cetak Semua QR-Code
@@ -55,12 +55,12 @@
                     @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
                     <thead>
                         <tr>
+                            <th width="5%">Kode</th>
+                            <th width="15%">Kategori</th>
                             <th width="15%">Nama</th>
-                            <th width="15%">Tipe</th>
                             <th width="15%">Stock</th>
                             <th width="10%">Status</th>
                             <th width="15%">Lokasi Barang</th>
-                            <th width="15%">Detail</th>
                             @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
                             <th width="25%">Aksi</th>
                             @endrole
@@ -69,20 +69,21 @@
                     <tbody>
                         @foreach ($barang as $data)
                         <tr>
-                            <td>{{ $data->nama }}</td>
-                            <td>{{ $data->tipe }}</td>
-                            <td>{{ $data->stock }} {{ $data->satuan }}</td>
+                            <td>{{ $data->id }}</td>
+                            <td>{{ $data->kategori->nama }}</td>
+                            <td>{{ $data->nama }} - {{ $data->tipe }}</td>
+                            <td>{{ $data->stock }} {{ $data->satuan->nama }}</td>
                             <td>@if ($data->show == 0)
                                 <span class="badge badge-danger">Hidden</span>
                                 @elseif ($data->show == 1)
                                 <span class="badge badge-success">Show</span>
                                 @endif</td>
                             <td>{{ $data->lokasi }}</td>
-                            <td><a class="btn btn-info m-2" href="{{ route('barang.show', $data->id) }}" title="Show">
-                                    <i class="fas fa-eye"></i>
-                                </a></td>
-                            @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
                             <td style="display: flex">
+                                <a class="btn btn-info m-2" href="{{ route('barang.show', $data->id) }}" title="Show">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
                                 <a href="{{ route('barang.edit', $data->id) }}" class="btn btn-primary m-2"
                                     title="Edit">
                                     <i class="fa fa-pen"></i>
@@ -91,8 +92,8 @@
                                     title="Delete">
                                     <i class="fas fa-trash"></i>
                                 </a>
+                                @endrole
                             </td>
-                            @endrole
                         </tr>
                         @endforeach
                     </tbody>
@@ -109,18 +110,18 @@
                         @foreach ($barang as $data)
                         <tr>
                             <td class="text-center">
-                                @if ($data->kategori == 1)
+                                @if ($data->kategori_lab == 1)
                                 Laboratorium Sistem Tertanam dan Robotika
-                                @elseif ($data->kategori == 2)
+                                @elseif ($data->kategori_lab == 2)
                                 Laboratorium Rekayasa Perangkat Lunak
-                                @elseif($data->kategori == 3)
+                                @elseif($data->kategori_lab == 3)
                                 Laboratorium Jaringan dan Keamanan Komputer
-                                @elseif($data->kategori == 4)
+                                @elseif($data->kategori_lab == 4)
                                 Laboratorium Multimedia
                                 @endif</td>
                             <td class="text-center">{{ $data->total }}</td>
                             <td class="d-sm-flex justify-content-center">
-                                <a href="{{route('admin.barang', $data->kategori)}}" class="btn btn-primary"
+                                <a href="{{route('admin.barang', $data->kategori_lab)}}" class="btn btn-primary"
                                     data-toggle="tooltip" data-placement="top" title="Show">
                                     <i class="fa fa-eye"></i>
                                 </a>
@@ -150,7 +151,7 @@
     @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <a href="{{ route('barang.create') }}" class="btn btn-sm btn-success">
-            <i class="fas fa-plus"></i> Tambah Baru
+            <i class="fas fa-plus"></i> Tambah Barang
         </a>
         <a class="btn btn-sm btn-secondary ml-3" data-toggle="modal" data-target="#importModal">
             <i class="fa-solid fa-file-csv"></i> Import .csv</a>

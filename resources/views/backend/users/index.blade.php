@@ -17,7 +17,7 @@
     @role('admin')
     <div class="d-sm-flex align-items-center mx-3 mb-4">
         <a href="{{ route('users.create') }}" class="btn btn-sm btn-success">
-            <i class="fas fa-plus"></i> Tambah Baru
+            <i class="fas fa-plus"></i> Tambah Pengguna
         </a>
         <a class="btn btn-sm btn-secondary mx-3" data-toggle="modal" data-target="#importModal">
             <i class="fa-solid fa-file-csv"></i> Import .csv</a>
@@ -112,7 +112,7 @@
     @role('admin')
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <a href="{{ route('users.create') }}" class="btn btn-sm btn-success">
-            <i class="fas fa-plus"></i> Tambah Baru
+            <i class="fas fa-plus"></i> Tambah Pengguna
         </a>
         <a class="btn btn-sm btn-secondary mx-3" data-toggle="modal" data-target="#importModal">
             <i class="fa-solid fa-file-csv"></i> Import .csv</a>

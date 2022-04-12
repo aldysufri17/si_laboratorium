@@ -75,7 +75,7 @@
                         <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                             Total Barang Lab Sistem Tertanam dan Robotika</div>
                         <div class="h5 mb-0 font-weight-bold text-gray-800">
-                            {{App\Models\Barang::where('kategori', 1)->count()}}</div>
+                            {{App\Models\Barang::where('kategori_lab', 1)->count()}}</div>
                     </div>
                     <div class="col-auto">
                         <i class="fas fa-box fa-2x text-gray-300"></i>
@@ -93,7 +93,7 @@
                         <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                             Total Barang Rusak Lab Sistem Tertanam dan Robotika</div>
                         <div class="h5 mb-0 font-weight-bold text-gray-800">
-                            {{App\Models\Barang::where('kategori', 1)->sum('jml_rusak')}}</div>
+                            {{App\Models\Barang::where('kategori_lab', 1)->sum('jml_rusak')}}</div>
                     </div>
                     <div class="col-auto">
                         <i class="fas fa-box fa-2x text-gray-300"></i>
@@ -115,7 +115,7 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col-auto">
                                 <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
-                                    {{App\Models\Inventaris::where('kategori', 1)->where('deskripsi', 'Active')->sum('keluar')}}</div>
+                                    {{App\Models\Inventaris::where('kategori_lab', 1)->where('deskripsi', 'Active')->sum('keluar')}}</div>
                             </div>
                         </div>
                     </div>
@@ -136,7 +136,7 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col-auto">
                                 <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
-                                    {{App\Models\Peminjaman::where('kategori', 1)->where('status', 3)->count()}}</div>
+                                    {{App\Models\Peminjaman::where('kategori_lab', 1)->where('status', 3)->count()}}</div>
                             </div>
                         </div>
                     </div>
@@ -162,7 +162,7 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col-auto">
                                 <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
-                                    {{App\Models\Barang::where('kategori', 2)->count()}}</div>
+                                    {{App\Models\Barang::where('kategori_lab', 2)->count()}}</div>
                             </div>
                         </div>
                     </div>
@@ -186,7 +186,7 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col-auto">
                                 <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
-                                    {{App\Models\Barang::where('kategori', 2)->sum('jml_rusak')}}</div>
+                                    {{App\Models\Barang::where('kategori_lab', 2)->sum('jml_rusak')}}</div>
                             </div>
                         </div>
                     </div>
@@ -210,7 +210,7 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col-auto">
                                 <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
-                                    {{App\Models\Inventaris::where('kategori', 2)->where('deskripsi', 'Active')->sum('keluar')}}</div>
+                                    {{App\Models\Inventaris::where('kategori_lab', 2)->where('deskripsi', 'Active')->sum('keluar')}}</div>
                             </div>
                         </div>
                     </div>
@@ -231,7 +231,7 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col-auto">
                                 <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
-                                    {{App\Models\Peminjaman::where('kategori', 2)->where('status', 3)->count()}}</div>
+                                    {{App\Models\Peminjaman::where('kategori_lab', 2)->where('status', 3)->count()}}</div>
                             </div>
                         </div>
                     </div>
@@ -254,7 +254,7 @@
                         <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                             Total Barang Lab Jaringan dan Keamanan Komputer</div>
                         <div class="h5 mb-0 font-weight-bold text-gray-800">
-                            {{App\Models\Barang::where('kategori', 3)->count()}}</div>
+                            {{App\Models\Barang::where('kategori_lab', 3)->count()}}</div>
                     </div>
                     <div class="col-auto">
                         <i class="fa-solid fa-network-wired fa-2x text-gray-300"></i>
@@ -272,7 +272,7 @@
                         <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
                             Total Barang Rusak Lab Jaringan dan Keamanan Komputer</div>
                         <div class="h5 mb-0 font-weight-bold text-gray-800">
-                            {{App\Models\Barang::where('kategori', 3)->sum('jml_rusak')}}</div>
+                            {{App\Models\Barang::where('kategori_lab', 3)->sum('jml_rusak')}}</div>
                     </div>
                     <div class="col-auto">
                         <i class="fa-solid fa-network-wired fa-2x text-gray-300"></i>
@@ -294,7 +294,7 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col-auto">
                                 <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
-                                    {{App\Models\Inventaris::where('kategori', 3)->where('deskripsi', 'Active')->sum('keluar')}}</div>
+                                    {{App\Models\Inventaris::where('kategori_lab', 3)->where('deskripsi', 'Active')->sum('keluar')}}</div>
                             </div>
                         </div>
                     </div>
@@ -315,7 +315,7 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col-auto">
                                 <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
-                                    {{App\Models\Peminjaman::where('kategori', 3)->where('status', 3)->count()}}</div>
+                                    {{App\Models\Peminjaman::where('kategori_lab', 3)->where('status', 3)->count()}}</div>
                             </div>
                         </div>
                     </div>
@@ -337,7 +337,7 @@
                         <div class="text-xs font-weight-bold text-light text-uppercase mb-1">
                             Total Barang Lab Multimedia</div>
                         <div class="h5 mb-0 font-weight-bold text-gray-800">
-                            {{App\Models\Barang::where('kategori', 4)->count()}}</div>
+                            {{App\Models\Barang::where('kategori_lab', 4)->count()}}</div>
                     </div>
                     <div class="col-auto">
                         <i class="fa-solid fa-masks-theater fa-2x text-gray-300"></i>
@@ -355,7 +355,7 @@
                         <div class="text-xs font-weight-bold text-light text-uppercase mb-1">
                             Total Barang Rusak Lab Multimedia</div>
                         <div class="h5 mb-0 font-weight-bold text-gray-800">
-                            {{App\Models\Barang::where('kategori', 4)->sum('jml_rusak')}}</div>
+                            {{App\Models\Barang::where('kategori_lab', 4)->sum('jml_rusak')}}</div>
                     </div>
                     <div class="col-auto">
                         <i class="fa-solid fa-masks-theater fa-2x text-gray-300"></i>
@@ -377,7 +377,7 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col-auto">
                                 <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
-                                    {{App\Models\Inventaris::where('kategori', 4)->where('deskripsi', 'Active')->sum('keluar')}}</div>
+                                    {{App\Models\Inventaris::where('kategori_lab', 4)->where('deskripsi', 'Active')->sum('keluar')}}</div>
                             </div>
                         </div>
                     </div>
@@ -398,7 +398,7 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col-auto">
                                 <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
-                                    {{App\Models\Peminjaman::where('kategori', 4)->where('status', 3)->count()}}</div>
+                                    {{App\Models\Peminjaman::where('kategori_lab', 4)->where('status', 3)->count()}}</div>
                             </div>
                         </div>
                     </div>

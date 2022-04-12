@@ -15,6 +15,13 @@ use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
+
+    public function credit()
+    {
+        return view('frontend.creadit');
+    }
+
+
     /**
      * Display a listing of the resource.
      *
@@ -109,13 +116,13 @@ class HomeController extends Controller
 
     public function search(Request $request)
     {
-        if ($request->kategori) {
-            $barang = Barang::where('show', 1)->where('kategori', $request->kategori)->latest();
+        if ($request->kategori_lab) {
+            $barang = Barang::where('show', 1)->where('kategori_lab', $request->kategori_lab)->latest();
             if ($request->search) {
                 $barang->where('nama', 'like', '%' . $request->search . '%');
             }
         } else {
-            $barang = Barang::where('show', 1)->where('kategori', 1)->latest();
+            $barang = Barang::where('show', 1)->where('kategori_lab', 1)->latest();
         }
 
         return view('frontend.search', ['barang' => $barang->paginate(7)]);

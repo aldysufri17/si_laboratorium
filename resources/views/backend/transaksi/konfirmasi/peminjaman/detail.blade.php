@@ -47,7 +47,7 @@
                             <td>{{ $data->user->nim }}</td>
                             <td>{{ $data->user->name }}</td>
                             <td>{{ $data->barang->nama }} - {{ $data->barang->tipe }}</td>
-                            <td>{{ $data->jumlah }} {{$data->barang->satuan}}</td>
+                            <td>{{ $data->jumlah }} {{$data->barang->satuan->nama}}</td>
                             <td>{{ $data->tgl_start }}</td>
                             <td>{{ $data->tgl_end }}</td>
                             <td style="display: flex">

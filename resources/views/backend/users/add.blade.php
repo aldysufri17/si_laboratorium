@@ -21,7 +21,7 @@
         <form method="POST" action="{{route('users.store')}}" enctype="multipart/form-data">
             @csrf
             <div class="card-body">
-            <h6 class="m-0 font-weight-bold text-light">Tambah Pengguna Baru</h6>
+            <h6 class="m-0 font-weight-bold text-light">Tambah Pengguna</h6>
 
                 <div class="form-group row">
 

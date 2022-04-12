@@ -36,16 +36,16 @@ class DashboardController extends Controller
         // notifikasi
         if (Auth::user()->role_id > 2) {
             if (Auth::user()->role_id == 3) {
-                $kategori = 1;
+                $kategori_lab = 1;
             } elseif (Auth::user()->role_id == 4) {
-                $kategori = 2;
+                $kategori_lab = 2;
             } elseif (Auth::user()->role_id == 5) {
-                $kategori = 3;
+                $kategori_lab = 3;
             } elseif (Auth::user()->role_id == 6) {
-                $kategori = 4;
+                $kategori_lab = 4;
             }
-            $peminjaman = Peminjaman::where('kategori', $kategori)->where('status', 0)->get();
-            $total = Peminjaman::where('kategori', $kategori)->where('status', 0)->count();
+            $peminjaman = Peminjaman::where('kategori_lab', $kategori_lab)->where('status', 0)->get();
+            $total = Peminjaman::where('kategori_lab', $kategori_lab)->where('status', 0)->count();
             $request->session()->flash('eror', "$total pengajuan belum disetujui !!!");
             return view('backend.dashboard',  compact(['peminjaman']));
         }

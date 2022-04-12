@@ -11,6 +11,9 @@
             <li class="breadcrumb-item">Detail Barang</li>
         </ol>
     </div>
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <a class="btn btn-sm btn-danger" href="{{ route('barang.index') }}"><i class="fas fa-angle-double-left"></i> Kembali</a>
+    </div>
 
     <div class="card shadow mb-4 border-0 bgdark">
         {{-- Page Content --}}
@@ -25,9 +28,8 @@
             @endif
         </div>
         <div class="d-flex text-center justify-content-around flex-wrap pt-5">
-            <p class="text-light mx-5"><strong>Nama: </strong><br>{{ $barang->nama }}</p>
-            <p class="text-light mx-5"><strong>Tipe: </strong><br>{{ $barang->tipe }}</p>
-            <p class="text-light mx-5"><strong>Jumlah: </strong><br>{{ $barang->jumlah }} {{$barang->satuan}}</p>
+            <p class="text-light mx-5"><strong>Nama: </strong><br>{{ $barang->nama }} - {{ $barang->tipe }}</p>
+            <p class="text-light mx-5"><strong>Jumlah: </strong><br>{{ $barang->stock }} {{$barang->satuan->nama}}</p>
             <p class="text-light mx-5"><strong>Lokasi Barang: </strong><br>{{ $barang->lokasi }}</p>
             <p class="text-light mx-5"><strong>Tanggal Masuk: </strong><br>{{ $barang->tgl_masuk }}</p>
             @if($barang->info)
@@ -35,7 +37,6 @@
             @endif
         </div>
         <div class="pb-5 text-center">
-            <button class="btn btn-danger profile-button" onclick="history.back()">Kembali</button>
             <button class="btn btn-info profile-button" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-qrcode"></i> QrCode</button>
         </div>
     </div>

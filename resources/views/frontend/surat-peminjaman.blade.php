@@ -148,7 +148,7 @@
                 <tr>
                     <th>Barcode</th>
                     <th>Nama Barang</th>
-                    <th>Kategori</th>
+                    <th>Laboratorium</th>
                     <th>jumlah</th>
                     <th>Tanggal Peminjaman</th>
                     <th>Tanggal Pengembalian</th>
@@ -165,13 +165,13 @@
                         <div class="row text-muted">{{ $a->barang->tipe}}</div>
                     </td>
                     <td align="center">
-                        @if ($a->barang->kategori == 1)
+                        @if ($a->barang->kategori_lab == 1)
                         Laboratorium Sistem Tertanam dan Robotika
-                        @elseif ($a->barang->kategori == 2)
+                        @elseif ($a->barang->kategori_lab == 2)
                         Laboratorium Rekayasa Perangkat Lunak
-                        @elseif($a->barang->kategori == 3)
+                        @elseif($a->barang->kategori_lab == 3)
                         Laboratorium Jaringan dan Keamanan Komputer
-                        @elseif($a->barang->kategori == 4)
+                        @elseif($a->barang->kategori_lab == 4)
                         Laboratorium Multimedia
                         @endif
                     </td>

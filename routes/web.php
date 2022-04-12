@@ -6,7 +6,9 @@ use App\Http\Controllers\OperatorController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
+// Route::get('/', [App\Http\Controllers\HomeController::class, 'credit']);
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
+// Route::get('/app', [App\Http\Controllers\HomeController::class, 'index']);
 Route::get('/daftar', [App\Http\Controllers\Auth\RegisterController::class, 'daftar'])->name('daftar');
 Route::get('/search', [App\Http\Controllers\HomeController::class, 'search'])->name('search');
 Route::get('/langkah-peminjaman', [App\Http\Controllers\HomeController::class, 'langkahPeminjaman'])->name('langkahPeminjaman');
@@ -61,8 +63,8 @@ Route::middleware(['auth'])->group(function () {
 
         // Inventaris
         Route::resource('inventaris', App\Http\Controllers\InventarisController::class);
-        Route::get('add/{data}', [App\Http\Controllers\InventarisController::class, 'add'])->name('inventaris.add');
-        Route::get('kategori/{data}', [App\Http\Controllers\InventarisController::class, 'adminInventaris'])->name('admin.inventaris');
+        Route::get('inventaris/add/{data}', [App\Http\Controllers\InventarisController::class, 'add'])->name('inventaris.add');
+        Route::get('inventaris/kategori/{data}', [App\Http\Controllers\InventarisController::class, 'adminInventaris'])->name('admin.inventaris');
 
         // transaksi
         Route::get('/daftar-peminjaman', [App\Http\Controllers\PeminjamanController::class, 'index'])->name('daftar.peminjaman');
@@ -96,6 +98,12 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/persuratan/riwayat', [App\Http\Controllers\PersuratanController::class, 'riwayat'])->name('persuratan.riwayat');
         Route::get('/persuratan/konfirmasi', [App\Http\Controllers\PersuratanController::class, 'konfirmasi'])->name('persuratan.konfirmasi');
         Route::get('/persuratan/status/{id}/{status}', [App\Http\Controllers\PersuratanController::class, 'status'])->name('persuratan.status');
+
+        // Satuan
+        Route::resource('satuan', App\Http\Controllers\SatuanController::class);
+
+        // Kategori
+        Route::resource('kategori', App\Http\Controllers\KategoriController::class);
     });
 
 

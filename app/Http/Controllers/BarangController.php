@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Storage;
 use Barryvdh\DomPDF\Facade as PDF;
 use App\Exports\BarangExport;
 use App\Imports\BarangImport;
+use App\Models\Kategori;
+use App\Models\Satuan;
 use App\Models\User;
 use Maatwebsite\Excel\Facades\Excel;
 
@@ -31,22 +33,22 @@ class BarangController extends Controller
     public function index()
     {
         if (Auth::user()->role_id == 3) {
-            $kategori = 1;
+            $kategori_lab = 1;
         } elseif (Auth::user()->role_id == 4) {
-            $kategori = 2;
+            $kategori_lab = 2;
         } elseif (Auth::user()->role_id == 5) {
-            $kategori = 3;
+            $kategori_lab = 3;
         } elseif (Auth::user()->role_id == 6) {
-            $kategori = 4;
+            $kategori_lab = 4;
         }
 
         if (Auth::user()->role_id == 2) {
-            $barang = Barang::select('kategori', DB::raw('count(*) as total'))
-                ->groupBy('kategori')
+            $barang = Barang::select('kategori_lab', DB::raw('count(*) as total'))
+                ->groupBy('kategori_lab')
                 ->paginate(5);
         } else {
-            $barang = DB::table('barang')
-                ->where('kategori', $kategori)
+            $barang = Barang::with('satuan', 'kategori')
+                ->where('kategori_lab', $kategori_lab)
                 ->orderBy('created_at', 'desc')
                 ->paginate(5);
         }
@@ -56,7 +58,7 @@ class BarangController extends Controller
     public function adminBarang($data)
     {
         $barang = DB::table('barang')
-            ->where('kategori', $data)
+            ->where('kategori_lab', $data)
             ->orderBy('created_at', 'desc')
             ->paginate(5);
         return view('backend.barang.admin-detail', ['barang' => $barang]);
@@ -69,7 +71,18 @@ class BarangController extends Controller
      */
     public function create()
     {
-        return view('backend.barang.add');
+        if (Auth::user()->role_id == 3) {
+            $kategori_lab = 1;
+        } elseif (Auth::user()->role_id == 4) {
+            $kategori_lab = 2;
+        } elseif (Auth::user()->role_id == 5) {
+            $kategori_lab = 3;
+        } elseif (Auth::user()->role_id == 6) {
+            $kategori_lab = 4;
+        }
+        $kategori = Kategori::where('kategori_lab', $kategori_lab)->get();
+        $satuan = Satuan::where('kategori_lab', $kategori_lab)->get();
+        return view('backend.barang.add', compact('kategori', 'satuan'));
     }
 
     /**
@@ -82,7 +95,8 @@ class BarangController extends Controller
     {
         $request->validate([
             'nama'      => 'required',
-            'satuan'      => 'required',
+            'satuan_id'    => 'required',
+            'kategori_id'    => 'required',
             'stock'     => 'required|int',
             'tipe'      => 'required',
             'tgl_masuk' => 'required',
@@ -93,13 +107,13 @@ class BarangController extends Controller
         ]);
 
         if (Auth::user()->role_id == 3) {
-            $kategori = 1;
+            $kategori_lab = 1;
         } elseif (Auth::user()->role_id == 4) {
-            $kategori = 2;
+            $kategori_lab = 2;
         } elseif (Auth::user()->role_id == 5) {
-            $kategori = 3;
+            $kategori_lab = 3;
         } elseif (Auth::user()->role_id == 6) {
-            $kategori = 4;
+            $kategori_lab = 4;
         }
 
         if ($request->gambar) {
@@ -115,8 +129,9 @@ class BarangController extends Controller
                 'tgl_masuk'     => $request->tgl_masuk,
                 'show'          => $request->show,
                 'lokasi'        => $request->lokasi,
-                'kategori'      => $kategori,
-                'satuan'        => $request->satuan,
+                'kategori_lab'  => $kategori_lab,
+                'satuan_id'     => $request->satuan_id,
+                'kategori_id'   => $request->kategori_id,
                 'info'          => $request->info,
                 'gambar'        => $new_gambar,
             ]);
@@ -130,7 +145,7 @@ class BarangController extends Controller
                 'deskripsi'         => 'Baru',
                 'kode_inventaris'   => 'IN' . $random,
                 'masuk'             => $request->stock,
-                'kategori'          => $kategori,
+                'kategori_lab'      => $kategori_lab,
                 'keluar'            => 0,
                 'total'             => $request->stock,
             ]);
@@ -141,11 +156,12 @@ class BarangController extends Controller
                 'nama'          => $request->nama,
                 'stock'         => $request->stock,
                 'tipe'          => $request->tipe,
-                'satuan'        => $request->satuan,
+                'satuan_id'     => $request->satuan_id,
+                'kategori_id'   => $request->kategori_id,
                 'tgl_masuk'     => $request->tgl_masuk,
                 'show'          => $request->show,
                 'lokasi'        => $request->lokasi,
-                'kategori'      => $kategori,
+                'kategori_lab'  => $kategori_lab,
                 'info'          => $request->info,
             ]);
 
@@ -158,7 +174,7 @@ class BarangController extends Controller
                 'deskripsi'         => 'Baru',
                 'kode_inventaris'   => 'IN' . $random,
                 'masuk'             => $request->stock,
-                'kategori'          => $kategori,
+                'kategori_lab'          => $kategori_lab,
                 'keluar'            => 0,
                 'total'             => $request->stock,
             ]);
@@ -206,7 +222,8 @@ class BarangController extends Controller
             'nama'      => 'required',
             'stock'     => 'required|int',
             'tipe'      => 'required',
-            'satuan'    => 'required',
+            'satuan_id'        => $request->satuan_id,
+            'kategori_id'        => $request->kategori_id,
             'tgl_masuk' => 'required',
             'show'      => 'required|in:0,1',
             'lokasi'    => 'required',
@@ -228,7 +245,8 @@ class BarangController extends Controller
                 'tgl_masuk'     => $request->tgl_masuk,
                 'show'          => $request->show,
                 'lokasi'        => $request->lokasi,
-                'satuan'        => $request->satuan,
+                'satuan_id'        => $request->satuan_id,
+                'kategori_id'        => $request->kategori_id,
                 'info'          => $request->info,
                 'gambar'        => $new_gambar,
             ]);
@@ -237,7 +255,8 @@ class BarangController extends Controller
                 'nama'          => $request->nama,
                 'stock'         => $request->stock,
                 'tipe'          => $request->tipe,
-                'satuan'        => $request->satuan,
+                'satuan_id'        => $request->satuan_id,
+                'kategori_id'        => $request->kategori_id,
                 'tgl_masuk'     => $request->tgl_masuk,
                 'show'          => $request->show,
                 'lokasi'        => $request->lokasi,
@@ -256,30 +275,30 @@ class BarangController extends Controller
     {
         if (Auth::user()->role_id == 2) {
             $barang = Barang::whereNotNull('jml_rusak')
-                ->select('kategori', DB::raw('count(*) as total'))
+                ->select('kategori_lab', DB::raw('count(*) as total'))
                 // ->selectRaw(DB::raw("SUM(jml_rusak) as total"))
-                ->groupBy('kategori')
+                ->groupBy('kategori_lab')
                 ->paginate(5);
             // dd($barang);
             return view('backend.barang.damaged', compact('barang'));
         } else {
             if (Auth::user()->role_id == 3) {
-                $kategori = 1;
+                $kategori_lab = 1;
             } elseif (Auth::user()->role_id == 4) {
-                $kategori = 2;
+                $kategori_lab = 2;
             } elseif (Auth::user()->role_id == 5) {
-                $kategori = 3;
+                $kategori_lab = 3;
             } elseif (Auth::user()->role_id == 6) {
-                $kategori = 4;
+                $kategori_lab = 4;
             }
-            $barang = Barang::whereNotNull('jml_rusak')->where('kategori', $kategori)->paginate(5);
+            $barang = Barang::whereNotNull('jml_rusak')->where('kategori_lab', $kategori_lab)->paginate(5);
             return view('backend.barang.damaged', compact('barang'));
         }
     }
 
     public function adminDamaged($data)
     {
-        $barang = Barang::whereNotNull('jml_rusak')->where('kategori', $data)->paginate(5);
+        $barang = Barang::whereNotNull('jml_rusak')->where('kategori_lab', $data)->paginate(5);
         return view('backend.barang.admin-damaged', compact('barang'));
     }
 
@@ -326,7 +345,7 @@ class BarangController extends Controller
     public function qrcode($data)
     {
         if (Auth::user()->role_id == 2) {
-            $kategori = $data;
+            $kategori_lab = $data;
             if ($data == 1) {
                 $name = 'Laboratorium Sistem Tertanam dan Robotika';
             } elseif ($data == 2) {
@@ -339,19 +358,19 @@ class BarangController extends Controller
         }
 
         if (Auth::user()->role_id == 3) {
-            $kategori = 1;
+            $kategori_lab = 1;
             $name = 'Laboratorium Sistem Tertanam dan Robotika';
         } elseif (Auth::user()->role_id == 4) {
-            $kategori = 2;
+            $kategori_lab = 2;
             $name = 'Laboratorium Rekayasa Perangkat Lunak';
         } elseif (Auth::user()->role_id == 5) {
-            $kategori = 3;
+            $kategori_lab = 3;
             $name = 'Laboratorium Jaringan dan Keamanan Komputer';
         } elseif (Auth::user()->role_id == 6) {
-            $kategori = 4;
+            $kategori_lab = 4;
             $name = 'Laboratorium Multimedia';
         }
-        $barang = Barang::where('kategori', $kategori)->get();
+        $barang = Barang::where('kategori_lab', $kategori_lab)->get();
         $pdf = PDF::loadview('backend.barang.qrcode', compact('barang'));
         return $pdf->download("Qr-Code_barang" . "-" . $name . '.pdf');
     }

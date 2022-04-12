@@ -8,7 +8,7 @@
         <h1 class="h5 mb-0 text-light">Detail Peminjaman</h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Dashboard</a></li>
-            <li class="breadcrumb-item"><a href="#" onclick="history.back()">Filter Peminjaman</a></li>
+            <li class="breadcrumb-item"><a href="#" onclick="history.back()">Filter Pengajuan</a></li>
             <li class="breadcrumb-item">Detail Peminjaman</li>
         </ol>
     </div>
@@ -28,7 +28,7 @@
             <p class="text-light mx-5"><strong>Barang: </strong><br>{{ $peminjaman->barang->nama }} -
                 {{ $peminjaman->barang->tipe }}</p>
             <p class="text-light mx-5"><strong>Jumlah: </strong><br>{{ $peminjaman->jumlah }}
-                {{$peminjaman->barang->satuan}}</p>
+                {{$peminjaman->barang->satuan->nama}}</p>
             <p class="text-light mx-5"><strong>Tanggal Peminjaman: </strong><br>{{ $peminjaman->tgl_start }}</p>
             <p class="text-light mx-5"><strong>Tanggal Pengembalian: </strong><br>{{ $peminjaman->tgl_end }}</p>
             <p class="text-light mx-5"><strong>Alasan: </strong><br>{{ $peminjaman->alasan }}</p>

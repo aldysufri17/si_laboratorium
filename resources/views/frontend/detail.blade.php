@@ -37,7 +37,7 @@
                             <img src="{{ asset($barang->gambar ? 'storage/barang/'. $barang->gambar : 'images/empty.jpg') }}"
                                 class="img-fluid" alt=""></a>
                             <span class="font-weight-bold">{{$barang->nama}} - {{$barang->tipe}}</span><span class="text-black-50">Stock :
-                            {{$barang->stock}} {{$barang->satuan}}</span><span>{{$barang->lokasi}}</span>
+                            {{$barang->stock}} {{$barang->satuan->nama}}</span><span>{{$barang->lokasi}}</span>
                     </div>
                 </div>
                 <div class="col-md-8">

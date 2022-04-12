@@ -21,7 +21,7 @@
         <form method="POST" action="{{route('operator.store')}}">
             @csrf
             <div class="card-body ">
-                <h6 class="m-0 font-weight-bold text-light">Form Tambah Pengurus Baru</h6>
+                <h6 class="m-0 font-weight-bold text-light">Form Tambah Pengurus</h6>
                 <div class="form-group row">
 
                     {{-- Name --}}

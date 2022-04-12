@@ -17,7 +17,7 @@
 
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <a href="{{ route('operator.create') }}" class="btn btn-sm btn-success">
-            <i class="fas fa-plus"></i> Tambah Baru
+            <i class="fas fa-plus"></i> Tambah Pengurus
         </a>
     </div>
 
@@ -154,7 +154,7 @@
         @include('sweetalert::alert')
         <div class="d-sm-flex align-items-center justify-content-between mb-4">
             <a href="{{ route('users.create') }}" class="btn btn-sm btn-success">
-                <i class="fas fa-plus"></i> Tambah Baru
+                <i class="fas fa-plus"></i> Tambah Pengurus
             </a>
         </div>
         <div class="align-items-center bg-light p-3 border-left-success rounded">

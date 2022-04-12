@@ -65,7 +65,7 @@
                                 <div class="d-flex align-items-center">
                                     <div class="col mr-2">
                                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                            Total Peminjaman Active</div>
+                                            Total Peminjaman Aktif</div>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
                                     </div>
                                     <div class="col-auto">
@@ -102,18 +102,18 @@
                                     </div>
                                 </td>
                                 <td>
-                                    @if ($data->kategori == 1)
+                                    @if ($data->kategori_lab == 1)
                                     Laboratorium Sistem Tertanam dan Robotika
-                                    @elseif ($data->kategori == 2)
+                                    @elseif ($data->kategori_lab == 2)
                                     Laboratorium Rekayasa Perangkat Lunak
-                                    @elseif($data->kategori == 3)
+                                    @elseif($data->kategori_lab == 3)
                                     Laboratorium Jaringan dan Keamanan Komputer
-                                    @elseif($data->kategori == 4)
+                                    @elseif($data->kategori_lab == 4)
                                     Laboratorium Multimedia
                                     @endif
                                 </td>
                                 <td>{{$data->barang->lokasi}}</td>
-                                <td>{{$data->jumlah}} {{$data->barang->satuan}}</td>
+                                <td>{{$data->jumlah}} {{$data->barang->satuan->nama}}</td>
                                 <td>{{$data->tgl_start}}</td>
                                 <td>{{$data->tgl_end}}</td>
                                 <td>

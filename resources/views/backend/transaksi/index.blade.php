@@ -91,18 +91,18 @@
                         @foreach ($peminjaman as $result => $data)
                         <tr>
                             <td class="text-center">
-                                @if ($data->kategori == 1)
+                                @if ($data->kategori_lab == 1)
                                 Laboratorium Sistem Tertanam dan Robotika
-                                @elseif ($data->kategori == 2)
+                                @elseif ($data->kategori_lab == 2)
                                 Laboratorium Rekayasa Perangkat Lunak
-                                @elseif($data->kategori == 3)
+                                @elseif($data->kategori_lab == 3)
                                 Laboratorium Jaringan dan Keamanan Komputer
-                                @elseif($data->kategori == 4)
+                                @elseif($data->kategori_lab == 4)
                                 Laboratorium Multimedia
                                 @endif</td>
                             <td class="text-center">{{ $data->total }}</td>
                             <td class="d-sm-flex justify-content-center">
-                                <a href="{{route('admin.peminjaman', $data->kategori)}}" class="btn btn-primary" data-toggle="tooltip" data-placement="top"
+                                <a href="{{route('admin.peminjaman', $data->kategori_lab)}}" class="btn btn-primary" data-toggle="tooltip" data-placement="top"
                                     title="Show">
                                     <i class="fa fa-eye"></i>
                                 </a>

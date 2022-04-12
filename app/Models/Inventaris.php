@@ -9,5 +9,5 @@ class Inventaris extends Model
 {
     use HasFactory;
     protected $table = 'inventaris';
-    protected $fillable = ['id', 'barang_id', 'kategori', 'kode_inventaris', 'masuk', 'keluar', 'total', 'status', 'deskripsi', 'created_at'];
+    protected $fillable = ['id', 'barang_id', 'kategori_lab', 'kode_inventaris', 'masuk', 'keluar', 'total', 'status', 'deskripsi', 'created_at'];
 }
