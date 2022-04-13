@@ -126,11 +126,11 @@ class DashboardController extends Controller
         if ($request->foto) {
             $usercek = User::whereid($user_id)->first();
             if ($usercek->foto) {
-                unlink(storage_path('app/public/user/' . $usercek->foto));
+                unlink('images/user/' . $usercek->foto);
             }
             $foto = $request->foto;
             $new_foto = date('Y-m-d') . "-" . Auth::user()->name . "-" . Auth::user()->nim . "." . $foto->getClientOriginalExtension();
-            $destination = storage_path('app/public/user');
+            $destination = 'images/user/';
             $foto->move($destination, $new_foto);
             // Store Data
             $user_updated = User::whereId($user_id)->update([
@@ -150,11 +150,11 @@ class DashboardController extends Controller
         if ($request->ktm) {
             $usercek = User::whereid($user_id)->first();
             if ($usercek->ktm) {
-                unlink(storage_path('app/public/user/ktm/' . $usercek->ktm));
+                unlink('images/user/ktm/' . $usercek->ktm);
             }
             $ktm = $request->ktm;
             $new_ktm = date('Y-m-d') . "-" . Auth::user()->name . "-" . Auth::user()->nim . "." . $ktm->getClientOriginalExtension();
-            $destination = storage_path('app/public/user/ktm');
+            $destination = 'images/user/ktm/';
             $ktm->move($destination, $new_ktm);
             // Store Data
             $user_updated = User::whereId($user_id)->update([

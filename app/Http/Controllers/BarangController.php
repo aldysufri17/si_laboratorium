@@ -119,7 +119,8 @@ class BarangController extends Controller
         if ($request->gambar) {
             $gambar = $request->gambar;
             $new_gambar = date('Y-m-d') . "-" . $request->nama . "-" . $request->tipe . "." . $gambar->getClientOriginalExtension();
-            $destination = storage_path('app/public/barang');
+            // $destination = storage_path('app/public/barang');
+            $destination = 'images/barang/';
             $gambar->move($destination, $new_gambar);
             $barang = Barang::create([
                 'id'            => time(),
@@ -232,11 +233,11 @@ class BarangController extends Controller
         ]);
         if ($request->gambar) {
             if ($barang->gambar) {
-                unlink(storage_path('app/public/barang/' . $barang->gambar));
+                unlink('images/barang/' . $barang->gambar);
             }
             $gambar = $request->gambar;
             $new_gambar = date('Y-m-d') . "-" . $request->nama . "-" . $request->tipe . "." . $gambar->getClientOriginalExtension();
-            $destination = storage_path('app/public/barang');
+            $destination = 'images/barang/';
             $gambar->move($destination, $new_gambar);
             $barang_update = Barang::whereid($barang->id)->update([
                 'nama'          => $request->nama,

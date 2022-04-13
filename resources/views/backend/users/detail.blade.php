@@ -20,7 +20,7 @@
         {{-- Page Content --}}
 
         <div class="d-flex flex-column align-items-center text-center p-3 pt-5">
-            <img class="rounded-circle my-2" width="150px" src="{{ asset($user->foto ? 'storage/user/'. $user->foto : 'admin/img/undraw_profile.svg') }}">
+            <img class="rounded-circle my-2" width="150px" src="{{ asset($user->foto ? 'images/user/'. $user->foto : 'admin/img/undraw_profile.svg') }}">
             @if ($user->status == 0)
             <span class="badge badge-danger">Inactive</span>
             @elseif ($user->status == 1)
@@ -55,8 +55,8 @@
                 </button>
             </div>
             <div class="modal-body text-center">
-                <img class="my-2" width="250px"
-                    src="{{ asset($user->ktm ? 'storage/user/ktm/'. $user->ktm : 'images/empty.jpg') }}">
+                <img class="my-2" width="450px"
+                    src="{{ asset($user->ktm ? 'images/user/ktm/'. $user->ktm : 'images/empty.jpg') }}">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Oke</button>

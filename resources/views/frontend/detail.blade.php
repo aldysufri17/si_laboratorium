@@ -32,9 +32,9 @@
             <div class="row">
                 <div class="col-md-4 border-right">
                     <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-                        <a href="{{ asset($barang->gambar ? 'storage/barang/'. $barang->gambar : 'images/empty.jpg') }}"
+                        <a href="{{ asset($barang->gambar ? 'images/barang/'. $barang->gambar : 'images/empty.jpg') }}"
                             data-gallery="portfolioGallery" class="portfolio-lightbox preview-link mb-3">
-                            <img src="{{ asset($barang->gambar ? 'storage/barang/'. $barang->gambar : 'images/empty.jpg') }}"
+                            <img src="{{ asset($barang->gambar ? 'images/barang/'. $barang->gambar : 'images/empty.jpg') }}"
                                 class="img-fluid" alt=""></a>
                             <span class="font-weight-bold">{{$barang->nama}} - {{$barang->tipe}}</span><span class="text-black-50">Stock :
                             {{$barang->stock}} {{$barang->satuan->nama_satuan}}</span><span>{{$barang->lokasi}}</span>

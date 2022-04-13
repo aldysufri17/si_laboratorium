@@ -86,7 +86,7 @@ class UserController extends Controller
         if ($request->foto) {
             $foto = $request->foto;
             $new_foto = date('Y-m-d') . "-" . $request->name . "-" . $request->nim . "." . $foto->getClientOriginalExtension();
-            $destination = storage_path('app/public/user');
+            $destination = 'images/user/';
             $foto->move($destination, $new_foto);
             $user = User::create([
                 'id'            => substr(str_shuffle("0123456789"), 0, 8),
@@ -187,11 +187,11 @@ class UserController extends Controller
         ]);
         if ($request->foto) {
             if ($user->foto) {
-                unlink(storage_path('app/public/user/' . $user->foto));
+                unlink('images/user/' . $user->foto);
             }
             $foto = $request->foto;
             $new_foto = date('Y-m-d') . "-" . $request->name . "-" . $request->nim . "." . $foto->getClientOriginalExtension();
-            $destination = storage_path('app/public/user');
+            $destination = 'images/user/';
             $foto->move($destination, $new_foto);
             // Store Data
             $user_updated = User::whereId($user->id)->update([
@@ -230,7 +230,7 @@ class UserController extends Controller
     {
         $userfoto = User::whereId($request->delete_id)->first();
         if ($userfoto->foto) {
-            unlink(storage_path('app/public/user/' . $userfoto->foto));
+            unlink('images/user/' . $userfoto->foto);
         }
         // Delete User
         $delete = User::whereId($request->delete_id)->delete();

@@ -51,8 +51,8 @@
                             @endif
                         </div>
                     </a></li>
-                    <li class="dropdown"><a href="#"><img class="rounded-circle my-2" width="30px"
-                                src="{{ asset(auth()->user()->foto ? 'storage/user/'. auth()->user()->foto : 'admin/img/undraw_profile.svg') }}"></a>
+                    <li class="dropdown"><a href="#"><img class="my-2" style="border-radius: 50%" width="30px"
+                                src="{{ asset(auth()->user()->foto ? 'images/user/'. auth()->user()->foto : 'admin/img/undraw_profile.svg') }}"></a>
                         <ul>
                             <li><a href="{{ route('profile.detail') }}">Profile</a></li>
                             <li><a href="{{ route('daftar.riwayat') }}">Riwayat Peminjaman</a></li>

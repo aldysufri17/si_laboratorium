@@ -19,13 +19,9 @@
         {{-- Page Content --}}
 
         <div class="d-flex flex-column align-items-center text-center p-3 pt-5">
-            <img class="rounded-circle my-2" width="150px"
-                src="{{ asset($barang->gambar ? 'storage/barang/'. $barang->gambar : 'images/empty.jpg') }}">
-            @if ($barang->show == 0)
-            <span class="badge badge-danger">Hidden</span>
-            @elseif ($barang->show == 1)
-            <span class="badge badge-success">Show</span>
-            @endif
+            <img class="my-2" width="275px"
+                src="{{ asset($barang->gambar ? 'images/barang/'. $barang->gambar : 'images/empty.jpg') }}">
+            <span class="badge badge-primary">{{$barang->kategori->nama_kategori}}</span>
         </div>
         <div class="d-flex text-center justify-content-around flex-wrap pt-5">
             <p class="text-light mx-5"><strong>Nama: </strong><br>{{ $barang->nama }} - {{ $barang->tipe }}</p>

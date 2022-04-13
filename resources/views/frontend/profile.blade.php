@@ -28,7 +28,7 @@
                         <div class="d-flex flex-column align-items-center text-center p-3 py-5">
                             <div class="profilepic">
                                 <img class="rounded-circle my-2 profilepic__image" width="150px"
-                                    src="{{ asset(auth()->user()->foto ? 'storage/user/'. auth()->user()->foto : 'admin/img/undraw_profile.svg') }}">
+                                    src="{{ asset(auth()->user()->foto ? 'images/user/'. auth()->user()->foto : 'admin/img/undraw_profile.svg') }}">
                                 <div class="profilepic__content">
                                     <button type="button" class="btn btn-secondary" data-toggle="modal"
                                         data-target="#exampleModal"><i class="fas fa-camera"></i>
@@ -60,8 +60,8 @@
                                     </button>
                                 </div>
                                 <div class="modal-body text-center">
-                                    <img class="my-2" width="250px"
-                                        src="{{ asset(auth()->user()->ktm ? 'storage/user/ktm/'. auth()->user()->ktm : 'images/empty.jpg') }}">
+                                    <img class="my-2" width="450px"
+                                        src="{{ asset(auth()->user()->ktm ? 'images/user/ktm/'. auth()->user()->ktm : 'images/empty.jpg') }}">
                                     <form action="{{route('profile.ktm')}}" method="POST" enctype="multipart/form-data">
                                         @csrf
                                         <input type="file" name="ktm">

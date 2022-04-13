@@ -20,7 +20,7 @@
         {{-- Page Content --}}
         <div class="d-flex flex-column align-items-center text-center p-3 pt-5">
             <img class="rounded-circle my-2" width="150px"
-                src="{{ asset($peminjaman->user->foto ? 'storage/barang/'. $peminjaman->user->foto : 'admin/img/undraw_profile.svg') }}">
+                src="{{ asset($peminjaman->user->foto ? 'images/barang/'. $peminjaman->user->foto : 'admin/img/undraw_profile.svg') }}">
             <span class="text-light">Nama : {{ $peminjaman->user->name }}</span>
             <p class="mt-2">Nim : {{ $peminjaman->user->nim }}</p>
         </div>
