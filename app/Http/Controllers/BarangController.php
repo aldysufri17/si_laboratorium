@@ -15,6 +15,7 @@ use App\Imports\BarangImport;
 use App\Models\Kategori;
 use App\Models\Satuan;
 use App\Models\User;
+use Facade\FlareClient\Stacktrace\File;
 use Maatwebsite\Excel\Facades\Excel;
 
 
@@ -232,8 +233,9 @@ class BarangController extends Controller
             'required' => ':attribute Bagian ini wajib diisi',
         ]);
         if ($request->gambar) {
-            if ($barang->gambar) {
-                unlink('images/barang/' . $barang->gambar);
+            $bb = Barang::whereid($barang->id)->first();
+            if (file_exists(public_path('/images/barang/' . $bb->gambar))) {
+                unlink('images/barang/' . $bb->gambar);
             }
             $gambar = $request->gambar;
             $new_gambar = date('Y-m-d') . "-" . $request->nama . "-" . $request->tipe . "." . $gambar->getClientOriginalExtension();

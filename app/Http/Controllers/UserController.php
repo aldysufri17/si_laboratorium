@@ -186,8 +186,9 @@ class UserController extends Controller
             'mobile_number' => 'required|numeric',
         ]);
         if ($request->foto) {
-            if ($user->foto) {
-                unlink('images/user/' . $user->foto);
+            $bb = User::whereid($user->id)->first();
+            if (file_exists(public_path('/images/user/' . $bb->foto))) {
+                unlink('images/barang/' . $bb->foto);
             }
             $foto = $request->foto;
             $new_foto = date('Y-m-d') . "-" . $request->name . "-" . $request->nim . "." . $foto->getClientOriginalExtension();
