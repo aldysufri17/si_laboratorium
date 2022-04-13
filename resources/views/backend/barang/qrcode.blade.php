@@ -15,9 +15,11 @@
     $qr = 'ID = '.$item->id . ' - '. 'Nama = '. $item->nama .' '. $item->tipe .' - '. 'Lokasi = '. $item->lokasi
     @endphp
     <div style="display: flex;">
-        <img src="data:image/png;base64,{{DNS2D::getBarcodePNG(strval($qr), 'QRCODE',5,5)}}"
-        style="background-color: rgb(255, 255, 255); padding:5px; border-radius:1px" alt="barcode" />
-    <h5>{{$item->nama}}</h5>
+        <div>
+            <img src="data:image/png;base64,{{DNS2D::getBarcodePNG(strval($qr), 'QRCODE',4,4)}}"
+            style="background-color: rgb(255, 255, 255); border-radius:1px" alt="barcode" />
+        <h5 style="margin-top: -1px">{{$item->nama}}</h5>
+        </div>
     </div>
     @endforeach
 </body>
