@@ -1,3 +1,4 @@
+@if ($barang->isNotEmpty())
 @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalExample"
     aria-hidden="true">
@@ -19,13 +20,14 @@
                 <form id="user-delete-form" method="POST" action="{{ route('barang.destroy', ['barang' => $data->id]) }}">
                     @csrf
                     @method('DELETE')
+                    <input type="hidden" name="delete_id" id="delete_id">
                 </form>
             </div>
         </div>
     </div>
 </div>
 @endrole
-
+@endif
 <div class="modal fade" id="importModal" tabindex="-1" role="dialog" aria-labelledby="importModalExample"
     aria-hidden="true">
     <div class="modal-dialog" role="document">

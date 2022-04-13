@@ -76,16 +76,16 @@
                                     <i class="fa fa-ban"></i>
                                 </a>
                                 @endif
-                                <a class="btn btn-warning ml-2" data-toggle="modal" data-target="#reset"
-                                    title="Reset Password"><i class="fa-solid fa-clock-rotate-left"></i></a>
+                                <button class="btn btn-warning reset-btn ml-2" title="Reset" value="{{$user->id}}">
+                                    <i class="fa-solid fa-clock-rotate-left"></i>
+                                </button>
                                 <a href="{{ route('users.edit', ['user' => $user->id]) }}" class="btn btn-primary mx-2"
                                     title="Edit">
                                     <i class="fa fa-pen"></i>
                                 </a>
-                                <a class="btn btn-danger" href="#" data-toggle="modal" data-target="#deleteModal"
-                                    title="Hapus">
+                                <button class="btn btn-danger delete-btn" title="Delete" value="{{$user->id}}">
                                     <i class="fas fa-trash"></i>
-                                </a>
+                                </button>
                             </td>
                             @endrole
                         </tr>
@@ -97,7 +97,6 @@
         </div>
     </div>
 </div>
-@include('backend.users.user-modal')
 @else
 <div class="container-fluid">
     <!-- Page Heading -->
@@ -123,35 +122,8 @@
         <p><i class="fa-solid fa-circle-info text-info"></i> Belum Terdapat Data Pengguna</p>
     </div>
 </div>
-
-<div class="modal fade" id="importModal" tabindex="-1" role="dialog" aria-labelledby="importModalExample"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content bgdark shadow-2-strong ">
-            <div class="modal-header bg-danger">
-                <strong><h5 class="modal-title text-light" id="importModalExample">IMPORT PENGGUNA</h5></strong>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="modal-body border-0 text-light">
-                <center>
-                    <h5>Format Import Data</h5>
-                    <h6 style="color: rgb(255, 82, 82)">Pastikan data tidak ada yang sama..!!!</h6>
-                    <img src="https://i.ibb.co/FBbJxxD/user.png" width="390px" class="mb-3" alt="user" border="1">
-                </center>
-                <form action="{{route('users.import')}}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    <div class="input-group mb-3">
-                        <input type="file" name="file" class="form-control">
-                        <button class="btn btn-primary" type="submit">Submit</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
 @endif
+@include('backend.users.user-modal')
 @endsection
 @section('scripts')
 <script>
@@ -159,6 +131,20 @@
         $('#dataTable').DataTable({
             "bInfo": false,
             "paging": false
+        });
+
+        $(document).on('click', '.delete-btn', function () {
+            var sid = $(this).val();
+            $('#deleteModal').modal('show')
+            $('#delete_id').val(sid)
+            // alert(sid)
+        });
+
+        $(document).on('click', '.reset-btn', function () {
+            var rid = $(this).val();
+            $('#resetModal').modal('show')
+            $('#reset_id').val(rid)
+            // alert(sid)
         });
     });
 

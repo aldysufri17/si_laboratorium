@@ -57,7 +57,7 @@ class BarangController extends Controller
 
     public function adminBarang($data)
     {
-        $barang = DB::table('barang')
+        $barang = Barang::with('satuan', 'kategori')
             ->where('kategori_lab', $data)
             ->orderBy('created_at', 'desc')
             ->paginate(5);
@@ -308,23 +308,23 @@ class BarangController extends Controller
      * @param  \App\Models\Barang  $barang
      * @return \Illuminate\Http\Response
      */
-    public function destroy($barang)
+    public function destroy(Barang $barang, Request $request)
     {
-
-        $peminjaman = Peminjaman::where('barang_id', $barang)->where('status', '<', 4)->get();
+        $barang_id = $request->delete_id;
+        $peminjaman = Peminjaman::where('barang_id', $barang_id)->where('status', '<', 4)->get();
         if ($peminjaman->isNotEmpty()) {
             request()->session()->flash('active', "Barang gagal dihapus, Masih terdapat transaksi peminjaman");
             return redirect()->route('barang.index');
         }
 
-        $fotoBarang = Barang::whereId($barang)->first();
+        $fotoBarang = Barang::whereId($barang_id)->first();
         if ($fotoBarang->gambar) {
             unlink(storage_path('app/public/barang/' . $fotoBarang->gambar));
         }
-        Peminjaman::where('barang_id', $barang)->delete();
-        Inventaris::where('barang_id', $barang)->delete();
-        $barang = Barang::whereid($barang)->delete();
-        if ($barang) {
+        Peminjaman::where('barang_id', $barang_id)->delete();
+        Inventaris::where('barang_id', $barang_id)->delete();
+        $delete = Barang::whereId($barang_id)->delete();
+        if ($delete) {
             return redirect()->route('barang.index')->with('success', 'Barang Berhasil dihapus!.');
         } else {
             return redirect()->route('barang.index')->with('error', 'Barang Gagal dihapus!.');

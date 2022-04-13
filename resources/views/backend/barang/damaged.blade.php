@@ -5,7 +5,6 @@
 @section('content')
 @if ($barang->isNotEmpty())
 <div class="container-fluid">
-
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-2">
         <h1 class="h5 mb-0 text-light">Daftar Barang Rusak</h1>
@@ -16,7 +15,7 @@
     </div>
     @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <a href="{{ route('inventaris.create') }}" class="btn btn-sm btn-success">
+        <a href="{{ route('inventaris.add', auth()->user()->role_id) }}" class="btn btn-sm btn-success">
             <i class="fas fa-plus"></i> Tambah Baru
         </a>
     </div>
@@ -86,9 +85,7 @@
             </div>
         </div>
     </div>
-
 </div>
-
 @else
 <div class="container-fluid">
     <!-- Page Heading -->
@@ -102,7 +99,7 @@
     @include('sweetalert::alert')
     @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <a href="{{ route('inventaris.create') }}" class="btn btn-sm btn-success">
+        <a href="{{ route('inventaris.add', auth()->user()->role_id) }}" class="btn btn-sm btn-success">
             <i class="fas fa-plus"></i> Tambah Baru
         </a>
     </div>

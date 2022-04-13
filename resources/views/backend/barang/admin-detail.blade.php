@@ -32,6 +32,7 @@
                 <table id="dataTable" class="table table-borderless dt-responsive" cellspacing="0" width="100%">
                     <thead>
                         <tr>
+                            <th width="15%">Kategori</th>
                             <th width="15%">Nama</th>
                             <th width="15%">Tipe</th>
                             <th width="15%">Stock</th>
@@ -43,9 +44,10 @@
                     <tbody>
                         @foreach ($barang as $data)
                         <tr>
+                            <td>{{ $data->kategori->nama }}</td>
                             <td>{{ $data->nama }}</td>
                             <td>{{ $data->tipe }}</td>
-                            <td>{{ $data->stock }} {{ $data->satuan }}</td>
+                            <td>{{ $data->stock }} {{ $data->satuan->nama }}</td>
                             <td>@if ($data->show == 0)
                                 <span class="badge badge-danger">Hidden</span>
                                 @elseif ($data->show == 1)

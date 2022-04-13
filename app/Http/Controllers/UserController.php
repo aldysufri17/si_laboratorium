@@ -226,24 +226,26 @@ class UserController extends Controller
      * @return Index Users
      * @author Shani Singh
      */
-    public function delete(User $user)
+    public function delete(User $user, Request $request)
     {
-        if ($user->foto) {
-            unlink(storage_path('app/public/user/' . $user->foto));
+        $userfoto = User::whereId($request->delete_id)->first();
+        if ($userfoto->foto) {
+            unlink(storage_path('app/public/user/' . $userfoto->foto));
         }
         // Delete User
-        $user = User::whereId($user->id)->delete();
-        if ($user) {
-            return redirect()->route('users.index')->with('success', 'User Berhasil dihapus!.');
+        $delete = User::whereId($request->delete_id)->delete();
+        if ($delete) {
+            return redirect()->route('users.index')->with('success', 'Pengguna Berhasil dihapus!.');
         } else {
-            return redirect()->back()->with('error', 'User Gagal dihapus!.');
+            return redirect()->back()->with('error', 'Pengguna Gagal dihapus!.');
         }
     }
 
-    public function reset($user, $name)
+    public function reset($user, Request $request)
     {
-        $trim = str_replace(' ', '', $name);
-        $user = User::whereId($user)->update(['password' => bcrypt($trim)]);
+        $id = User::whereId($request->reset_id)->first();
+        $trim = str_replace(' ', '', $id->name);
+        $user = User::whereId($user)->update(['password' => bcrypt(strtolower($trim))]);
         return redirect()->back()->with('success', 'Password Berhasil direset!.');
     }
 

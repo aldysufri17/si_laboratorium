@@ -165,14 +165,14 @@ class OperatorController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $operator)
+    public function destroy(User $operator, Request $request)
     {
         // Delete User
-        $user = User::whereId($operator->id)->delete();
-        if ($user) {
-            return redirect()->route('operator.index')->with('success', 'Master Berhasil dihapus!.');
+        $delete = User::whereId($request->delete_id)->delete();
+        if ($delete) {
+            return redirect()->route('operator.index')->with('success', 'Pengurus Berhasil dihapus!.');
         } else {
-            return redirect()->back()->with('error', 'Master Gagal dihapus!.');
+            return redirect()->back()->with('error', 'Pengurus Gagal dihapus!.');
         }
     }
 

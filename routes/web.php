@@ -38,7 +38,7 @@ Route::middleware(['auth'])->group(function () {
             Route::post('/store', [UserController::class, 'store'])->name('store');
             Route::get('/detail/{user}', [UserController::class, 'show'])->name('show');
             Route::get('/edit/{user}', [UserController::class, 'edit'])->name('edit');
-            Route::post('/reset/{user}/{name}', [UserController::class, 'reset'])->name('reset');
+            Route::post('/reset/{user}', [UserController::class, 'reset'])->name('reset');
             Route::put('/update/{user}', [UserController::class, 'update'])->name('update');
             Route::delete('/delete/{user}', [UserController::class, 'delete'])->name('destroy');
             Route::get('/update/status/{user_id}/{status}', [UserController::class, 'updateStatus'])->name('status');
@@ -55,7 +55,7 @@ Route::middleware(['auth'])->group(function () {
         // Barang
         Route::resource('barang', App\Http\Controllers\BarangController::class);
         Route::get('laboratoirum/{data}', [App\Http\Controllers\BarangController::class, 'adminBarang'])->name('admin.barang');
-        Route::get('damaged', [App\Http\Controllers\BarangController::class, 'damaged'])->name('damaged');
+        Route::get('damaged/barang', [App\Http\Controllers\BarangController::class, 'damaged'])->name('barang.damaged');
         Route::get('damaged/{data}', [App\Http\Controllers\BarangController::class, 'adminDamaged'])->name('admin.damaged');
         Route::get('/qr-code/{data}', [App\Http\Controllers\BarangController::class, 'qrcode'])->name('qrcode');
         Route::get('export-csv/{data}', [App\Http\Controllers\BarangController::class, 'export'])->name('export.barang');

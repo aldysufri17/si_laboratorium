@@ -12,7 +12,7 @@
         </ol>
     </div>
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <a class="btn btn-sm btn-danger" href="{{ route('barang.index') }}"><i class="fas fa-angle-double-left"></i> Kembali</a>
+        <a class="btn btn-sm btn-danger" href="javascript:history.back()"><i class="fas fa-angle-double-left"></i> Kembali</a>
     </div>
 
     <div class="card shadow mb-4 border-0 bgdark">

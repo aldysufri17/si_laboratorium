@@ -82,14 +82,13 @@
                                     <i class="fas fa-eye"></i>
                                 </a>
                                 @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
-                                <a href="{{ route('barang.edit', $data->id) }}" class="btn btn-primary m-2"
+                                <a href="{{ route('barang.edit', $data->id) }}" class="btn btn-primary mx-2"
                                     title="Edit">
                                     <i class="fa fa-pen"></i>
                                 </a>
-                                <a class="btn btn-danger m-2" href="#" data-toggle="modal" data-target="#deleteModal"
-                                    title="Delete">
+                                    title="Delete" value="{{$data->id}}">
                                     <i class="fas fa-trash"></i>
-                                </a>
+                                </button>
                                 @endrole
                             </td>
                         </tr>
@@ -134,7 +133,6 @@
         </div>
     </div>
 </div>
-@include('backend.barang.barang-modal')
 @else
 <div class="container-fluid">
     <!-- Page Heading -->
@@ -160,37 +158,9 @@
         <p><i class="fa-solid fa-circle-info text-info"></i> Belum Terdapat Data Barang</p>
     </div>
 </div>
-<div class="modal fade" id="importModal" tabindex="-1" role="dialog" aria-labelledby="importModalExample"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content bgdark shadow-2-strong ">
-            <div class="modal-header bg-danger">
-                <strong><h5 class="modal-title text-light" id="importModalExample">IMPORT BARANG</h5></strong>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <div class="modal-body border-0 text-light">
-                
-                <center>
-                    <h5>Format Import Data</h5>
-                    <img src="https://i.ibb.co/gyKyS8B/format.png" class="mb-3" alt="format" border="1">
-                </center>
-                <form action="{{route('import.barang')}}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    <div class="input-group mb-3">
-                        <input type="file" name="file" class="form-control">
-                        <button class="btn btn-primary" type="submit">Submit</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
 @endif
+@include('backend.barang.barang-modal')
 @endsection
-
 @section('scripts')
 <script>
     $(document).ready(function () {
@@ -203,7 +173,12 @@
                 [0, "desc"]
             ]
         });
-    });
 
+        $(document).on('click', '.delete-btn',function () {
+            var sid = $(this).val();
+            $('#deleteModal').modal('show')
+            $('#delete_id').val(sid)
+        });
+    });
 </script>
 @endsection

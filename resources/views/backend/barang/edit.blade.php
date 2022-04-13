@@ -70,7 +70,7 @@
                             <input type="text"
                                 class="form-control form-control-user @error('satuan') is-invalid @enderror"
                                 autocomplete="off" id="examplesatuan" placeholder="Satuan Barang" name="satuan"
-                                value="{{ old('satuan') ? old('satuan') : $barang->satuan }}">
+                                value="{{ old('satuan') ? old('satuan') : $barang->satuan->nama }}">
 
                             @error('satuan')
                             <span class="text-danger">{{$message}}</span>

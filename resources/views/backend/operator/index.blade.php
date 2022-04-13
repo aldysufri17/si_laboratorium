@@ -69,110 +69,73 @@
                                     <i class="fa fa-ban"></i>
                                 </a>
                                 @endif
-                                <a class="btn btn-warning mx-2" data-toggle="modal" data-target="#reset"
-                                    title="Reset Password"><i class="fa-solid fa-clock-rotate-left"></i></a>
+                                <button class="btn btn-warning reset-btn ml-2" title="Reset" value="{{$user->id}}">
+                                    <i class="fa-solid fa-clock-rotate-left"></i>
+                                </button>
                                 <a href="{{ route('operator.edit', ['operator' => $user->id]) }}"
                                     class="btn btn-primary mx-2" title="Edit">
                                     <i class="fa fa-pen"></i>
                                 </a>
-                                <a class="btn btn-danger mx-2" href="#" data-toggle="modal" data-target="#deleteModal"
-                                    title="Delete">
+                                <button class="btn btn-danger delete-btn" title="Delete" value="{{$user->id}}">
                                     <i class="fas fa-trash"></i>
-                                </a>
+                                </button>
                             </td>
                         </tr>
                         @endforeach
                     </tbody>
                 </table>
-
                 {{ $users->links() }}
             </div>
         </div>
     </div>
-    <div class="modal fade" id="reset" tabindex="-1" role="dialog" aria-labelledby="resetExample" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content bgdark shadow-2-strong ">
-                <div class="modal-header bg-danger">
-                    <h5 class="modal-title text-light" id="resetExample">Anda yakin ingin reset password
-                        {{$user->name}}?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body border-0 text-light">Jika anda yakin ingin Reset, Tekan Oke !!</div>
-                <div class="modal-footer border-0">
-                    <button class="btn btn-danger" type="button" data-dismiss="modal">Batal</button>
-                    <a class="btn btn-primary" href="{{ route('logout') }}"
-                        onclick="event.preventDefault(); document.getElementById('user-reset-form').submit();">
-                        Oke
-                    </a>
-                    <form id="user-reset-form" method="POST"
-                        action="{{ route('users.reset', ['user' => $user->id, 'name' => $user->name]) }}">
-                        @csrf
-                    </form>
-                </div>
-            </div>
-        </div>
+</div>
+@include('backend.operator.delete-modal')
+@else
+<div class="container-fluid">
+    <!-- Page Heading -->
+    <div class="d-sm-flex align-items-center justify-content-between mb-2">
+        <h1 class="h5 mb-0 text-light">Pengurus</h1>
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Dashboard</a></li>
+            <li class="breadcrumb-item">Daftar Pengurus</li>
+        </ol>
     </div>
-    <div class="modal fade" id="reset" tabindex="-1" role="dialog" aria-labelledby="resetExample" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content bgdark shadow-2-strong ">
-                <div class="modal-header bg-danger">
-                    <h5 class="modal-title text-light" id="resetExample">Anda yakin ingin reset password
-                        {{$user->name}}?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body border-0 text-light">Jika anda yakin ingin Reset, Tekan Oke !!</div>
-                <div class="modal-footer border-0">
-                    <button class="btn btn-danger" type="button" data-dismiss="modal">Batal</button>
-                    <a class="btn btn-primary" href="{{ route('logout') }}"
-                        onclick="event.preventDefault(); document.getElementById('user-reset-form').submit();">
-                        Oke
-                    </a>
-                    <form id="user-reset-form" method="POST"
-                        action="{{ route('users.reset', ['user' => $user->id, 'name' => $user->name]) }}">
-                        @csrf
-                    </form>
-                </div>
-            </div>
-        </div>
+    @include('sweetalert::alert')
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <a href="{{ route('users.create') }}" class="btn btn-sm btn-success">
+            <i class="fas fa-plus"></i> Tambah Pengurus
+        </a>
+    </div>
+    <div class="align-items-center bg-light p-3 border-left-success rounded">
+        <span class="">Oops!</span><br>
+        <p><i class="fa-solid fa-circle-info text-info"></i> Belum Terdapat Data Pengurus</p>
     </div>
 </div>
-    @include('backend.operator.delete-modal')
-    @else
-    <div class="container-fluid">
-        <!-- Page Heading -->
-        <div class="d-sm-flex align-items-center justify-content-between mb-2">
-            <h1 class="h5 mb-0 text-light">Pengurus</h1>
-            <ol class="breadcrumb">
-                <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Dashboard</a></li>
-                <li class="breadcrumb-item">Daftar Pengurus</li>
-            </ol>
-        </div>
-        @include('sweetalert::alert')
-        <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <a href="{{ route('users.create') }}" class="btn btn-sm btn-success">
-                <i class="fas fa-plus"></i> Tambah Pengurus
-            </a>
-        </div>
-        <div class="align-items-center bg-light p-3 border-left-success rounded">
-            <span class="">Oops!</span><br>
-            <p><i class="fa-solid fa-circle-info text-info"></i> Belum Terdapat Data Pengurus</p>
-        </div>
-    </div>
-    @endif
-    @endsection
+@endif
+@endsection
 
-    @section('scripts')
-    <script>
-        $(document).ready(function () {
-            $('#dataTable').DataTable({
-                "bInfo": false,
-                "paging": false
-            });
+@section('scripts')
+<script>
+    $(document).ready(function () {
+        $('#dataTable').DataTable({
+            "bInfo": false,
+            "paging": false
         });
 
-    </script>
-    @endsection
+        $(document).on('click', '.delete-btn', function () {
+            var sid = $(this).val();
+            $('#deleteModal').modal('show')
+            $('#delete_id').val(sid)
+            // alert(sid)
+        });
+
+        $(document).on('click', '.reset-btn', function () {
+            var rid = $(this).val();
+            $('#resetModal').modal('show')
+            $('#reset_id').val(rid)
+            // alert(sid)
+        });
+    });
+
+</script>
+@endsection

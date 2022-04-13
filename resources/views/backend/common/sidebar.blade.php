@@ -47,7 +47,7 @@
                 <a class="collapse-item text-red" href="{{ route('kategori.index') }}">Data Kategori</a>
                 @endrole
                 <a class="collapse-item text-red" href="{{ route('barang.index') }}">Data Barang</a>
-                <a class="collapse-item text-red" href="{{ route('damaged') }}">Barang Rusak</a>
+                <a class="collapse-item text-red" href="{{ route('barang.damaged') }}">Barang Rusak</a>
             </div>
         </div>
     </li>
