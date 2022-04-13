@@ -86,7 +86,7 @@
                                     title="Edit">
                                     <i class="fa fa-pen"></i>
                                 </a>
-                                    title="Delete" value="{{$data->id}}">
+                                <button class="btn btn-danger delete-btn" title="Delete" value="{{$data->id}}">
                                     <i class="fas fa-trash"></i>
                                 </button>
                                 @endrole
