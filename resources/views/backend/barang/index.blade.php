@@ -68,9 +68,9 @@
                     <tbody>
                         @foreach ($barang as $data)
                         <tr>
-                            <td>{{ $data->kategori->nama }}</td>
+                            <td>{{ $data->kategori->nama_kategori }}</td>
                             <td>{{ $data->nama }} - {{ $data->tipe }}</td>
-                            <td>{{ $data->stock }} {{ $data->satuan->nama }}</td>
+                            <td>{{ $data->stock }} {{ $data->satuan->nama_satuan }}</td>
                             <td>@if ($data->show == 0)
                                 <span class="badge badge-danger">Hidden</span>
                                 @elseif ($data->show == 1)

@@ -29,7 +29,7 @@
         </div>
         <div class="d-flex text-center justify-content-around flex-wrap pt-5">
             <p class="text-light mx-5"><strong>Nama: </strong><br>{{ $barang->nama }} - {{ $barang->tipe }}</p>
-            <p class="text-light mx-5"><strong>Jumlah: </strong><br>{{ $barang->stock }} {{$barang->satuan->nama}}</p>
+            <p class="text-light mx-5"><strong>Jumlah: </strong><br>{{ $barang->stock }} {{$barang->satuan->nama_satuan}}</p>
             <p class="text-light mx-5"><strong>Lokasi Barang: </strong><br>{{ $barang->lokasi }}</p>
             <p class="text-light mx-5"><strong>Tanggal Masuk: </strong><br>{{ $barang->tgl_masuk }}</p>
             @if($barang->info)

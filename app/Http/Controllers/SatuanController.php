@@ -47,7 +47,7 @@ class SatuanController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama' => 'required',
+            'nama_satuan' => 'required',
         ]);
 
         if (Auth::user()->role_id == 3) {
@@ -75,7 +75,7 @@ class SatuanController extends Controller
         }
 
         $satuan = Satuan::create([
-            'nama' => $request->nama,
+            'nama_satuan' => $request->nama_satuan,
             'kategori_lab' => $kategori_lab,
             'kode' => $kode_id,
         ]);
@@ -119,11 +119,11 @@ class SatuanController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'nama' => 'required'
+            'nama_satuan' => 'required'
         ]);
 
         $satuan = Satuan::whereId($id)->update([
-            'nama' => $request->nama,
+            'nama_satuan' => $request->nama_satuan,
         ]);
         if ($satuan) {
             return redirect()->route('satuan.index')->with(['success', 'Satuan berhasil diedit']);

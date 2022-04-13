@@ -49,7 +49,7 @@
                         @foreach ($satuan as $data)
                         <tr>
                             <td>{{ $data->kode }}</td>
-                            <td>{{ $data->nama }}</td>
+                            <td>{{ $data->nama_satuan }}</td>
                             <td style="display: flex">
                                 <a href="{{ route('satuan.edit', $data->id) }}" class="btn btn-primary m-2"
                                     title="Edit">

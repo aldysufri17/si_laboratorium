@@ -54,7 +54,7 @@
                             name="kategori_id">
                             <option selected disabled>Pilih Kategori</option>
                             @foreach ($kategori as $data)
-                            <option value="{{$data->id}}">{{ $data->nama }}</option>
+                            <option value="{{$data->id}}">{{ $data->nama_kategori }}</option>
                             @endforeach
                         </select>
                         @error('kategori_id')
@@ -83,7 +83,7 @@
                                 name="satuan_id">
                                 <option selected disabled>Pilih Satuan</option>
                                 @foreach ($satuan as $data)
-                                <option value="{{$data->id}}">{{ $data->nama }}</option>
+                                <option value="{{$data->id}}">{{ $data->nama_satuan }}</option>
                                 @endforeach
                             </select>
                             @error('satuan_id')

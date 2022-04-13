@@ -41,10 +41,10 @@
                 <div class="card items shadow-sm p-4 mb-4 bg-white rounded">
                     <div class="card-block">
                         <h4 class="card-title text-dark">{{$data->nama}} - {{$data->tipe}}</h4>
-                        <h6 class="card-subtitle mb-2 text-muted">Stock : {{$data->stock}} {{$data->satuan->nama}}</h6>
-                        <span class="badge badge-info">{{$data->lokasi}}</span>
+                        <h6 class="card-subtitle mb-2 text-muted">Stock : {{$data->stock}} {{$data->satuan->nama_satuan}}</h6>
+                        <span class="badge badge-primary">{{$data->kategori->nama_kategori}}</span>
                         <span class="badge badge-success">Baik</span>
-                        <span class="badge badge-primary">{{$data->kategori->nama}}</span>
+                        <span class="badge badge-info">{{$data->lokasi}}</span>
                     </div>
                 </div>
             </a>

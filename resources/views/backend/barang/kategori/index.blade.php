@@ -49,7 +49,7 @@
                         @foreach ($kategori as $data)
                         <tr>
                             <td>{{ $data->kode }}</td>
-                            <td>{{ $data->nama }}</td>
+                            <td>{{ $data->nama_kategori }}</td>
                             <td style="display: flex">
                                 <a class="btn btn-info m-2" href="{{ route('kategori.show', $data->id) }}" title="Show">
                                     <i class="fas fa-eye"></i>

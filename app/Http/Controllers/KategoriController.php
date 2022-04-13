@@ -47,7 +47,7 @@ class KategoriController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'nama' => 'required',
+            'nama_kategori' => 'required',
         ]);
 
         if (Auth::user()->role_id == 3) {
@@ -75,7 +75,7 @@ class KategoriController extends Controller
         }
 
         $kategori = Kategori::create([
-            'nama' => $request->nama,
+            'nama_kategori' => $request->nama_kategori,
             'kode' => $kode_id,
             'kategori_lab' => $kategori_lab,
         ]);
@@ -119,11 +119,11 @@ class KategoriController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'nama' => 'required'
+            'nama_kategori' => 'required'
         ]);
 
         $kategori = Kategori::whereId($id)->update([
-            'nama' => $request->nama,
+            'nama_kategori' => $request->nama_kategori,
         ]);
         if ($kategori) {
             return redirect()->route('kategori.index')->with(['success', 'Kategori berhasil diedit']);

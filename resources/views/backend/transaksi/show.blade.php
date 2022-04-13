@@ -28,7 +28,7 @@
             <p class="text-light mx-5"><strong>Barang: </strong><br>{{ $peminjaman->barang->nama }} -
                 {{ $peminjaman->barang->tipe }}</p>
             <p class="text-light mx-5"><strong>Jumlah: </strong><br>{{ $peminjaman->jumlah }}
-                {{$peminjaman->barang->satuan->nama}}</p>
+                {{$peminjaman->barang->satuan->nama_satuan}}</p>
             <p class="text-light mx-5"><strong>Tanggal Peminjaman: </strong><br>{{ $peminjaman->tgl_start }}</p>
             <p class="text-light mx-5"><strong>Tanggal Pengembalian: </strong><br>{{ $peminjaman->tgl_end }}</p>
             <p class="text-light mx-5"><strong>Alasan: </strong><br>{{ $peminjaman->alasan }}</p>

@@ -50,7 +50,7 @@
                                     @endif
                                 </td>
                                 <td>{{ $data->nama }} - {{ $data->tipe }}</td>
-                                <td>{{ $data->stock }} {{ $data->satuan }}</td>
+                                <td>{{ $data->stock }} {{ $data->satuan->nama_satuan }}</td>
                                 <td>{{ $data->lokasi }}</td>
                                 <td>@if ($data->info == null)
                                     -

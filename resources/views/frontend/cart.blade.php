@@ -113,7 +113,7 @@
                                     @endif
                                 </td>
                                 <td>{{$data->barang->lokasi}}</td>
-                                <td>{{$data->jumlah}} {{$data->barang->satuan->nama}}</td>
+                                <td>{{$data->jumlah}} {{$data->barang->satuan->nama_satuan}}</td>
                                 <td>{{$data->tgl_start}}</td>
                                 <td>{{$data->tgl_end}}</td>
                                 <td>

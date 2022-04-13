@@ -7,9 +7,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
-use Maatwebsite\Excel\Concerns\WithCustomCsvSettings;
 
-class BarangExport implements FromCollection, WithHeadings, WithCustomCsvSettings
+class BarangExport implements FromCollection, WithHeadings
 {
     private $data;
     public function __construct(int $data)
@@ -17,44 +16,38 @@ class BarangExport implements FromCollection, WithHeadings, WithCustomCsvSetting
         $this->data = $data;
     }
 
-    public function getCsvSettings(): array
-    {
-        return [
-            'delimiter' => ';'
-        ];
-    }
-
     public function headings(): array
     {
-        return ['Nama', 'Tipe', 'Stok', 'Satuan', 'Lokasi', 'Keterangan'];
+        return ['Kategori', 'Nama', 'Tipe', 'Stok', 'Satuan', 'Lokasi', 'Keterangan'];
     }
 
     public function collection()
     {
         if (Auth::user()->role_id == 2) {
             if ($this->data == 1) {
-                $kategori = 1;
+                $kategori_lab = 1;
             } elseif ($this->data == 2) {
-                $kategori = 2;
+                $kategori_lab = 2;
             } elseif ($this->data == 3) {
-                $kategori = 3;
+                $kategori_lab = 3;
             } elseif ($this->data == 4) {
-                $kategori = 4;
+                $kategori_lab = 4;
             }
         }
 
         if (Auth::user()->role_id == 3) {
-            $kategori = 1;
+            $kategori_lab = 1;
         } elseif (Auth::user()->role_id == 4) {
-            $kategori = 2;
+            $kategori_lab = 2;
         } elseif (Auth::user()->role_id == 5) {
-            $kategori = 3;
+            $kategori_lab = 3;
         } elseif (Auth::user()->role_id == 6) {
-            $kategori = 4;
+            $kategori_lab = 4;
         }
-        $barang = DB::table('barang')
-            ->where('kategori', $kategori)
-            ->select('nama', 'tipe', 'stock', 'satuan', 'lokasi', 'info')
+        $barang = Barang::join('satuan', 'satuan.id', '=', 'barang.satuan_id')
+            ->join('kategori', 'kategori.id', '=', 'barang.kategori_id')
+            ->select('kategori.nama_kategori', 'barang.nama', 'tipe', 'stock', 'satuan.nama_satuan', 'lokasi', 'info')
+            ->where('barang.kategori_lab', $kategori_lab)
             ->get();
         return $barang;
     }
