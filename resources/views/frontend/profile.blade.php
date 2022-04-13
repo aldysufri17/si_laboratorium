@@ -27,8 +27,15 @@
                     <div class="col-md-3">
                         <div class="d-flex flex-column align-items-center text-center p-3 py-5">
                             <div class="profilepic">
+                                @php
+                                if (auth()->user()->jk == 'L') {
+                                    $foto = 'male.svg';
+                                } elseif(auth()->user()->jk == 'P') {
+                                    $foto = 'female.svg';
+                                }
+                                @endphp
                                 <img class="rounded-circle my-2 profilepic__image" width="150px"
-                                    src="{{ asset(auth()->user()->foto ? 'images/user/'. auth()->user()->foto : 'admin/img/undraw_profile.svg') }}">
+                                    src="{{ asset(auth()->user()->foto ? 'images/user/'. auth()->user()->foto : 'images/'. $foto) }}">
                                 <div class="profilepic__content">
                                     <button type="button" class="btn btn-secondary" data-toggle="modal"
                                         data-target="#exampleModal"><i class="fas fa-camera"></i>

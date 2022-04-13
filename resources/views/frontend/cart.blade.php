@@ -122,11 +122,11 @@
                                     @if ($data->status == 0)
                                     <span class="badge badge-secondary">Proses</span>
                                     @elseif ($data->status == 1)
-                                    <span class="badge badge-danger">Reject</span>
+                                    <span class="badge badge-danger">Ditolak</span>
                                     @elseif($data->status == 2)
-                                    <span class="badge badge-success">Accept</span>
+                                    <span class="badge badge-success">Disetujui</span>
                                     @elseif($data->status == 3)
-                                    <span class="badge badge-info">Active</span>
+                                    <span class="badge badge-info">Aktif</span>
                                     @endif
                                 </td>
                                 <td style="display: flex">

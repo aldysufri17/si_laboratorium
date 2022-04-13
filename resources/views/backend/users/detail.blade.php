@@ -18,9 +18,15 @@
 
     <div class="card shadow mb-4 border-0 bgdark">
         {{-- Page Content --}}
-
+        @php
+        if (auth()->user()->jk == 'L') {
+            $foto = 'male.svg';
+        } elseif(auth()->user()->jk == 'P') {
+            $foto = 'female.svg';
+        }
+        @endphp
         <div class="d-flex flex-column align-items-center text-center p-3 pt-5">
-            <img class="rounded-circle my-2" width="150px" src="{{ asset($user->foto ? 'images/user/'. $user->foto : 'admin/img/undraw_profile.svg') }}">
+            <img class="rounded-circle my-2" width="150px" src="{{ asset($user->foto ? 'images/user/'. $user->foto : 'images/'. $foto) }}">
             @if ($user->status == 0)
             <span class="badge badge-danger">Inactive</span>
             @elseif ($user->status == 1)

@@ -51,8 +51,15 @@
                             @endif
                         </div>
                     </a></li>
+                    @php
+                    if (auth()->user()->jk == 'L') {
+                        $foto = 'male.svg';
+                    } elseif(auth()->user()->jk == 'P') {
+                        $foto = 'female.svg';
+                    }
+                    @endphp
                     <li class="dropdown"><a href="#"><img class="my-2" style="border-radius: 50%" width="30px"
-                                src="{{ asset(auth()->user()->foto ? 'images/user/'. auth()->user()->foto : 'admin/img/undraw_profile.svg') }}"></a>
+                                src="{{ asset(auth()->user()->foto ? 'images/user/'. auth()->user()->foto : 'images/'. $foto) }}"></a>
                         <ul>
                             <li><a href="{{ route('profile.detail') }}">Profile</a></li>
                             <li><a href="{{ route('daftar.riwayat') }}">Riwayat Peminjaman</a></li>
