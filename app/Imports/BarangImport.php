@@ -30,24 +30,29 @@ class BarangImport implements ToModel, WithStartRow, WithCustomCsvSettings
     public function model(array $row)
     {
         if (Auth::user()->role_id == 3) {
-            $kategori = 1;
+            $kategori_lab = 1;
+            $lokasi = "Laboratorium Sistem Tertanam dan Robotika";
         } elseif (Auth::user()->role_id == 4) {
-            $kategori = 2;
+            $kategori_lab = 2;
+            $lokasi = "Laboratorium Rekayasa Perangkat Lunak";
         } elseif (Auth::user()->role_id == 5) {
-            $kategori = 3;
+            $kategori_lab = 3;
+            $lokasi = "Laboratorium Jaringan dan Keamanan Komputer";
         } elseif (Auth::user()->role_id == 6) {
-            $kategori = 4;
+            $kategori_lab = 4;
+            $lokasi = "Laboratorium Multimedia";
         }
         return new Barang([
-            'nama'      => $row[0],
-            'tipe'      => $row[1],
-            'stock'     => $row[2],
-            'satuan'    => $row[3],
-            'lokasi'    => $row[4],
-            'info'      => $row[5],
-            'show'      => 1,
-            'tgl_masuk' => date('Y-m-d'),
-            'kategori'  => $kategori
+            'nama'          => $row[0],
+            'tipe'          => $row[1],
+            'stock'         => $row[2],
+            'info'          => $row[3],
+            'lokasi'        => $lokasi,
+            'satuan_id'     => 0,
+            'kategori_id'   => 0,
+            'show'          => 0,
+            'tgl_masuk'     => date('Y-m-d'),
+            'kategori_lab'  => $kategori_lab
         ]);
     }
 }

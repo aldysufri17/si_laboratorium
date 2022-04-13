@@ -42,7 +42,7 @@
                 
                 <center>
                     <h5>Format Import Data</h5>
-                    <img src="https://i.ibb.co/gyKyS8B/format.png" class="mb-3" alt="format" border="1">
+                    <img src="https://i.ibb.co/bHHvT9d/format.png" alt="format" class="mb-3" border="0">
                 </center>
                 <form action="{{route('import.barang')}}" method="POST" enctype="multipart/form-data">
                     @csrf
