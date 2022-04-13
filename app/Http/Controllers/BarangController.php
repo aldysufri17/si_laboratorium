@@ -206,7 +206,9 @@ class BarangController extends Controller
      */
     public function edit(Barang $barang)
     {
-        return view('backend.barang.edit', compact('barang'));
+        $satuan = Satuan::all();
+        $kategori = Kategori::all();
+        return view('backend.barang.edit', compact('barang', 'satuan', 'kategori'));
     }
 
     /**
@@ -219,14 +221,12 @@ class BarangController extends Controller
     public function update(Request $request, Barang $barang)
     {
         $request->validate([
-            'nama'      => 'required',
-            'stock'     => 'required|int',
-            'tipe'      => 'required',
-            'satuan_id'        => $request->satuan_id,
-            'kategori_id'        => $request->kategori_id,
-            'tgl_masuk' => 'required',
-            'show'      => 'required|in:0,1',
-            'lokasi'    => 'required',
+            'nama'              => 'required',
+            'stock'             => 'required|int',
+            'tipe'              => 'required',
+            'tgl_masuk'         => 'required',
+            'show'              => 'required|in:0,1',
+            'lokasi'            => 'required',
         ], [
             'required' => ':attribute Bagian ini wajib diisi',
         ]);
@@ -245,8 +245,8 @@ class BarangController extends Controller
                 'tgl_masuk'     => $request->tgl_masuk,
                 'show'          => $request->show,
                 'lokasi'        => $request->lokasi,
-                'satuan_id'        => $request->satuan_id,
-                'kategori_id'        => $request->kategori_id,
+                'satuan_id'     => $request->satuan_id,
+                'kategori_id'   => $request->kategori_id,
                 'info'          => $request->info,
                 'gambar'        => $new_gambar,
             ]);

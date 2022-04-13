@@ -42,7 +42,9 @@
                     <div class="card-block">
                         <h4 class="card-title text-dark">{{$data->nama}} - {{$data->tipe}}</h4>
                         <h6 class="card-subtitle mb-2 text-muted">Stock : {{$data->stock}} {{$data->satuan->nama_satuan}}</h6>
+                        @if($data->kategori_id != 0)
                         <span class="badge badge-primary">{{$data->kategori->nama_kategori}}</span>
+                        @endif
                         <span class="badge badge-success">Baik</span>
                         <span class="badge badge-info">{{$data->lokasi}}</span>
                     </div>

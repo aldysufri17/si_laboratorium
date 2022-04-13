@@ -113,7 +113,9 @@
                                     @endif
                                 </td>
                                 <td>{{$data->barang->lokasi}}</td>
+                                @if($data->satuan_id != 0)
                                 <td>{{$data->jumlah}} {{$data->barang->satuan->nama_satuan}}</td>
+                                @endif
                                 <td>{{$data->tgl_start}}</td>
                                 <td>{{$data->tgl_end}}</td>
                                 <td>
