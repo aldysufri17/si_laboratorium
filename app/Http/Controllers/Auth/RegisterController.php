@@ -32,7 +32,7 @@ class RegisterController extends Controller
      */
     protected function registered(Request $request, $user)
     {
-        return redirect()->route('login')->with('toast_warning', "Registrasi berhasil, tunggu verifikasi admin");
+        return redirect()->route('login')->with('toast_warning', "Registrasi berhasil, Silahkan Login");
     }
 
     /**
@@ -55,8 +55,15 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
+            'nim' => ['required', 'string', 'max:255', 'unique:users'],
+            'jk' => ['required'],
+            'telp' => ['required'],
+            'alamat' => ['required'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ], [
+            'required' => ':attribute Bagian ini wajib diisi',
+            'unique:users' => ':attribute value sudah digunakan',
         ]);
     }
 
@@ -73,7 +80,9 @@ class RegisterController extends Controller
             'nim' => $data['nim'],
             'email' => $data['email'],
             'alamat' => $data['alamat'],
-            'status' => 0,
+            'jk' => $data['jk'],
+            'mobile_number' => $data['telp'],
+            'status' => 1,
             'role_id' => 1,
             'password' => bcrypt($data['password']),
         ]);
