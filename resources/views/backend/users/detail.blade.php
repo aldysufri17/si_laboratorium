@@ -13,38 +13,66 @@
         </ol>
     </div>
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <a class="btn btn-sm btn-danger" href="{{ route('users.index') }}"><i class="fas fa-angle-double-left"></i> Kembali</a>
+        <a class="btn btn-sm btn-danger" href="{{ route('users.index') }}"><i class="fas fa-angle-double-left"></i>
+            Kembali</a>
     </div>
 
     <div class="card shadow mb-4 border-0 bgdark">
         {{-- Page Content --}}
         @php
-        if (auth()->user()->jk == 'L') {
-            $foto = 'male.svg';
-        } elseif(auth()->user()->jk == 'P') {
-            $foto = 'female.svg';
+        if ($user->jk == 'L') {
+        $foto = 'male.svg';
+        } elseif($user->jk == 'P') {
+        $foto = 'female.svg';
         }
         @endphp
         <div class="d-flex flex-column align-items-center text-center p-3 pt-5">
-            <img class="rounded-circle my-2" width="150px" src="{{ asset($user->foto ? 'images/user/'. $user->foto : 'images/'. $foto) }}">
+            <h4 class="text-center font-weight-bold text-light">DETAIL PENGGUNA</h4>
+            <img class="rounded-circle my-2" width="150px"
+                src="{{ asset($user->foto ? 'images/user/'. $user->foto : 'images/'. $foto) }}">
             @if ($user->status == 0)
             <span class="badge badge-danger">Inactive</span>
             @elseif ($user->status == 1)
             <span class="badge badge-success">Active</span>
             @endif
         </div>
-        <div class="d-flex text-center justify-content-around flex-wrap">
-            <p class="text-light mx-5"><strong>Nama: </strong><br>{{ $user->name }}</p>
-            <p class="text-light mx-5"><strong>Jenis Kelamin: </strong><br>{{ $user->jk }}</p>
-            <p class="text-light mx-5"><strong>NIM: </strong><br>{{ $user->nim }}</p>
-            <p class="text-light mx-5"><strong>Email: </strong><br>{{ $user->email }}</p>
-            <p class="text-light mx-5"><strong>Alamat: </strong><br>{{ $user->alamat }}</p>
-            <p class="text-light mx-5"><strong>No.Telp: </strong><br>{{ $user->mobile_number }}</p>
+
+        <div class="d-flex justify-content-around flex-wrap">
+            <table class="table mx-5 table-striped table-dark table-bordered">
+                <tbody>
+                    <tr>
+                        <th scope="row">Nama</th>
+                        <td>{{ $user->name }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">NIM</th>
+                        <td>{{ $user->nim }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Email</th>
+                        <td>{{ $user->email }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Jenis Kelamin</th>
+                        <td>{{ $user->jk }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Alamat</th>
+                        <td>{{ $user->alamat }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">No.Telpone</th>
+                        <td>{{ $user->mobile_number }}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
         <div class="pb-5 text-center">
-            <button class="btn btn-info profile-button" data-toggle="modal" data-target="#ktmModal"><i class="fa-solid fa-address-card"></i> Lihat KTM</button>
+            <button class="btn btn-info profile-button" data-toggle="modal" data-target="#ktmModal"><i
+                    class="fa-solid fa-address-card"></i> Lihat KTM</button>
             @role('admin')
-            <a href="{{ route('users.edit', ['user' => $user->id]) }}" class="btn btn-primary mx-2" title="Edit"><i class="fa fa-pen"></i> Edit</a>
+            <a href="{{ route('users.edit', ['user' => $user->id]) }}" class="btn btn-primary mx-2" title="Edit"><i
+                    class="fa fa-pen"></i> Edit</a>
             @endrole
         </div>
     </div>

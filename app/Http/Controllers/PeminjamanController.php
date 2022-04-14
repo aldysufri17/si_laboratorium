@@ -192,7 +192,7 @@ class PeminjamanController extends Controller
                 'date'      => date('Y-m-d')
             ]);
             if ($peminjaman) {
-                return redirect()->route('search')->with('success', 'Barang Berhasil di tambah!.');
+                return redirect()->route('cart')->with('success', 'Barang Berhasil di tambah!.');
             } else {
                 return redirect()->back()->with('error', 'Gagal ditambah');
             }
@@ -226,9 +226,10 @@ class PeminjamanController extends Controller
         }
     }
 
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
-        $peminjaman = Peminjaman::where('id', $id)->delete();
+        $pem = $request->delete_id;
+        $peminjaman = Peminjaman::where('id', $pem)->delete();
         if ($peminjaman) {
             return redirect()->back()->with('success', 'Barang Berhasil dihapus!.');
         } else {
@@ -454,7 +455,12 @@ class PeminjamanController extends Controller
         } elseif (Auth::user()->role_id == 6) {
             $name = "Laboratorium Multimedia";
         }
-        return Excel::download(new PeminjamanExport($data), 'Data Peminjaman' . '-' . $name . '-' . date('Y-m-d') . '.xlsx');
+        $peminjaman = Peminjaman::where('status', 4)->get();
+        if ($peminjaman->IsNotEmpty()) {
+            return Excel::download(new PeminjamanExport($data), 'Data Peminjaman' . '-' . $name . '-' . date('Y-m-d') . '.xlsx');
+        } else {
+            return redirect()->back()->with('info', 'Belum terdapat peminjaman selesai!.');
+        }
     }
 
     public function updateAll(Request $request)

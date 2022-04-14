@@ -34,7 +34,7 @@
         <a href="{{ route('export.barang', 0) }}" class="btn btn-sm btn-warning">
             <i class="fa-solid fa-file-csv"></i> Export .csv
         </a>
-        <a class="btn btn-sm btn-secondary ml-3" data-toggle="modal" data-target="#importModal">
+        <a class="btn btn-sm btn-info ml-3" data-toggle="modal" data-target="#importModal">
             <i class="fa-solid fa-file-csv"></i> Import .csv</a>
         @endrole
     </div>
@@ -58,7 +58,7 @@
                             <th width="15%">Kategori</th>
                             <th width="15%">Nama</th>
                             <th width="15%">Stock</th>
-                            <th width="10%">Status</th>
+                            <th width="10%">Tampilkan</th>
                             <th width="15%">Lokasi Barang</th>
                             @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
                             <th width="25%">Aksi</th>
@@ -83,9 +83,9 @@
                             @endif
                             
                             <td>@if ($data->show == 0)
-                                <span class="badge badge-danger">Hidden</span>
+                                <span class="badge badge-danger">Tidak</span>
                                 @elseif ($data->show == 1)
-                                <span class="badge badge-success">Show</span>
+                                <span class="badge badge-success">Tampil</span>
                                 @endif</td>
                             <td>{{ $data->lokasi }}</td>
                             <td style="display: flex">
@@ -160,7 +160,7 @@
         <a href="{{ route('barang.create') }}" class="btn btn-sm btn-success">
             <i class="fas fa-plus"></i> Tambah Barang
         </a>
-        <a class="btn btn-sm btn-secondary ml-3" data-toggle="modal" data-target="#importModal">
+        <a class="btn btn-sm btn-info ml-3" data-toggle="modal" data-target="#importModal">
             <i class="fa-solid fa-file-csv"></i> Import .csv</a>
     </div>
     @endrole

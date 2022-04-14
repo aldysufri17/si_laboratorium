@@ -9,7 +9,7 @@
             <div class="d-flex justify-content-between align-items-center">
                 <h2>Langkah Peminjaman Barang</h2>
                 <ol>
-                    <li><a href="{{route('home')}}">Home</a></li>
+                    <li><a href="{{route('home')}}">Beranda</a></li>
                     <li>Langkah Peminjaman Barang</li>
                 </ol>
             </div>

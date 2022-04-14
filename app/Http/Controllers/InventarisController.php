@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\InventarisExport;
 use App\Models\Barang;
 use App\Models\Inventaris;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class InventarisController extends Controller
 {
@@ -22,7 +24,7 @@ class InventarisController extends Controller
                 ->leftJoin("barang", "barang.id", "=", "inventaris.barang_id")
                 ->select('inventaris.kategori_lab', DB::raw('count(*) as total'))
                 ->groupBy('inventaris.kategori_lab')
-                // ->orderBy('inventaris.created_at', 'desc')
+                ->orderBy('inventaris.created_at', 'desc')
                 ->paginate(10);
         } else {
             if (Auth::user()->role_id == 3) {
@@ -185,5 +187,33 @@ class InventarisController extends Controller
      */
     public function destroy(Inventaris $inventaris)
     {
+    }
+
+    public function export($data)
+    {
+        if (Auth::user()->role_id == 2) {
+            if (Auth::user()->role_id == 2) {
+                if ($data == 1) {
+                    $name = 'Laboratorium Sistem Tertanam dan Robotika';
+                } elseif ($data == 2) {
+                    $name = 'Laboratorium Rekayasa Perangkat Lunak';
+                } elseif ($data == 3) {
+                    $name = 'Laboratorium Jaringan dan Keamanan Komputer';
+                } elseif ($data == 4) {
+                    $name = 'Laboratorium Multimedia';
+                }
+            }
+        }
+
+        if (Auth::user()->role_id == 3) {
+            $name = "Laboratorium Sistem Tertanam dan Robotika";
+        } elseif (Auth::user()->role_id == 4) {
+            $name = "Laboratorium Rekayasa Perangkat Lunak";
+        } elseif (Auth::user()->role_id == 5) {
+            $name = "Laboratorium Jaringan dan Keamanan Komputer";
+        } elseif (Auth::user()->role_id == 6) {
+            $name = "Laboratorium Multimedia";
+        }
+        return Excel::download(new InventarisExport($data), 'Data Inventaris' . '-' . $name . '-' . date('Y-m-d') . '.xlsx');
     }
 }

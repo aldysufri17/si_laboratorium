@@ -10,7 +10,7 @@
             <div class="d-flex justify-content-between align-items-center">
                 <h2>Keranjang Pengajuan</h2>
                 <ol>
-                    <li><a href="{{route('home')}}">Home</a></li>
+                    <li><a href="{{route('home')}}">Beranda</a></li>
                     <li>Keranjang Pengajuan</li>
                 </ol>
             </div>
@@ -27,56 +27,60 @@
                 <center>
                     <h1>Daftar Barang Pengajuan</h1>
                 </center>
-                    <div class="row d-flex justify-content-center my-4">
-                        <div class="col-xl-3 col-md-3">
-                            <div class="card shadow p-0" style="border-left: 5px solid rgb(179, 255, 0)">
-                                <div class="d-flex align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                            Total Pengajuan Barang </div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <div class="d-flex align-items-center">
-                                            <h3 style="font-weight: bold" class="mx-2 mt-3">{{$peminjaman->count()}}</h3>
-                                        </div>
-                                    </div>
+                <div class="row d-flex justify-content-center my-4">
+                    <div class="col-xl-3 col-md-3">
+                        <div class="card shadow p-0" style="border-left: 5px solid rgb(179, 255, 0)">
+                            <div class="d-flex align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                        Total Pengajuan Barang </div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
                                 </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-md-3">
-                            <div class="card shadow p-0" style="border-left: 5px solid rgb(49, 49, 49)">
-                                <div class="d-flex align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                            Total Barang dalam Proses</div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <div class="d-flex align-items-center">
-                                            <h3 style="font-weight: bold" class="mx-2 mt-3">{{ App\Models\Peminjaman::where('user_id', auth()->user()->id)->where('status', 0)->count() }}</h3>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-xl-3 col-md-3">
-                            <div class="card shadow p-0" style="border-left: 5px solid rgb(0, 214, 64)">
-                                <div class="d-flex align-items-center">
-                                    <div class="col mr-2">
-                                        <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                            Total Peminjaman Aktif</div>
-                                        <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
-                                    </div>
-                                    <div class="col-auto">
-                                        <div class="d-flex align-items-center">
-                                            <h3 style="font-weight: bold" class="mx-2 mt-3">{{ App\Models\Peminjaman::where('user_id', auth()->user()->id)->where('status', 3)->count() }}</h3>
-                                        </div>
+                                <div class="col-auto">
+                                    <div class="d-flex align-items-center">
+                                        <h3 style="font-weight: bold" class="mx-2 mt-3">{{$peminjaman->count()}}</h3>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+                    <div class="col-xl-3 col-md-3">
+                        <div class="card shadow p-0" style="border-left: 5px solid rgb(49, 49, 49)">
+                            <div class="d-flex align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                        Total Barang dalam Proses</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="d-flex align-items-center">
+                                        <h3 style="font-weight: bold" class="mx-2 mt-3">
+                                            {{ App\Models\Peminjaman::where('user_id', auth()->user()->id)->where('status', 0)->count() }}
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-xl-3 col-md-3">
+                        <div class="card shadow p-0" style="border-left: 5px solid rgb(0, 214, 64)">
+                            <div class="d-flex align-items-center">
+                                <div class="col mr-2">
+                                    <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                        Total Peminjaman Aktif</div>
+                                    <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
+                                </div>
+                                <div class="col-auto">
+                                    <div class="d-flex align-items-center">
+                                        <h3 style="font-weight: bold" class="mx-2 mt-3">
+                                            {{ App\Models\Peminjaman::where('user_id', auth()->user()->id)->where('status', 3)->count() }}
+                                        </h3>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
                 <div class="table-responsive">
                     <table id="dataTable" class="table table-borderless dt-responsive" cellspacing="0" width="100%">
@@ -113,7 +117,7 @@
                                     @endif
                                 </td>
                                 <td>{{$data->barang->lokasi}}</td>
-                                @if($data->satuan_id != 0)
+                                @if($data->barang->satuan_id > 0)
                                 <td>{{$data->jumlah}} {{$data->barang->satuan->nama_satuan}}</td>
                                 @endif
                                 <td>{{$data->tgl_start}}</td>
@@ -139,13 +143,12 @@
                                         <i class="fas fa-trash"></i>
                                     </a>
                                     @elseif ($data->status >= 1)
-                                    <a href="#" class="btn btn-secondary m-2">
+                                    <a href="#" class="btn btn-secondary m-2 tolak">
                                         <i class="fa fa-pen"></i>
                                     </a>
-                                    <a class="btn btn-danger m-2" href="#" data-toggle="modal"
-                                        data-target="#deleteModal">
+                                    <button class="btn btn-danger delete-btn m-2" title="Delete" value="{{$data->id}}">
                                         <i class="fas fa-trash"></i>
-                                    </a>
+                                    </button>
                                     @endif
                                 </td>
                             </tr>
@@ -154,7 +157,7 @@
                     </table>
                     {{ $peminjaman->links() }}
                     <a class="btn btn-primary float-right mr-3 mb-3" href="#" data-toggle="modal"
-                        data-target="#cetak"><i class="fas fa-print"></i> Cetak Surat Peminjaman</a>
+                        data-target="#cetak"><i class="fas fa-print"></i> Unduh Surat Peminjaman</a>
                     <a class="btn btn-success" href="{{url('/search')}}">
                         <i class="fas fa-plus"></i> Tambah Barang
                     </a>
@@ -167,15 +170,14 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content bgdark shadow-2-strong ">
                         <div class="modal-header bg-danger">
-                            <h5 class="modal-title text-light" id="deleteModalExample"><strong>Anda yakin ingin
-                                    Menghapus?</strong></h5>
-                            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <h5 class="modal-title text-light" id="deleteModalExample">Anda yakin ingin Menghapus?</h5>
+                            <button class="close close-mdl" type="button" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">×</span>
                             </button>
                         </div>
                         <div class="modal-body border-0 text-dark">Jika anda yakin ingin manghapus, Tekan Oke !!</div>
                         <div class="modal-footer border-0">
-                            <button class="btn btn-danger" type="button" data-dismiss="modal">Batal</button>
+                            <button class="btn btn-danger close-mdl" type="button" data-dismiss="modal">Batal</button>
                             <a class="btn btn-primary" href="{{ route('logout') }}"
                                 onclick="event.preventDefault(); document.getElementById('user-delete-form').submit();">
                                 Oke
@@ -184,11 +186,13 @@
                                 action="{{ route('peminjaman.destroy', ['id' => $data->id]) }}">
                                 @csrf
                                 @method('DELETE')
+                                <input type="hidden" name="delete_id" id="delete_id">
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
+
             {{-- Modal Cetak Surat --}}
             <div class="modal fade" id="cetak" tabindex="-1" role="dialog" aria-labelledby="cetakExample"
                 aria-hidden="true">
@@ -200,11 +204,11 @@
                                 <span aria-hidden="true">×</span>
                             </button>
                         </div>
-                        <div class="modal-body border-0 text-danger">Ketika anda melakukan cetak surat, maka barang yang
+                        <div class="modal-body border-0 text-danger">Ketika anda melakukan unduh surat, maka barang yang
                             memiliki status proses tidak akan terdaftar dalam surat.</div>
                         <div class="modal-footer border-0">
                             <button class="btn btn-danger" type="button" data-dismiss="modal">Batal</button>
-                            <a class="btn btn-primary" href="{{route('print')}}">Cetak</a>
+                            <a class="btn btn-primary" href="{{route('print')}}">Unduh</a>
                         </div>
                     </div>
                 </div>
@@ -233,6 +237,14 @@
         $('#dataTable').DataTable({
             "bInfo": false,
             "paging": false
+        });
+        $(document).on('click', '.delete-btn', function () {
+            var sid = $(this).val();
+            $('#deleteModal').modal('show')
+            $('#delete_id').val(sid)
+        });
+        $(document).on('click', '.close-mdl', function () {
+            $('#deleteModal').modal('hide')
         });
     });
 

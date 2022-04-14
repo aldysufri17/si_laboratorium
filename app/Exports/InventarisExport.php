@@ -2,13 +2,13 @@
 
 namespace App\Exports;
 
-use App\Models\Barang;
+use App\Models\Inventaris;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class BarangExport implements FromCollection, WithHeadings
+
+class InventarisExport implements FromCollection, WithHeadings
 {
     private $data;
     public function __construct(int $data)
@@ -40,11 +40,16 @@ class BarangExport implements FromCollection, WithHeadings
             $name = 'Laboratorium Multimedia';
         }
         return [
-            ['Data Barang ' . $name . " Pada " . date('Y-m-d')],
-            ['Kategori', 'Nama', 'Tipe', 'Stok', 'Satuan', 'Lokasi', 'Keterangan']
+            ['Data Inventaris ' . $name . " Pada " . date('Y-m-d')],
+            [
+                'Date', 'Kode_inventaris', 'Nama Barang', 'Masuk', 'Keluar', 'Total', 'Keterangan'
+            ]
         ];
     }
 
+    /**
+     * @return \Illuminate\Support\Collection
+     */
     public function collection()
     {
         if (Auth::user()->role_id == 2) {
@@ -68,11 +73,15 @@ class BarangExport implements FromCollection, WithHeadings
         } elseif (Auth::user()->role_id == 6) {
             $kategori_lab = 4;
         }
-        $barang = Barang::join('satuan', 'satuan.id', '=', 'barang.satuan_id')
-            ->join('kategori', 'kategori.id', '=', 'barang.kategori_id')
-            ->select('kategori.nama_kategori', 'barang.nama', 'tipe', 'stock', 'satuan.nama_satuan', 'lokasi', 'info')
-            ->where('barang.kategori_lab', $kategori_lab)
+
+        $inventaris = Inventaris::join('barang', 'barang.id', '=', 'inventaris.barang_id')
+            ->select('inventaris.created_at', 'kode_inventaris', 'barang.nama', 'masuk', 'keluar', 'total', 'deskripsi')
+            ->where('inventaris.kategori_lab', $kategori_lab)
+            ->where('deskripsi', '=', 'New')
+            ->orWhere('deskripsi', '=', 'Clear')
+            ->orWhere('deskripsi', '=', 'Rusak')
+            ->orderBy('inventaris.created_at', 'DESC')
             ->get();
-        return $barang;
+        return $inventaris;
     }
 }

@@ -20,6 +20,9 @@
         <a href="{{ route('inventaris.add', auth()->user()->role_id) }}" class="btn btn-sm btn-success">
             <i class="fas fa-plus"></i> Tambah Inventaris
         </a>
+        <a href="{{ route('export.inventaris', 0) }}" class="btn btn-sm btn-warning">
+            <i class="fa-solid fa-file-csv"></i> Export .csv
+        </a>
     </div>
     @endrole
 

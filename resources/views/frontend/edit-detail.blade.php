@@ -10,7 +10,7 @@
             <div class="d-flex justify-content-between align-items-center">
                 <h2>Edit Barang</h2>
                 <ol>
-                    <li><a href="{{route('home')}}">Home</a></li>
+                    <li><a href="{{route('home')}}">Beranda</a></li>
                     <li><a href="{{route('cart')}}">Keranjang Peminjaman</a></li>
                     <li>Edit Barang</li>
                 </ol>

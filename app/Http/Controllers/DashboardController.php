@@ -148,9 +148,9 @@ class DashboardController extends Controller
     {
         $user_id = Auth::user()->id;
         if ($request->ktm) {
-            $usercek = User::whereid($user_id)->first();
-            if ($usercek->ktm) {
-                unlink('images/user/ktm/' . $usercek->ktm);
+            $bb = User::whereid($user_id)->first();
+            if (file_exists(public_path('images/user/ktm/' . $bb->ktm))) {
+                unlink('images/user/ktm/' . $bb->ktm);
             }
             $ktm = $request->ktm;
             $new_ktm = date('Y-m-d') . "-" . Auth::user()->name . "-" . Auth::user()->nim . "." . $ktm->getClientOriginalExtension();

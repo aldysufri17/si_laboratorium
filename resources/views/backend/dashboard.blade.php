@@ -91,6 +91,24 @@
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                         <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
+                            Total Stock Barang Lab Sistem Tertanam dan Robotika</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                            {{App\Models\Barang::where('kategori_lab', 1)->sum('stock')}}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fas fa-box fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-success bgdark border-0 shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                             Total Barang Rusak Lab Sistem Tertanam dan Robotika</div>
                         <div class="h5 mb-0 font-weight-bold text-gray-800">
                             {{App\Models\Barang::where('kategori_lab', 1)->sum('jml_rusak')}}</div>
@@ -115,7 +133,7 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col-auto">
                                 <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
-                                    {{App\Models\Inventaris::where('kategori_lab', 1)->where('deskripsi', 'Active')->sum('keluar')}}</div>
+                                    {{App\Models\Peminjaman::where('kategori_lab', 1)->where('status', '=', '3')->sum('jumlah')}}</div>
                             </div>
                         </div>
                     </div>
@@ -179,6 +197,29 @@
             <div class="card-body">
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Total Stock Barang Lab Rekayasa
+                            Perangkat Lunak
+                        </div>
+                        <div class="row no-gutters align-items-center">
+                            <div class="col-auto">
+                                <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
+                                    {{App\Models\Barang::where('kategori_lab', 2)->sum('stock')}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fa-solid fa-desktop fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-info bgdark border-0 shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
                         <div class="text-xs font-weight-bold text-info text-uppercase mb-1">Total Barang Rusak Lab
                             Rekayasa
                             Perangkat Lunak
@@ -210,7 +251,7 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col-auto">
                                 <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
-                                    {{App\Models\Inventaris::where('kategori_lab', 2)->where('deskripsi', 'Active')->sum('keluar')}}</div>
+                                    {{App\Models\Peminjaman::where('kategori_lab', 2)->where('status', '=', '3')->sum('jumlah')}}</div>
                             </div>
                         </div>
                     </div>
@@ -263,6 +304,23 @@
             </div>
         </div>
     </div>
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-warning bgdark border-0 shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-warning text-uppercase mb-1">
+                            Total Stock Barang Lab Jaringan dan Keamanan Komputer</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                            {{App\Models\Barang::where('kategori_lab', 3)->sum('stock')}}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fa-solid fa-network-wired fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <div class="col-xl-3 col-md-6 mb-4">
         <div class="card border-left-warning bgdark border-0 shadow h-100 py-2">
@@ -294,7 +352,7 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col-auto">
                                 <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
-                                    {{App\Models\Inventaris::where('kategori_lab', 3)->where('deskripsi', 'Active')->sum('keluar')}}</div>
+                                    {{App\Models\Peminjaman::where('kategori_lab', 3)->where('status', '=', '3')->sum('jumlah')}}</div>
                             </div>
                         </div>
                     </div>
@@ -353,6 +411,24 @@
                 <div class="row no-gutters align-items-center">
                     <div class="col mr-2">
                         <div class="text-xs font-weight-bold text-light text-uppercase mb-1">
+                            Total Stock Barang Lab Multimedia</div>
+                        <div class="h5 mb-0 font-weight-bold text-gray-800">
+                            {{App\Models\Barang::where('kategori_lab', 4)->sum('stock')}}</div>
+                    </div>
+                    <div class="col-auto">
+                        <i class="fa-solid fa-masks-theater fa-2x text-gray-300"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-xl-3 col-md-6 mb-4">
+        <div class="card border-left-light bgdark border-0 shadow h-100 py-2">
+            <div class="card-body">
+                <div class="row no-gutters align-items-center">
+                    <div class="col mr-2">
+                        <div class="text-xs font-weight-bold text-light text-uppercase mb-1">
                             Total Barang Rusak Lab Multimedia</div>
                         <div class="h5 mb-0 font-weight-bold text-gray-800">
                             {{App\Models\Barang::where('kategori_lab', 4)->sum('jml_rusak')}}</div>
@@ -377,7 +453,7 @@
                         <div class="row no-gutters align-items-center">
                             <div class="col-auto">
                                 <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
-                                    {{App\Models\Inventaris::where('kategori_lab', 4)->where('deskripsi', 'Active')->sum('keluar')}}</div>
+                                    {{App\Models\Peminjaman::where('kategori_lab', 4)->where('status', '=', '3')->sum('jumlah')}}</div>
                             </div>
                         </div>
                     </div>

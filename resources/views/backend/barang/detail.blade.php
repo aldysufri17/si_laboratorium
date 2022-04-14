@@ -12,25 +12,55 @@
         </ol>
     </div>
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <a class="btn btn-sm btn-danger" href="javascript:history.back()"><i class="fas fa-angle-double-left"></i> Kembali</a>
+        <a class="btn btn-sm btn-danger" href="{{route('barang.index')}}"><i class="fas fa-angle-double-left"></i> Kembali</a>
     </div>
 
     <div class="card shadow mb-4 border-0 bgdark">
         {{-- Page Content --}}
 
         <div class="d-flex flex-column align-items-center text-center p-3 pt-5">
-            <img class="my-2" width="275px"
+            <h4 class="text-center font-weight-bold text-light">DETAIL BARANG</h4>
+            <img class="my-2" width="375px"
                 src="{{ asset($barang->gambar ? 'images/barang/'. $barang->gambar : 'images/empty.jpg') }}">
-            <span class="badge badge-primary">{{$barang->kategori->nama_kategori}}</span>
+                @if ($barang->show == 1)
+                <span class="badge badge-success">Ditampilkan</span>
+                @else
+                <span class="badge badge-danger">Disembunyikan</span>
+                @endif
         </div>
-        <div class="d-flex text-center justify-content-around flex-wrap pt-5">
-            <p class="text-light mx-5"><strong>Nama: </strong><br>{{ $barang->nama }} - {{ $barang->tipe }}</p>
-            <p class="text-light mx-5"><strong>Jumlah: </strong><br>{{ $barang->stock }} {{$barang->satuan->nama_satuan}}</p>
-            <p class="text-light mx-5"><strong>Lokasi Barang: </strong><br>{{ $barang->lokasi }}</p>
-            <p class="text-light mx-5"><strong>Tanggal Masuk: </strong><br>{{ $barang->tgl_masuk }}</p>
-            @if($barang->info)
-            <p class="text-light mx-5"><strong>Info Tambahan: </strong><br>{{ $barang->info }}</p>
-            @endif
+        <div class="d-flex justify-content-around flex-wrap">
+            <table class="table mx-5 table-striped table-dark table-bordered">
+                <tbody>
+                    <tr>
+                        <th scope="row">Kategori</th>
+                        <td>{{$barang->kategori->nama_kategori}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Nama</th>
+                        <td>{{ $barang->nama }} - {{$barang->tipe}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Stock</th>
+                        <td>{{ $barang->stock }} {{ $barang->satuan->nama_satuan }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Lokasi Barang</th>
+                        <td>{{ $barang->lokasi }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Tanggal Masuk</th>
+                        <td>{{ $barang->tgl_masuk }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Keterangan</th>
+                        @if($barang->info)
+                        <td>{{ $barang->info }}</td>
+                        @else
+                        <td>-</td>
+                        @endif
+                    </tr>
+                </tbody>
+            </table>
         </div>
         <div class="pb-5 text-center">
             <button class="btn btn-info profile-button" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-qrcode"></i> QrCode</button>
@@ -52,7 +82,7 @@
                     <img src="data:image/png;base64,{{DNS2D::getBarcodePNG(strval($qr), 'QRCODE',5,5)}}" style="background-color: rgb(255, 255, 255); padding:5px; border-radius:1px" alt="barcode" />
                 </div>
                 <div class="modal-footer bgdark">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                 </div>
             </div>
         </div>

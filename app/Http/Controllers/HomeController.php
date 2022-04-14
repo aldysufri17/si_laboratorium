@@ -164,7 +164,7 @@ class HomeController extends Controller
 
     public function inventaris()
     {
-        $barang = Barang::with('satuan', 'kategori')->where('show', 1)->paginate(5);;
+        $barang = Barang::with('satuan', 'kategori')->where('show', 1)->paginate(8);;
         return view('frontend.inventaris', compact('barang'));
     }
 }

@@ -19,22 +19,45 @@
     <div class="card shadow mb-4 pb-4 border-0 bgdark">
         {{-- Page Content --}}
         <div class="d-flex flex-column align-items-center text-center p-3 pt-5">
+            <h4 class="text-center font-weight-bold text-light">DETAIL PEMINJAMAN</h4>
             <img class="rounded-circle my-2" width="150px"
                 src="{{ asset($peminjaman->user->foto ? 'images/barang/'. $peminjaman->user->foto : 'admin/img/undraw_profile.svg') }}">
             <span class="text-light">Nama : {{ $peminjaman->user->name }}</span>
             <p class="mt-2">Nim : {{ $peminjaman->user->nim }}</p>
         </div>
-        <div class="d-flex text-center justify-content-around flex-wrap mb-3">
-            <p class="text-light mx-5"><strong>Barang: </strong><br>{{ $peminjaman->barang->nama }} -
-                {{ $peminjaman->barang->tipe }}</p>
-            <p class="text-light mx-5"><strong>Jumlah: </strong><br>{{ $peminjaman->jumlah }}
-                {{$peminjaman->barang->satuan->nama_satuan}}</p>
-            <p class="text-light mx-5"><strong>Tanggal Peminjaman: </strong><br>{{ $peminjaman->tgl_start }}</p>
-            <p class="text-light mx-5"><strong>Tanggal Pengembalian: </strong><br>{{ $peminjaman->tgl_end }}</p>
-            <p class="text-light mx-5"><strong>Alasan: </strong><br>{{ $peminjaman->alasan }}</p>
+        <div class="d-flex justify-content-around flex-wrap mb-3">
+            <table class="table mx-5 table-striped table-dark table-bordered">
+                <tbody>
+                    <tr>
+                        <th scope="row">Kategori Barang</th>
+                        <td>{{$peminjaman->barang->kategori->nama_kategori}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Nama</th>
+                        <td>{{ $peminjaman->barang->nama }} - {{ $peminjaman->barang->tipe }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Jumlah Pinjam</th>
+                        <td>{{ $peminjaman->jumlah }} {{$peminjaman->barang->satuan->nama_satuan}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Tanggal Peminjaman</th>
+                        <td>{{ $peminjaman->tgl_start }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Tanggal Pengembalian</th>
+                        <td>{{ $peminjaman->tgl_end }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Alasan Pinjam</th>
+                        <td>{{ $peminjaman->alasan }}</td>
+                    </tr>
+                </tbody>
+            </table>
         </div>
         <div class="mt-2 text-center">
-            <button class="btn btn-primary profile-button" data-toggle="modal" data-target="#ktmModal">Lihat KTM</button>
+            <button class="btn btn-info profile-button" data-toggle="modal" data-target="#ktmModal"><i class="fa-solid fa-address-card"></i> Lihat KTM</button>
+            <button class="btn btn-primary profile-button" data-toggle="modal" data-target="#barangModal"><i class="fa-solid fa-box"></i> Lihat Barang</button>
         </div>
     </div>
 </div>
@@ -48,8 +71,28 @@
                 </button>
             </div>
             <div class="modal-body text-center">
-                <img class="my-2" width="250px"
-                    src="{{ asset($peminjaman->user->ktm ? 'storage/user/ktm/'. $peminjaman->user->ktm : 'images/empty.jpg') }}">
+                <img class="my-2" width="350px"
+                    src="{{ asset($peminjaman->user->ktm ? 'images/user/ktm/'. $peminjaman->user->ktm : 'images/empty.jpg') }}">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" data-dismiss="modal">Oke</button>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="barangModal" tabindex="-1" role="dialog" aria-labelledby="barangModalLabel" aria-hidden="true">
+    <div class="modal-dialog bgdark" role="document">
+        <div class="modal-content bgdark">
+            <div class="modal-header">
+                <h5 class="modal-title text-light" id="barangModalLabel">{{$peminjaman->barang->Nama}}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body text-center">
+                <img class="my-2" width="350px"
+                    src="{{ asset($peminjaman->barang->gambar ? 'images/barang/'. $peminjaman->barang->gambar : 'images/empty.jpg') }}">
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-primary" data-dismiss="modal">Oke</button>

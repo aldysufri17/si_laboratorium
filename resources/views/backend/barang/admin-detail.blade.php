@@ -34,9 +34,8 @@
                         <tr>
                             <th width="15%">Kategori</th>
                             <th width="15%">Nama</th>
-                            <th width="15%">Tipe</th>
                             <th width="15%">Stock</th>
-                            <th width="10%">Status</th>
+                            <th width="10%">Tampilkan</th>
                             <th width="15%">Lokasi Barang</th>
                             <th width="15%">Detail</th>
                         </tr>
@@ -44,14 +43,13 @@
                     <tbody>
                         @foreach ($barang as $data)
                         <tr>
-                            <td>{{ $data->kategori->nama }}</td>
-                            <td>{{ $data->nama }}</td>
-                            <td>{{ $data->tipe }}</td>
-                            <td>{{ $data->stock }} {{ $data->satuan->nama }}</td>
+                            <td>{{ $data->kategori->nama_kategori }}</td>
+                            <td>{{ $data->nama }} - {{ $data->tipe }}</td>
+                            <td>{{ $data->stock }} {{ $data->satuan->nama_satuan }}</td>
                             <td>@if ($data->show == 0)
-                                <span class="badge badge-danger">Hidden</span>
+                                <span class="badge badge-danger">Tidak</span>
                                 @elseif ($data->show == 1)
-                                <span class="badge badge-success">Show</span>
+                                <span class="badge badge-success">Tampil</span>
                                 @endif</td>
                             <td>{{ $data->lokasi }}</td>
                             <td><a class="btn btn-info m-2" href="{{ route('barang.show', $data->id) }}" title="Show">
