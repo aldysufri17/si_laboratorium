@@ -78,33 +78,6 @@
                                 </div>
                             </div>
                         </div>
-
-                        <div class="row">
-                            <div class="col-md-6 mb-4">
-                                <label for="password" class="form-label">{{ __('Password') }}</label>
-                                <div class="form-outline">
-                                    <input autocomplete="off" id="password" type="password"
-                                        class="form-control @error('password') is-invalid @enderror" name="password"
-                                        value="{{ old('password') }}" required autocomplete="password">
-
-                                    @error('password')
-                                    <span class="invalid-feedback" role="alert">
-                                        <strong>{{ $message }}</strong>
-                                    </span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 mb-4">
-                                <label for="password-confirm" class="form-label">{{ __('Confirm Password') }}</label>
-
-                                <div class="form-outline">
-                                    <input autocomplete="off" id="password-confirm" type="password" class="form-control"
-                                        name="password_confirmation" required autocomplete="new-password">
-                                </div>
-                            </div>
-                        </div>
-
                         <div class="row">
                             <div class="col-md-6 mb-4">
                                 <label for="alamat" class="form-label">{{ __('Alamat') }}</label>
@@ -137,6 +110,31 @@
                                 </div>
                             </div>
                             
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6 mb-4">
+                                <label for="password" class="form-label">{{ __('Password') }}</label>
+                                <div class="form-outline">
+                                    <input autocomplete="off" id="password" type="password"
+                                        class="form-control @error('password') is-invalid @enderror" name="password"
+                                        value="{{ old('password') }}" required autocomplete="password">
+
+                                    @error('password')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="col-md-6 mb-4">
+                                <label for="password-confirm" class="form-label">{{ __('Confirm Password') }}</label>
+
+                                <div class="form-outline">
+                                    <input autocomplete="off" id="password-confirm" type="password" class="form-control"
+                                        name="password_confirmation" required autocomplete="new-password">
+                                </div>
+                            </div>
                         </div>
                         <button type="submit" class="btn btn-primary btn-user btn-block">
                             {{ __('Kirim') }}
