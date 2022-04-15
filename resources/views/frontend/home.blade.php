@@ -5,7 +5,8 @@
 @auth
 {{-- Pengajuan Disetujui --}}
 @foreach ($peminjaman as $data)
-    @if ($message = Session::get('in'))
+<a href="{{route('cart')}}">
+@if ($message = Session::get('in'))
     <div class="alert alert-success alert-dismissible shake" style="margin-bottom: -6px; margin:0 5px" role="alert">
         <button type="button" class="close" data-dismiss="alert">
             <i class="fa fa-times"></i>
@@ -13,11 +14,13 @@
         <strong>Pengajuan barang {{$data->barang->nama}} {{ $message }}</strong> {{ session('error') }}
     </div>
     @endif
-    @endforeach
+</a>
+@endforeach
 {{-- end diseujui --}}
 
 {{-- Pengajuan ditolak --}}
 @foreach ($tolak as $data)
+<a href="{{route('cart')}}">
     @if ($message = Session::get('tolak'))
     <div class="alert alert-danger alert-dismissible shake" style="margin-bottom: -6px; margin:0 5px" role="alert">
         <button type="button" class="close" data-dismiss="alert">
@@ -26,6 +29,7 @@
         <strong>Pengajuan barang {{$data->barang->nama}} {{ $message }}</strong> {{ session('error') }}
     </div>
     @endif
+</a>
     @endforeach
 {{-- end ditolak--}}
 
@@ -36,6 +40,7 @@ $start=\Carbon\Carbon::createFromFormat('Y-m-d', $data->tgl_end);
 $now = \Carbon\Carbon::createFromFormat('Y-m-d', date('Y-m-d'));
 $late = $start->diffInDays($now);
 @endphp
+<a href="{{route('cart')}}">
     @if ($message = Session::get('telat'))
     <div class="alert alert-warning alert-dismissible shake" style="margin-bottom: -6px; margin:0 5px" role="alert">
         <button type="button" class="close" data-dismiss="alert">
@@ -44,6 +49,7 @@ $late = $start->diffInDays($now);
         <strong>Peminjaman Barang {{$data->barang->nama}} {{ $message }} {{ $late }} Hari!!!</strong> {{ session('error') }}
     </div>
     @endif
+</a>
 @endif
 @endforeach
 @endauth

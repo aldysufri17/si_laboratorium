@@ -33,7 +33,7 @@
                             <div class="d-flex align-items-center">
                                 <div class="col mr-2">
                                     <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                        Total Pengajuan Barang </div>
+                                        Total Barang Pengajuan </div>
                                     <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
                                 </div>
                                 <div class="col-auto">

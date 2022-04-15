@@ -249,7 +249,7 @@ class PeminjamanController extends Controller
                 return redirect()->back()->with('warning', 'Inventaris Barang tidak mencukupi!.');
             }
             $telat = Peminjaman::whereid($id_peminjaman)->first();
-            if ($telat->tgl_start < date('Y-m-d')) {
+            if ($telat->tgl_end < date('Y-m-d')) {
                 return redirect()->back()->with('warning', 'Konfirmasi peminjaman telat!.');
             }
             $inventaris = Inventaris::create([
@@ -294,7 +294,7 @@ class PeminjamanController extends Controller
                 return redirect()->back()->with('warning', 'Inventaris Barang tidak mencukupi!.');
             }
             $telat = Peminjaman::whereid($id_peminjaman)->first();
-            if ($telat->tgl_start < date('Y-m-d')) {
+            if ($telat->tgl_end < date('Y-m-d')) {
                 return redirect()->back()->with('warning', 'Konfirmasi pengajuan telat!.');
             }
             $peminjaman = Peminjaman::whereId($id_peminjaman)->update(['status' => $status]);

@@ -27,7 +27,7 @@
             </div>
         </div>
         <div class="copyright text-light">
-            &copy; Copyright <strong>ResLab</strong>.2022
+            &copy; Copyright <strong>Lab.Dept.Tekkom</strong>.2022
         </div>
     </div>
 </footer><!-- End Footer -->
