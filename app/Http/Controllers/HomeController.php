@@ -157,10 +157,16 @@ class HomeController extends Controller
                 $barang->where('nama', 'like', '%' . $request->search . '%');
             }
         } else {
-            $barang = Barang::where('show', 1)
-                ->where('kategori_lab', 1)
-                ->whereNotIn('id', $data)
-                ->latest();
+            if (Auth::check()) {
+                $barang = Barang::where('show', 1)
+                    ->where('kategori_lab', 1)
+                    ->whereNotIn('id', $data)
+                    ->latest();
+            } else {
+                $barang = Barang::where('show', 1)
+                    ->where('kategori_lab', 1)
+                    ->latest();
+            }
         }
 
         return view('frontend.search', ['barang' => $barang->paginate(7), 'lab' => $lab]);
