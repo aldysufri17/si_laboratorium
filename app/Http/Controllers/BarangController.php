@@ -322,7 +322,9 @@ class BarangController extends Controller
 
         $fotoBarang = Barang::whereId($barang_id)->first();
         if ($fotoBarang->gambar) {
-            unlink(storage_path('app/public/barang/' . $fotoBarang->gambar));
+            if (file_exists(public_path('/images/barang/' . $fotoBarang->gambar))) {
+                unlink('images/barang/' . $fotoBarang->gambar);
+            }
         }
         Peminjaman::where('barang_id', $barang_id)->delete();
         Inventaris::where('barang_id', $barang_id)->delete();

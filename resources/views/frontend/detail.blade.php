@@ -34,9 +34,15 @@
                     <div class="d-flex flex-column align-items-center text-center p-3 py-5">
                         <a href="{{ asset($barang->gambar ? 'images/barang/'. $barang->gambar : 'images/empty.jpg') }}"
                             data-gallery="portfolioGallery" class="portfolio-lightbox preview-link mb-3">
+                            @if (file_exists(public_path('/images/barang/' . $barang->gambar)))
                             <img src="{{ asset($barang->gambar ? 'images/barang/'. $barang->gambar : 'images/empty.jpg') }}"
                                 class="img-fluid" alt=""></a>
-                            <span class="font-weight-bold">{{$barang->nama}} - {{$barang->tipe}}</span><span class="text-black-50">Stock :
+                            @else
+                            <img src="{{ asset('images/empty.jpg') }}"
+                                class="img-fluid" alt=""></a>
+                            @endif
+                        <span class="font-weight-bold">{{$barang->nama}} - {{$barang->tipe}}</span><span
+                            class="text-black-50">Stock :
                             {{$barang->stock}} {{$barang->satuan->nama_satuan}}</span><span>{{$barang->lokasi}}</span>
                     </div>
                 </div>
@@ -63,15 +69,15 @@
                                 <div class="col-md-6">
                                     <span>Keperluan</span>
                                     <select class="form-control form-control-user @error('alasan') is-invalid @enderror"
-                                    name="alasan">
-                                    <option selected disabled>Select Keperluan</option>
-                                    <option value="praktikum">Praktikum</option>
-                                    <option value="penelitian">Penelitian</option>
-                                    <option value="lainnya">Lainnya</option>
-                                </select>
-                                @error('alasan')
-                                <span class="text-danger">{{ $message }}</span>
-                                @enderror
+                                        name="alasan">
+                                        <option selected disabled>Select Keperluan</option>
+                                        <option value="praktikum">Praktikum</option>
+                                        <option value="penelitian">Penelitian</option>
+                                        <option value="lainnya">Lainnya</option>
+                                    </select>
+                                    @error('alasan')
+                                    <span class="text-danger">{{ $message }}</span>
+                                    @enderror
                                 </div>
                             </div>
 
