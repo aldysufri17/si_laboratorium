@@ -7,7 +7,7 @@
         <div class="container">
 
             <div class="d-flex justify-content-between align-items-center">
-                <h2>Daftar Barang Laboratorium</h2>
+                <h2 class="font-weight-bold">Daftar Barang Laboratorium</h2>
                 <ol>
                     <li><a href="{{route('home')}}">Beranda</a></li>
                     <li>Daftar Barang Laboratorium</li>

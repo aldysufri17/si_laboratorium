@@ -8,7 +8,7 @@
         <div class="container">
 
             <div class="d-flex justify-content-between align-items-center">
-                <h2>Keranjang Pengajuan</h2>
+                <h2 class="font-weight-bold">Keranjang Pengajuan</h2>
                 <ol>
                     <li><a href="{{route('home')}}">Beranda</a></li>
                     <li>Keranjang Pengajuan</li>
@@ -25,7 +25,7 @@
         <div class="card shadow mx-4 p-3 mb-4 border-0">
             <div class="card-body">
                 <center>
-                    <h1>Daftar Barang Pengajuan</h1>
+                    <h3>Daftar Barang Pengajuan</h3>
                 </center>
                 <div class="row d-flex justify-content-center my-4">
                     <div class="col-xl-3 col-md-3">

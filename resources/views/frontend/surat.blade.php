@@ -17,7 +17,7 @@
         <div class="container">
 
             <div class="d-flex justify-content-between align-items-center">
-                <h2>Surat Bebas Laboratorium</h2>
+                <h2 class="font-weight-bold">Surat Bebas Laboratorium</h2>
                 <ol>
                     <li><a href="{{route('home')}}">Beranda</a></li>
                     <li>Surat Bebas Laboratorium</li>

@@ -33,12 +33,23 @@ class HomeController extends Controller
         // example:
         if (Auth::check()) {
             $user_id = Auth::user()->id;
-            $peminjaman = Peminjaman::where('user_id', $user_id)->where('status', 0)->get();
+            // Disetujui
+            $peminjaman = Peminjaman::where('user_id', $user_id)->where('status', 2)->get();
             if ($peminjaman) {
-                $total = Peminjaman::where('user_id', $user_id)->where('status', 0)->count();
-                $request->session()->flash('in', "$total PENGAJUAN MASIH DALAM PROSES");
+                $request->session()->flash('in', "berhasil disetujui !!");
             }
-            return view('frontend.home', compact('peminjaman'));
+            // Ditolak
+            $tolak = Peminjaman::where('user_id', $user_id)->where('status', 1)->get();
+            if ($tolak) {
+                $request->session()->flash('tolak', "ditolak !!");
+            }
+            // Telat
+            $telat = Peminjaman::where('user_id', $user_id)->where('status', 3)->get();
+            if ($telat) {
+                $request->session()->flash('telat', "Telat");
+            }
+            // dd($telat);
+            return view('frontend.home', compact('peminjaman'), ['telat' => $telat, 'tolak' => $tolak]);
         }
         return view('frontend.home');
     }
@@ -116,6 +127,16 @@ class HomeController extends Controller
 
     public function search(Request $request)
     {
+        if ($request->kategori_lab == 1 || $request->kategori_lab == "") {
+            $lab = "Sistem Tertanam dan Robotika";
+        } elseif ($request->kategori_lab == 2) {
+            $lab = "Rekayasa Perangkat Lunak";
+        } elseif ($request->kategori_lab == 3) {
+            $lab = "Jaringan dan Keamanan Komputer";
+        } elseif ($request->kategori_lab == 4) {
+            $lab = "Multimedia";
+        }
+
         if (Auth::check()) {
             $data = Peminjaman::where('user_id', Auth::user()->id)->where('status', '<', 4)->pluck('barang_id');
         }
@@ -125,6 +146,7 @@ class HomeController extends Controller
                     ->where('kategori_lab', $request->kategori_lab)
                     ->whereNotIn('id', $data)
                     ->latest();
+                // dd($barang);
             } else {
                 $barang = Barang::where('show', 1)
                     ->where('kategori_lab', $request->kategori_lab)
@@ -135,10 +157,13 @@ class HomeController extends Controller
                 $barang->where('nama', 'like', '%' . $request->search . '%');
             }
         } else {
-            $barang = Barang::where('show', 1)->where('kategori_lab', 1)->latest();
+            $barang = Barang::where('show', 1)
+                ->where('kategori_lab', 1)
+                ->whereNotIn('id', $data)
+                ->latest();
         }
 
-        return view('frontend.search', ['barang' => $barang->paginate(7)]);
+        return view('frontend.search', ['barang' => $barang->paginate(7), 'lab' => $lab]);
     }
 
     public function detail($id)

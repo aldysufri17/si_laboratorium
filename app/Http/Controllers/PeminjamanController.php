@@ -238,7 +238,7 @@ class PeminjamanController extends Controller
     }
 
 
-    public function konfirmasiStatus($user_id, $status, $barang_id, $jumlah)
+    public function konfirmasiStatus($id_peminjaman, $status, $barang_id, $jumlah)
     {
         if ($status == 3) {
             $random = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
@@ -247,6 +247,10 @@ class PeminjamanController extends Controller
             $kategori_lab = $sisa->kategori_lab;
             if ($total - $jumlah < 0) {
                 return redirect()->back()->with('warning', 'Inventaris Barang tidak mencukupi!.');
+            }
+            $telat = Peminjaman::whereid($id_peminjaman)->first();
+            if ($telat->tgl_start < date('Y-m-d')) {
+                return redirect()->back()->with('warning', 'Konfirmasi peminjaman telat!.');
             }
             $inventaris = Inventaris::create([
                 'barang_id'         => $barang_id,
@@ -259,7 +263,7 @@ class PeminjamanController extends Controller
                 'total'             => $total - $jumlah,
             ]);
             Barang::whereid($barang_id)->update(['stock' => $total - $jumlah]);
-            Peminjaman::whereId($user_id)->update(['status' => $status]);
+            Peminjaman::whereId($id_peminjaman)->update(['status' => $status]);
             if ($inventaris) {
                 return redirect()->back()->with('success', 'Peminjaman Berhasil di Setujui!.');
             }
@@ -279,19 +283,28 @@ class PeminjamanController extends Controller
                 'total'             => $total + $jumlah,
             ]);
             Barang::whereId($barang_id)->update(['stock' => $total + $jumlah]);
-            Peminjaman::whereId($user_id)->update(['status' => $status]);
+            Peminjaman::whereId($id_peminjaman)->update(['status' => $status]);
             if ($inventaris) {
                 return redirect()->back()->with('success', 'Pengembalian Berhasil di Setujui!.');
             }
         } elseif ($status == 2) {
-            $peminjaman = Peminjaman::whereId($user_id)->update(['status' => $status]);
+            $sisa = Barang::where('id', $barang_id)->first();
+            $total = $sisa->stock;
+            if ($total - $jumlah < 0) {
+                return redirect()->back()->with('warning', 'Inventaris Barang tidak mencukupi!.');
+            }
+            $telat = Peminjaman::whereid($id_peminjaman)->first();
+            if ($telat->tgl_start < date('Y-m-d')) {
+                return redirect()->back()->with('warning', 'Konfirmasi pengajuan telat!.');
+            }
+            $peminjaman = Peminjaman::whereId($id_peminjaman)->update(['status' => $status]);
             if ($peminjaman) {
                 return redirect()->back()->with('success', 'Pengajuan Berhasil di Setujui!.');
             } else {
                 return redirect()->back()->with('error', 'Gagal diperbarui');
             }
         } else {
-            $peminjaman = Peminjaman::whereId($user_id)->update(['status' => $status]);
+            $peminjaman = Peminjaman::whereId($id_peminjaman)->update(['status' => $status]);
             if ($peminjaman) {
                 return redirect()->back()->with('info', 'Pengajuan Berhasil di Tolak!.');
             } else {
@@ -361,6 +374,10 @@ class PeminjamanController extends Controller
                 $sisa = Barang::whereId(intval($barang))->value('stock');
                 if ($sisa - $jumlah < 0) {
                     return redirect()->back()->with('warning', 'Inventaris Barang tidak mencukupi!.');
+                }
+                $telat = Peminjaman::whereid($id_peminjaman)->first();
+                if ($telat->tgl_start < date('Y-m-d')) {
+                    return redirect()->back()->with('warning', 'Konfirmasi peminjaman telat!.');
                 }
                 Inventaris::create([
                     'barang_id'         => intval($barang),

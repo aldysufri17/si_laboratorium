@@ -16,7 +16,7 @@
         <div class="container">
 
             <div class="d-flex justify-content-between align-items-center">
-                <h2>Detail Barang</h2>
+                <h2 class="font-weight-bold">Detail Barang</h2>
                 <ol>
                     <li><a href="{{route('home')}}">Beranda</a></li>
                     <li><a href="{{route('search')}}">Daftar Barang</a></li>

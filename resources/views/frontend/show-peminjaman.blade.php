@@ -8,7 +8,7 @@
         <div class="container">
 
             <div class="d-flex justify-content-between align-items-center">
-                <h2>Histori Peminjaman</h2>
+                <h2 class="font-weight-bold">Histori Peminjaman</h2>
                 <ol>
                     <li><a href="{{route('home')}}">Beranda</a></li>
                     <li>Histori Peminjaman</li>

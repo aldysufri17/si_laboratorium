@@ -6,7 +6,7 @@
     <section class="breadcrumbs">
         <div class="container">
             <div class="d-flex justify-content-between align-items-center">
-                <h2>Pencarian Barang</h2>
+                <h2 class="font-weight-bold">Pencarian Barang</h2>
                 <ol>
                     <li><a href="{{route('home')}}">Beranda</a></li>
                     <li>Pencarian Barang</li>
@@ -35,6 +35,9 @@
                     <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i></button>
                 </div>
             </form>
+            <div class="text-center">
+                <h4>Daftar Barang Lab {{$lab}}</h4>
+            </div>
             @if ($barang->isNotEmpty())
             @foreach ($barang as $data)
             <a href="{{route('detail.barang', $data->id)}}">

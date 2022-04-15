@@ -1,22 +1,59 @@
 @extends('frontend.layouts.app')
 @section('title', 'Beranda')
 @section('content')
+{{-- Notifikasi --}}
 @auth
-@if($peminjaman->isNotEmpty())
-@if ($message = Session::get('in'))
-<div class="alert alert-danger alert-dismissible shake" style="margin-bottom: -6px; margin:0 5px" role="alert">
-    <button type="button" class="close" data-dismiss="alert">
-        <i class="fa fa-times"></i>
-    </button>
-    <strong>{{ $message }}</strong> {{ session('error') }}
-</div>
+{{-- Pengajuan Disetujui --}}
+@foreach ($peminjaman as $data)
+    @if ($message = Session::get('in'))
+    <div class="alert alert-success alert-dismissible shake" style="margin-bottom: -6px; margin:0 5px" role="alert">
+        <button type="button" class="close" data-dismiss="alert">
+            <i class="fa fa-times"></i>
+        </button>
+        <strong>Pengajuan barang {{$data->barang->nama}} {{ $message }}</strong> {{ session('error') }}
+    </div>
+    @endif
+    @endforeach
+{{-- end diseujui --}}
+
+{{-- Pengajuan ditolak --}}
+@foreach ($tolak as $data)
+    @if ($message = Session::get('tolak'))
+    <div class="alert alert-danger alert-dismissible shake" style="margin-bottom: -6px; margin:0 5px" role="alert">
+        <button type="button" class="close" data-dismiss="alert">
+            <i class="fa fa-times"></i>
+        </button>
+        <strong>Pengajuan barang {{$data->barang->nama}} {{ $message }}</strong> {{ session('error') }}
+    </div>
+    @endif
+    @endforeach
+{{-- end ditolak--}}
+
+@foreach ($telat as $data)
+@if ($data->tgl_end < date('Y-m-d'))
+@php
+$start=\Carbon\Carbon::createFromFormat('Y-m-d', $data->tgl_end);
+$now = \Carbon\Carbon::createFromFormat('Y-m-d', date('Y-m-d'));
+$late = $start->diffInDays($now);
+@endphp
+    @if ($message = Session::get('telat'))
+    <div class="alert alert-warning alert-dismissible shake" style="margin-bottom: -6px; margin:0 5px" role="alert">
+        <button type="button" class="close" data-dismiss="alert">
+            <i class="fa fa-times"></i>
+        </button>
+        <strong>Peminjaman Barang {{$data->barang->nama}} {{ $message }} {{ $late }} Hari!!!</strong> {{ session('error') }}
+    </div>
+    @endif
 @endif
-@endif
+@endforeach
 @endauth
+{{-- EndNotifikasi --}}
+
 <!-- ======= hero Section ======= -->
 <section id="hero" style="height: 85vh;">
     @include('sweetalert::alert')
     <div class="hero-content" data-aos="fade-up">
+
         <h2>Sistem Peminjaman Barang <br> <span class="animate text-secondary typed-cursor"></span></h2>
         <div>
             <a href="{{ route('search') }}" class="btn-get-started scrollto">

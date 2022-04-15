@@ -7,7 +7,7 @@
         <div class="container">
 
             <div class="d-flex justify-content-between align-items-center">
-                <h2>Profile</h2>
+                <h2 class="font-weight-bold">Profile</h2>
                 <ol>
                     <li><a href="{{route('home')}}">Beranda</a></li>
                     <li>Profile</li>
