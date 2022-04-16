@@ -64,7 +64,7 @@ class BarangSeeder extends Seeder
             'kategori_lab'  => 1,
             'satuan_id'     => 1,
             'kategori_id'   => 1,
-            'gambar'        => 'ldc.jpg',
+            'gambar'        => 'lcd162.jpg',
         ]);
         Barang::create([
             'id'            => substr(str_shuffle("0123456789"), 0, 8),
@@ -90,7 +90,7 @@ class BarangSeeder extends Seeder
             'kategori_lab'  => 1,
             'satuan_id'     => 1,
             'kategori_id'   => 2,
-            'gambar'        => 'o+.jpg',
+            'gambar'        => 'positif.jpg',
         ]);
         Barang::create([
             'id'            => substr(str_shuffle("0123456789"), 0, 8),

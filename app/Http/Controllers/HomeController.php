@@ -174,8 +174,9 @@ class HomeController extends Controller
 
     public function detail($id)
     {
+        $peminjaman = Peminjaman::where('barang_id', $id)->where('status', 3)->paginate(5);
         $barang = Barang::whereId($id)->first();
-        return view('frontend.detail', compact('barang'));
+        return view('frontend.detail', compact('barang', 'peminjaman'));
     }
 
     public function riwayat()
