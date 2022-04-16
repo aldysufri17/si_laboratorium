@@ -653,10 +653,10 @@ section {
   height: 12px;
   background-color: #fff;
   opacity: 1;
-  border: 1px solid #50d8af;
+  border: 1px solid #0c2e8a;
 }
 #clients .swiper-pagination .swiper-pagination-bullet-active {
-  background-color: #50d8af;
+  background-color: #0c2e8a;
 }
 
 /* Our Portfolio Section
@@ -982,7 +982,7 @@ section {
   color: #000;
 }
 #contact .contact-info a:hover {
-  color: #50d8af;
+  color: #71dfbe;
 }
 #contact .contact-address, #contact .contact-phone, #contact .contact-email {
   margin-bottom: 20px;
@@ -1058,10 +1058,10 @@ section {
   font-size: 15px;
 }
 #contact .php-email-form input::focus, #contact .php-email-form textarea::focus {
-  background-color: #50d8af;
+  background-color: #71dfbe;
 }
 #contact .php-email-form button[type=submit] {
-  background: #50d8af;
+  background: #71dfbe;
   border: 0;
   border-radius: 3px;
   padding: 10px 30px;

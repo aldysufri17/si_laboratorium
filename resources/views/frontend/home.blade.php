@@ -104,6 +104,26 @@ $late = $start->diffInDays($now);
         </div>
     </section><!-- End About Section -->
 
+        <!-- ======= Clients Section ======= -->
+        <section id="clients">
+            <div class="container" data-aos="fade-up">
+              <div class="section-header">
+                <h2>Kategori Laboratorium</h2>
+                <p>Departemen Teknik Komputer memiliki empat laboratorium, yaitu Laboratorium Sistem Tertanam dan Robotika, Laboratorium Keamanan dan Jaringan Komputer, Laboratorium Rekayasa Perangkat Lunak, dan Laboratorium Multimedia</p>
+              </div>
+      
+              <div class="clients-slider swiper" data-aos="fade-up" data-aos-delay="100">
+                <div class="swiper-wrapper align-items-center">
+                  <div class="swiper-slide"><img src="{{asset('frontend/img/clients/embedded.png')}}" class="img-fluid" alt=""></div>
+                  <div class="swiper-slide"><img src="{{asset('frontend/img/clients/rpl.png')}}" class="img-fluid" alt=""></div>
+                  <div class="swiper-slide"><img src="{{asset('frontend/img/clients/jarkom.png')}}" class="img-fluid" alt=""></div>
+                  <div class="swiper-slide"><img src="{{asset('frontend/img/clients/mulmed.png')}}" class="img-fluid" alt=""></div>
+                </div>
+                <div class="swiper-pagination"></div>
+              </div>
+            </div>
+          </section><!-- End Clients Section -->
+
     <!-- ======= Call To Action Section ======= -->
     <section id="call-to-action">
         <div class="container" data-aos="zoom-out">
@@ -129,9 +149,7 @@ $late = $start->diffInDays($now);
                 <p>Foto dokumentasi aktivitas yang dilakukan club riset laboratorium Departemen Teknik Komputer,
                 </p>
             </div>
-
             <div class="row portfolio-container" data-aos="fade-up" data-aos-delay="200">
-
                 <div class="col-lg-4 col-md-6 portfolio-item filter-card">
                     <a href="https://embedded.undip.ac.id/img/landing/pengabdian-masyarakat-di-smk-nu-ungaran.JPG"
                         data-gallery="portfolioGallery" class="portfolio-lightbox preview-link mt-4"
@@ -159,14 +177,10 @@ $late = $start->diffInDays($now);
                             style="height: 237px; width:360px" src="{{asset('frontend/img/hero-carousel/5.jpg')}}"
                             class="img-fluid" alt=""></a>
                     <div class="portfolio-info">
-                        <h4>EMBRIO CLASS CERC di TEKNIK KOMPUTER ANGKATAN 2018</h4>
+                        <h4>EMBRIO Class CERC di Teknik Komputer Angkatan 2018</h4>
                     </div>
                 </div>
-
-
-
             </div>
-
         </div>
     </section><!-- End Galeri Section -->
 
@@ -177,8 +191,6 @@ $late = $start->diffInDays($now);
                 <h2>Kegiatan</h2>
                 <p>Daftar kegiatan laboratorium sebagai penunjang praktikum Mahasiswa Teknik Komputer</p>
             </div>
-
-
             <div class="portfolio-item filter-web">
                 <table id="dataTable" class="table table-borderless dt-responsive" cellspacing="0" width="100%">
                     <thead>

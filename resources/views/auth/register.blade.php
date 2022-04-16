@@ -19,7 +19,7 @@
                                 <div class="form-outline">
                                     <input autocomplete="off" id="name" type="text"
                                         class="form-control  @error('name') is-invalid @enderror" name="name"
-                                        value="{{ old('name') }}" required autocomplete="name" autofocus>
+                                        value="{{ old('name') }}" placeholder="ex.Aldo Mahendra" required autocomplete="name" autofocus>
 
                                     @error('name')
                                     <span class="invalid-feedback" role="alert">
@@ -54,7 +54,7 @@
                                 <div class="form-outline">
                                     <input autocomplete="off" id="nim" type="nim"
                                         class="form-control @error('nim') is-invalid @enderror" name="nim"
-                                        value="{{ old('nim') }}" required autocomplete="nim">
+                                        value="{{ old('nim') }}" placeholder="ex.21120118120021" required autocomplete="nim">
 
                                     @error('nim')
                                     <span class="invalid-feedback" role="alert">
@@ -68,7 +68,7 @@
                                 <div class="form-outline">
                                     <input autocomplete="off" id="email" type="email"
                                         class="form-control @error('email') is-invalid @enderror" name="email"
-                                        value="{{ old('email') }}" required autocomplete="email">
+                                        value="{{ old('email') }}" placeholder="email@gmail.com" required autocomplete="email">
 
                                     @error('email')
                                     <span class="invalid-feedback" role="alert">
@@ -80,10 +80,10 @@
                         </div>
                         <div class="row">
                             <div class="col-md-6 mb-4">
-                                <label for="alamat" class="form-label">{{ __('Alamat') }}</label>
+                                <label for="alamat" class="form-label">{{ __('Alamat Domisili') }}</label>
 
                                 <div class="form-outline">
-                                    <input autocomplete="off" id="alamat" type="alamat"
+                                    <input autocomplete="off" placeholder="ex.Jl. Tlogomulyo Rt02/05, Tlogomulyo, Pedurungan, Semarang" id="alamat" type="alamat"
                                         class="form-control @error('alamat') is-invalid @enderror" name="alamat"
                                         value="{{ old('alamat') }}" required autocomplete="alamat">
 
@@ -100,7 +100,7 @@
                                 <div class="form-outline">
                                     <input autocomplete="off" id="telp" type="telp"
                                         class="form-control @error('telp') is-invalid @enderror" name="telp"
-                                        value="{{ old('telp') }}" required autocomplete="telp">
+                                        value="{{ old('telp') }}" placeholder="ex.08961XXXXXX" required autocomplete="telp">
 
                                     @error('telp')
                                     <span class="invalid-feedback" role="alert">
@@ -117,7 +117,7 @@
                                 <div class="form-outline">
                                     <input autocomplete="off" id="password" type="password"
                                         class="form-control @error('password') is-invalid @enderror" name="password"
-                                        value="{{ old('password') }}" required autocomplete="password">
+                                        value="{{ old('password') }}" placeholder="......" required autocomplete="password">
 
                                     @error('password')
                                     <span class="invalid-feedback" role="alert">
@@ -131,7 +131,7 @@
                                 <label for="password-confirm" class="form-label">{{ __('Confirm Password') }}</label>
 
                                 <div class="form-outline">
-                                    <input autocomplete="off" id="password-confirm" type="password" class="form-control"
+                                    <input autocomplete="off" placeholder="......" id="password-confirm" type="password" class="form-control"
                                         name="password_confirmation" required autocomplete="new-password">
                                 </div>
                             </div>

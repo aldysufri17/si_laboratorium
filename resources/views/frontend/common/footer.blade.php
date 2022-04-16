@@ -16,7 +16,7 @@
             <div class="col-md-3 mt-5">
                 <div class="d-flex flex-column align-items-center text-left p-3 py-5">
                     <h5 class="text-info">LAYANAN</h5>
-                    <p class="text-light">Peminjaman Barang Laboratorium<br><br>Ruang Tata Usaha Dept. Tekkom: Lt. 1 Gd. Departemen Teknik Komputer (Sebelah Dekanat Lama)</p>
+                    <p class="text-light">Peminjaman Barang Laboratorium<br><br>Ruang Laboratorium Dept. Tekkom: Lt. 2 Gd.GKB</p>
                 </div>
             </div>
             <div class="col-md-3 mt-5">

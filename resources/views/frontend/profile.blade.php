@@ -48,7 +48,7 @@
                             <span class="text-dark">Nim : {{ auth()->user()->nim }}</span>
                             <span class="text-dark">Email : {{ auth()->user()->email }}</span>
                             <div class="mt-2 text-center">
-                                <button class="btn btn-secondary profile-button" data-toggle="modal"
+                                <button class="btn btn-info profile-button" data-toggle="modal"
                                     data-target="#ktmModal">Lihat KTM</button>
                             </div>
 
@@ -74,7 +74,7 @@
                                         <input type="file" name="ktm">
                                 </div>
                                 <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                                    <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
                                     <button type="submit" class="btn btn-primary">Ubah</button>
                                 </div>
                                 </form>
