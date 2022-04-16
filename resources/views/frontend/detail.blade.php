@@ -42,8 +42,14 @@
                                 class="img-fluid" alt=""></a>
                             @endif
                         <span class="font-weight-bold">{{$barang->nama}} - {{$barang->tipe}}</span><span
-                            class="text-black-50">Stock :
+                            class="text-black-50">Stok :
                             {{$barang->stock}} {{$barang->satuan->nama_satuan}}</span><span>{{$barang->lokasi}}</span>
+                            <div class="d-flex mt-2">
+                                @if($barang->kategori_id != 0)
+                                <span class="badge badge-primary">{{$barang->kategori->nama_kategori}}</span>
+                                @endif
+                                <span class="badge badge-success mx-3">Baik</span>
+                            </div>
                     </div>
                 </div>
                 <div class="col-md-8">
