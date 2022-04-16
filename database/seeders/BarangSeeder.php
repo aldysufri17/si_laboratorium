@@ -264,7 +264,7 @@ class BarangSeeder extends Seeder
             'kategori_lab'  => 4,
             'satuan_id'     => 5,
             'kategori_id'   => 8,
-            'info'          => 'Hibah Department',
+            'info'          => 'Hibah Departemen',
             'gambar'        => 'kv.jpg',
         ]);
         Barang::create([
@@ -278,7 +278,7 @@ class BarangSeeder extends Seeder
             'kategori_lab'  => 4,
             'satuan_id'     => 5,
             'kategori_id'   => 8,
-            'info'          => 'Hibah Department',
+            'info'          => 'Hibah Departemen',
             'gambar'        => 'kf.jpg',
         ]);
         Barang::create([
@@ -292,7 +292,7 @@ class BarangSeeder extends Seeder
             'kategori_lab'  => 4,
             'satuan_id'     => 5,
             'kategori_id'   => 8,
-            'info'          => 'Hibah Department',
+            'info'          => 'Hibah Departemen',
             'gambar'        => 'scan.png',
         ]);
     }

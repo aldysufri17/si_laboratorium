@@ -117,7 +117,7 @@
                     <div id="Paris" class="tabcontent p-3 py-5">
                         <div class="d-flex justify-content-center align-items-center mb-3">
                             <div class="d-flex flex-row align-items-center">
-                                <h5>Antrian Penggunaan {{$barang->nama}}</h5>
+                                <h5>Antrian Penggunaan {{$barang->nama}} - {{$barang->tipe}}</h5>
                                 <hr>
                             </div>
                         </div>
@@ -150,7 +150,7 @@
                         @else
                         <div class="align-items-center bg-light p-3 rounded" style="border-left: 3px solid blue">
                             <span class="">Oops!</span><br>
-                            <p><i class="fa-solid fa-circle-info text-info"></i> {{$barang->nama}} Belum Ada yang
+                            <p><i class="fa-solid fa-circle-info text-info"></i> {{$barang->nama}} - {{$barang->tipe}} Belum Ada yang
                                 Pinjam</p>
                         </div>
                         @endif
