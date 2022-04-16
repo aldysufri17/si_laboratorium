@@ -2,13 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\UsersExport;
+use App\Imports\UsersImport;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
-use Illuminate\Validation\Rules\Password;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Facades\Excel;
 
 class UserController extends Controller
 {
@@ -20,10 +22,6 @@ class UserController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-        $this->middleware('permission:user-list|user-create|user-edit|user-delete', ['only' => ['index']]);
-        $this->middleware('permission:user-create', ['only' => ['create','store', 'updateStatus']]);
-        $this->middleware('permission:user-edit', ['only' => ['edit','update']]);
-        $this->middleware('permission:user-delete', ['only' => ['delete']]);
     }
 
 
@@ -35,11 +33,23 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::with('roles')->paginate(10);
-       
-        return view('users.index', ['users' => $users]);
+        $users = User::where('role_id', 1)->paginate(5);
+
+        return view('backend.users.index', ['users' => $users]);
     }
-    
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function show($id)
+    {
+        $user = User::FindorFail($id);
+        return view('backend.users.detail', compact('user'));
+    }
+
     /**
      * Create User 
      * @param Nill
@@ -49,8 +59,8 @@ class UserController extends Controller
     public function create()
     {
         $roles = Role::all();
-       
-        return view('users.add', ['roles' => $roles]);
+
+        return view('backend.users.add', ['roles' => $roles]);
     }
 
     /**
@@ -63,41 +73,54 @@ class UserController extends Controller
     {
         // Validations
         $request->validate([
-            'name'    => 'required',
+            'name'          => 'required',
+            'alamat'        => 'required',
             'email'         => 'required|unique:users,email',
-            'mobile_number' => 'required|numeric|digits:10',
-            'role_id'       =>  'required|exists:roles,id',
-            'status'       =>  'required|numeric|in:0,1',
+            'jk'            => 'required',
+            'mobile_number' => 'required|numeric',
+            'nim'           => 'required|numeric',
+            'status'        =>  'required|numeric|in:0,1',
         ]);
+        $trim = str_replace(' ', '', $request->name);
 
-        DB::beginTransaction();
-        try {
-
-            // Store Data
+        if ($request->foto) {
+            $foto = $request->foto;
+            $new_foto = date('Y-m-d') . "-" . $request->name . "-" . $request->nim . "." . $foto->getClientOriginalExtension();
+            $destination = 'images/user/';
+            $foto->move($destination, $new_foto);
             $user = User::create([
+                'id'            => substr(str_shuffle("0123456789"), 0, 8),
                 'name'          => $request->name,
                 'email'         => $request->email,
+                'nim'           => $request->nim,
+                'alamat'        => $request->alamat,
                 'mobile_number' => $request->mobile_number,
-                'role_id'       => $request->role_id,
+                'role_id'       => 1,
+                'jk'            => $request->jk,
                 'status'        => $request->status,
-                'password'      => Hash::make($request->name)
+                'foto'          => $new_foto,
+                'password'      => bcrypt($trim)
             ]);
-
-            // Delete Any Existing Role
-            DB::table('model_has_roles')->where('model_id',$user->id)->delete();
-            
-            // Assign Role To User
-            $user->assignRole($user->role_id);
-
-            // Commit And Redirected To Listing
-            DB::commit();
-            return redirect()->route('users.index')->with('success','User Created Successfully.');
-
-        } catch (\Throwable $th) {
-            // Rollback and return with Error
-            DB::rollBack();
-            return redirect()->back()->withInput()->with('error', $th->getMessage());
+        } else {
+            $user = User::create([
+                'id'            => substr(str_shuffle("0123456789"), 0, 8),
+                'name'          => $request->name,
+                'email'         => $request->email,
+                'nim'           => $request->nim,
+                'alamat'        => $request->alamat,
+                'mobile_number' => $request->mobile_number,
+                'role_id'       => 1,
+                'jk'            => $request->jk,
+                'status'        => $request->status,
+                'password'      => bcrypt($trim)
+            ]);
         }
+        // Assign Role To User
+        $user->assignRole($user->role_id);
+        if ($user) {
+            return redirect()->route('users.index')->with('success', 'User Berhasil ditambah!.');
+        }
+        return redirect()->route('users.index')->with('error', 'User Gagal ditambah!.');
     }
 
     /**
@@ -109,7 +132,7 @@ class UserController extends Controller
     public function updateStatus($user_id, $status)
     {
         // Validation
-        $validate = Validator::make([
+        Validator::make([
             'user_id'   => $user_id,
             'status'    => $status
         ], [
@@ -117,25 +140,17 @@ class UserController extends Controller
             'status'    =>  'required|in:0,1',
         ]);
 
-        // If Validations Fails
-        if($validate->fails()){
-            return redirect()->route('users.index')->with('error', $validate->errors()->first());
-        }
+        // Update Status
+        $user = User::whereId($user_id)->update(['status' => $status]);
 
-        try {
-            DB::beginTransaction();
-
-            // Update Status
-            User::whereId($user_id)->update(['status' => $status]);
-
-            // Commit And Redirect on index with Success Message
-            DB::commit();
-            return redirect()->route('users.index')->with('success','User Status Updated Successfully!');
-        } catch (\Throwable $th) {
-
-            // Rollback & Return Error Message
-            DB::rollBack();
-            return redirect()->back()->with('error', $th->getMessage());
+        // Masssage
+        if ($user) {
+            if ($status == 0) {
+                return redirect()->route('users.index')->with('info', 'Status User Inactive!.');
+            }
+            return redirect()->route('users.index')->with('info', 'Status User Active!.');
+        } else {
+            return redirect()->route('users.index')->with('error', 'Gagal diperbarui');
         }
     }
 
@@ -148,7 +163,7 @@ class UserController extends Controller
     public function edit(User $user)
     {
         $roles = Role::all();
-        return view('users.edit')->with([
+        return view('backend.users.edit')->with([
             'roles' => $roles,
             'user'  => $user
         ]);
@@ -164,39 +179,45 @@ class UserController extends Controller
     {
         // Validations
         $request->validate([
-            'name'    => 'required',
-            'email'         => 'required|unique:users,email,'.$user->id.',id',
-            'mobile_number' => 'required|numeric|digits:10',
-            'role_id'       =>  'required|exists:roles,id',
-            'status'       =>  'required|numeric|in:0,1',
+            'name'          => 'required',
+            'alamat'        => 'required',
+            'jk'            => 'required',
+            'email'         => 'required|unique:users,email,' . $user->id . ',id',
+            'mobile_number' => 'required|numeric',
         ]);
-
-        DB::beginTransaction();
-        try {
-
+        if ($request->foto) {
+            $bb = User::whereid($user->id)->first();
+            if (file_exists(public_path('/images/user/' . $bb->foto))) {
+                unlink('images/barang/' . $bb->foto);
+            }
+            $foto = $request->foto;
+            $new_foto = date('Y-m-d') . "-" . $request->name . "-" . $request->nim . "." . $foto->getClientOriginalExtension();
+            $destination = 'images/user/';
+            $foto->move($destination, $new_foto);
             // Store Data
             $user_updated = User::whereId($user->id)->update([
-                'name'    => $request->name,
+                'name'          => $request->name,
+                'alamat'        => $request->alamat,
+                'jk'            => $request->jk,
+                'nim'           => $request->nim,
+                'email'         => $request->email,
+                'foto'          => $new_foto,
+                'mobile_number' => $request->mobile_number,
+            ]);
+        } else {
+            $user_updated = User::whereId($user->id)->update([
+                'name'          => $request->name,
+                'alamat'        => $request->alamat,
+                'jk'            => $request->jk,
+                'nim'           => $request->nim,
                 'email'         => $request->email,
                 'mobile_number' => $request->mobile_number,
-                'role_id'       => $request->role_id,
-                'status'        => $request->status,
             ]);
-
-            // Delete Any Existing Role
-            DB::table('model_has_roles')->where('model_id',$user->id)->delete();
-            
-            // Assign Role To User
-            $user->assignRole($user->role_id);
-
-            // Commit And Redirected To Listing
-            DB::commit();
-            return redirect()->route('users.index')->with('success','User Updated Successfully.');
-
-        } catch (\Throwable $th) {
-            // Rollback and return with Error
-            DB::rollBack();
-            return redirect()->back()->withInput()->with('error', $th->getMessage());
+        }
+        if ($user_updated) {
+            return redirect()->route('users.index')->with('success', 'User Berhasil diperbarui!.');
+        } else {
+            return redirect()->back()->withInput()->with('error', 'User Gagal diperbarui!.');
         }
     }
 
@@ -206,20 +227,47 @@ class UserController extends Controller
      * @return Index Users
      * @author Shani Singh
      */
-    public function delete(User $user)
+    public function delete(User $user, Request $request)
     {
-        DB::beginTransaction();
-        try {
-            // Delete User
-            User::whereId($user->id)->delete();
-
-            DB::commit();
-            return redirect()->route('users.index')->with('success', 'User Deleted Successfully!.');
-
-        } catch (\Throwable $th) {
-            DB::rollBack();
-            return redirect()->back()->with('error', $th->getMessage());
+        $userfoto = User::whereId($request->delete_id)->first();
+        if ($userfoto->foto) {
+            unlink('images/user/' . $userfoto->foto);
+        }
+        // Delete User
+        $delete = User::whereId($request->delete_id)->delete();
+        if ($delete) {
+            return redirect()->route('users.index')->with('success', 'Pengguna Berhasil dihapus!.');
+        } else {
+            return redirect()->back()->with('error', 'Pengguna Gagal dihapus!.');
         }
     }
 
+    public function reset($user, Request $request)
+    {
+        $id = User::whereId($request->reset_id)->first();
+        $trim = str_replace(' ', '', $id->name);
+        $user = User::whereId($user)->update(['password' => bcrypt(strtolower($trim))]);
+        return redirect()->back()->with('success', 'Password Berhasil direset!.');
+    }
+
+    public function import()
+    {
+        $this->validate(request(), [
+            'file' => 'mimes:csv,xls,xlsx'
+        ]);
+
+        if (request()->file('file') == null) {
+            return redirect()->back()->with('info', 'Masukkan file terlebih dahulu!.');
+        }
+        $fileName = date('Y-m-d') . '_' . 'Import Barang' . '_' . 'Pengguna';
+        request()->file('file')->storeAs('reports', $fileName, 'public');
+        Excel::import(new UsersImport, request()->file('file'));
+        return redirect()->back()->with('success', 'Pengguna berhasil ditambah!.');
+    }
+
+    public function export()
+    {
+        $fileName = date('Y-m-d') . '_' . 'Data Pengguna' . '.xlsx';
+        return Excel::download(new UsersExport,  $fileName);
+    }
 }

@@ -2,110 +2,200 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Barang;
+use App\Models\Peminjaman;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Rules\MatchOldPassword;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Facades\Auth;
+
 
 class HomeController extends Controller
 {
+
+    public function credit()
+    {
+        return view('frontend.creadit');
+    }
+
+
     /**
-     * Create a new controller instance.
+     * Display a listing of the resource.
      *
-     * @return void
+     * @return \Illuminate\Http\Response
      */
-    public function __construct()
+    public function index(Request $request)
     {
-        $this->middleware('auth');
+        // $request->session()->flash('eror', "pengajuan belum disetujui !!!");
+        // example:
+        if (Auth::check()) {
+            $user_id = Auth::user()->id;
+            // Disetujui
+            $peminjaman = Peminjaman::where('user_id', $user_id)->where('status', 2)->get();
+            if ($peminjaman) {
+                $request->session()->flash('in', "berhasil disetujui !!");
+            }
+            // Ditolak
+            $tolak = Peminjaman::where('user_id', $user_id)->where('status', 1)->get();
+            if ($tolak) {
+                $request->session()->flash('tolak', "ditolak !!");
+            }
+            // Telat
+            $telat = Peminjaman::where('user_id', $user_id)->where('status', 3)->get();
+            if ($telat) {
+                $request->session()->flash('telat', "Telat");
+            }
+            // dd($telat);
+            return view('frontend.home', compact('peminjaman'), ['telat' => $telat, 'tolak' => $tolak]);
+        }
+        return view('frontend.home');
     }
 
     /**
-     * Show the application dashboard.
+     * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Contracts\Support\Renderable
+     * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function create()
     {
-        return view('home');
+        return view('frontend.checkout');
     }
 
     /**
-     * User Profile
-     * @param Nill
-     * @return View Profile
-     * @author Shani Singh
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
      */
-    public function getProfile()
+    public function store(Request $request)
     {
-        return view('profile');
+        //
     }
 
     /**
-     * Update Profile
-     * @param $profileData
-     * @return Boolean With Success Message
-     * @author Shani Singh
+     * Display the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
      */
-    public function updateProfile(Request $request)
+    public function ad()
     {
-        #Validations
-        $request->validate([
-            'name'    => 'required',
-            'mobile_number' => 'required|numeric|digits:10',
-        ]);
+        $user_id = Auth::user()->id;
+        $peminjaman = Peminjaman::with('barang')
+            ->where('user_id',  $user_id)
+            ->Where('status', '<', 0)
+            ->paginate(7);
+        return view('frontend.show-peminjaman', compact('peminjaman'));
+    }
 
-        try {
-            DB::beginTransaction();
-            
-            #Update Profile Data
-            User::whereId(auth()->user()->id)->update([
-                'name' => $request->name,
-                'mobile_number' => $request->mobile_number,
-            ]);
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function edit($id)
+    {
+        //
+    }
 
-            #Commit Transaction
-            DB::commit();
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, $id)
+    {
+        //
+    }
 
-            #Return To Profile page with success
-            return back()->with('success', 'Profile Updated Successfully.');
-            
-        } catch (\Throwable $th) {
-            DB::rollBack();
-            return back()->with('error', $th->getMessage());
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy($id)
+    {
+        //
+    }
+
+    public function search(Request $request)
+    {
+        if ($request->kategori_lab == 1 || $request->kategori_lab == "") {
+            $lab = "Sistem Tertanam dan Robotika";
+        } elseif ($request->kategori_lab == 2) {
+            $lab = "Rekayasa Perangkat Lunak";
+        } elseif ($request->kategori_lab == 3) {
+            $lab = "Jaringan dan Keamanan Komputer";
+        } elseif ($request->kategori_lab == 4) {
+            $lab = "Multimedia";
         }
+
+        if (Auth::check()) {
+            $data = Peminjaman::where('user_id', Auth::user()->id)->where('status', '<', 4)->pluck('barang_id');
+        }
+        if ($request->kategori_lab) {
+            if (Auth::check()) {
+                $barang = Barang::where('show', 1)
+                    ->where('kategori_lab', $request->kategori_lab)
+                    ->whereNotIn('id', $data)
+                    ->latest();
+                // dd($barang);
+            } else {
+                $barang = Barang::where('show', 1)
+                    ->where('kategori_lab', $request->kategori_lab)
+                    ->latest();
+            }
+
+            if ($request->search) {
+                $barang->where('nama', 'like', '%' . $request->search . '%');
+            }
+        } else {
+            if (Auth::check()) {
+                $barang = Barang::where('show', 1)
+                    ->where('kategori_lab', 1)
+                    ->whereNotIn('id', $data)
+                    ->latest();
+            } else {
+                $barang = Barang::where('show', 1)
+                    ->where('kategori_lab', 1)
+                    ->latest();
+            }
+        }
+
+        return view('frontend.search', ['barang' => $barang->paginate(7), 'lab' => $lab]);
     }
 
-    /**
-     * Change Password
-     * @param Old Password, New Password, Confirm New Password
-     * @return Boolean With Success Message
-     * @author Shani Singh
-     */
-    public function changePassword(Request $request)
+    public function detail($id)
     {
-        $request->validate([
-            'current_password' => ['required', new MatchOldPassword],
-            'new_password' => ['required'],
-            'new_confirm_password' => ['same:new_password'],
-        ]);
+        $barang = Barang::whereId($id)->first();
+        return view('frontend.detail', compact('barang'));
+    }
 
-        try {
-            DB::beginTransaction();
+    public function riwayat()
+    {
+        $user_id = Auth::user()->id;
+        $peminjaman = Peminjaman::with('barang')
+            ->where('user_id',  $user_id)
+            ->Where('status', 4)
+            ->paginate(7);
+        return view('frontend.show-peminjaman', compact('peminjaman'));
+    }
 
-            #Update Password
-            User::find(auth()->user()->id)->update(['password'=> Hash::make($request->new_password)]);
-            
-            #Commit Transaction
-            DB::commit();
+    public function langkahPeminjaman()
+    {
+        return view('frontend.langkah-peminjaman');
+    }
 
-            #Return To Profile page with success
-            return back()->with('success', 'Password Changed Successfully.');
-            
-        } catch (\Throwable $th) {
-            DB::rollBack();
-            return back()->with('error', $th->getMessage());
-        }
+    public function inventaris()
+    {
+        $barang = Barang::with('satuan', 'kategori')->where('show', 1)->paginate(8);;
+        return view('frontend.inventaris', compact('barang'));
     }
 }

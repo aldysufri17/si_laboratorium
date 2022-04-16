@@ -3,11 +3,12 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
-use App\Providers\RouteServiceProvider;
 use App\Models\User;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
+
 
 class RegisterController extends Controller
 {
@@ -29,7 +30,10 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = RouteServiceProvider::HOME;
+    protected function registered(Request $request, $user)
+    {
+        return redirect()->route('login')->with('toast_warning', "Registrasi berhasil, Silahkan Login");
+    }
 
     /**
      * Create a new controller instance.
@@ -51,8 +55,15 @@ class RegisterController extends Controller
     {
         return Validator::make($data, [
             'name' => ['required', 'string', 'max:255'],
+            'nim' => ['required', 'string', 'max:255', 'unique:users'],
+            'jk' => ['required'],
+            'telp' => ['required'],
+            'alamat' => ['required'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
+        ], [
+            'required' => ':attribute Bagian ini wajib diisi',
+            'unique:users' => ':attribute value sudah digunakan',
         ]);
     }
 
@@ -64,10 +75,18 @@ class RegisterController extends Controller
      */
     protected function create(array $data)
     {
-        return User::create([
+        $user = User::create([
             'name' => $data['name'],
+            'nim' => $data['nim'],
             'email' => $data['email'],
-            'password' => Hash::make($data['password']),
+            'alamat' => $data['alamat'],
+            'jk' => $data['jk'],
+            'mobile_number' => $data['telp'],
+            'status' => 1,
+            'role_id' => 1,
+            'password' => bcrypt($data['password']),
         ]);
+        $user->assignRole(1);
+        return $user;
     }
 }
