@@ -94,7 +94,7 @@
 
                             <div class="card-footer mt-5 border-0" style="background-color: rgba(0, 255, 255, 0)">
                                 <button type="submit" class="btn btn-primary btn-user float-right mb-3">Simpan</button>
-                                <a class="btn btn-danger float-right mr-3 mb-3" href="{{ route('search') }}">Batal</a>
+                                <a class="btn btn-danger float-right mr-3 mb-3" href="javascript:history.back()">Batal</a>
                             </div>
                         </form>
                     </div>
