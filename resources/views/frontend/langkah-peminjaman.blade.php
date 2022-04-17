@@ -104,9 +104,7 @@
                             height="230px" style="width: 250px" alt="Card image cap"></center>
                     <div class="card-body">
                         <h5><strong>Langkah 7</strong></h5>
-                        <p class="card-text text-justify">Setelah melakukan unduh surat peminjaman, peminjam harus
-                            menunjukkan surat tersebut kepada operator laboratorium terkait untuk dilakukan aktivasi
-                            peminjaman dan pengambilan barang pinjaman</p>
+                        <p class="card-text text-justify">Setelah melakukan unduh surat peminjaman, peminjam harus menunjukkan surat tersebut kepada operator laboratorium terkait untuk dilakukan aktivasi peminjaman dan pengambilan barang pinjaman</p>
                     </div>
                 </div>
             </div>
