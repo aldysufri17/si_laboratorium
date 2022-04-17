@@ -43,9 +43,17 @@
                     <tbody>
                         @foreach ($barang as $data)
                         <tr>
+                            @if($data->kategori_id == 0)
+                            <td>Default</td>
+                            @else
                             <td>{{ $data->kategori->nama_kategori }}</td>
+                            @endif
                             <td>{{ $data->nama }} - {{ $data->tipe }}</td>
-                            <td>{{ $data->stock }} {{ $data->satuan->nama_satuan }}</td>
+                            @if($data->satuan_id == 0)
+                            <td>{{ $data->stock }} - Default</td>
+                            @else
+                            <td>{{ $data->stock }} - {{ $data->satuan->nama_satuan }}</td>
+                            @endif
                             <td>@if ($data->show == 0)
                                 <span class="badge badge-danger">Tidak</span>
                                 @elseif ($data->show == 1)
