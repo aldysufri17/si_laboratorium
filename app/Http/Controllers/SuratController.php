@@ -15,12 +15,23 @@ class SuratController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $id = Auth::user()->id;
         $surat = Surat::with('user')->where('user_id', $id)->paginate(5);
         // dd($surat);
-        return view('frontend.surat', compact('surat'));
+        // Disetujui
+        $setujui = Surat::where('user_id', $id)->where('status', 2)->get();
+        if ($setujui) {
+            $request->session()->flash('in', "berhasil disetujui !!");
+        }
+        // Ditolak
+        $tolak = Surat::where('user_id', $id)->where('status', 1)->get();
+        if ($tolak) {
+            $request->session()->flash('tolak', "ditolak !!");
+        }
+        $unduh = Surat::where('user_id', $id)->where('status', 2)->first();
+        return view('frontend.surat', compact('surat', 'setujui', 'tolak', 'unduh'));
     }
 
     /**
@@ -48,20 +59,25 @@ class SuratController extends Controller
     public function store(Request $request)
     {
         $id = Auth::user()->id;
-        $peminjaman = Peminjaman::where('user_id', $id)->where('status', '<', 4)->get();
-        if ($peminjaman->isEmpty()) {
-            $surat = Surat::create([
-                'user_id' => $id,
-                'status' => 0
-            ]);
-            if ($surat) {
-                return redirect()->route('surat.index')->with('success', 'Surat berhasil diajukan!.');
-            } else {
-                return redirect()->back()->with('error', 'Surat gagl diajukan!.');
-            }
+        $ceksurat = Surat::where('user_id', $id)->where('status', 2)->first();
+        if ($ceksurat) {
+            return redirect()->route('surat.index')->with('warning', 'Hapus surat, kemudian lakukan pengajuan lagi!.');
         } else {
-            $request->session()->flash('gagal_surat', "PENGAJUAN GAGAL, MASIH TERDAPAT PROSES PEMINJAMAN.!");
-            return redirect()->route('surat.index');
+            $peminjaman = Peminjaman::where('user_id', $id)->where('status', '<', 4)->get();
+            if ($peminjaman->isEmpty()) {
+                $surat = Surat::create([
+                    'user_id' => $id,
+                    'status' => 0
+                ]);
+                if ($surat) {
+                    return redirect()->route('surat.index')->with('success', 'Surat berhasil diajukan!.');
+                } else {
+                    return redirect()->back()->with('error', 'Surat gagal diajukan!.');
+                }
+            } else {
+                $request->session()->flash('gagal_surat', "PENGAJUAN GAGAL, MASIH TERDAPAT PROSES PEMINJAMAN.!");
+                return redirect()->route('surat.index');
+            }
         }
     }
 

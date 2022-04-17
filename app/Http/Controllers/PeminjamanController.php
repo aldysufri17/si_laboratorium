@@ -482,10 +482,34 @@ class PeminjamanController extends Controller
 
     public function updateAll(Request $request)
     {
-        $id = $request->ckd_chld;
-        if ($id) {
-            foreach ($id as $user) {
-                Peminjaman::where('id', $user)->update(['status' => 4]);
+        if (Auth::user()->role_id == 3) {
+            $kategori_lab = 1;
+        } elseif (Auth::user()->role_id == 4) {
+            $kategori_lab = 2;
+        } elseif (Auth::user()->role_id == 5) {
+            $kategori_lab = 3;
+        } elseif (Auth::user()->role_id == 6) {
+            $kategori_lab = 4;
+        }
+        $id_peminjaman = $request->ckd_chld;
+        if ($id_peminjaman) {
+            foreach ($id_peminjaman as $id) {
+                $barang = Peminjaman::whereid($id)->value('barang_id');
+                $jumlah = Peminjaman::whereid($id)->value('jumlah');
+                $random = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
+                $sisa = Barang::whereId($barang)->value('stock');
+                Inventaris::create([
+                    'barang_id'         => $barang,
+                    'kategori_lab'      => $kategori_lab,
+                    'status'            => 1,
+                    'deskripsi'         => "Clear",
+                    'kode_inventaris'   => 'IN' . $random,
+                    'masuk'             => $jumlah,
+                    'keluar'            => 0,
+                    'total'             => $sisa + $jumlah,
+                ]);
+                Barang::whereId($barang)->update(['stock' => $sisa + $jumlah]);
+                Peminjaman::where('id', $id)->update(['status' => 4]);
             }
             return redirect()->back()->with('success', 'Pengembalian berhasil disetujui!.');
         }

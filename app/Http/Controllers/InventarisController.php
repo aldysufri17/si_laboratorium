@@ -25,7 +25,7 @@ class InventarisController extends Controller
                 ->select('inventaris.kategori_lab', DB::raw('count(*) as total'))
                 ->groupBy('inventaris.kategori_lab')
                 ->orderBy('inventaris.created_at', 'desc')
-                ->paginate(10);
+                ->paginate(8);
         } else {
             if (Auth::user()->role_id == 3) {
                 $kategori_lab = 1;
@@ -40,7 +40,7 @@ class InventarisController extends Controller
                 ->leftJoin("barang", "barang.id", "=", "inventaris.barang_id")
                 ->where('inventaris.kategori_lab', $kategori_lab)
                 ->orderBy('inventaris.created_at', 'desc')
-                ->paginate(10);
+                ->paginate(8);
         }
         return view('backend.inventaris.index', ['inventaris' => $inventaris]);
     }

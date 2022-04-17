@@ -341,7 +341,7 @@ class BarangController extends Controller
         $user_id = Auth::user()->id;
         $peminjaman = Peminjaman::with('barang')
             ->where('user_id',  $user_id)
-            ->Where('status', '<=', 3)
+            ->Where('status', '<=', 2)
             ->paginate(5);
 
         // Disetujui
@@ -359,7 +359,9 @@ class BarangController extends Controller
         if ($telat) {
             $request->session()->flash('telat', "Telat");
         }
-        return view('frontend.cart', compact('peminjaman', 'setujui', 'telat', 'tolak'));
+
+        $unduh = Peminjaman::where('user_id', $user_id)->where('status', '>', 1)->first();
+        return view('frontend.cart', compact('peminjaman', 'setujui', 'telat', 'tolak', 'unduh'));
         // dd($peminjaman);
     }
 

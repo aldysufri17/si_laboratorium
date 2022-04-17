@@ -26,7 +26,35 @@
 
         </div>
     </section><!-- Breadcrumbs Section -->
+    {{-- Pengajuan Disetujui --}}
+    @foreach ($setujui as $data)
+    <a href="{{route('cart')}}">
+        @if ($message = Session::get('in'))
+        <div class="alert alert-success alert-dismissible shake" style="margin-bottom: -6px; margin:0 5px" role="alert">
+            <button type="button" class="close" data-dismiss="alert">
+                <i class="fa fa-times"></i>
+            </button>
+            <strong>Pengajuan Surat {{ $message }}</strong> {{ session('error') }}
+        </div>
+        @endif
+    </a>
+    @endforeach
+    {{-- end diseujui --}}
 
+    {{-- Pengajuan ditolak --}}
+    @foreach ($tolak as $data)
+    <a href="{{route('cart')}}">
+        @if ($message = Session::get('tolak'))
+        <div class="alert alert-danger alert-dismissible shake" style="margin-bottom: -6px; margin:0 5px" role="alert">
+            <button type="button" class="close" data-dismiss="alert">
+                <i class="fa fa-times"></i>
+            </button>
+            <strong>Pengajuan Surat {{ $message }}</strong> {{ session('error') }}
+        </div>
+        @endif
+    </a>
+    @endforeach
+    {{-- end ditolak--}}
     <section id="portfolio-details" class="portfolio-details">
         @if ($surat->isNotEmpty())
         <div class="card shadow mx-5 px-3 mb-4 border-0">
@@ -40,6 +68,7 @@
                     <table id="dataTable" class="table table-borderless dt-responsive" cellspacing="0" width="100%">
                         <thead>
                             <tr>
+                                <th width="10%">Date</th>
                                 <th width="10%">Nama</th>
                                 <th width="10%">Nim</th>
                                 <th width="15%">Nomor Telepon</th>
@@ -51,6 +80,7 @@
                         <tbody>
                             <tr>
                                 @foreach ($surat as $data)
+                                <td>{{$data->created_at}}</td>
                                 <td>{{$data->user->name}}</td>
                                 <td>{{$data->user->nim}}</td>
                                 <td>{{$data->user->mobile_number}}</td>
@@ -60,10 +90,10 @@
                                         @if($data->status == 0)
                                         <div class="circle">
                                             <center><span class="dot text-center"
-                                                    style="border: 2px solid rgb(0, 214, 46);">
+                                                    style="border: 2px solid rgb(0, 185, 40);">
                                                     <p>1</p>
                                                 </span></center>
-                                            <p class="text-center" style="font-size: 12px; color: rgb(0, 214, 46)">
+                                            <p class="text-center" style="font-size: 12px; color: rgb(0, 185, 40)">
                                                 PENGAJUAN</p>
                                         </div>
                                         <div class="circle mx-2">
@@ -74,13 +104,14 @@
                                             <center><span class="dot text-center">3</span></center>
                                             <p class="text-center" style="font-size: 12px">DISETUJUI</p>
                                         </div>
+                                        {{-- diTolak --}}
                                         @elseif($data->status == 1)
                                         <div class="circle">
                                             <center><span class="dot text-center"
-                                                    style="border: 2px solid rgb(0, 214, 46);">
+                                                    style="border: 2px solid rgb(0, 185, 40);">
                                                     <p>1</p>
                                                 </span></center>
-                                            <p class="text-center" style="font-size: 12px; color: rgb(0, 214, 46)">
+                                            <p class="text-center" style="font-size: 12px; color: rgb(0, 185, 40)">
                                                 PENGAJUAN</p>
                                         </div>
                                         <div class="circle mx-2">
@@ -95,35 +126,39 @@
                                             <center><span class="dot text-center">3</span></center>
                                             <p class="text-center" style="font-size: 12px">DISETUJUI</p>
                                         </div>
+
+                                        {{-- diSetujui --}}
                                         @elseif($data->status == 2)
                                         <div class="circle">
                                             <center><span class="dot text-center"
-                                                    style="border: 2px solid rgb(0, 214, 46);">
+                                                    style="border: 2px solid rgb(0, 185, 40);">
                                                     <p>1</p>
                                                 </span></center>
-                                            <p class="text-center" style="font-size: 12px; color: rgb(0, 214, 46)">
+                                            <p class="text-center" style="font-size: 12px; color: rgb(0, 185, 40)">
                                                 PENGAJUAN</p>
                                         </div>
                                         <div class="circle mx-2">
-                                            <center><span class="dot text-center">2</span></center>
-                                            <p class="text-center" style="font-size: 12px">DITOLAK</p>
+                                            <center><span style="border: 2px solid rgb(133, 133, 133); color:rgb(133, 133, 133)" class="dot text-center">2</span></center>
+                                            <p class="text-center" style="font-size: 12px; color:rgb(133, 133, 133)">DITOLAK</p>
                                         </div>
                                         <div class="circle">
                                             <center><span class="dot text-center"
-                                                    style="border: 2px solid rgb(0, 214, 46);">
+                                                    style="border: 2px solid rgb(0, 185, 40);">
                                                     <p>3</p>
                                                 </span></center>
-                                            <p class="text-center" style="font-size: 12px; color: rgb(0, 214, 46)">
+                                            <p class="text-center" style="font-size: 12px; color: rgb(0, 185, 40)">
                                                 DISETUJUI</p>
                                         </div>
                                         @endif
                                     </div>
                                 </td>
                                 <td>
+                                    @if ($unduh)
                                     <a href="{{route('surat.show', ['surat' => $data->id])}}"
                                         class="btn btn-primary mx-2" title="Unduh">
                                         <i class="fa-solid fa-print"></i>
                                     </a>
+                                    @endif
                                     <a class="btn btn-danger" href="#" data-toggle="modal" title="Delete"
                                         data-target="#deleteModal">
                                         <i class="fas fa-trash"></i>

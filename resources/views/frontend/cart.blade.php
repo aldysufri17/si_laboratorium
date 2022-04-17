@@ -74,8 +74,13 @@
         <!-- ======= Portfolio Details Section ======= -->
         <section id="portfolio-details" class="portfolio-details">
             @if ($peminjaman->isNotEmpty())
-            <div class="card shadow mx-4 p-3 mb-4 border-0">
-                <div class="card-body">
+            <div class="card shadow mx-4 mb-4 border-0">
+                <div class="d-sm-flex justify-content-end" style="margin: 0; padding:0">
+                    <a class="btn btn-info" href="{{route('daftar.riwayat')}}">
+                        Peminjaman Saya <i class="fas fa-angle-double-right"></i> 
+                    </a>
+                </div>
+                <div class="card-body p-4">
                     <center>
                         <h3>Daftar Barang Pengajuan</h3>
                     </center>
@@ -120,13 +125,13 @@
                                 <div class="d-flex align-items-center">
                                     <div class="col mr-2">
                                         <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-                                            Total Peminjaman Aktif</div>
+                                            Total Peminjaman Disetujui</div>
                                         <div class="h5 mb-0 font-weight-bold text-gray-800"></div>
                                     </div>
                                     <div class="col-auto">
                                         <div class="d-flex align-items-center">
                                             <h3 style="font-weight: bold" class="mx-2 mt-3">
-                                                {{ App\Models\Peminjaman::where('user_id', auth()->user()->id)->where('status', 3)->count() }}
+                                                {{ App\Models\Peminjaman::where('user_id', auth()->user()->id)->where('status', 2)->count() }}
                                             </h3>
                                         </div>
                                     </div>
@@ -199,9 +204,9 @@
                                         <a href="#" class="btn btn-secondary m-2 edit">
                                             <i class="fa fa-pen"></i>
                                         </a>
-                                        <a href="#" class="btn btn-secondary m-2 delete">
+                                        <button class="btn btn-danger delete-btn" title="Delete" value="{{$data->id}}">
                                             <i class="fas fa-trash"></i>
-                                        </a>
+                                        </button>
                                         @endif
                                     </td>
                                 </tr>
@@ -209,8 +214,10 @@
                             </tbody>
                         </table>
                         {{ $peminjaman->links() }}
+                        @if ($unduh)
                         <a class="btn btn-primary float-right mr-3 mb-3" href="#" data-toggle="modal"
                             data-target="#cetak"><i class="fas fa-print"></i> Unduh Surat Peminjaman</a>
+                        @endif
                         <a class="btn btn-success" href="{{url('/search')}}">
                             <i class="fas fa-plus"></i> Tambah Barang
                         </a>

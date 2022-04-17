@@ -62,7 +62,7 @@
                                 src="{{ asset(auth()->user()->foto ? 'images/user/'. auth()->user()->foto : 'images/'. $foto) }}"></a>
                         <ul>
                             <li><a href="{{ route('profile.detail') }}">Profile</a></li>
-                            <li><a href="{{ route('daftar.riwayat') }}">Riwayat Peminjaman</a></li>
+                            <li><a href="{{ route('daftar.riwayat') }}">Pinjaman Saya</a></li>
                             <li><a href="{{ route('surat.index') }}">Surat Bebas Lab</a></li>
                             <li><a class="nav-link scrollto" href="{{ route('logout') }}"
                                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>

@@ -182,11 +182,15 @@ class HomeController extends Controller
     public function riwayat()
     {
         $user_id = Auth::user()->id;
-        $peminjaman = Peminjaman::with('barang')
+        $selesai = Peminjaman::with('barang')
             ->where('user_id',  $user_id)
             ->Where('status', 4)
             ->paginate(7);
-        return view('frontend.show-peminjaman', compact('peminjaman'));
+        $aktif = Peminjaman::with('barang')
+            ->where('user_id',  $user_id)
+            ->Where('status', 3)
+            ->paginate(7);
+        return view('frontend.show-peminjaman', compact('aktif', 'selesai'));
     }
 
     public function langkahPeminjaman()
