@@ -196,13 +196,12 @@
                                             <i class="fas fa-trash"></i>
                                         </a>
                                         @elseif ($data->status >= 1)
-                                        <a href="#" class="btn btn-secondary m-2 tolak">
+                                        <a href="#" class="btn btn-secondary m-2 edit">
                                             <i class="fa fa-pen"></i>
                                         </a>
-                                        <button class="btn btn-danger delete-btn m-2" title="Delete"
-                                            value="{{$data->id}}">
+                                        <a href="#" class="btn btn-secondary m-2 delete">
                                             <i class="fas fa-trash"></i>
-                                        </button>
+                                        </a>
                                         @endif
                                     </td>
                                 </tr>
