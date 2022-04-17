@@ -69,7 +69,7 @@
         </a>
         @endif
         @endforeach
-{{-- end Pengembalian Telat --}}
+        {{-- end Pengembalian Telat --}}
 
         <!-- ======= Portfolio Details Section ======= -->
         <section id="portfolio-details" class="portfolio-details">
@@ -306,5 +306,6 @@
             $('#deleteModal').modal('hide')
         });
     });
+
 </script>
 @endsection
