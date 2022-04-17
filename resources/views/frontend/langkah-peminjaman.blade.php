@@ -180,17 +180,6 @@
 
 @section('script')
 <script>
-    $('#dataTable').DataTable({
-        "bInfo": false,
-        "paging": false,
-        responsive: true,
-        autoWidth: false,
-        "order": [
-            [0, "desc"]
-        ]
-    });
-
-
     window.onload = window.onload = function () {
         document.getElementById('clickButton').click();
     }
