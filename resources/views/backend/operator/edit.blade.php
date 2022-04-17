@@ -111,8 +111,11 @@
                         <span style="color:red;">*</span>Role</label>
                         <select class="form-control form-control-user @error('role_id') is-invalid @enderror" name="role_id">
                             <option selected disabled>Pilih Role</option>
-                            <option value="1" {{old('role_id') ? ((old('role_id') == 2) ? 'selected' : '') : (($operator->role_id == 2) ? 'selected' : '')}}>Admin</option>
-                            <option value="2" {{old('role_id') ? ((old('role_id') > 2) ? 'selected' : '') : (($operator->role_id > 2) ? 'selected' : '')}}>Operator</option>
+                            <option value="2" {{old('role_id') ? ((old('role_id') == 2) ? 'selected' : '') : (($operator->role_id == 2) ? 'selected' : '')}}>Admin</option>
+                            <option value="3" {{old('role_id') ? ((old('role_id') == 3) ? 'selected' : '') : (($operator->role_id == 3) ? 'selected' : '')}}>Operator Lab. Sistem Tertanam dan Robotika</option>
+                            <option value="4" {{old('role_id') ? ((old('role_id') == 4) ? 'selected' : '') : (($operator->role_id == 4) ? 'selected' : '')}}>Operator Lab. Rekayasa Perangkat Lunak</option>
+                            <option value="5" {{old('role_id') ? ((old('role_id') == 5) ? 'selected' : '') : (($operator->role_id == 5) ? 'selected' : '')}}>Operator Lab. Jaringan dan Keamanan Komputer</option>
+                            <option value="6" {{old('role_id') ? ((old('role_id') == 6) ? 'selected' : '') : (($operator->role_id == 6) ? 'selected' : '')}}>Operator Lab. Multimedia</option>
                         </select>
                         @error('role_id')
                             <span class="text-danger">{{$message}}</span>
