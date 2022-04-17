@@ -34,7 +34,7 @@
                             <li><a href="{{route('home.inventaris')}}">Daftar Barang</a></li>
                         </ul>
                     </li>
-                    <li><a class="nav-link scrollto" href="{{route('langkahPeminjaman')}}">LANGKAH PEMINJAMAN</a></li>
+                    <li><a class="nav-link scrollto" href="{{route('langkahPeminjaman')}}">LANGKAH PENGGUNAAN</a></li>
                     @auth
                     @if (auth()->user()->role_id == 1)
                     <li><a class="nav-link scrollto " href="{{ route('cart') }}">
