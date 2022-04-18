@@ -15,6 +15,7 @@ Route::get('/langkah-peminjaman', [App\Http\Controllers\HomeController::class, '
 Route::get('/home/inventaris', [App\Http\Controllers\HomeController::class, 'inventaris'])->name('home.inventaris');
 Route::get('/detail/{id}', [App\Http\Controllers\HomeController::class, 'detail'])->name('detail.barang');
 
+
 Auth::routes();
 
 Route::middleware(['auth'])->group(function () {
@@ -114,7 +115,9 @@ Route::middleware(['auth'])->group(function () {
 
     Route::group(['middleware' => ['role:peminjam']], function () {
         Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-        Route::get('/cart', [App\Http\Controllers\BarangController::class, 'cart'])->name('cart');
+        Route::get('/pem', [App\Http\Controllers\HomeController::class, 'pem'])->name('pem');
+        Route::get('/cart', [App\Http\Controllers\CartController::class, 'index'])->name('cart');
+        Route::get('/cart/store/{id}', [App\Http\Controllers\CartController::class, 'store'])->name('cart.store');
         Route::get('/daftar/riwayat', [App\Http\Controllers\HomeController::class, 'riwayat'])->name('daftar.riwayat');
         Route::post('/peminjaman/store/{id}', [App\Http\Controllers\PeminjamanController::class, 'store'])->name('peminjaman.store');
         Route::get('/peminjaman/edit/{id}', [App\Http\Controllers\PeminjamanController::class, 'edit'])->name('peminjaman.edit');

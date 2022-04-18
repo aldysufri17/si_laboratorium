@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Barang;
+use App\Models\Cart;
 use App\Models\Peminjaman;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -179,9 +180,8 @@ class HomeController extends Controller
 
     public function detail($id)
     {
-        $peminjaman = Peminjaman::where('barang_id', $id)->where('status', 3)->paginate(5);
         $barang = Barang::whereId($id)->first();
-        return view('frontend.detail', compact('barang', 'peminjaman'));
+        return view('frontend.detail', compact('barang'));
     }
 
     public function riwayat()
