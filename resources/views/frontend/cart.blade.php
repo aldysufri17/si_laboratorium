@@ -214,10 +214,8 @@
                             </tbody>
                         </table>
                         {{ $peminjaman->links() }}
-                        @if ($unduh)
                         <a class="btn btn-primary float-right mr-3 mb-3" href="#" data-toggle="modal"
                             data-target="#cetak"><i class="fas fa-print"></i> Unduh Surat Peminjaman</a>
-                        @endif
                         <a class="btn btn-success" href="{{url('/search')}}">
                             <i class="fas fa-plus"></i> Tambah Barang
                         </a>

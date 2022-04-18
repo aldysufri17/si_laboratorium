@@ -360,8 +360,7 @@ class BarangController extends Controller
             $request->session()->flash('telat', "Telat");
         }
 
-        $unduh = Peminjaman::where('user_id', $user_id)->where('status', '>', 1)->first();
-        return view('frontend.cart', compact('peminjaman', 'setujui', 'telat', 'tolak', 'unduh'));
+        return view('frontend.cart', compact('peminjaman', 'setujui', 'telat', 'tolak'));
         // dd($peminjaman);
     }
 
