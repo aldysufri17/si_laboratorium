@@ -56,24 +56,19 @@
                     <table id="dataTable" class="table table-borderless dt-responsive" cellspacing="0" width="100%">
                         <thead>
                             <tr>
+                                <th width="15%">Kategori Lab</th>
                                 <th width="15%">Nama Barang</th>
-                                <th width="15%">Kategori Laboratorium</th>
                                 <th width="10%">Jumlah</th>
                                 <th width="15%">Penggunaan</th>
                                 <th width="15%">Pengembalian</th>
-                                <th width="10%">Kondisi</th>
+                                <th width="15%">Telat</th>
                                 <th width="10%">Status</th>
+                                <th width="10%">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($aktif as $data)
                             <tr>
-                                <td>
-                                    <div class="col">
-                                        <div class="row">{{$data->barang->nama}}</div>
-                                        <div class="row text-muted">{{$data->barang->tipe}}</div>
-                                    </div>
-                                </td>
                                 <td>
                                     @if ($data->kategori_lab == 1)
                                     Laboratorium Sistem Tertanam dan Robotika
@@ -85,12 +80,34 @@
                                     Laboratorium Multimedia
                                     @endif
                                 </td>
+                                <td>
+                                    <div class="col">
+                                        <div class="row">{{$data->barang->nama}}</div>
+                                        <div class="row text-muted">{{$data->barang->tipe}}</div>
+                                    </div>
+                                </td>
                                 <td>{{$data->jumlah}} {{$data->barang->satuan->nama_satuan}}</td>
-                                <td>{{$data->tgl_start}}</td>
+                                <td>{{$data->tgl_start}} <br><span style="font-weight: bold">-Sampai-</span><br> {{$data->tgl_end}} </td>
                                 <td>{{$data->tgl_end}}</td>
-                                <td><span class="badge badge-success">Baik</span></td>
+                                @if ($data->tgl_end < date('Y-m-d')) @php
+                                    $start=\Carbon\Carbon::createFromFormat('Y-m-d', $data->tgl_end);
+                                    $now = \Carbon\Carbon::createFromFormat('Y-m-d', date('Y-m-d'));
+                                    $late = $start->diffInDays($now);
+                                    @endphp
+                                    <td class="text-danger"><strong>{{ $late.' '.'Hari' }}</strong></td>
+                                    @else
+                                    <td>-</td>
+                                    @endif
                                 <td>
                                     <span class="badge badge-info">Aktif</span>
+                                </td>
+                                <td>
+                                    <a href="{{route('peminjaman.edit', $data->id)}}" class="btn btn-warning m-2">
+                                        <i class="fa-solid fa-arrow-rotate-left"></i> Kembalikan
+                                    </a>
+                                    <a href="{{route('peminjaman.edit', $data->id)}}" class="btn btn-warning m-2">
+                                        <i class="fa-regular fa-plus"></i> Tambah Durasi
+                                    </a>
                                 </td>
                             </tr>
                             @endforeach

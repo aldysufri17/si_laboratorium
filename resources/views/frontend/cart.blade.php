@@ -75,14 +75,15 @@
         <section id="portfolio-details" class="portfolio-details">
             @if ($peminjaman->isNotEmpty())
             <div class="card shadow mx-4 mb-4 border-0">
-                <div class="d-sm-flex justify-content-end" style="margin: 0; padding:0">
-                    <a class="btn btn-info" href="{{route('daftar.riwayat')}}">
-                        Peminjaman Saya <i class="fas fa-angle-double-right"></i> 
+                <div class="d-sm-flex mx-4 mt-4 justify-content-end" >
+                    <a class="btn btn-info" href="{{route('daftar.riwayat')}}"> 
+                       Lihat Barang Pinjaman Saya <i class="fas fa-angle-double-right"></i> 
                     </a>
                 </div>
                 <div class="card-body p-4">
                     <center>
-                        <h3>Daftar Barang Pengajuan</h3>
+                        <h3>Keranjang Pengajuan Barang</h3>
+                        <p class="text-danger">==Setelah status pengajuan <strong>disetujui</strong>, anda bisa mengambil barang dan melakukan <strong>aktivasi peminjaman</strong> pada laboratorium terkait==</p>
                     </center>
                     <div class="row d-flex justify-content-center my-4">
                         <div class="col-xl-3 col-md-3">
@@ -196,10 +197,9 @@
                                         <a href="{{route('peminjaman.edit', $data->id)}}" class="btn btn-primary m-2">
                                             <i class="fa fa-pen"></i>
                                         </a>
-                                        <a class="btn btn-danger m-2" href="#" data-toggle="modal"
-                                            data-target="#deleteModal">
+                                        <button class="btn btn-danger delete-btn" title="Delete" value="{{$data->id}}">
                                             <i class="fas fa-trash"></i>
-                                        </a>
+                                        </button>
                                         @elseif ($data->status >= 1)
                                         <a href="#" class="btn btn-secondary m-2 edit">
                                             <i class="fa fa-pen"></i>
@@ -215,7 +215,7 @@
                         </table>
                         {{ $peminjaman->links() }}
                         <a class="btn btn-primary float-right mr-3 mb-3" href="#" data-toggle="modal"
-                            data-target="#cetak"><i class="fas fa-print"></i> Unduh Surat Peminjaman</a>
+                            data-target="#cetak"><i class="fas fa-print"></i> Unduh Surat Pengajuan</a>
                         <a class="btn btn-success" href="{{url('/search')}}">
                             <i class="fas fa-plus"></i> Tambah Barang
                         </a>
@@ -266,7 +266,7 @@
                                     <span aria-hidden="true">×</span>
                                 </button>
                             </div>
-                            <div class="modal-body border-0 text-danger">Ketika anda melakukan unduh surat, maka barang
+                            <div class="modal-body border-0">Ketika anda melakukan unduh surat, maka barang
                                 yang
                                 memiliki status proses tidak akan terdaftar dalam surat.</div>
                             <div class="modal-footer border-0">
