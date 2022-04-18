@@ -21,7 +21,7 @@
     @include('sweetalert::alert')
     {{-- Pengajuan Disetujui --}}
     @foreach ($setujui as $data)
-    <a href="{{route('cart')}}">
+    <a href="{{route('daftar.riwayat')}}">
         @if ($message = Session::get('in'))
         <div class="alert alert-success alert-dismissible shake" style="margin-bottom: -6px; margin:0 5px" role="alert">
             <button id="notif" type="button" class="close" data-dismiss="alert">
