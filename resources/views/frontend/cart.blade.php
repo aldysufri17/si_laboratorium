@@ -24,7 +24,7 @@
     <a href="{{route('cart')}}">
         @if ($message = Session::get('in'))
         <div class="alert alert-success alert-dismissible shake" style="margin-bottom: -6px; margin:0 5px" role="alert">
-            <button type="button" class="close" data-dismiss="alert">
+            <button id="notif" type="button" class="close" data-dismiss="alert">
                 <i class="fa fa-times"></i>
             </button>
             <strong>Pengajuan barang {{$data->barang->nama}} {{ $message }}</strong> {{ session('error') }}
@@ -39,7 +39,7 @@
     <a href="{{route('cart')}}">
         @if ($message = Session::get('tolak'))
         <div class="alert alert-danger alert-dismissible shake" style="margin-bottom: -6px; margin:0 5px" role="alert">
-            <button type="button" class="close" data-dismiss="alert">
+            <button id="notif" type="button" class="close" data-dismiss="alert">
                 <i class="fa fa-times"></i>
             </button>
             <strong>Pengajuan barang {{$data->barang->nama}} {{ $message }}</strong> {{ session('error') }}
@@ -279,10 +279,13 @@
                     </div>
                 </div>
                 @else
-                <div class="ml-4 mb-3">
+                <div class="mx-4 mb-3 d-sm-flex justify-content-between">
                     <a class="btn btn-success" href="{{url('/search')}}">
                         <i class="fa-solid fa-magnifying-glass"></i> Pencarian Barang
                     </a>
+                        <a class="btn btn-info" href="{{route('daftar.riwayat')}}">
+                            Peminjaman Saya <i class="fas fa-angle-double-right"></i> 
+                        </a>
                 </div>
                 <div class="card shadow-sm p-3 mx-4 bg-white rounded" style="border-left: solid 4px rgb(0, 54, 233);">
                     <div class="card-block">
@@ -312,6 +315,8 @@
             $('#deleteModal').modal('hide')
         });
     });
-
+    setTimeout(function() {
+    document.getElementById('notif').click();
+}, 4000);
 </script>
 @endsection

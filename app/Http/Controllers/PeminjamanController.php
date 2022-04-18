@@ -430,7 +430,7 @@ class PeminjamanController extends Controller
         $name = Auth::user()->name;
         $nim = Auth::user()->nim;
         $alamat = Auth::user()->alamat;
-        $peminjaman = Peminjaman::where('user_id', $user_id)->where('status', '>=', 2)->get();
+        $peminjaman = Peminjaman::where('user_id', $user_id)->where('status', 2)->orwhere('status', 3)->get();
         $pdf = PDF::loadview('frontend.surat-peminjaman', ['peminjaman' => $peminjaman, 'name' => $name, 'nim' => $nim, 'alamat' => $alamat]);
         // return view('frontend.surat', ['peminjaman' => $peminjaman, 'name' => $name, 'nim' => $nim, 'alamat' => $alamat]);
 

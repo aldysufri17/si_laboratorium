@@ -43,13 +43,18 @@ class HomeController extends Controller
             if ($tolak) {
                 $request->session()->flash('tolak', "ditolak !!");
             }
+            // Diaktifkan
+            $aktif = Peminjaman::where('user_id', $user_id)->where('status', 3)->get();
+            if ($aktif) {
+                $request->session()->flash('aktif', "status aktif !!");
+            }
             // Telat
             $telat = Peminjaman::where('user_id', $user_id)->where('status', 3)->get();
             if ($telat) {
                 $request->session()->flash('telat', "Telat");
             }
             // dd($telat);
-            return view('frontend.home', compact('peminjaman'), ['telat' => $telat, 'tolak' => $tolak]);
+            return view('frontend.home', compact('peminjaman', 'aktif'), ['telat' => $telat, 'tolak' => $tolak]);
         }
         return view('frontend.home');
     }
