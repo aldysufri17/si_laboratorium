@@ -17,7 +17,7 @@
     </div>
 
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <a class="btn btn-sm btn-danger" href="{{ route('damaged') }}"><i class="fas fa-angle-double-left"></i> Kembali</a>
+        <a class="btn btn-sm btn-danger" href="javascript:history.back()"><i class="fas fa-angle-double-left"></i> Kembali</a>
     </div>
 
     {{-- Alert Messages --}}

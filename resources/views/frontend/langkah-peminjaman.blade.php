@@ -50,7 +50,7 @@
                         <h5><strong>Langkah 2</strong></h5>
                         <p class="card-text text-justify">Setelah berhasil login, maka akan menuju halaman utama
                             pengguna,
-                            Kemudian pilih button cari barang, untuk mencari barang yang akan dipinjam.</p>
+                            Kemudian pilih button <strong> Cari Barang</strong>, untuk melihat data barang.</p>
                     </div>
                 </div>
                 <div class="card mt-3" style="width: 25rem;">
@@ -60,7 +60,7 @@
                         <h5><strong>Langkah 3</strong></h5>
                         <p class="card-text text-justify">Gambar diatas adalah halaman daftar barang, Cari barang
                             yang anda
-                            inginkan berdasarkan kategori laboratorium yang tersedia.</p>
+                            inginkan berdasarkan kategori laboratorium yang diinginkan.</p>
                     </div>
                 </div>
                 <div class="card mt-3" style="width: 25rem;">
@@ -80,11 +80,9 @@
                         alt="Card image cap">
                     <div class="card-body">
                         <h5><strong>Langkah 5</strong></h5>
-                        <p class="card-text text-justify">Setelah mengisi informasi peminjaman, Peminjam akan
-                            diarahkan ke
-                            halaman keranjang, Gambar diatas adalah halaman keranjang, yang mana terdapat daftar
-                            barang yang
-                            dipilih, tunggu hingga status pengajuan disetujui operator laboratorium terkait.</p>
+                        <p class="card-text text-justify">Setelah mengisi informasi pengajuan, Anda akan diarahkan ke
+                            halaman keranjang pengajuan, halaman ini berisi daftar
+                            barang yang anda ajukan, <strong>tunggu hingga status pengajuan disetujui operator laboratorium terkait.</strong></p>
                     </div>
                 </div>
                 <div class="card mt-3" style="width: 25rem;">
@@ -92,11 +90,7 @@
                         alt="Card image cap">
                     <div class="card-body">
                         <h5><strong>Langkah 6</strong></h5>
-                        <p class="card-text text-justify">Setelah status peminjaman disetujui, maka peminjam harus
-                            melakukan
-                            unduh surat peminjaman untuk melakukan aktivasi peminjaman barang ke operator
-                            laboratorium
-                            terkait.</p>
+                        <p class="card-text text-justify">Setelah status pengajuan disetujui, <strong> anda bisa melakukan unduh surat dan cetak surat.<p class="text-danger">(pada tahap ini peminjaman belum aktif)</p></strong></p>
                     </div>
                 </div>
                 <div class="card mt-3" style="width: 25rem;">
@@ -104,7 +98,7 @@
                             height="230px" style="width: 250px" alt="Card image cap"></center>
                     <div class="card-body">
                         <h5><strong>Langkah 7</strong></h5>
-                        <p class="card-text text-justify">Setelah melakukan unduh surat peminjaman, peminjam harus menunjukkan surat tersebut kepada operator laboratorium terkait untuk dilakukan aktivasi peminjaman dan pengambilan barang pinjaman</p>
+                        <p class="card-text text-justify">Peminjaman akan diaktifkan ketika anda mengambil barang pada laboratorium terkait. <strong><p class="text-danger">(dibuktikan dengan surat tersebut)</p></strong></p>
                     </div>
                 </div>
             </div>

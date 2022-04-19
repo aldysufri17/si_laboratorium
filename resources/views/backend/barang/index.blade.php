@@ -76,7 +76,7 @@
                             
                             <td>{{ $data->nama }} - {{ $data->tipe }}</td>
                             
-                            @if($data->kategori_id == 0)
+                            @if($data->satuan_id == 0)
                             <td>{{ $data->stock }} - Default</td>
                             @else
                             <td>{{ $data->stock }} - {{ $data->satuan->nama_satuan }}</td>

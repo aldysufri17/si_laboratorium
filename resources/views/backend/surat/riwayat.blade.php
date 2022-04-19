@@ -32,6 +32,7 @@
                 <table class="table table-borderless table-dark bgdark" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
+                            <th width="20%">Date</th>
                             <th width="20%">Nama</th>
                             <th width="15%">NIM</th>
                             <th width="25%">Email</th>
@@ -41,6 +42,7 @@
                     <tbody>
                         @foreach ($surat as $data)
                         <tr>
+                            <td>{{ $data->created_at }}</td>
                             <td>{{ $data->user->name }}</td>
                             <td>{{ $data->user->nim }}</td>
                             <td>{{ $data->user->email }}</td>

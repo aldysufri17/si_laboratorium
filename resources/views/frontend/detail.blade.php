@@ -28,134 +28,77 @@
     </section><!-- Breadcrumbs Section -->
 
     <section id="portfolio-details" class="portfolio-details">
-        <div class="card shadow-sm mx-4 mb-4 bg-white rounded">
-            <div class="row">
-                <div class="col-md-4 border-right">
-                    <div class="d-flex flex-column align-items-center text-center p-3 py-5">
-                        <a href="{{ asset($barang->gambar ? 'images/barang/'. $barang->gambar : 'images/empty.jpg') }}"
-                            data-gallery="portfolioGallery" class="portfolio-lightbox preview-link mb-3">
-                            @if (file_exists(public_path('/images/barang/' . $barang->gambar)))
-                            <div class="img-hover-zoom">
-                                <img src="{{ asset($barang->gambar ? 'images/barang/'. $barang->gambar : 'images/empty.jpg') }}"
-                                    class="img-fluid" alt="">
-                            </div>
-                        </a>
-                        @else
-                        <img src="{{ asset('images/empty.jpg') }}" class="img-fluid" alt=""></a>
-                        @endif
-                        <span class="font-weight-bold">{{$barang->nama}} - {{$barang->tipe}}</span><span
-                            class="text-black-50">Stok :
-                            {{$barang->stock}} {{$barang->satuan->nama_satuan}}</span><span>{{$barang->lokasi}}</span>
-                        <div class="d-flex mt-2">
-                            @if($barang->kategori_id != 0)
-                            <span class="badge badge-primary">{{$barang->kategori->nama_kategori}}</span>
-                            @endif
-                            <span class="badge badge-success mx-3">Baik</span>
+        <div class="card shadow-sm mx-5 bg-white rounded">
+            <div class="d-sm-flex justify-content-between mb-2 p-2">
+                <button type="button" onclick="javascript:history.back()" class="btn btn-danger btn-user float-right mb-3"> <i class="fas fa-angle-double-left"></i> Kembali</button>
+                <form action="{{route('cart.store', ['id' => $barang->id])}}">
+                    <button type="submit" class="btn btn-success btn-user float-right mb-3"> <i class="fas fa-cart-plus"></i> Tambah</button>
+                </form>
+            </div>
+            <div class="card-body px-4">
+                <div class="d-flex flex-column align-items-center mb-3 text-center">
+                    <h5 class="font-weight-bold">DETAIL BARANG</h5>
+                    <a href="{{ asset($barang->gambar ? 'images/barang/'. $barang->gambar : 'images/empty.jpg') }}"
+                        data-gallery="portfolioGallery" class="portfolio-lightbox preview-link mb-3">
+                        @if (file_exists(public_path('/images/barang/' . $barang->gambar)))
+                        <div class="img-hover-zoom">
+                            <img width="300px" src="{{ asset($barang->gambar ? 'images/barang/'. $barang->gambar : 'images/empty.jpg') }}"
+                                class="img-fluid" alt="">
                         </div>
+                    </a>
+                    @else
+                    <img src="{{ asset('images/empty.jpg') }}" class="img-fluid" alt=""></a>
+                    @endif
+                    <span class="font-weight-bold">{{$barang->nama}} - {{$barang->tipe}}</span>
+                    <div class="d-flex mt-2">
+                        @if($barang->kategori_id != 0)
+                        <span class="badge badge-primary">{{$barang->kategori->nama_kategori}}</span>
+                        @endif
+                        <span class="badge badge-success mx-3">Baik</span>
                     </div>
                 </div>
-                <div class="col-md-8" style="padding-left: 0%">
-                    <div class="d-sm-flex justify-content-start tab">
-                        <button class="tablinks btn btn-sm" id="clickButton" onclick="openCity(event, 'London')">Form
-                            Penggunaan
-                            Barang</button>
-                        <button class="tablinks btn btn-sm" onclick="openCity(event, 'Paris')">Antrian
-                            Penggunaan</button>
-                    </div>
-                    <div id="London" class="tabcontent p-3 py-5">
-                        <div class="d-flex justify-content-center align-items-center mb-3">
-                            <div class="d-flex flex-row align-items-center">
-                                <h5>Form Penggunaan Barang</h5>
-                                <hr>
-                            </div>
-                        </div>
-                        <form action="{{route('peminjaman.store', $barang->id)}}" method="post">
-                            @csrf
-                            <div class="row mt-2">
-                                <div class="col-md-6">
-                                    <span>Jumlah</span>
-                                    <input type="number"
-                                        class="form-control mt-2 mb-3 @error('jumlah') is-invalid @enderror"
-                                        placeholder="Jumlah" name="jumlah" min="1">
-                                    @error('jumlah')
-                                    <span class="text-danger">{{$message}}</span>
-                                    @enderror
-                                </div>
-                                <div class="col-md-6">
-                                    <span>Keperluan</span>
-                                    <select class="form-control form-control-user @error('alasan') is-invalid @enderror"
-                                        name="alasan">
-                                        <option selected disabled>Pilih Keperluan</option>
-                                        <option value="praktikum">Praktikum</option>
-                                        <option value="penelitian">Penelitian</option>
-                                        <option value="lainnya">Lainnya</option>
-                                    </select>
-                                    @error('alasan')
-                                    <span class="text-danger">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                            </div>
-
-                            <div class="row mt-2">
-                                <div class="col-md-6">
-                                    <span>Tanggal Penggunaan</span>
-                                    <input type="date" class="form-control mt-2 mb-3" name="tgl_start">
-                                </div>
-                                <div class="col-md-6">
-                                    <span>Tanggal Pengembalian</span>
-                                    <input type="date" class="form-control mt-2 mb-3" name="tgl_end">
-                                </div>
-                            </div>
-
-                            <div class="card-footer mt-5 border-0" style="background-color: rgba(0, 255, 255, 0)">
-                                <button type="submit" class="btn btn-primary btn-user float-right mb-3">Simpan</button>
-                                <a class="btn btn-danger float-right mr-3 mb-3"
-                                    href="javascript:history.back()">Batal</a>
-                            </div>
-                        </form>
-                    </div>
-                    <div id="Paris" class="tabcontent p-3 py-5">
-                        <div class="d-flex justify-content-center align-items-center mb-3">
-                            <div class="d-flex flex-row align-items-center">
-                                <h5>Antrian Penggunaan {{$barang->nama}} - {{$barang->tipe}}</h5>
-                                <hr>
-                            </div>
-                        </div>
-                        @if ($peminjaman->IsNotEmpty())
-                        <div class="table-responsive">
-                            <table id="dataTable" class="table table-borderless dt-responsive" cellspacing="0"
-                                width="100%">
-                                <thead>
-                                    <tr>
-                                        <th>Nim</th>
-                                        <th>Nama</th>
-                                        <th>Tanggal Peminjaman</th>
-                                        <th>Tanggal Pengembalian</th>
-                                        <th>Jumlah</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($peminjaman as $peminjam)
-                                    <tr>
-                                        <th>{{$peminjam->user->nim}}</th>
-                                        <th>{{$peminjam->user->name}}</th>
-                                        <th>{{$peminjam->tgl_start}}</th>
-                                        <th>{{$peminjam->tgl_end}}</th>
-                                        <th>{{$peminjam->jumlah}} {{$peminjam->barang->satuan->nama_satuan}}</th>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                        @else
-                        <div class="align-items-center bg-light p-3 rounded" style="border-left: 3px solid blue">
-                            <span class="">Oops!</span><br>
-                            <p><i class="fa-solid fa-circle-info text-info"></i> {{$barang->nama}} - {{$barang->tipe}} Belum Ada yang
-                                Pinjam</p>
-                        </div>
-                        @endif
-
-                    </div>
+                <div class="d-flex justify-content-around flex-wrap">
+                    <table class="table mx-5 table-striped table-light table-bordered">
+                        <tbody>
+                            <tr>
+                                <th scope="row">Kategori Laboratorium</th>
+                                <td class="">
+                                    @if ($barang->kategori_lab == 1)
+                                    Laboratorium Sistem Tertanam dan Robotika
+                                    @elseif ($barang->kategori_lab == 2)
+                                    Laboratorium Rekayasa Perangkat Lunak
+                                    @elseif($barang->kategori_lab == 3)
+                                    Laboratorium Jaringan dan Keamanan Komputer
+                                    @elseif($barang->kategori_lab == 4)
+                                    Laboratorium Multimedia
+                                    @endif</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Nama</th>
+                                <td>{{ $barang->nama }} - {{$barang->tipe}}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Stock</th>
+                                <td>{{ $barang->stock }} {{ $barang->satuan->nama_satuan }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Lokasi Barang</th>
+                                <td>{{ $barang->lokasi }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Tanggal Masuk</th>
+                                <td>{{ $barang->tgl_masuk }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Keterangan</th>
+                                @if($barang->info)
+                                <td>{{ $barang->info }}</td>
+                                @else
+                                <td>-</td>
+                                @endif
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>
@@ -174,25 +117,6 @@
             [0, "desc"]
         ]
     });
-
-
-    window.onload = window.onload = function () {
-        document.getElementById('clickButton').click();
-    }
-
-    function openCity(evt, cityName) {
-        var i, tabcontent, tablinks;
-        tabcontent = document.getElementsByClassName("tabcontent");
-        for (i = 0; i < tabcontent.length; i++) {
-            tabcontent[i].style.display = "none";
-        }
-        tablinks = document.getElementsByClassName("tablinks");
-        for (i = 0; i < tablinks.length; i++) {
-            tablinks[i].className = tablinks[i].className.replace(" active", "");
-        }
-        document.getElementById(cityName).style.display = "block";
-        evt.currentTarget.className += " active";
-    }
 
 </script>
 @endsection

@@ -336,32 +336,7 @@ class BarangController extends Controller
         }
     }
 
-    public function cart(Request $request)
-    {
-        $user_id = Auth::user()->id;
-        $peminjaman = Peminjaman::with('barang')
-            ->where('user_id',  $user_id)
-            ->Where('status', '<=', 3)
-            ->paginate(5);
 
-        // Disetujui
-        $setujui = Peminjaman::where('user_id', $user_id)->where('status', 2)->get();
-        if ($setujui) {
-            $request->session()->flash('in', "berhasil disetujui !!");
-        }
-        // Ditolak
-        $tolak = Peminjaman::where('user_id', $user_id)->where('status', 1)->get();
-        if ($tolak) {
-            $request->session()->flash('tolak', "ditolak !!");
-        }
-        // Telat
-        $telat = Peminjaman::where('user_id', $user_id)->where('status', 3)->get();
-        if ($telat) {
-            $request->session()->flash('telat', "Telat");
-        }
-        return view('frontend.cart', compact('peminjaman', 'setujui', 'telat', 'tolak'));
-        // dd($peminjaman);
-    }
 
     public function qrcode($data)
     {

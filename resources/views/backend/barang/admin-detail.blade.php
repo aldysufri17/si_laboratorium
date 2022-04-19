@@ -14,7 +14,7 @@
         </ol>
     </div>
     <div class="d-sm-flex align-items-center mb-4">
-        <a class="btn btn-sm btn-danger" href="{{ route('barang.index') }}"><i class="fas fa-angle-double-left"></i> Kembali</a>
+        <a class="btn btn-sm btn-danger" href="javascript:history.back()"><i class="fas fa-angle-double-left"></i> Kembali</a>
         <a href="{{ route('qrcode', Request::route('data')) }}" class="btn btn-sm btn-primary mx-3">
             <i class="fas fa-qrcode"></i> Cetak Semua QR-Code
         </a>
@@ -43,9 +43,17 @@
                     <tbody>
                         @foreach ($barang as $data)
                         <tr>
+                            @if($data->kategori_id == 0)
+                            <td>Default</td>
+                            @else
                             <td>{{ $data->kategori->nama_kategori }}</td>
+                            @endif
                             <td>{{ $data->nama }} - {{ $data->tipe }}</td>
-                            <td>{{ $data->stock }} {{ $data->satuan->nama_satuan }}</td>
+                            @if($data->satuan_id == 0)
+                            <td>{{ $data->stock }} - Default</td>
+                            @else
+                            <td>{{ $data->stock }} - {{ $data->satuan->nama_satuan }}</td>
+                            @endif
                             <td>@if ($data->show == 0)
                                 <span class="badge badge-danger">Tidak</span>
                                 @elseif ($data->show == 1)

@@ -3,6 +3,7 @@
 namespace App\Imports;
 
 use App\Models\Barang;
+use App\Models\Inventaris;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithStartRow;
@@ -42,7 +43,11 @@ class BarangImport implements ToModel, WithStartRow, WithCustomCsvSettings
             $kategori_lab = 4;
             $lokasi = "Laboratorium Multimedia";
         }
-        return new Barang([
+
+        $max = Barang::max('id');
+        $kode = $max + 1;
+        $barang = new Barang([
+            'id'            => $kode,
             'nama'          => $row[0],
             'tipe'          => $row[1],
             'stock'         => $row[2],
@@ -54,5 +59,19 @@ class BarangImport implements ToModel, WithStartRow, WithCustomCsvSettings
             'tgl_masuk'     => date('Y-m-d'),
             'kategori_lab'  => $kategori_lab
         ]);
+
+        $random = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
+        $invetaris = new Inventaris([
+            'id'                => substr(str_shuffle("0123456789"), 0, 8),
+            'barang_id'         => $kode,
+            'status'            => 1,
+            'deskripsi'         => 'New',
+            'kode_inventaris'   => 'IN' . $random,
+            'masuk'             => $row[2],
+            'kategori_lab'      => $kategori_lab,
+            'keluar'            => 0,
+            'total'             => $row[2],
+        ]);
+        return [$barang, $invetaris];
     }
 }
