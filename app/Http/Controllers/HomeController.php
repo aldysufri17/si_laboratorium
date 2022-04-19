@@ -144,7 +144,7 @@ class HomeController extends Controller
         }
 
         if (Auth::check()) {
-            $data = Peminjaman::where('user_id', Auth::user()->id)->where('status', '<', 4)->pluck('barang_id');
+            $data = Cart::where('user_id', Auth::user()->id)->pluck('barang_id');
         }
         if ($request->kategori_lab) {
             if (Auth::check()) {
@@ -184,9 +184,13 @@ class HomeController extends Controller
         return view('frontend.detail', compact('barang'));
     }
 
-    public function riwayat()
+    public function pinjaman(Request $request)
     {
         $user_id = Auth::user()->id;
+        $proses = Peminjaman::with('barang')
+            ->where('user_id',  $user_id)
+            ->Where('status', '<', 3)
+            ->paginate(7);
         $selesai = Peminjaman::with('barang')
             ->where('user_id',  $user_id)
             ->Where('status', 4)
@@ -194,8 +198,29 @@ class HomeController extends Controller
         $aktif = Peminjaman::with('barang')
             ->where('user_id',  $user_id)
             ->Where('status', 3)
+            ->orwhere('status', 5)
             ->paginate(7);
-        return view('frontend.show-peminjaman', compact('aktif', 'selesai'));
+        // Disetujui
+        $setujui = Peminjaman::where('user_id', $user_id)->where('status', 2)->get();
+        if ($setujui) {
+            $request->session()->flash('in', "berhasil disetujui !!");
+        }
+        // Ditolak
+        $tolak = Peminjaman::where('user_id', $user_id)->where('status', 1)->get();
+        if ($tolak) {
+            $request->session()->flash('tolak', "ditolak !!");
+        }
+        // Diaktifkan
+        $mulai = Peminjaman::where('user_id', $user_id)->where('status', 3)->get();
+        if ($mulai) {
+            $request->session()->flash('aktif', "status aktif !!");
+        }
+        // Telat
+        $telat = Peminjaman::where('user_id', $user_id)->where('status', 3)->get();
+        if ($telat) {
+            $request->session()->flash('telat', "Telat");
+        }
+        return view('frontend.show-peminjaman', compact('proses', 'aktif', 'selesai', 'setujui', 'tolak', 'mulai', 'telat'));
     }
 
     public function langkahPeminjaman()

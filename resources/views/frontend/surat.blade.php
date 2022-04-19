@@ -1,14 +1,7 @@
 @extends('frontend.layouts.app')
 @section('title', 'Surat Bebas Laboratorium')
 @section('content')
-@if ($message = Session::get('gagal_surat'))
-<div class="alert alert-danger alert-dismissible shake" style="margin-bottom: -6px; margin:0 5px" role="alert">
-    <button type="button" class="close" data-dismiss="alert">
-        <i class="fa fa-times"></i>
-    </button>
-    <strong>{{ $message }}</strong> {{ session('error') }}
-</div>
-@endif
+
 @include('sweetalert::alert')
 
 <main id="main">
@@ -26,35 +19,14 @@
 
         </div>
     </section><!-- Breadcrumbs Section -->
-    {{-- Pengajuan Disetujui --}}
-    @foreach ($setujui as $data)
-    <a href="{{route('cart')}}">
-        @if ($message = Session::get('in'))
-        <div class="alert alert-success alert-dismissible shake" style="margin-bottom: -6px; margin:0 5px" role="alert">
-            <button type="button" class="close" data-dismiss="alert">
-                <i class="fa fa-times"></i>
-            </button>
-            <strong>Pengajuan Surat {{ $message }}</strong> {{ session('error') }}
-        </div>
-        @endif
-    </a>
-    @endforeach
-    {{-- end diseujui --}}
-
-    {{-- Pengajuan ditolak --}}
-    @foreach ($tolak as $data)
-    <a href="{{route('cart')}}">
-        @if ($message = Session::get('tolak'))
-        <div class="alert alert-danger alert-dismissible shake" style="margin-bottom: -6px; margin:0 5px" role="alert">
-            <button type="button" class="close" data-dismiss="alert">
-                <i class="fa fa-times"></i>
-            </button>
-            <strong>Pengajuan Surat {{ $message }}</strong> {{ session('error') }}
-        </div>
-        @endif
-    </a>
-    @endforeach
-    {{-- end ditolak--}}
+    @if ($message = Session::get('gagal_surat'))
+    <div class="alert alert-danger alert-dismissible shake" style="margin-bottom: -6px; margin:0 5px" role="alert">
+        <button id="notif" type="button" class="close" data-dismiss="alert">
+            <i class="fa fa-times"></i>
+        </button>
+        <strong>{{ $message }}</strong> {{ session('error') }}
+    </div>
+    @endif
     <section id="portfolio-details" class="portfolio-details">
         @if ($surat->isNotEmpty())
         <div class="card shadow mx-5 px-3 mb-4 border-0">
@@ -138,8 +110,11 @@
                                                 PENGAJUAN</p>
                                         </div>
                                         <div class="circle mx-2">
-                                            <center><span style="border: 2px solid rgb(133, 133, 133); color:rgb(133, 133, 133)" class="dot text-center">2</span></center>
-                                            <p class="text-center" style="font-size: 12px; color:rgb(133, 133, 133)">DITOLAK</p>
+                                            <center><span
+                                                    style="border: 2px solid rgb(133, 133, 133); color:rgb(133, 133, 133)"
+                                                    class="dot text-center">2</span></center>
+                                            <p class="text-center" style="font-size: 12px; color:rgb(133, 133, 133)">
+                                                DITOLAK</p>
                                         </div>
                                         <div class="circle">
                                             <center><span class="dot text-center"
@@ -153,12 +128,10 @@
                                     </div>
                                 </td>
                                 <td>
-                                    @if ($unduh)
                                     <a href="{{route('surat.show', ['surat' => $data->id])}}"
-                                        class="btn btn-primary mx-2" title="Unduh">
+                                        class="btn {{$unduh ? 'btn-primary':'btn-secondary'}} mx-2" title="Unduh">
                                         <i class="fa-solid fa-print"></i>
                                     </a>
-                                    @endif
                                     <a class="btn btn-danger" href="#" data-toggle="modal" title="Delete"
                                         data-target="#deleteModal">
                                         <i class="fas fa-trash"></i>
@@ -278,6 +251,10 @@
             "paging": false
         });
     });
+
+    setInterval(function () {
+        document.getElementById('notif').click();
+    }, 4000);
 
 </script>
 @endsection

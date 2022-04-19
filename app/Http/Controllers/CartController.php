@@ -30,7 +30,7 @@ class CartController extends Controller
         //     $request->session()->flash('telat', "Telat");
         // }
 
-        $cart = Cart::where('user_id', $user_id)->paginate('5');
+        $cart = Cart::where('user_id', $user_id)->where('status', 0)->paginate(4);
 
         return view('frontend.cart', compact('cart'));
         // dd($peminjaman);
@@ -48,6 +48,7 @@ class CartController extends Controller
             $cart = Cart::create([
                 'user_id' => Auth::user()->id,
                 'barang_id' => $id,
+                'status' => 0,
             ]);
             if ($cart) {
                 return redirect()->route('cart')->with('success', 'Barang berhasil ditambah!.');
@@ -59,8 +60,20 @@ class CartController extends Controller
         }
     }
 
-    public function pem(Request $request)
+    public function destroy($id)
     {
-        dd($request);
+        $cart = Cart::find($id)->delete();
+        if ($cart) {
+            return redirect()->route('cart')->with('success', 'Berhasil dihapus!.');
+        } else {
+            return redirect()->route('cart')->with('error', 'Gagal dihapus!.');
+        }
+    }
+
+    public function pengajuan($id)
+    {
+        $barang = Barang::whereId($id)->first();
+        $peminjaman = Peminjaman::where('barang_id', $id)->paginate(5);
+        return view('frontend.form-pengajuan', compact('barang', 'peminjaman'));
     }
 }

@@ -59,11 +59,15 @@ class SuratController extends Controller
     public function store(Request $request)
     {
         $id = Auth::user()->id;
-        $ceksurat = Surat::where('user_id', $id)->where('status', 2)->first();
+        $ceksurat = Surat::where('user_id', $id)->first();
         if ($ceksurat) {
             return redirect()->route('surat.index')->with('warning', 'Hapus surat, kemudian lakukan pengajuan lagi!.');
         } else {
-            $peminjaman = Peminjaman::where('user_id', $id)->where('status', '<', 4)->get();
+            $peminjaman = Peminjaman::where('user_id', $id)
+                ->where('status', '=', 0)
+                ->orwhere('status', '=', 2)
+                ->orwhere('status', '=', 3)
+                ->get();
             if ($peminjaman->isEmpty()) {
                 $surat = Surat::create([
                     'user_id' => $id,

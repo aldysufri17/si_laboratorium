@@ -56,12 +56,12 @@
                                         title="Show">
                                         <i class="fas fa-eye"></i>
                                     </a>
-                                    <a href="{{ route('konfirmasi.peminjaman.status', ['id_peminjaman' => $data->id, 'status' => 1, 'barang_id' => $data->barang_id, 'jumlah' => $data->jumlah]) }}"
+                                    <a href="{{ route('konfirmasi.peminjaman.status', ['id_peminjaman' => $data->id, 'status' => 1, 'barang_id' => $data->barang_id, 'jumlah' => $data->jumlah, 'user_id' => $data->user_id]) }}"
                                         class="btn btn-danger mx-" data-toggle="tooltip" data-placement="top"
                                         title="Reject">
                                         <i class="fa fa-ban"></i>
                                     </a>
-                                    <a href="{{ route('konfirmasi.peminjaman.status', ['id_peminjaman' => $data->id, 'status' => 3,'barang_id' => $data->barang_id, 'jumlah' => $data->jumlah]) }}"
+                                    <a href="{{ route('konfirmasi.peminjaman.status', ['id_peminjaman' => $data->id, 'status' => 3,'barang_id' => $data->barang_id, 'jumlah' => $data->jumlah, 'user_id' => $data->user_id]) }}"
                                         class="btn btn-success" data-toggle="tooltip" data-placement="top"
                                         title="Accept">
                                         <i class="fa fa-check"></i>
