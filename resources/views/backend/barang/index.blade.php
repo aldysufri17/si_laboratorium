@@ -32,10 +32,10 @@
             <i class="fas fa-qrcode"></i> Cetak Semua QR-Code
         </a>
         <a href="{{ route('export.barang', 0) }}" class="btn btn-sm btn-warning">
-            <i class="fa-solid fa-file-csv"></i> Export .csv
+            <i class="fa-solid fa-file-csv"></i> Export Exel
         </a>
         <a class="btn btn-sm btn-info ml-3" data-toggle="modal" data-target="#importModal">
-            <i class="fa-solid fa-file-csv"></i> Import .csv</a>
+            <i class="fa-solid fa-file-csv"></i> Import Exel</a>
         @endrole
     </div>
 
@@ -55,11 +55,11 @@
                     @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
                     <thead>
                         <tr>
+                            <th width="15%">Kode Barang</th>
                             <th width="15%">Kategori</th>
                             <th width="15%">Nama</th>
                             <th width="15%">Stock</th>
                             <th width="10%">Tampilkan</th>
-                            <th width="15%">Lokasi Barang</th>
                             @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
                             <th width="25%">Aksi</th>
                             @endrole
@@ -68,6 +68,7 @@
                     <tbody>
                         @foreach ($barang as $data)
                         <tr>
+                            <td>{{$data->kode_barang}}</td>
                             @if($data->kategori_id == 0)
                             <td>Default</td>
                             @else
@@ -87,7 +88,6 @@
                                 @elseif ($data->show == 1)
                                 <span class="badge badge-success">Tampil</span>
                                 @endif</td>
-                            <td>{{ $data->lokasi }}</td>
                             <td style="display: flex">
                                 <a class="btn btn-info m-2" href="{{ route('barang.show', $data->id) }}" title="Show">
                                     <i class="fas fa-eye"></i>
@@ -161,7 +161,7 @@
             <i class="fas fa-plus"></i> Tambah Barang
         </a>
         <a class="btn btn-sm btn-info ml-3" data-toggle="modal" data-target="#importModal">
-            <i class="fa-solid fa-file-csv"></i> Import .csv</a>
+            <i class="fa-solid fa-file-csv"></i> Import Exel</a>
     </div>
     @endrole
     <div class="align-items-center bg-light p-3 border-left-success rounded">

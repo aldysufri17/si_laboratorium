@@ -61,10 +61,8 @@
         </a>
         <div id="inventarisDropDown" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class=" py-2 collapse-inner rounded" style="background-color: rgb(230, 230, 230)">
-                <a class="collapse-item text-red" href="{{ route('inventaris.index') }}">Catatan Inventaris</a>
-                @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
-                <a class="collapse-item text-red" href="{{ route('inventaris.add', auth()->user()->role_id) }}">Data Inventaris</a>
-                @endrole
+                <a class="collapse-item text-red" href="{{ route('mutasi') }}">Mutasi Stok</a>
+                <a class="collapse-item text-red" href="{{ route('inventaris.index') }}">Inventaris Barang</a>
             </div>
         </div>
     </li>

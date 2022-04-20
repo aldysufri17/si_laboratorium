@@ -16,7 +16,7 @@
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <a class="btn btn-sm btn-danger" href="javascript:history.back()"><i class="fas fa-angle-double-left"></i> Kembali</a>
         <a href="{{ route('export.inventaris', Request::route('data')) }}" class="btn btn-sm btn-warning">
-            <i class="fa-solid fa-file-csv"></i> Export .csv
+            <i class="fa-solid fa-file-csv"></i> Export Exel
         </a>
     </div>
 

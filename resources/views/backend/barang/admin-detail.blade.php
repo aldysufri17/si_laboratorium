@@ -19,7 +19,7 @@
             <i class="fas fa-qrcode"></i> Cetak Semua QR-Code
         </a>
         <a href="{{ route('export.barang', Request::route('data')) }}" class="btn btn-sm btn-warning">
-            <i class="fa-solid fa-file-csv"></i> Export .csv
+            <i class="fa-solid fa-file-csv"></i> Export Exel
         </a>
     </div>
     {{-- Alert Messages --}}

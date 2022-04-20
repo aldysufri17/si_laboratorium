@@ -33,21 +33,35 @@ class BarangImport implements ToModel, WithStartRow, WithCustomCsvSettings
         if (Auth::user()->role_id == 3) {
             $kategori_lab = 1;
             $lokasi = "Laboratorium Sistem Tertanam dan Robotika";
+            $kbrg = 'EM-';
         } elseif (Auth::user()->role_id == 4) {
             $kategori_lab = 2;
             $lokasi = "Laboratorium Rekayasa Perangkat Lunak";
+            $kbrg = 'RL-';
         } elseif (Auth::user()->role_id == 5) {
             $kategori_lab = 3;
             $lokasi = "Laboratorium Jaringan dan Keamanan Komputer";
+            $kbrg = 'JK-';
         } elseif (Auth::user()->role_id == 6) {
             $kategori_lab = 4;
             $lokasi = "Laboratorium Multimedia";
+            $kbrg = 'MD-';
         }
 
         $max = Barang::max('id');
         $kode = $max + 1;
+        if (strlen($kode) == 1) {
+            $kode_barang = "000" . $kode;
+        } else if (strlen($kode) == 2) {
+            $kode_barang = "00" . $kode;
+        } else if (strlen($kode) == 3) {
+            $kode_barang = "0" . $kode;
+        } else {
+            $kode_barang = $kode;
+        }
         $barang = new Barang([
             'id'            => $kode,
+            'kode_barang'   => $kbrg . $kode_barang,
             'nama'          => $row[0],
             'tipe'          => $row[1],
             'stock'         => $row[2],
@@ -62,11 +76,11 @@ class BarangImport implements ToModel, WithStartRow, WithCustomCsvSettings
 
         $random = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
         $invetaris = new Inventaris([
-            'id'                => substr(str_shuffle("0123456789"), 0, 8),
             'barang_id'         => $kode,
             'status'            => 1,
             'deskripsi'         => 'New',
-            'kode_inventaris'   => 'IN' . $random,
+            'kode_mutasi'       => 'IN' . $random,
+            'kode_inventaris'   => 0,
             'masuk'             => $row[2],
             'kategori_lab'      => $kategori_lab,
             'keluar'            => 0,

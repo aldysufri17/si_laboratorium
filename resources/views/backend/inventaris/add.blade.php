@@ -23,8 +23,75 @@
             <div class="card-body ">
                 <div class="form-group row">
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
+                        {{-- Jumlah --}}
+                        <label><span style="color:red;">*</span>Kode Inventaris</label><br>
+                        @php
+                        $max = App\Models\Inventaris::max('id');
+                        $id = $max + 1;
+                        if (strlen($id) == 1) {
+                        $kode = "000".$id;
+                        } else if(strlen($id) == 2) {
+                        $kode = "00".$id;
+                        } else if(strlen($id) == 3) {
+                        $kode = "0".$id;
+                        }else {
+                        $kode = $id;
+                        }
+                        @endphp
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <div class="d-flex">
+                                    <input type="text"
+                                        class="form-control  form-control-user @error('kode1') is-invalid @enderror"
+                                        autocomplete="off" id="examplekode1" autocomplete="off" placeholder="No"
+                                        name="kode1" min="1" value="{{ $kode }}">
+                                    <span class="font-weight-bold ml-2" style="font-size: 25px">.</span>
+                                </div>
+                                @error('kode1')
+                                <span class="text-danger">{{$message}}</span>
+                                @enderror
+                            </div>
+                            <div class="col-sm-2">
+                                <div class="d-flex">
+                                    <input type="text"
+                                        class="form-control  form-control-user @error('kode2') is-invalid @enderror"
+                                        autocomplete="off" id="examplekode2" autocomplete="off" placeholder="No"
+                                        name="kode2" min="1" value="{{ $id }}">
+                                    <span class="font-weight-bold ml-2" style="font-size: 25px">.</span>
+                                </div>
+                                @error('kode2')
+                                <span class="text-danger">{{$message}}</span>
+                                @enderror
+                            </div>
+                            <div class="col-sm-3">
+                                <div class="d-flex">
+                                    <input type="text"
+                                        class="form-control  form-control-user @error('kode3') is-invalid @enderror"
+                                        autocomplete="off" id="examplekode3" autocomplete="off" placeholder="No"
+                                        name="kode3" min="1" value="{{ old('kode3') }}">
+                                    <span class="font-weight-bold ml-2" style="font-size: 25px">.</span>
+                                </div>
+                                @error('kode3')
+                                <span class="text-danger">{{$message}}</span>
+                                @enderror
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="d-flex">
+                                    <input type="text"
+                                        class="form-control  form-control-user @error('kode4') is-invalid @enderror"
+                                        autocomplete="off" id="examplekode4" autocomplete="off" placeholder="Tahun Pengadaan"
+                                        name="kode4" min="1" value="{{ old('kode4') }}">
+                                </div>
+                                @error('kode4')
+                                <span class="text-danger">{{$message}}</span>
+                                @enderror
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
                         <span style="color:red;">*</span>Nama Barang</label>
-                        <select class="form-control form-control-user @error('barang') is-invalid @enderror"
+                        <select id="select" class="form-control form-control-user @error('barang') is-invalid @enderror"
                             name="barang">
                             <option selected disabled>Pilih Barang</option>
                             @foreach ($barang as $data)
@@ -37,44 +104,15 @@
                     </div>
 
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
-                        <span style="color:red;">*</span>Status Barang</label>
-                        <select class="form-control form-control-user @error('status') is-invalid @enderror"
-                            name="status">
-                            <option selected disabled>Pilih Status</option>
-                            <option value="1">Masuk</option>
-                            <option value="0">Keluar</option>
-                            <option value="2">Rusak</option>
-                        </select>
-                        @error('status')
-                        <span class="text-danger">{{$message}}</span>
-                        @enderror
+                        <span style="color:red;">*</span>Total Stok Barang Sekarang</label>
+                        <input type="text" id="stock" readonly class="form-control form-control-user" value="">
+                        <input type="text" readonly value="" id="stok" hidden>
                     </div>
 
-                    {{-- Jumlah --}}
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
-                        <span style="color:red;">*</span>Jumlah</label>
-                        <input type="number"
-                            class="form-control  form-control-user @error('jumlah') is-invalid @enderror"
-                            autocomplete="off" id="examplejumlah" autocomplete="off" placeholder="Jumlah" name="jumlah" min="1"
-                            value="{{ old('jumlah') }}">
-
-                        @error('jumlah')
-                        <span class="text-danger">{{$message}}</span>
-                        @enderror
+                        <span style="color:red;">*</span>Total Barang Rusak Sekarang</label>
+                        <input type="text" id="rusak" readonly class="form-control form-control-user" value="">
                     </div>
-                    
-                    {{-- Deskripsi --}}
-                    <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
-                        <div class="form-group">
-                            <span style="color:red;">*</span>Deskripsi</label>
-                            <textarea class="form-control @error('deskripsi') is-invalid @enderror" id="exampleFormControlTextarea1" name="deskripsi" rows="3"></textarea>
-                        </div>
-
-                        @error('deskripsi')
-                        <span class="text-danger">{{$message}}</span>
-                        @enderror
-                    </div>
-
                 </div>
             </div>
 
@@ -86,6 +124,37 @@
     </div>
 
 </div>
+@endsection
 
 
+@section('scripts')
+<script>
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        }
+    });
+
+    $(document).on('click', '#select', function () {
+        var select = $('#select option:selected').val()
+
+        $.ajax({
+            url: "{{ route('select.inventaris') }}",
+            type: "GET",
+            data: {
+                select: select
+            },
+            success: function (data) {
+                $('#stock').val(data.stock)
+                if (data.rusak == null) {
+                    var rusak = 0
+                } else {
+                    var rusak = data.rusak
+                }
+                $('#rusak').val(rusak)
+            }
+        });
+    });
+
+</script>
 @endsection

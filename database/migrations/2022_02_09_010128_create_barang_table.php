@@ -15,6 +15,7 @@ class CreateBarangTable extends Migration
     {
         Schema::create('barang', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->text('kode_barang');
             $table->integer('satuan_id');
             $table->integer('kategori_id');
             $table->string('nama');
@@ -28,20 +29,6 @@ class CreateBarangTable extends Migration
             $table->string('gambar')->nullable();
             $table->integer('show');
             $table->timestamps();
-            // $table->bigIncrements('id');
-            // $table->integer('satuan_id');
-            // $table->integer('kategori_id');
-            // $table->string('nama');
-            // $table->text('tipe');
-            // $table->integer('stock');
-            // $table->date('tgl_masuk');
-            // $table->text('lokasi');
-            // $table->text('info')->nullable();
-            // $table->integer('jml_rusak')->nullable();
-            // $table->string('gambar')->nullable();
-            // $table->integer('show');
-            // $table->text('kategori')->nullable();
-            // $table->timestamps();
         });
     }
 

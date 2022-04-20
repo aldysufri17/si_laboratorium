@@ -403,7 +403,7 @@ class PeminjamanController extends Controller
                     'total'             => $sisa - $jumlah,
                 ]);
                 Barang::whereId($barang)->update(['stock' => $sisa - $jumlah]);
-                Peminjaman::whereId($id_peminjaman)->where('status', 2)->update(['status' => 3]);
+                Peminjaman::whereId($id_peminjaman)->update(['status' => 3]);
                 return redirect()->back()->with('success', 'Peminjaman berhasil disetujui!.');
             } else if ($cekaja->status == 3) {
                 return redirect()->back()->with('success', 'Peminjaman berhasil disetujui!.');
@@ -427,7 +427,7 @@ class PeminjamanController extends Controller
                     'total'             => $sisa + $jumlah,
                 ]);
                 Barang::whereId($barang)->update(['stock' => $sisa + $jumlah]);
-                Peminjaman::whereId($id_peminjaman)->where('status', 3)->update(['status' => 4]);
+                Peminjaman::whereId($id_peminjaman)->update(['status' => 4]);
                 return redirect()->back()->with('success', 'Pengembalian berhasil disetujui!.');
             } else if (($cekaja->status < 3)) {
                 return redirect()->back()->with('warning', 'Peminjaman belum aktif!.');

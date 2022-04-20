@@ -41,7 +41,7 @@ class BarangExport implements FromCollection, WithHeadings
         }
         return [
             ['Data Barang ' . $name . " Pada " . date('Y-m-d')],
-            ['Kategori', 'Nama', 'Tipe', 'Stok', 'Satuan', 'Lokasi', 'Keterangan']
+            ['Kode Barang', 'Kategori', 'Nama', 'Tipe', 'Stok', 'Satuan', 'Lokasi', 'Keterangan']
         ];
     }
 
@@ -70,7 +70,7 @@ class BarangExport implements FromCollection, WithHeadings
         }
         $barang = Barang::join('satuan', 'satuan.id', '=', 'barang.satuan_id')
             ->join('kategori', 'kategori.id', '=', 'barang.kategori_id')
-            ->select('kategori.nama_kategori', 'barang.nama', 'tipe', 'stock', 'satuan.nama_satuan', 'lokasi', 'info')
+            ->select('kode_barang', 'kategori.nama_kategori', 'barang.nama', 'tipe', 'stock', 'satuan.nama_satuan', 'lokasi', 'info')
             ->where('barang.kategori_lab', $kategori_lab)
             ->get();
         return $barang;

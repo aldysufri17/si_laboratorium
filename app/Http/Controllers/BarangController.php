@@ -109,13 +109,20 @@ class BarangController extends Controller
 
         if (Auth::user()->role_id == 3) {
             $kategori_lab = 1;
+            $kode = "EM-";
         } elseif (Auth::user()->role_id == 4) {
             $kategori_lab = 2;
+            $kode = "RL-";
         } elseif (Auth::user()->role_id == 5) {
             $kategori_lab = 3;
+            $kode = "JK-";
         } elseif (Auth::user()->role_id == 6) {
             $kategori_lab = 4;
+            $kode = "MD-";
         }
+
+        $id_barang = Barang::max('id');
+        $date = Date('ymd');
 
         if ($request->gambar) {
             $gambar = $request->gambar;
@@ -124,7 +131,7 @@ class BarangController extends Controller
             $destination = 'images/barang/';
             $gambar->move($destination, $new_gambar);
             $barang = Barang::create([
-                'id'            => time(),
+                'kode_barang'   => $kode . $id_barang . $date,
                 'nama'          => $request->nama,
                 'stock'         => $request->stock,
                 'tipe'          => $request->tipe,
@@ -141,10 +148,10 @@ class BarangController extends Controller
             // Inventaris
             $random = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
             Inventaris::create([
-                'id'                => substr(str_shuffle("0123456789"), 0, 8),
-                'barang_id'         => time(),
+                'barang_id'         => $id_barang + 1,
                 'status'            => 1,
                 'deskripsi'         => 'New',
+                'kode_mutasi'       => 'IN' . $random,
                 'kode_inventaris'   => 'IN' . $random,
                 'masuk'             => $request->stock,
                 'kategori_lab'      => $kategori_lab,
@@ -154,7 +161,7 @@ class BarangController extends Controller
         } else {
             // Barang
             $barang = Barang::create([
-                'id'            => time(),
+                'kode_barang'   => $kode . $id_barang . $date,
                 'nama'          => $request->nama,
                 'stock'         => $request->stock,
                 'tipe'          => $request->tipe,
@@ -170,13 +177,13 @@ class BarangController extends Controller
             // Inventaris
             $random = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
             Inventaris::create([
-                'id'                => substr(str_shuffle("0123456789"), 0, 8),
-                'barang_id'         => time(),
+                'barang_id'         => $id_barang + 1,
                 'status'            => 1,
                 'deskripsi'         => 'New',
                 'kode_inventaris'   => 'IN' . $random,
+                'kode_mutasi'       => 'IN' . $random,
                 'masuk'             => $request->stock,
-                'kategori_lab'          => $kategori_lab,
+                'kategori_lab'      => $kategori_lab,
                 'keluar'            => 0,
                 'total'             => $request->stock,
             ]);

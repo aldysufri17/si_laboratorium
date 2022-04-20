@@ -20,9 +20,9 @@
             <i class="fas fa-plus"></i> Tambah Pengguna
         </a>
         <a class="btn btn-sm btn-info mx-3" data-toggle="modal" data-target="#importModal">
-            <i class="fa-solid fa-file-csv"></i> Import .csv</a>
+            <i class="fa-solid fa-file-csv"></i> Import Exel</a>
         <a href="{{ route('users.export') }}" class="btn btn-sm btn-warning">
-            <i class="fa-solid fa-file-csv"></i> Export .csv
+            <i class="fa-solid fa-file-csv"></i> Export Exel
         </a>
     </div>
     @endrole
@@ -114,7 +114,7 @@
             <i class="fas fa-plus"></i> Tambah Pengguna
         </a>
         <a class="btn btn-sm btn-info mx-3" data-toggle="modal" data-target="#importModal">
-            <i class="fa-solid fa-file-csv"></i> Import .csv</a>
+            <i class="fa-solid fa-file-csv"></i> Import Exel</a>
     </div>
     @endrole
     <div class="align-items-center bg-light p-3 border-left-success rounded">

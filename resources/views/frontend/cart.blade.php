@@ -30,7 +30,7 @@
                     Tambah Barang</a>
                 <a href="{{route('daftar.pinjaman')}}" class="btn btn-info btn-user float-right mb-3">Lihat Barang
                     Pinjaman
-                    Saya <i class="fas fa-angle-double-right"></i></a>
+                    Saya <i class="fas fa-clipboard-list"></i></a>
             </div>
             <div class="card-body mx-5">
                 <center>

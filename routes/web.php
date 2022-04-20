@@ -67,6 +67,10 @@ Route::middleware(['auth'])->group(function () {
         Route::get('inventaris/add/{data}', [App\Http\Controllers\InventarisController::class, 'add'])->name('inventaris.add');
         Route::get('inventaris/kategori/{data}', [App\Http\Controllers\InventarisController::class, 'adminInventaris'])->name('admin.inventaris');
         Route::get('inventaris/export-csv/{data}', [App\Http\Controllers\InventarisController::class, 'export'])->name('export.inventaris');
+        Route::get('/select', [App\Http\Controllers\InventarisController::class, 'select'])->name('select.inventaris');
+        Route::get('/mutasi', [App\Http\Controllers\InventarisController::class, 'mutasi'])->name('mutasi');
+        Route::get('/PDF/{id}', [App\Http\Controllers\InventarisController::class, 'inventarisPdf'])->name('inventaris.pdf');
+
 
 
         // transaksi

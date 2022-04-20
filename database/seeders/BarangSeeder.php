@@ -14,8 +14,9 @@ class BarangSeeder extends Seeder
      */
     public function run()
     {
+        $date = Date('ymd');
         Barang::create([
-            'id'            => substr(str_shuffle("0123456789"), 0, 8),
+            'kode_barang'   => "EM-1" . $date,
             'nama'          => "Arduino",
             'tipe'          => "Uno",
             'stock'         => 51,
@@ -28,7 +29,7 @@ class BarangSeeder extends Seeder
             'gambar'        => 'arduino.jpg',
         ]);
         Barang::create([
-            'id'            => substr(str_shuffle("0123456789"), 0, 8),
+            'kode_barang'   => "EM-2" . $date,
             'nama'          => "Arduino",
             'tipe'          => "Mega",
             'stock'         => 40,
@@ -41,7 +42,7 @@ class BarangSeeder extends Seeder
             'gambar'        => 'mega.webp',
         ]);
         Barang::create([
-            'id'            => substr(str_shuffle("0123456789"), 0, 8),
+            'kode_barang'   => "EM-3" . $date,
             'nama'          => "Sensor Cahaya",
             'tipe'          => "Module LDR Photoresistor",
             'stock'         => 100,
@@ -54,7 +55,7 @@ class BarangSeeder extends Seeder
             'gambar'        => 'cahaya.jpg',
         ]);
         Barang::create([
-            'id'            => substr(str_shuffle("0123456789"), 0, 8),
+            'kode_barang'   => "EM-4" . $date,
             'nama'          => "LCD",
             'tipe'          => "16x2",
             'stock'         => 100,
@@ -67,7 +68,7 @@ class BarangSeeder extends Seeder
             'gambar'        => 'lcd162.jpg',
         ]);
         Barang::create([
-            'id'            => substr(str_shuffle("0123456789"), 0, 8),
+            'kode_barang'   => "EM-5" . $date,
             'nama'          => "Obeng",
             'tipe'          => "Negatif",
             'stock'         => 15,
@@ -80,7 +81,7 @@ class BarangSeeder extends Seeder
             'gambar'        => 'o-.webp',
         ]);
         Barang::create([
-            'id'            => substr(str_shuffle("0123456789"), 0, 8),
+            'kode_barang'   => "Em-6" . $date,
             'nama'          => "Obeng",
             'tipe'          => "Positif",
             'stock'         => 15,
@@ -93,7 +94,7 @@ class BarangSeeder extends Seeder
             'gambar'        => 'positif.jpg',
         ]);
         Barang::create([
-            'id'            => substr(str_shuffle("0123456789"), 0, 8),
+            'kode_barang'   => "EM-7" . $date,
             'nama'          => "Sensor Ultrasonik",
             'tipe'          => "HC-SR04",
             'stock'         => 15,
@@ -106,7 +107,7 @@ class BarangSeeder extends Seeder
             'gambar'        => 'ultrasonic.jpg',
         ]);
         Barang::create([
-            'id'            => substr(str_shuffle("0123456789"), 0, 8),
+            'kode_barang'   => "Em-8" . $date,
             'nama'          => "Resistor",
             'tipe'          => "10k",
             'stock'         => 15,
@@ -119,7 +120,7 @@ class BarangSeeder extends Seeder
             'gambar'        => 'r10k.jpg',
         ]);
         Barang::create([
-            'id'            => substr(str_shuffle("0123456789"), 0, 8),
+            'kode_barang'   => "EM-9" . $date,
             'nama'          => "Solder Uap",
             'tipe'          => "Yihua 878D",
             'stock'         => 15,
@@ -134,7 +135,7 @@ class BarangSeeder extends Seeder
 
         // RPL
         Barang::create([
-            'id'            => substr(str_shuffle("0123456789"), 0, 8),
+            'kode_barang'   => "RL-10" . $date,
             'nama'          => "Flashdisk",
             'tipe'          => "12GB",
             'stock'         => 15,
@@ -147,7 +148,7 @@ class BarangSeeder extends Seeder
             'gambar'        => 'flashdisk.jpg',
         ]);
         Barang::create([
-            'id'            => substr(str_shuffle("0123456789"), 0, 8),
+            'kode_barang'   => "RL-11" . $date,
             'nama'          => "Monitor",
             'tipe'          => "24inc",
             'stock'         => 15,
@@ -160,7 +161,7 @@ class BarangSeeder extends Seeder
             'gambar'        => 'lcd.jpg',
         ]);
         Barang::create([
-            'id'            => substr(str_shuffle("0123456789"), 0, 8),
+            'kode_barang'   => "RL-12" . $date,
             'nama'          => "Keyboard",
             'tipe'          => "Logitech USB",
             'stock'         => 15,
@@ -173,7 +174,7 @@ class BarangSeeder extends Seeder
             'gambar'        => 'keyboard.jpg',
         ]);
         Barang::create([
-            'id'            => substr(str_shuffle("0123456789"), 0, 8),
+            'kode_barang'   => "RL-13" . $date,
             'nama'          => "Mouse",
             'tipe'          => "Logitech Wireless",
             'stock'         => 15,
@@ -186,7 +187,7 @@ class BarangSeeder extends Seeder
             'gambar'        => 'mouse.webp',
         ]);
         Barang::create([
-            'id'            => substr(str_shuffle("0123456789"), 0, 8),
+            'kode_barang'   => "RL-14" . $date,
             'nama'          => "Laptop",
             'tipe'          => "Asus E410",
             'stock'         => 5,
@@ -200,7 +201,7 @@ class BarangSeeder extends Seeder
         ]);
         // Jarkom
         Barang::create([
-            'id'            => substr(str_shuffle("0123456789"), 0, 8),
+            'kode_barang'   => "JK-15" . $date,
             'nama'          => "Router",
             'tipe'          => "WR840N-1",
             'stock'         => 25,
@@ -213,7 +214,7 @@ class BarangSeeder extends Seeder
             'gambar'        => 'router.webp',
         ]);
         Barang::create([
-            'id'            => substr(str_shuffle("0123456789"), 0, 8),
+            'kode_barang'   => "JK-16" . $date,
             'nama'          => "Repeater",
             'tipe'          => "AC-1200",
             'stock'         => 10,
@@ -226,7 +227,7 @@ class BarangSeeder extends Seeder
             'gambar'        => 'repeater.jpg',
         ]);
         Barang::create([
-            'id'            => substr(str_shuffle("0123456789"), 0, 8),
+            'kode_barang'   => "JK-17" . $date,
             'nama'          => "Switch",
             'tipe'          => "RoHS",
             'stock'         => 10,
@@ -240,7 +241,7 @@ class BarangSeeder extends Seeder
         ]);
         // Mulmed
         Barang::create([
-            'id'            => substr(str_shuffle("0123456789"), 0, 8),
+            'kode_barang'   => "MD-18" . $date,
             'nama'          => "Virtual Reality",
             'tipe'          => "Oculus",
             'stock'         => 10,
@@ -254,7 +255,7 @@ class BarangSeeder extends Seeder
             'gambar'        => 'vr.webp',
         ]);
         Barang::create([
-            'id'            => substr(str_shuffle("0123456789"), 0, 8),
+            'kode_barang'   => "MD-19" . $date,
             'nama'          => "Kamera Video",
             'tipe'          => "C200",
             'stock'         => 10,
@@ -268,7 +269,7 @@ class BarangSeeder extends Seeder
             'gambar'        => 'kv.jpg',
         ]);
         Barang::create([
-            'id'            => substr(str_shuffle("0123456789"), 0, 8),
+            'kode_barang'   => "MD-20" . $date,
             'nama'          => "Kamera Digital",
             'tipe'          => "20MP",
             'stock'         => 10,
@@ -282,7 +283,7 @@ class BarangSeeder extends Seeder
             'gambar'        => 'kf.jpg',
         ]);
         Barang::create([
-            'id'            => substr(str_shuffle("0123456789"), 0, 8),
+            'kode_barang'   => "MD-21" . $date,
             'nama'          => "Scan",
             'tipe'          => "Epson V39",
             'stock'         => 3,
