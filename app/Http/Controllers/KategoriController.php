@@ -75,8 +75,9 @@ class KategoriController extends Controller
         }
 
         $kategori = Kategori::create([
-            'nama_kategori' => $request->nama_kategori,
+            'id'  => $kode,
             'kode' => $kode_id,
+            'nama_kategori' => $request->nama_kategori,
             'kategori_lab' => $kategori_lab,
         ]);
 
