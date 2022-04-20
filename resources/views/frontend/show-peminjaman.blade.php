@@ -41,7 +41,7 @@
             <button id="notif" type="button" class="close" data-dismiss="alert">
                 <i class="fa fa-times"></i>
             </button>
-            <strong>Pengajuan barang {{$data->barang->nama}} {{ $message }}</strong> {{ session('error') }}
+            <strong>Stok tidak mencukupi, Pengajuan {{$data->barang->nama}} {{ $message }}</strong> {{ session('error') }}
         </div>
         @endif
     </a>
