@@ -75,6 +75,7 @@ class SatuanController extends Controller
         }
 
         $satuan = Satuan::create([
+            'id'  => $kode,
             'nama_satuan' => $request->nama_satuan,
             'kategori_lab' => $kategori_lab,
             'kode' => $kode_id,
