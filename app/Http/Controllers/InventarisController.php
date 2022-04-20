@@ -21,12 +21,11 @@ class InventarisController extends Controller
     public function index()
     {
         if (Auth::user()->role_id == 2) {
-            $inventaris = DB::table('inventaris')
-                ->leftJoin("barang", "barang.id", "=", "inventaris.barang_id")
-                ->select('inventaris.kategori_lab', DB::raw('count(*) as total'))
-                ->where('inventaris.status', '==', 2)
-                ->groupBy('inventaris.kategori_lab')
-                ->orderBy('inventaris.created_at', 'desc')
+            $inventaris = Inventaris::with('barang')
+                ->select('kategori_lab', DB::raw('count(*) as total'))
+                ->where('status', 2)
+                ->groupBy('kategori_lab')
+                ->orderBy('created_at', 'desc')
                 ->paginate(8);
         } else {
             if (Auth::user()->role_id == 3) {
@@ -39,7 +38,6 @@ class InventarisController extends Controller
                 $kategori_lab = 4;
             }
             $inventaris = Inventaris::with('barang')
-                ->where('kategori_lab', 1)
                 ->where('kategori_lab', $kategori_lab)
                 ->where('status', 2)
                 ->paginate(8);
@@ -50,12 +48,11 @@ class InventarisController extends Controller
 
     public function adminInventaris($data)
     {
-        $inventaris = DB::table('inventaris')
-            ->leftJoin("barang", "barang.id", "=", "inventaris.barang_id")
-            ->where('inventaris.kategori_lab', $data)
-            ->orderBy('inventaris.created_at', 'desc')
+        $inventaris = Inventaris::with('barang')
+            ->where('kategori_lab', $data)
+            ->orderBy('created_at', 'desc')
             ->paginate(10);
-        return view('backend.inventaris.admin-inventaris', ['inventaris' => $inventaris]);
+        return view('backend.inventaris.admin-inventaris', compact('inventaris'));
     }
 
     /**

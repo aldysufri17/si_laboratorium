@@ -31,33 +31,29 @@
                 <table id="dataTable" class="table table-borderless dt-responsive" cellspacing="0" width="100%">
                     <thead>
                         <tr>
-                            <th width="25%">ID Inventaris</th>
-                            <th width="20%">ID Barang</th>
-                            <th width="25%">Tanggal</th>
-                            <th width="25%">Barang</th>
-                            <th width="10%">Penambahan</th>
-                            <th width="10%">Pengurangan</th>
-                            <th width="25%">Sisa</th>
-                            <th width="25%">Status</th>
-                            <th width="25%">Deskripsi</th>
+                            <th width="20%">Kode Inventaris</th>
+                            <th width="15%">Kode Barang</th>
+                            <th width="20%">Nama Barang</th>
+                            <th width="5%">Baik</th>
+                            <th width="5%">Rusak</th>
+                            <th width="5%">Total</th>
+                            <th width="10%">Tahun</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($inventaris as $data)
                         <tr>
                             <td>{{ $data->kode_inventaris }}</td>
-                            <td>{{ $data->id }}</td>
-                            <td>{{ $data->created_at }}</td>
-                            <td>{{ $data->nama }} - {{ $data->tipe }}</td>
-                            <td>{{ $data->masuk }}</td>
-                            <td>{{ $data->keluar }}</td>
-                            <td>{{ $data->total }}</td>
-                            <td>@if ($data->status == 1)
-                                <span class="badge badge-success">Masuk</span>
-                                @else
-                                <span class="badge badge-danger">Keluar</span>
-                                @endif</td>
-                            <td>{{ $data->deskripsi }}</td>
+                            <td>{{ $data->barang->kode_barang }}</td>
+                            <td>{{ $data->barang->nama }} - {{ $data->barang->tipe }}</td>
+                            <td>{{ $data->barang->stock }}</td>
+                            @if ( $data->barang->jml_rusak == null)
+                            <td>0</td>
+                            @else
+                            <td>{{ $data->barang->jml_rusak }}</td>
+                            @endif
+                            <td>{{ $data->barang->stock + $data->barang->jml_rusak }}</td>
+                            <td>{{substr($data->kode_inventaris,-4)}}</td>
                         </tr>
                         @endforeach
                     </tbody>
