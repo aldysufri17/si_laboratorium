@@ -13,15 +13,6 @@
             <li class="breadcrumb-item">Barang Rusak</li>
         </ol>
     </div>
-    @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <a href="{{ route('inventaris.add', auth()->user()->role_id) }}" class="btn btn-sm btn-success">
-            <i class="fas fa-plus"></i> Tambah Baru
-        </a>
-    </div>
-    @endrole
-    {{-- Alert Messages --}}
-    @include('sweetalert::alert')
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4 border-0 bgdark">
@@ -60,21 +51,21 @@
                     @else
                     <thead>
                         <tr>
-                            <th width="10%">Status</th>
-                            <th width="20%">ID Barang</th>
+                            <th width="25%">Kode Barang</th>
+                            <th width="20%">Kategori Barang</th>
                             <th width="25%">Nama Barang</th>
-                            <th width="25%">Tipe</th>
-                            <th width="25%">Jumlah</th>
+                            <th width="20%">Jumlah</th>
+                            <th width="10%">Status</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($barang as $data)
                         <tr>
+                            <td>{{ $data->kode_barang }}</td>
+                            <td>{{ $data->kategori->nama_kategori }}</td>
+                            <td>{{ $data->nama }} - {{ $data->tipe }}</td>
+                            <td>{{ $data->jml_rusak }} - {{$data->satuan->nama_satuan}}</td>
                             <td><span class="badge badge-danger">Rusak</span></td>
-                            <td>{{ $data->id }}</td>
-                            <td>{{ $data->nama }}</td>
-                            <td>{{ $data->tipe }}</td>
-                            <td>{{ $data->jml_rusak }}</td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -96,14 +87,6 @@
             <li class="breadcrumb-item">Daftar Barang Rusak</li>
         </ol>
     </div>
-    @include('sweetalert::alert')
-    @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <a href="{{ route('inventaris.add', auth()->user()->role_id) }}" class="btn btn-sm btn-success">
-            <i class="fas fa-plus"></i> Tambah Baru
-        </a>
-    </div>
-    @endrole
     <div class="align-items-center bg-light p-3 border-left-success rounded">
         <span class="">Oops!</span><br>
         <p><i class="fa-solid fa-circle-info text-info"></i> Belum Terdapat Data Barang Rusak</p>

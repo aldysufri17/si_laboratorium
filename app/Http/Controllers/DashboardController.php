@@ -47,7 +47,9 @@ class DashboardController extends Controller
             $peminjaman = Peminjaman::where('kategori_lab', $kategori_lab)->where('status', 0)->get();
             $total = Peminjaman::where('kategori_lab', $kategori_lab)->where('status', 0)->count();
             $request->session()->flash('eror', "$total pengajuan belum disetujui !!!");
-            return view('backend.dashboard',  compact(['peminjaman']));
+            $telat = Peminjaman::where('status', 3)->where('tgl_end', '<', date('Y-m-d'))->where('kategori_lab', $kategori_lab)->paginate(5);
+            $habis = Barang::where('stock', 0)->paginate(5);
+            return view('backend.dashboard',  compact(['peminjaman', 'telat', 'habis']));
         }
         return view('backend.dashboard');
     }

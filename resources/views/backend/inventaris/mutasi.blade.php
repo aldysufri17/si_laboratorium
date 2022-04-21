@@ -8,10 +8,10 @@
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-2">
-        <h1 class="h5 mb-0 text-light">Mutasi Stock Peminjaman</h1>
+        <h1 class="h5 mb-0 text-light">Mutasi Stock Barang</h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Dashboard</a></li>
-            <li class="breadcrumb-item">Mutasi Stock Peminjaman</li>
+            <li class="breadcrumb-item">Mutasi Stock Barang</li>
         </ol>
     </div>
     @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
@@ -28,7 +28,7 @@
     <!-- DataTales Example -->
     <div class="card shadow mb-4 border-0 bgdark">
         <div class="card-body">
-            <h6 class="m-0 font-weight-bold text-light">Mutasi Stock Peminjaman</h6>
+            <h6 class="m-0 font-weight-bold text-light">Mutasi Stock Barang</h6>
             <div class="table-responsive">
                 <table id="dataTable" class="table table-borderless dt-responsive" cellspacing="0" width="100%">
                     @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
@@ -36,11 +36,11 @@
                         <tr>
                             <th width="25%">Kode Barang</th>
                             <th width="25%">Nama Barang</th>
-                            <th width="10%">Penambahan</th>
-                            <th width="10%">Pengurangan</th>
-                            <th width="10%">Sisa</th>
-                            <th width="15%">Status</th>
-                            <th width="25%">Deskripsi</th>
+                            <th width="5%">Masuk</th>
+                            <th width="5%">Keluar</th>
+                            <th width="5%">Sisa</th>
+                            <th width="10%">Status</th>
+                            <th width="10%">Deskripsi</th>
                             <th width="25%">Tanggal</th>
                         </tr>
                     </thead>
@@ -109,15 +109,15 @@
 <div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-2">
-        <h1 class="h5 mb-0 text-light">Mutasi Stock Peminjaman</h1>
+        <h1 class="h5 mb-0 text-light">Mutasi Stock Barang</h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Dashboard</a></li>
-            <li class="breadcrumb-item">Mutasi Stock Peminjaman</li>
+            <li class="breadcrumb-item">Mutasi Stock Barang</li>
         </ol>
     </div>
     <div class="align-items-center bg-light p-3 border-left-success rounded">
         <span class="">Oops!</span><br>
-        <p><i class="fa-solid fa-circle-info text-info"></i> Belum Terdapat Data Peminjaman</p>
+        <p><i class="fa-solid fa-circle-info text-info"></i> Belum Terdapat Data Mutasi</p>
     </div>
 </div>
 @endif

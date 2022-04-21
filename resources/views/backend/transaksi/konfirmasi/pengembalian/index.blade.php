@@ -62,7 +62,7 @@
                                     $now = \Carbon\Carbon::createFromFormat('Y-m-d', date('Y-m-d'));
                                     $late = $start->diffInDays($now);
                                     @endphp
-                                    <td>{{ $late.' '.'Hari' }}</td>
+                                    <td><span class="badge badge-danger">{{ $late.' '.'Hari' }}</span></td>
                                     @else
                                     <td>-</td>
                                     @endif
