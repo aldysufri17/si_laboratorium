@@ -77,7 +77,7 @@
                 </div>
                 <div class="modal-body text-center bgdark">
                     @php
-                    $qr = 'ID = '.$barang->id . ' - '. 'Nama = '. $barang->nama .' '. $barang->tipe .' - '. 'Lokasi = '. $barang->lokasi
+                    $qr = 'Kode = '.$barang->kode_barang . ' - '. 'Nama = '. $barang->nama .' '. $barang->tipe .' - '. 'Lokasi = '. $barang->lokasi
                     @endphp
                     <img src="data:image/png;base64,{{DNS2D::getBarcodePNG(strval($qr), 'QRCODE',5,5)}}" style="background-color: rgb(255, 255, 255); padding:5px; border-radius:1px" alt="barcode" />
                 </div>
