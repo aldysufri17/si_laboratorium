@@ -41,7 +41,7 @@
             <button id="notif" type="button" class="close" data-dismiss="alert">
                 <i class="fa fa-times"></i>
             </button>
-            <strong>Stok tidak mencukupi, Pengajuan {{$data->barang->nama}} {{ $message }}</strong> {{ session('error') }}
+            <strong>Pengajuan {{$data->barang->nama}} {{ $message }}</strong> {{ session('error') }}
         </div>
         @endif
     </a>
@@ -378,7 +378,7 @@
                                         @endif
                                     </td>
                                     <td colspan="4">
-                                        <p class="font-weight-bold text-center text-danger mt-3">== KEMBALIKAN KE LABORATORIM TERKAIT MAKSIMAL {{$data->tgl_end}} ==<br>
+                                        <p class="font-weight-bold text-center text-danger mt-3">== KEMBALIKAN KE LABORATORIUM TERKAIT MAKSIMAL {{$data->tgl_end}} ==<br>
                                             @if ($data->tgl_end < date('Y-m-d')) @php
                                         $start=\Carbon\Carbon::createFromFormat('Y-m-d', $data->tgl_end);
                                         $now = \Carbon\Carbon::createFromFormat('Y-m-d', date('Y-m-d'));

@@ -69,6 +69,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('inventaris/export-csv/{data}', [App\Http\Controllers\InventarisController::class, 'export'])->name('export.inventaris');
         Route::get('/select', [App\Http\Controllers\InventarisController::class, 'select'])->name('select.inventaris');
         Route::get('/mutasi', [App\Http\Controllers\InventarisController::class, 'mutasi'])->name('mutasi');
+        Route::get('mutasi/admin/{data}', [App\Http\Controllers\InventarisController::class, 'adminMutasi'])->name('admin.mutasi');
         Route::get('/PDF/{id}', [App\Http\Controllers\InventarisController::class, 'inventarisPdf'])->name('inventaris.pdf');
 
 

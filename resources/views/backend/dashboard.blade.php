@@ -510,7 +510,7 @@
                     <div class="row no-gutters align-items-center">
                         <div class="col mr-2">
                             <div class="text-xs font-weight-bold text-danger text-uppercase mb-1">
-                                Total Histori Peminjaman Seluruh Lab</div>
+                                Total Peminjaman Selesai Seluruh Lab</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">
                                 {{App\Models\Peminjaman::where('status', 4)->count()}}</div>
                         </div>
@@ -543,6 +543,7 @@
     @endrole
 </div>
 
+@role('operator embedded|operator rpl|operator jarkom|operator mulmed')
 <div class="d-flex justify-content-around flex-wrap">
     <div class="Habis" style="width: 500px">
         <table class="table table-striped table-dark table-bordered">
@@ -613,5 +614,6 @@
         {{$telat->links()}}
     </div>
 </div>
+@endrole
 
 @endsection

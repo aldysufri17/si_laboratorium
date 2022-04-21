@@ -149,8 +149,18 @@ class PeminjamanController extends Controller
 
     public function konfirmasiPeminjamanDetail($data)
     {
+        if (Auth::user()->role_id == 3) {
+            $kategori_lab = 1;
+        } elseif (Auth::user()->role_id == 4) {
+            $kategori_lab = 2;
+        } elseif (Auth::user()->role_id == 5) {
+            $kategori_lab = 3;
+        } elseif (Auth::user()->role_id == 6) {
+            $kategori_lab = 4;
+        }
         $peminjaman = Peminjaman::with('user', 'barang')
             ->where('date', $data)
+            ->where('kategori_lab', $kategori_lab)
             ->where('status', '=', 2)
             ->paginate(5);
         return view('backend.transaksi.konfirmasi.peminjaman.detail', compact('peminjaman'));
@@ -341,9 +351,9 @@ class PeminjamanController extends Controller
             $kategori_lab = 4;
         }
         $peminjaman = Peminjaman::with('user', 'barang')
-            ->where('kategori_lab', $kategori_lab)
             ->where('status', 3)
             ->orwhere('status', 5)
+            ->where('kategori_lab', $kategori_lab)
             ->paginate(5);
         return view('backend.transaksi.konfirmasi.pengembalian.index', compact('peminjaman'));
     }

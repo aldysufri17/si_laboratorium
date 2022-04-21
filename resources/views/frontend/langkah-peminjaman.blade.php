@@ -108,16 +108,16 @@
                     <center><img class="card-img-top p-2" src="{{asset('frontend/img/langkah/surat.png')}}"
                             height="230px" style="width: 250px" alt="Card image cap"></center>
                     <div class="card-body">
-                        <h5><strong>Langkah 9</strong></h5>
-                        <p class="card-text text-justify">Peminjaman akan diaktifkan ketika anda mengambil barang pada laboratorium terkait. <strong><p class="text-danger">(dibuktikan dengan surat pengajuan)</p></strong></p>
+                        <h5><strong>Surat Pengajun Peminjaman</strong></h5>
+                        <p class="card-text text-justify"><strong><p class="text-danger">(Pengambilan barang harus dibuktikan dengan surat pengajuan)</p></strong></p>
                     </div>
                 </div>
                 <div class="card mt-3" style="width: 25rem;">
                     <img class="card-img-top p-2" src="{{asset('frontend/img/langkah/aktif.png')}}"
                             height="230px" alt="Card image cap">
                     <div class="card-body">
-                        <h5><strong>Langkah 10</strong></h5>
-                        <p class="card-text text-justify">Ketika anda sudah mengambil barang, Peminjaman akan diaktifkan operator, anda dapat melihat barang peminjaman aktif pada halaman daftar peminjaman aktif</p>
+                        <h5><strong>Langkah 9</strong></h5>
+                        <p class="card-text text-justify">Peminjaman diaktifkan oleh operator laboratorium, anda dapat melihat daftar peminjaman aktif anda pada halaman peminjaman aktif</p>
                     </div>
                 </div>
             </div>

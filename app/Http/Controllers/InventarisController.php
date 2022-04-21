@@ -50,6 +50,7 @@ class InventarisController extends Controller
     {
         $inventaris = Inventaris::with('barang')
             ->where('kategori_lab', $data)
+            ->where('status', 2)
             ->orderBy('created_at', 'desc')
             ->paginate(10);
         return view('backend.inventaris.admin-inventaris', compact('inventaris'));
@@ -301,18 +302,32 @@ class InventarisController extends Controller
         return view('backend.inventaris.mutasi', ['inventaris' => $inventaris]);
     }
 
+    public function adminMutasi($data)
+    {
+        $inventaris = Inventaris::with('barang')
+            ->where('kategori_lab', $data)
+            ->where('status', '!=', 2)
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+        return view('backend.inventaris.admin-mutasi', compact('inventaris'));
+    }
+
     public function inventarisPdf($id)
     {
         if (Auth::user()->role_id == 3) {
             $name = "Laboratorium Sistem Tertanam dan Robotika";
+            $kategori_lab = 1;
         } elseif (Auth::user()->role_id == 4) {
             $name = "Laboratorium Rekayasa Perangkat Lunak";
+            $kategori_lab = 2;
         } elseif (Auth::user()->role_id == 5) {
             $name = "Laboratorium Jaringan dan Keamanan Komputer";
+            $kategori_lab = 3;
         } elseif (Auth::user()->role_id == 6) {
             $name = "Laboratorium Multimedia";
+            $kategori_lab = 4;
         }
-        $inventaris = Inventaris::where('status', 2)->get();
+        $inventaris = Inventaris::where('status', 2)->where('kategori_lab', $kategori_lab)->get();
         // return view('backend.inventaris.pdf_inventaris', compact('name', 'inventaris'));
         $pdf = Pdf::loadview('backend.inventaris.pdf_inventaris', compact('name', 'inventaris'));
 

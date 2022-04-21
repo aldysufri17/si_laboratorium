@@ -30,21 +30,21 @@
                 <table id="dataTable" class="table table-borderless dt-responsive" cellspacing="0" width="100%">
                     <thead>
                         <tr>
-                            <th width="10%">Status</th>
-                            <th width="20%">ID Barang</th>
+                            <th width="25%">Kode Barang</th>
+                            <th width="20%">Kategori Barang</th>
                             <th width="25%">Nama Barang</th>
-                            <th width="25%">Tipe</th>
-                            <th width="25%">Jumlah</th>
+                            <th width="20%">Jumlah</th>
+                            <th width="10%">Status</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($barang as $data)
                         <tr>
+                            <td>{{ $data->kode_barang }}</td>
+                            <td>{{ $data->kategori->nama_kategori }}</td>
+                            <td>{{ $data->nama }} - {{ $data->tipe }}</td>
+                            <td>{{ $data->jml_rusak }} - {{$data->satuan->nama_satuan}}</td>
                             <td><span class="badge badge-danger">Rusak</span></td>
-                            <td>{{ $data->id }}</td>
-                            <td>{{ $data->nama }}</td>
-                            <td>{{ $data->tipe }}</td>
-                            <td>{{ $data->jml_rusak }}</td>
                         </tr>
                         @endforeach
                     </tbody>

@@ -78,7 +78,7 @@
         <div id="peminjamanDropDown" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class=" py-2 collapse-inner rounded" style="background-color: rgb(230, 230, 230)">
                 <a class="collapse-item text-red" href="{{ route('konfirmasi.pengajuan') }}">Pengajuan</a>
-                <a class="collapse-item text-red" href="{{ route('konfirmasi.peminjaman') }}">Peminjaman</a>
+                <a class="collapse-item text-red" href="{{ route('konfirmasi.peminjaman') }}">Aktivasi Peminjaman</a>
                 <a class="collapse-item text-red" href="{{route('konfirmasi.pengembalian')}}">Pengembalian</a>
             </div>
         </div>
