@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exports\UsersExport;
 use App\Imports\UsersImport;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
@@ -269,5 +270,13 @@ class UserController extends Controller
     {
         $fileName = date('Y-m-d') . '_' . 'Data Pengguna' . '.xlsx';
         return Excel::download(new UsersExport,  $fileName);
+    }
+
+    public function userPdf()
+    {
+        $user = User::where('status', 1)->get();
+        $pdf = Pdf::loadview('backend.users.pdf_user', compact('user'));
+
+        return $pdf->download("Data Pengguna" . "_" . date('d-m-Y') . '.pdf');
     }
 }

@@ -13,10 +13,13 @@
             <li class="breadcrumb-item">Catatan Inventaris</li>
         </ol>
     </div>
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+    <div class="d-sm-flex mb-4">
         <a class="btn btn-sm btn-danger" href="javascript:history.back()"><i class="fas fa-angle-double-left"></i> Kembali</a>
-        <a href="{{ route('export.inventaris', Request::route('data')) }}" class="btn btn-sm btn-warning">
+        <a href="{{ route('export.inventaris', Request::route('data')) }}" class="btn btn-sm btn-warning mx-3">
             <i class="fa-solid fa-file-csv"></i> Export Exel
+        </a>
+        <a href="{{ route('inventaris.pdf',Request::route('data')) }}" class="btn btn-sm btn-info">
+            <i class="fa-solid fa-file-export"></i> Export PDF
         </a>
     </div>
 

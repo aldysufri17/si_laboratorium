@@ -312,8 +312,26 @@ class InventarisController extends Controller
         return view('backend.inventaris.admin-mutasi', compact('inventaris'));
     }
 
-    public function inventarisPdf($id)
+    public function inventarisPdf($data)
     {
+        if (Auth::user()->role_id == 2) {
+            if (Auth::user()->role_id == 2) {
+                if ($data == 1) {
+                    $name = 'Laboratorium Sistem Tertanam dan Robotika';
+                    $kategori_lab = 1;
+                } elseif ($data == 2) {
+                    $name = 'Laboratorium Rekayasa Perangkat Lunak';
+                    $kategori_lab = 2;
+                } elseif ($data == 3) {
+                    $name = 'Laboratorium Jaringan dan Keamanan Komputer';
+                    $kategori_lab = 3;
+                } elseif ($data == 4) {
+                    $name = 'Laboratorium Multimedia';
+                    $kategori_lab = 4;
+                }
+            }
+        }
+
         if (Auth::user()->role_id == 3) {
             $name = "Laboratorium Sistem Tertanam dan Robotika";
             $kategori_lab = 1;

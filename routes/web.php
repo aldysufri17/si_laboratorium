@@ -45,6 +45,7 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/update/status/{user_id}/{status}', [UserController::class, 'updateStatus'])->name('status');
             Route::post('/import-csv', [UserController::class, 'import'])->name('import');
             Route::get('/export-csv', [UserController::class, 'export'])->name('export');
+            Route::get('/user-PDF', [App\Http\Controllers\UserController::class, 'userPdf'])->name('pdf');
         });
 
         // Roles
@@ -61,6 +62,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/qr-code/{data}', [App\Http\Controllers\BarangController::class, 'qrcode'])->name('qrcode');
         Route::get('export-csv/{data}', [App\Http\Controllers\BarangController::class, 'export'])->name('export.barang');
         Route::post('import-csv', [App\Http\Controllers\BarangController::class, 'import'])->name('import.barang');
+        Route::get('barang/PDF/{id}', [App\Http\Controllers\BarangController::class, 'barangPdf'])->name('barang.pdf');
+
 
         // Inventaris
         Route::resource('inventaris', App\Http\Controllers\InventarisController::class);

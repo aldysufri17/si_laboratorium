@@ -18,8 +18,11 @@
         <a href="{{ route('qrcode', Request::route('data')) }}" class="btn btn-sm btn-primary mx-3">
             <i class="fas fa-qrcode"></i> Cetak Semua QR-Code
         </a>
-        <a href="{{ route('export.barang', Request::route('data')) }}" class="btn btn-sm btn-warning">
+        <a href="{{ route('export.barang', Request::route('data')) }}" class="btn btn-sm btn-warning mr-3">
             <i class="fa-solid fa-file-csv"></i> Export Exel
+        </a>
+        <a href="{{ route('barang.pdf',Request::route('data')) }}" class="btn btn-sm btn-info">
+            <i class="fa-solid fa-file-export"></i> Export PDF
         </a>
     </div>
     {{-- Alert Messages --}}

@@ -429,4 +429,44 @@ class BarangController extends Controller
         Excel::import(new BarangImport, request()->file('file'));
         return redirect()->back()->with('success', 'Barang berhasil ditambah!.');
     }
+
+    public function barangPdf($data)
+    {
+        if (Auth::user()->role_id == 2) {
+            if (Auth::user()->role_id == 2) {
+                if ($data == 1) {
+                    $name = 'Laboratorium Sistem Tertanam dan Robotika';
+                    $kategori_lab = 1;
+                } elseif ($data == 2) {
+                    $name = 'Laboratorium Rekayasa Perangkat Lunak';
+                    $kategori_lab = 2;
+                } elseif ($data == 3) {
+                    $name = 'Laboratorium Jaringan dan Keamanan Komputer';
+                    $kategori_lab = 3;
+                } elseif ($data == 4) {
+                    $name = 'Laboratorium Multimedia';
+                    $kategori_lab = 4;
+                }
+            }
+        }
+
+        if (Auth::user()->role_id == 3) {
+            $name = "Laboratorium Sistem Tertanam dan Robotika";
+            $kategori_lab = 1;
+        } elseif (Auth::user()->role_id == 4) {
+            $name = "Laboratorium Rekayasa Perangkat Lunak";
+            $kategori_lab = 2;
+        } elseif (Auth::user()->role_id == 5) {
+            $name = "Laboratorium Jaringan dan Keamanan Komputer";
+            $kategori_lab = 3;
+        } elseif (Auth::user()->role_id == 6) {
+            $name = "Laboratorium Multimedia";
+            $kategori_lab = 4;
+        }
+        $barang = Barang::where('kategori_lab', $kategori_lab)->get();
+        // return view('backend.inventaris.pdf_inventaris', compact('name', 'inventaris'));
+        $pdf = Pdf::loadview('backend.barang.pdf_barang', compact('name', 'barang'));
+
+        return $pdf->download("Data Barang" . "_" . $name . '_' . date('d-m-Y') . '.pdf');
+    }
 }

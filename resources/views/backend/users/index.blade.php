@@ -21,8 +21,11 @@
         </a>
         <a class="btn btn-sm btn-info mx-3" data-toggle="modal" data-target="#importModal">
             <i class="fa-solid fa-file-csv"></i> Import Exel</a>
-        <a href="{{ route('users.export') }}" class="btn btn-sm btn-warning">
+        <a href="{{ route('users.export') }}" class="btn btn-sm btn-warning mr-3">
             <i class="fa-solid fa-file-csv"></i> Export Exel
+        </a>
+        <a href="{{ route('users.pdf') }}" class="btn btn-sm btn-danger">
+            <i class="fa-solid fa-file-export"></i> Export PDF
         </a>
     </div>
     @endrole

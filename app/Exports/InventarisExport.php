@@ -42,7 +42,7 @@ class InventarisExport implements FromCollection, WithHeadings
         return [
             ['Data Inventaris ' . $name . " Pada " . date('Y-m-d')],
             [
-                'Date', 'Kode_inventaris', 'Nama Barang', 'Masuk', 'Keluar', 'Total', 'Keterangan'
+                'Date', 'Kode_inventaris', 'Nama Barang', 'Tipe', 'Baik', 'Rusak'
             ]
         ];
     }
@@ -75,11 +75,9 @@ class InventarisExport implements FromCollection, WithHeadings
         }
 
         $inventaris = Inventaris::join('barang', 'barang.id', '=', 'inventaris.barang_id')
-            ->select('inventaris.created_at', 'kode_inventaris', 'barang.nama', 'masuk', 'keluar', 'total', 'deskripsi')
+            ->select('kode_inventaris', 'kode_barang', 'barang.nama', 'barang.tipe', 'barang.stock', 'barang.jml_rusak')
             ->where('inventaris.kategori_lab', $kategori_lab)
-            ->where('deskripsi', '=', 'New')
-            ->orWhere('deskripsi', '=', 'Clear')
-            ->orWhere('deskripsi', '=', 'Rusak')
+            ->where('status', 2)
             ->orderBy('inventaris.created_at', 'DESC')
             ->get();
         return $inventaris;
