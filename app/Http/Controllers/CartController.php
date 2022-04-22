@@ -49,6 +49,7 @@ class CartController extends Controller
                 'user_id' => Auth::user()->id,
                 'barang_id' => $id,
                 'status' => 0,
+                'jumlah' => 1,
             ]);
             if ($cart) {
                 return redirect()->route('cart')->with('success', 'Barang berhasil ditambah!.');
@@ -72,8 +73,22 @@ class CartController extends Controller
 
     public function pengajuan($id)
     {
+        $user_id = Auth::user()->id;
+        $cart = Cart::where('barang_id', $id)->where('user_id', $user_id)->first();
         $barang = Barang::whereId($id)->first();
-        $peminjaman = Peminjaman::where('barang_id', $id)->paginate(5);
-        return view('frontend.form-pengajuan', compact('barang', 'peminjaman'));
+        $peminjaman = Peminjaman::where('barang_id', $id)->where('user_id', $user_id)->paginate(5);
+        return view('frontend.form-pengajuan', compact('barang', 'peminjaman', 'cart'));
+    }
+    public function jumlah(Request $request)
+    {
+        if ($request->plus) {
+            $id = $request->plus;
+            Cart::find($id)->increment('jumlah');
+        } else {
+            $id = $request->min;
+            Cart::find($id)->decrement('jumlah');
+        }
+        $increment = Cart::find($id)->value('jumlah');
+        return response($increment);
     }
 }

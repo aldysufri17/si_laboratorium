@@ -127,6 +127,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/cart', [App\Http\Controllers\CartController::class, 'index'])->name('cart');
         Route::get('/cart/store/{id}', [App\Http\Controllers\CartController::class, 'store'])->name('cart.store');
         Route::delete('/cart/delete/{id}', [App\Http\Controllers\CartController::class, 'destroy'])->name('cart.destroy');
+        Route::get('/cart/jumlah', [App\Http\Controllers\CartController::class, 'jumlah'])->name('cart.jumlah');
         Route::get('/form/pengajuan/{id}', [App\Http\Controllers\CartController::class, 'pengajuan'])->name('form.pengajuan');
 
 
