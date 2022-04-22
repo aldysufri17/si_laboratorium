@@ -88,7 +88,7 @@ class CartController extends Controller
             $id = $request->min;
             Cart::find($id)->decrement('jumlah');
         }
-        $increment = Cart::find($id)->value('jumlah');
-        return response($increment);
+        $jumlah = Cart::find($id)->value('jumlah');
+        return response($jumlah);
     }
 }
