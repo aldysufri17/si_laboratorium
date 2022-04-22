@@ -74,21 +74,8 @@ class CartController extends Controller
     public function pengajuan($id)
     {
         $user_id = Auth::user()->id;
-        $cart = Cart::where('barang_id', $id)->where('user_id', $user_id)->first();
         $barang = Barang::whereId($id)->first();
         $peminjaman = Peminjaman::where('barang_id', $id)->where('user_id', $user_id)->paginate(5);
-        return view('frontend.form-pengajuan', compact('barang', 'peminjaman', 'cart'));
-    }
-    public function jumlah(Request $request)
-    {
-        if ($request->plus) {
-            $id = $request->plus;
-            Cart::find($id)->increment('jumlah');
-        } else {
-            $id = $request->min;
-            Cart::find($id)->decrement('jumlah');
-        }
-        $jumlah = Cart::find($id)->value('jumlah');
-        return response($jumlah);
+        return view('frontend.form-pengajuan', compact('barang', 'peminjaman'));
     }
 }

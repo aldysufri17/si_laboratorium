@@ -68,18 +68,6 @@
                                         </p>
                                     </div>
                                     <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                                        <button class="btn btn-link px-2" id="min" value="{{$data->id}}">
-                                          <i class="fas fa-minus"></i>
-                                        </button>
-                        
-                                        <input id="jumlah" min="0" name="quantity" value="{{$data->jumlah}}" type="number"
-                                          class="form-control form-control-sm" />
-                        
-                                        <button class="btn btn-link px-2" id="plus" value="{{$data->id}}">
-                                          <i class="fas fa-plus"></i>
-                                        </button>
-                                      </div>
-                                    <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
                                         <a class="btn" title="Form"
                                             href="{{route('form.pengajuan', $data->barang->id)}}">
                                             <i class="fas fa-edit text-primary"></i>
@@ -168,37 +156,5 @@
     setTimeout(function () {
         document.getElementById('notif').click();
     }, 4000);
-
-    $(document).on('click', '#plus', function () {
-        var id = $(this).val()
-        console.log(id);
-
-        $.ajax({
-            url: "{{ route('cart.jumlah') }}",
-            type: "GET",
-            data: {
-                plus: id
-            },
-            success: function (data) {
-                $('#jumlah').val(data);
-                location.reload();
-            }
-        });
-    });
-    $(document).on('click', '#min', function () {
-        var id = $(this).val()
-        console.log(id);
-        $.ajax({
-            url: "{{ route('cart.jumlah') }}",
-            type: "GET",
-            data: {
-                min: id
-            },
-            success: function (data) {
-                $('#jumlah').val(data);
-                location.reload();
-            }
-        });
-    });
 </script>
 @endsection

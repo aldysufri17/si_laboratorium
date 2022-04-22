@@ -84,7 +84,7 @@
                                     <span>Jumlah</span>
                                     <input type="number"
                                         class="form-control mt-2 mb-3 @error('jumlah') is-invalid @enderror"
-                                        placeholder="Jumlah" name="jumlah" min="1" value="{{$cart->jumlah}}">
+                                        placeholder="Jumlah" name="jumlah" min="1">
                                     @error('jumlah')
                                     <span class="text-danger">{{$message}}</span>
                                     @enderror
