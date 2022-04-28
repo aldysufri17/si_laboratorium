@@ -24,7 +24,7 @@ class CreateBarangTable extends Migration
             $table->text('kategori_lab')->nullable();
             $table->date('tgl_masuk');
             $table->text('lokasi');
-            $table->integer('info');
+            $table->text('info')->nullable();
             $table->integer('jml_rusak')->nullable();
             $table->string('gambar')->nullable();
             $table->integer('show');

@@ -62,8 +62,8 @@
         </a>
         <div id="inventarisDropDown" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class=" py-2 collapse-inner rounded" style="background-color: rgb(230, 230, 230)">
-                <a class="collapse-item text-red" href="{{ route('inventaris.index') }}">Data Inventaris</a>
                 <a class="collapse-item text-red" href="{{ route('inventaris.add', auth()->user()->role_id) }}">Tambah Inventaris</a>
+                <a class="collapse-item text-red" href="{{ route('inventaris.index') }}">Data Inventaris</a>
             </div>
         </div>
     </li>
@@ -74,12 +74,12 @@
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#peminjamanDropDown"
             aria-expanded="true" aria-controls="peminjamanDropDown">
             <i class="fa-solid fa-handshake"></i>
-            <span>Konfirmasi</span>
+            <span>Peminjaman</span>
         </a>
         <div id="peminjamanDropDown" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class=" py-2 collapse-inner rounded" style="background-color: rgb(230, 230, 230)">
                 <a class="collapse-item text-red" href="{{ route('konfirmasi.pengajuan') }}">Pengajuan</a>
-                <a class="collapse-item text-red" href="{{ route('konfirmasi.peminjaman') }}">Aktivasi Peminjaman</a>
+                <a class="collapse-item text-red" href="{{ route('konfirmasi.peminjaman') }}">Daftar Peminjam</a>
                 <a class="collapse-item text-red" href="{{route('konfirmasi.pengembalian')}}">Pengembalian</a>
             </div>
         </div>

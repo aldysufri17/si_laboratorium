@@ -125,14 +125,14 @@ Route::middleware(['auth'])->group(function () {
     Route::group(['middleware' => ['role:peminjam']], function () {
         Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
         Route::get('/pem', [App\Http\Controllers\HomeController::class, 'pem'])->name('pem');
-        Route::get('/cart', [App\Http\Controllers\CartController::class, 'index'])->name('cart');
-        Route::get('/cart/store/{id}', [App\Http\Controllers\CartController::class, 'store'])->name('cart.store');
-        Route::delete('/cart/delete/{id}', [App\Http\Controllers\CartController::class, 'destroy'])->name('cart.destroy');
-        Route::get('/form/pengajuan/{id}', [App\Http\Controllers\CartController::class, 'pengajuan'])->name('form.pengajuan');
-
+        Route::get('/cart', [App\Http\Controllers\KeranjangController::class, 'index'])->name('cart');
+        Route::get('/cart/store/{id}', [App\Http\Controllers\KeranjangController::class, 'store'])->name('cart.store');
+        Route::delete('/cart/delete/{id}', [App\Http\Controllers\KeranjangController::class, 'destroy'])->name('cart.destroy');
+        Route::get('/form/pengajuan/{id}', [App\Http\Controllers\KeranjangController::class, 'pengajuan'])->name('form.pengajuan');
+        Route::post('/checkout/{id}', [App\Http\Controllers\PeminjamanController::class, 'store'])->name('checkout');
+        Route::post('/keranjang/update/{id}', [App\Http\Controllers\KeranjangController::class, 'update'])->name('keranjang.update');
 
         Route::get('/daftar/pinjaman', [App\Http\Controllers\HomeController::class, 'pinjaman'])->name('daftar.pinjaman');
-        Route::post('/peminjaman/store/{id}', [App\Http\Controllers\PeminjamanController::class, 'store'])->name('peminjaman.store');
         Route::get('/peminjaman/edit/{id}', [App\Http\Controllers\PeminjamanController::class, 'edit'])->name('peminjaman.edit');
         Route::get('/kembalikan', [App\Http\Controllers\PeminjamanController::class, 'kembalikan'])->name('kembalikan');
         Route::post('/peminjaman/update/{id}', [App\Http\Controllers\PeminjamanController::class, 'update'])->name('peminjaman.update');

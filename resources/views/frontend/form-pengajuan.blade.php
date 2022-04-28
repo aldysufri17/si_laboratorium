@@ -26,15 +26,6 @@
         <strong>{{ $message }}</strong> {{ session('error') }}
     </div>
     @endif
-
-    @if ($message = Session::get('max'))
-    <div class="alert alert-warning alert-dismissible shake" role="alert">
-        <button type="button" id="notif" class="close" data-dismiss="alert">
-            <i class="fa fa-times"></i>
-        </button>
-        <strong>{{ $message }}</strong> {{ session('error') }}
-    </div>
-    @endif
     <section id="portfolio-details" class="portfolio-details">
         <div class="card shadow-sm mx-4 mb-4 bg-white rounded">
             <div class="row">
@@ -77,14 +68,14 @@
                                 <hr>
                             </div>
                         </div>
-                        <form action="{{route('peminjaman.store', $barang->id)}}" method="post">
+                        <form action="{{route('keranjang.update', $barang->id)}}" method="post">
                             @csrf
                             <div class="row mt-2">
                                 <div class="col-md-6">
                                     <span>Jumlah</span>
                                     <input type="number"
                                         class="form-control mt-2 mb-3 @error('jumlah') is-invalid @enderror"
-                                        placeholder="Jumlah" name="jumlah" min="1">
+                                        placeholder="Jumlah" name="jumlah" min="1" value="{{$keranjang->jumlah ? $keranjang->jumlah : ''}}">
                                     @error('jumlah')
                                     <span class="text-danger">{{$message}}</span>
                                     @enderror
@@ -94,9 +85,9 @@
                                     <select class="form-control form-control-user @error('alasan') is-invalid @enderror"
                                         name="alasan">
                                         <option selected disabled>Pilih Keperluan</option>
-                                        <option value="praktikum">Praktikum</option>
-                                        <option value="penelitian">Penelitian</option>
-                                        <option value="lainnya">Lainnya</option>
+                                        <option value="Praktikum" @if($keranjang->alasan == "Praktikum") selected @endif >Praktikum</option>
+                                        <option value="Penelitian" @if($keranjang->alasan == "Penelitian") selected @endif>Penelitian</option>
+                                        <option value="Lainnya" @if($keranjang->alasan == "Lainnya") selected @endif>Lainnya</option>
                                     </select>
                                     @error('alasan')
                                     <span class="text-danger">{{ $message }}</span>
@@ -107,11 +98,11 @@
                             <div class="row mt-2">
                                 <div class="col-md-6">
                                     <span>Tanggal Penggunaan</span>
-                                    <input type="date" class="form-control mt-2 mb-3" name="tgl_start">
+                                    <input type="date" class="form-control mt-2 mb-3" name="tgl_start" value="{{$keranjang->tgl_start ? $keranjang->tgl_start : ''}}">
                                 </div>
                                 <div class="col-md-6">
                                     <span>Tanggal Pengembalian</span>
-                                    <input type="date" class="form-control mt-2 mb-3" name="tgl_end">
+                                    <input type="date" class="form-control mt-2 mb-3" name="tgl_end" value="{{$keranjang->tgl_end ? $keranjang->tgl_end : ''}}">
                                 </div>
                             </div>
 

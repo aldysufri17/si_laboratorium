@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Barang;
-use App\Models\Cart;
+use App\Models\Keranjang;
 use App\Models\Peminjaman;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -145,7 +145,7 @@ class HomeController extends Controller
         }
 
         if (Auth::check()) {
-            $data = Cart::where('user_id', Auth::user()->id)->pluck('barang_id');
+            $data = Keranjang::where('user_id', Auth::user()->id)->pluck('barang_id');
         }
         if ($request->kategori_lab) {
             if (Auth::check()) {

@@ -19,7 +19,23 @@
     </section>
     <!-- Breadcrumbs Section -->
     @include('sweetalert::alert')
+    @if ($message = Session::get('max'))
+    <div class="alert alert-warning alert-dismissible shake" role="alert">
+        <button type="button" id="notif" class="close" data-dismiss="alert">
+            <i class="fa fa-times"></i>
+        </button>
+        <strong>{{ $message }}</strong> {{ session('error') }}
+    </div>
+    @endif
 
+    @if ($message = Session::get('form'))
+    <div class="alert alert-warning alert-dismissible shake" role="alert">
+        <button type="button" id="notif" class="close" data-dismiss="alert">
+            <i class="fa fa-times"></i>
+        </button>
+        <strong>{{ $message }}</strong> {{ session('error') }}
+    </div>
+    @endif
     <section id="portfolio-details" class="portfolio-details">
 
         @if ($cart->isNotEmpty())
@@ -37,11 +53,16 @@
                     <h3>Keranjang Pengajuan Barang</h3>
                 </center>
                 <div class="container h-100 py-3">
+                    <form action="{{route('checkout', auth()->user()->id)}}" method="post">
+                        @csrf
                     <div class="row d-flex justify-content-center align-items-center h-100">
                         @foreach ($cart as $data)
                         <div class="card rounded-3 mb-4">
                             <div class="card-body p-4">
                                 <div class="row d-flex justify-content-between align-items-center">
+                                    <div class="col-md-1 col-lg-1 col-xl-1">
+                                        <input style="border: 1px solid black" class="form-check-input checkbox"  type="checkbox" id="" name="ckd_chld[]" value="{{$data->id}}">
+                                    </div>
                                     <div class="col-md-2 col-lg-2 col-xl-2">
                                         <img src="{{ asset($data->barang->gambar ? 'images/barang/'. $data->barang->gambar : 'images/empty.jpg') }}"
                                             class="img-fluid rounded-3">
@@ -72,7 +93,7 @@
                                             href="{{route('form.pengajuan', $data->barang->id)}}">
                                             <i class="fas fa-edit text-primary"></i>
                                         </a>
-                                        <button class="btn delete-btn" title="Delete" value="{{$data->id}}">
+                                        <button type="button" class="btn delete-btn" title="Delete" value="{{$data->id}}">
                                             <i class="fas fa-trash fa-lg text-danger"></i>
                                         </button>
                                     </div>
@@ -80,8 +101,14 @@
                             </div>
                         </div>
                         @endforeach
+                        <div class="card">
+                            <div class="card-body">
+                              <button type="submit" id="off" class="btn btn-warning btn-block btn-lg">Checkout</button>
+                            </div>
+                          </div>
                         {{ $cart->links() }}
                     </div>
+                    </form>
                 </div>
             </div>
 
@@ -156,5 +183,17 @@
     setTimeout(function () {
         document.getElementById('notif').click();
     }, 4000);
+
+    $("#off").attr("disabled", true);
+    
+    $(function() {
+    $('.checkbox').click(function() {
+        if ($('.checkbox:checked').length > 0) {
+            $('#off').removeAttr('disabled');
+        } else {
+            $('#off').attr('disabled', 'disabled');
+        }
+    });
+});
 </script>
 @endsection
