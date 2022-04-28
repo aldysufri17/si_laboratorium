@@ -54,10 +54,13 @@
                                 <a class="btn btn-info" href="{{ route('konfirmasi.peminjaman.show', $data->id) }}" title="Show">
                                     <i class="fas fa-eye"></i>
                                 </a>
-                                <a href="{{ route('konfirmasi.peminjaman.status', ['id_peminjaman' => $data->id, 'status' => 1, 'barang_id' => $data->barang_id, 'jumlah' => $data->jumlah, 'user_id' => $data->user_id]) }}"
+                                <button class="btn btn-danger tolak-btn" title="Tolak" value="{{$data->id}}">
+                                    <i class="fa fa-ban"></i>
+                                </button>
+                                {{-- <a href="{{ route('konfirmasi.peminjaman.status', ['id_peminjaman' => $data->id, 'status' => 1, 'barang_id' => $data->barang_id, 'jumlah' => $data->jumlah, 'user_id' => $data->user_id]) }}"
                                     class="btn btn-danger mx-" data-toggle="tooltip" data-placement="top" title="Reject">
                                     <i class="fa fa-ban"></i>
-                                </a>
+                                </a> --}}
                                 <a href="{{ route('konfirmasi.peminjaman.status', ['id_peminjaman' => $data->id, 'status' => 2,'barang_id' => $data->barang_id, 'jumlah' => $data->jumlah, 'user_id' => $data->user_id]) }}"
                                     class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Accept">
                                     <i class="fa fa-check"></i>
@@ -72,7 +75,33 @@
         </div>
     </div>
 </div>
-
+<div class="modal fade" id="tolakModal" tabindex="-1" role="dialog" aria-labelledby="tolakModalExample"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content bgdark shadow-2-strong ">
+            <div class="modal-header bg-danger">
+                <h5 class="modal-title text-light" id="tolakModalExample">Berikan Alasan Penolakan</h5>
+                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <div class="modal-body border-0 text-light">
+                <form id="user-delete-form" method="GET" action="{{ route('peminjaman.tolak') }}">
+                    @csrf
+                    <input type="hidden" name="peminjaman_id" id="peminjaman_id">
+                    <textarea type="text" class="form-control form-control-user" placeholder="Pesan" name="pesan"></textarea>
+                </form>
+            </div>
+            <div class="modal-footer border-0">
+                <button class="btn btn-danger" type="button" data-dismiss="modal">Batal</button>
+                <a class="btn btn-primary" href="{{ route('logout') }}"
+                    onclick="event.preventDefault(); document.getElementById('user-delete-form').submit();">
+                    Oke
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
 @else
 <div class="container-fluid">
     <!-- Page Heading -->
@@ -107,6 +136,10 @@
             autoWidth: false,
         });
     });
-
+    $(document).on('click', '.tolak-btn',function () {
+            var sid = $(this).val();
+            $('#tolakModal').modal('show')
+            $('#peminjaman_id').val(sid)
+        });
 </script>
 @endsection

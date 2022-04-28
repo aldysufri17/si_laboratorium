@@ -24,6 +24,7 @@ class CreatePeminjamanTable extends Migration
             $table->text('alasan');
             $table->text('kategori_lab');
             $table->date('date');
+            $table->text('pesan')->nullable();
             $table->timestamps();
         });
     }

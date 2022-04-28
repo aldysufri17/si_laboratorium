@@ -327,13 +327,21 @@ class PeminjamanController extends Controller
             } else {
                 return redirect()->back()->with('error', 'Gagal diperbarui');
             }
+        }
+    }
+
+    public function tolak(Request $request)
+    {
+        $id_peminjaman = $request->peminjaman_id;
+        $pesan = $request->pesan;
+        if ($pesan == null) {
+            $pesan = "Stock Tidak Cukup";
+        }
+        $peminjaman = Peminjaman::whereId($id_peminjaman)->update(['status' => 1, 'pesan' => $pesan]);
+        if ($peminjaman) {
+            return redirect()->back()->with('info', 'Pengajuan Berhasil di Tolak!.');
         } else {
-            $peminjaman = Peminjaman::whereId($id_peminjaman)->update(['status' => $status]);
-            if ($peminjaman) {
-                return redirect()->back()->with('info', 'Pengajuan Berhasil di Tolak!.');
-            } else {
-                return redirect()->back()->with('error', 'Gagal diperbarui');
-            }
+            return redirect()->back()->with('error', 'Gagal diperbarui');
         }
     }
 

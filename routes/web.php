@@ -92,6 +92,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/konfirmasi/peminjaman/{data}', [App\Http\Controllers\PeminjamanController::class, 'konfirmasiPeminjamanDetail'])->name('konfirmasi.peminjaman.detail');
         // Route::get('/peminjaman/create', [App\Http\Controllers\PeminjamanController::class, 'create'])->name('peminjaman.create');
         Route::get('/konfirmasi/show/{data}', [App\Http\Controllers\PeminjamanController::class, 'show'])->name('konfirmasi.peminjaman.show');
+        Route::get('/konfirmasi/tolak', [App\Http\Controllers\PeminjamanController::class, 'tolak'])->name('peminjaman.tolak');
 
         // update status transaksi
         Route::get('/konfirmasi/{id_peminjaman}/{status}/{barang_id}/{jumlah}/{user_id}', [App\Http\Controllers\PeminjamanController::class, 'konfirmasiStatus'])->name('konfirmasi.peminjaman.status');

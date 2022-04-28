@@ -41,8 +41,10 @@ class HomeController extends Controller
             }
             // Ditolak
             $tolak = Peminjaman::where('user_id', $user_id)->where('status', 1)->get();
+            $alasan = Peminjaman::where('user_id', $user_id)->where('status', 1)->first();
             if ($tolak) {
-                $request->session()->flash('tolak', "ditolak !!");
+                $pesan = $alasan->pesan;
+                $request->session()->flash('tolak', "ditolak, $pesan !!");
             }
             // Diaktifkan
             $aktif = Peminjaman::where('user_id', $user_id)->where('tgl_end', '>', date('Y-m-d'))->where('status', 3)->get();
@@ -207,8 +209,10 @@ class HomeController extends Controller
         }
         // Ditolak
         $tolak = Peminjaman::where('user_id', $user_id)->where('status', 1)->get();
+        $alasan = Peminjaman::where('user_id', $user_id)->where('status', 1)->first();
         if ($tolak) {
-            $request->session()->flash('tolak', "ditolak !!");
+            $pesan = $alasan->pesan;
+            $request->session()->flash('tolak', "ditolak, $pesan !!");
         }
         // Diaktifkan
         $mulai = Peminjaman::where('user_id', $user_id)->where('tgl_end', '>', date('Y-m-d'))->where('status', 3)->get();
