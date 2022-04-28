@@ -108,7 +108,7 @@
                     <center><img class="card-img-top p-2" src="{{asset('frontend/img/langkah/surat.png')}}"
                             height="230px" style="width: 250px" alt="Card image cap"></center>
                     <div class="card-body">
-                        <h5><strong>Surat Pengajun Peminjaman</strong></h5>
+                        <h5><strong>Surat Pengajuan Peminjaman</strong></h5>
                         <p class="card-text text-justify"><strong><p class="text-danger">(Pengambilan barang harus dibuktikan dengan surat pengajuan)</p></strong></p>
                     </div>
                 </div>

@@ -20,46 +20,40 @@
     @include('sweetalert::alert')
     {{-- Pengajuan Disetujui --}}
     @foreach ($setujui as $data)
-    <a href="{{route('cart')}}">
-        @if ($message = Session::get('in'))
-        <div class="alert alert-success alert-dismissible shake" style="margin-bottom: -6px; margin:0 5px" role="alert">
-            <button id="notif" type="button" class="close" data-dismiss="alert">
-                <i class="fa fa-times"></i>
-            </button>
-            <strong>Pengajuan barang {{$data->barang->nama}} {{ $message }}</strong> {{ session('error') }}
-        </div>
-        @endif
-    </a>
+    @if ($message = Session::get('in'))
+    <div class="alert alert-success alert-dismissible shake" style="margin-bottom: -6px; margin:0 5px" role="alert">
+        <button id="notif" type="button" class="close" data-dismiss="alert">
+            <i class="fa fa-times"></i>
+        </button>
+        <strong>Pengajuan barang {{$data->barang->nama}} {{ $message }}</strong> {{ session('error') }}
+    </div>
+    @endif
     @endforeach
     {{-- end diseujui --}}
 
     {{-- Pengajuan ditolak --}}
     @foreach ($tolak as $data)
-    <a href="{{route('cart')}}">
-        @if ($message = Session::get('tolak'))
-        <div class="alert alert-danger alert-dismissible shake" style="margin-bottom: -6px; margin:0 5px" role="alert">
-            <button id="notif" type="button" class="close" data-dismiss="alert">
-                <i class="fa fa-times"></i>
-            </button>
-            <strong>Pengajuan {{$data->barang->nama}} {{ $message }}</strong> {{ session('error') }}
-        </div>
-        @endif
-    </a>
+    @if ($message = Session::get('tolak'))
+    <div class="alert alert-danger alert-dismissible shake" style="margin-bottom: -6px; margin:0 5px" role="alert">
+        <button id="notif" type="button" class="close" data-dismiss="alert">
+            <i class="fa fa-times"></i>
+        </button>
+        <strong>Pengajuan {{$data->barang->nama}} {{ $message }}</strong> {{ session('error') }}
+    </div>
+    @endif
     @endforeach
     {{-- end ditolak--}}
 
     {{-- Aktif --}}
     @foreach ($mulai as $data)
-    <a href="{{route('daftar.pinjaman')}}">
-        @if ($message = Session::get('aktif'))
-        <div class="alert alert-info alert-dismissible shake" style="margin-bottom: -6px; margin:0 5px" role="alert">
-            <button id="notif" type="button" class="close" data-dismiss="alert">
-                <i class="fa fa-times"></i>
-            </button>
-            <strong>Pengajuan barang {{$data->barang->nama}} {{ $message }}</strong> {{ session('error') }}
-        </div>
-        @endif
-    </a>
+    @if ($message = Session::get('aktif'))
+    <div class="alert alert-info alert-dismissible shake" style="margin-bottom: -6px; margin:0 5px" role="alert">
+        <button id="notif" type="button" class="close" data-dismiss="alert">
+            <i class="fa fa-times"></i>
+        </button>
+        <strong>Pengajuan barang {{$data->barang->nama}} {{ $message }}</strong> {{ session('error') }}
+    </div>
+    @endif
     @endforeach
     {{-- Aktif--}}
 
@@ -68,18 +62,15 @@
         $now = \Carbon\Carbon::createFromFormat('Y-m-d', date('Y-m-d'));
         $late = $start->diffInDays($now);
         @endphp
-        <a href="{{route('cart')}}">
-            @if ($message = Session::get('telat'))
-            <div class="alert alert-warning alert-dismissible shake" style="margin-bottom: -6px; margin:0 5px"
-                role="alert">
-                <button id="notif" type="button" class="close" data-dismiss="alert">
-                    <i class="fa fa-times"></i>
-                </button>
-                <strong>Pengembalian Barang {{$data->barang->nama}} {{ $message }} {{ $late }} Hari!!!</strong>
-                {{ session('error') }}
-            </div>
-            @endif
-        </a>
+        @if ($message = Session::get('telat'))
+        <div class="alert alert-warning alert-dismissible shake" style="margin-bottom: -6px; margin:0 5px" role="alert">
+            <button id="notif" type="button" class="close" data-dismiss="alert">
+                <i class="fa fa-times"></i>
+            </button>
+            <strong>Pengembalian Barang {{$data->barang->nama}} {{ $message }} {{ $late }} Hari!!!</strong>
+            {{ session('error') }}
+        </div>
+        @endif
         @endif
         @endforeach
 
@@ -378,13 +369,15 @@
                                         @endif
                                     </td>
                                     <td colspan="4">
-                                        <p class="font-weight-bold text-center text-danger mt-3">== KEMBALIKAN KE LABORATORIUM TERKAIT MAKSIMAL {{$data->tgl_end}} ==<br>
+                                        <p class="font-weight-bold text-center text-danger mt-3">== KEMBALIKAN KE
+                                            LABORATORIUM TERKAIT MAKSIMAL {{$data->tgl_end}} ==<br>
                                             @if ($data->tgl_end < date('Y-m-d')) @php
-                                        $start=\Carbon\Carbon::createFromFormat('Y-m-d', $data->tgl_end);
-                                        $now = \Carbon\Carbon::createFromFormat('Y-m-d', date('Y-m-d'));
-                                        $late = $start->diffInDays($now);
-                                        @endphp
-                                        <strong class="text-danger">ANDA TELAT MENGEMBALIKAN {{ $late.' '.'Hari' }}</strong></p>
+                                                $start=\Carbon\Carbon::createFromFormat('Y-m-d', $data->tgl_end);
+                                                $now = \Carbon\Carbon::createFromFormat('Y-m-d', date('Y-m-d'));
+                                                $late = $start->diffInDays($now);
+                                                @endphp
+                                                <strong class="text-danger">ANDA TELAT MENGEMBALIKAN
+                                                    {{ $late.' '.'Hari' }}</strong></p>
                                         @else
                                         @endif
                                     </td>
