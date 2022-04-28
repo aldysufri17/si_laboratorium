@@ -117,6 +117,9 @@ Route::middleware(['auth'])->group(function () {
 
         // Kategori
         Route::resource('kategori', App\Http\Controllers\KategoriController::class);
+
+        // Pengadaan
+        Route::resource('pengadaan', App\Http\Controllers\PengadaanController::class);
     });
 
 

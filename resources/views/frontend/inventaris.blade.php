@@ -31,7 +31,7 @@
                                 <th width="15%">Nama</th>
                                 <th width="15%">Stock</th>
                                 <th width="15%">Lokasi Barang</th>
-                                <th width="15%">Keterangan</th>
+                                <th width="15%">Jenis Pengadaan</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -52,13 +52,7 @@
                                 <td>{{ $data->nama }} - {{ $data->tipe }}</td>
                                 <td>{{ $data->stock }} {{ $data->satuan->nama_satuan }}</td>
                                 <td>{{ $data->lokasi }}</td>
-                                @if($data->info == 1)
-                                <td>Barang Inventaris</td>
-                                @elseif($data->info == 2)
-                                <td>Barang Habis Pakai</td>
-                                @elseif($data->info == 3)
-                                <td>Barang Hibah</td>
-                                @endif
+                                <td>{{ $data->pengadaan->nama_pengadaan }}</td>
                             </tr>
                             @endforeach
                         </tbody>

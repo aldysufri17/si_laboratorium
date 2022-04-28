@@ -13,6 +13,7 @@ use Barryvdh\DomPDF\Facade as PDF;
 use App\Exports\BarangExport;
 use App\Imports\BarangImport;
 use App\Models\Kategori;
+use App\Models\Pengadaan;
 use App\Models\Satuan;
 use App\Models\User;
 use Facade\FlareClient\Stacktrace\File;
@@ -83,7 +84,8 @@ class BarangController extends Controller
         }
         $kategori = Kategori::where('kategori_lab', $kategori_lab)->get();
         $satuan = Satuan::where('kategori_lab', $kategori_lab)->get();
-        return view('backend.barang.add', compact('kategori', 'satuan'));
+        $pengadaan = Pengadaan::all();
+        return view('backend.barang.add', compact('kategori', 'satuan', 'pengadaan'));
     }
 
     /**
@@ -103,7 +105,7 @@ class BarangController extends Controller
             'tgl_masuk' => 'required',
             'show'      => 'required|in:0,1',
             'lokasi'    => 'required',
-            'keterangan'    => 'required',
+            'pengadaan_id'    => 'required',
         ], [
             'required' => ':attribute wajib diisi',
         ]);
@@ -142,7 +144,8 @@ class BarangController extends Controller
                 'kategori_lab'  => $kategori_lab,
                 'satuan_id'     => $request->satuan_id,
                 'kategori_id'   => $request->kategori_id,
-                'info'          => $request->keterangan,
+                'pengadaan_id'          => $request->pengadaan_id,
+                'info'          => $request->info,
                 'gambar'        => $new_gambar,
             ]);
 
@@ -172,7 +175,8 @@ class BarangController extends Controller
                 'show'          => $request->show,
                 'lokasi'        => $request->lokasi,
                 'kategori_lab'  => $kategori_lab,
-                'info'          => $request->keterangan,
+                'pengadaan_id'          => $request->pengadaan_id,
+                'info'          => $request->info,
             ]);
 
             // Inventaris
@@ -216,9 +220,19 @@ class BarangController extends Controller
      */
     public function edit(Barang $barang)
     {
-        $satuan = Satuan::all();
-        $kategori = Kategori::all();
-        return view('backend.barang.edit', compact('barang', 'satuan', 'kategori'));
+        if (Auth::user()->role_id == 3) {
+            $kategori_lab = 1;
+        } elseif (Auth::user()->role_id == 4) {
+            $kategori_lab = 2;
+        } elseif (Auth::user()->role_id == 5) {
+            $kategori_lab = 3;
+        } elseif (Auth::user()->role_id == 6) {
+            $kategori_lab = 4;
+        }
+        $kategori = Kategori::where('kategori_lab', $kategori_lab)->get();
+        $satuan = Satuan::where('kategori_lab', $kategori_lab)->get();
+        $pengadaan = Pengadaan::all();
+        return view('backend.barang.edit', compact('barang', 'satuan', 'kategori', 'pengadaan'));
     }
 
     /**
@@ -258,7 +272,8 @@ class BarangController extends Controller
                 'lokasi'        => $request->lokasi,
                 'satuan_id'     => $request->satuan_id,
                 'kategori_id'   => $request->kategori_id,
-                'info'          => $request->keterangan,
+                'pengadaan_id'          => $request->pengadaan_id,
+                'info'          => $request->info,
                 'gambar'        => $new_gambar,
             ]);
         } else {
@@ -271,7 +286,8 @@ class BarangController extends Controller
                 'tgl_masuk'     => $request->tgl_masuk,
                 'show'          => $request->show,
                 'lokasi'        => $request->lokasi,
-                'info'        => $request->keterangan,
+                'pengadaan_id'        => $request->pengadaan_id,
+                'info'          => $request->info,
 
             ]);
         }

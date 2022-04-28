@@ -12,7 +12,8 @@
         </ol>
     </div>
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <a class="btn btn-sm btn-danger" href="{{route('barang.index')}}"><i class="fas fa-angle-double-left"></i> Kembali</a>
+        <a class="btn btn-sm btn-danger" href="{{route('barang.index')}}"><i class="fas fa-angle-double-left"></i>
+            Kembali</a>
     </div>
 
     <div class="card shadow mb-4 border-0 bgdark">
@@ -22,11 +23,11 @@
             <h4 class="text-center font-weight-bold text-light">DETAIL BARANG</h4>
             <img class="my-2" width="375px"
                 src="{{ asset($barang->gambar ? 'images/barang/'. $barang->gambar : 'images/empty.jpg') }}">
-                @if ($barang->show == 1)
-                <span class="badge badge-success">Ditampilkan</span>
-                @else
-                <span class="badge badge-danger">Disembunyikan</span>
-                @endif
+            @if ($barang->show == 1)
+            <span class="badge badge-success">Ditampilkan</span>
+            @else
+            <span class="badge badge-danger">Disembunyikan</span>
+            @endif
         </div>
         <div class="d-flex justify-content-around flex-wrap">
             <table class="table mx-5 table-striped table-dark table-bordered">
@@ -52,23 +53,27 @@
                         <td>{{ $barang->tgl_masuk }}</td>
                     </tr>
                     <tr>
+                        <th scope="row">Jenis Pengadaan</th>
+                        <td>{{ $barang->pengadaan->nama_pengadaan }}</td>
+                    </tr>
+                    <tr>
                         <th scope="row">Keterangan</th>
-                        @if($barang->info == 1)
-                        <td>Barang Inventaris</td>
-                        @elseif($barang->info == 2)
-                        <td>Barang Habis Pakai</td>
-                        @elseif($barang->info == 3)
-                        <td>Barang Hibah</td>
+                        @if ($barang->info == null)
+                        <td>-</td>
+                        @else
+                        <td>{{ $barang->info }}</td>
                         @endif
                     </tr>
                 </tbody>
             </table>
         </div>
         <div class="pb-5 text-center">
-            <button class="btn btn-info profile-button" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-qrcode"></i> QrCode</button>
+            <button class="btn btn-info profile-button" data-toggle="modal" data-target="#exampleModal"><i
+                    class="fas fa-qrcode"></i> QrCode</button>
         </div>
     </div>
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
         <div class="modal-dialog " role="document">
             <div class="modal-content">
                 <div class="modal-header bgdark">
@@ -79,9 +84,11 @@
                 </div>
                 <div class="modal-body text-center bgdark">
                     @php
-                    $qr = 'Kode = '.$barang->kode_barang . ' - '. 'Nama = '. $barang->nama .' '. $barang->tipe .' - '. 'Lokasi = '. $barang->lokasi
+                    $qr = 'Kode = '.$barang->kode_barang . ' - '. 'Nama = '. $barang->nama .' '. $barang->tipe .' - '.
+                    'Lokasi = '. $barang->lokasi
                     @endphp
-                    <img src="data:image/png;base64,{{DNS2D::getBarcodePNG(strval($qr), 'QRCODE',5,5)}}" style="background-color: rgb(255, 255, 255); padding:5px; border-radius:1px" alt="barcode" />
+                    <img src="data:image/png;base64,{{DNS2D::getBarcodePNG(strval($qr), 'QRCODE',5,5)}}"
+                        style="background-color: rgb(255, 255, 255); padding:5px; border-radius:1px" alt="barcode" />
                 </div>
                 <div class="modal-footer bgdark">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>

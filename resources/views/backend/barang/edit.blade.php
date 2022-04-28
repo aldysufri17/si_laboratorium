@@ -138,17 +138,19 @@
                         @enderror
                     </div>
 
-                    {{-- keterangan --}}
+                    {{-- pengadaan --}}
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
-                        <span style="color:red;">*</span>Keterangan Barang</label>
-                        <select class="form-control form-control-user @error('keterangan') is-invalid @enderror"
-                            name="keterangan">
-                            <option selected disabled>Pilih Keterangan</option>
-                            <option value="1" @if($barang->info == 1) selected @endif>Barang Inventaris</option>
-                            <option value="2" @if($barang->info == 2) selected @endif>Barang Hasbis Pakai</option>
-                            <option value="3" @if($barang->info == 3) selected @endif>Barang Hibah</option>
+                        <span style="color:red;">*</span>Jenis Pengadaan</label>
+                        <select class="form-control form-control-user @error('pengadaan_id') is-invalid @enderror"
+                            name="pengadaan_id">
+                            <option selected disabled>Pilih Jenis Pengadaan</option>
+                            @foreach ($pengadaan as $data)
+                            <option value="{{$data->id}}"
+                                {{old('pengadaan_id') ? ((old('pengadaan_id') == $data->id) ? 'selected' : '') : (($barang->pengadaan_id == $data->id) ? 'selected' : '')}}>
+                                {{ $data->nama_pengadaan }}</option>
+                            @endforeach
                         </select>
-                        @error('keterangan')
+                        @error('pengadaan_id')
                         <span class="text-danger">{{$message}}</span>
                         @enderror
                     </div>
@@ -166,6 +168,18 @@
                         @enderror
                     </div>
 
+                    {{-- Gambar Barang --}}
+                    <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
+                        <div class="form-group">
+                            <span style="color:red;">*</span>Informasi Tambahan</label>
+                            <textarea class="form-control @error('info') is-invalid @enderror"
+                                id="exampleFormControlTextarea1" name="info" rows="3">{{$barang->info}}</textarea>
+                        </div>
+                        @error('info')
+                        <span class="text-danger">{{$message}}</span>
+                        @enderror
+                    </div>
+                    
                     {{-- Gambar Barang --}}
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
                         <span style="color:red;">*</span>Gambar</label>

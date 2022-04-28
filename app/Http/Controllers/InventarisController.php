@@ -74,7 +74,7 @@ class InventarisController extends Controller
         }
         $inventaris = Inventaris::where('kategori_lab', $kategori_lab)->where('status', 2)->pluck('barang_id');
         $barang = Barang::where('kategori_lab', $kategori_lab)
-            ->where('info', 1)
+            ->where('pengadaan_id', 1)
             ->whereNotIn('id', $inventaris)
             ->get();
         return view('backend.inventaris.add', compact('barang'));

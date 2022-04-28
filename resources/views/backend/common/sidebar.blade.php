@@ -32,6 +32,7 @@
                 @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
                 <a class="collapse-item text-red" href="{{ route('satuan.index') }}">Data Satuan</a>
                 <a class="collapse-item text-red" href="{{ route('kategori.index') }}">Data Kategori</a>
+                <a class="collapse-item text-red" href="{{ route('pengadaan.index') }}">Jenis Pengadaan</a>
                 @endrole
             </div>
         </div>
