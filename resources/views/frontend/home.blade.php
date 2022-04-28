@@ -5,7 +5,7 @@
 @auth
 {{-- Pengajuan Disetujui --}}
 @foreach ($peminjaman as $data)
-<a href="{{route('cart')}}">
+<a href="{{route('daftar.pinjaman')}}">
     @if ($message = Session::get('in'))
     <div class="alert alert-success alert-dismissible shake" style="margin-bottom: -6px; margin:0 5px" role="alert">
         <button id="notif" type="button" class="close" data-dismiss="alert">
@@ -20,7 +20,7 @@
 
 {{-- Pengajuan ditolak --}}
 @foreach ($tolak as $data)
-<a href="{{route('cart')}}">
+<a href="{{route('daftar.pinjaman')}}">
     @if ($message = Session::get('tolak'))
     <div class="alert alert-danger alert-dismissible shake" style="margin-bottom: -6px; margin:0 5px" role="alert">
         <button id="notif" type="button" class="close" data-dismiss="alert">
@@ -53,7 +53,7 @@
     $now = \Carbon\Carbon::createFromFormat('Y-m-d', date('Y-m-d'));
     $late = $start->diffInDays($now);
     @endphp
-    <a href="{{route('cart')}}">
+    <a href="{{route('daftar.pinjaman')}}">
         @if ($message = Session::get('telat'))
         <div class="alert alert-warning alert-dismissible shake" style="margin-bottom: -6px; margin:0 5px" role="alert">
             <button id="notif" type="button" class="close" data-dismiss="alert">

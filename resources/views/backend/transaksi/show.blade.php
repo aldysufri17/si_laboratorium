@@ -29,12 +29,12 @@
             <table class="table mx-5 table-striped table-dark table-bordered">
                 <tbody>
                     <tr>
-                        <th scope="row">Kategori Barang</th>
-                        <td>{{$peminjaman->barang->kategori->nama_kategori}}</td>
+                        <th scope="row">Nama Barang</th>
+                        <td>{{ $peminjaman->barang->nama }} - {{ $peminjaman->barang->tipe }}</td>
                     </tr>
                     <tr>
-                        <th scope="row">Nama</th>
-                        <td>{{ $peminjaman->barang->nama }} - {{ $peminjaman->barang->tipe }}</td>
+                        <th scope="row">Kategori Barang</th>
+                        <td>{{$peminjaman->barang->kategori->nama_kategori}}</td>
                     </tr>
                     <tr>
                         <th scope="row">Jumlah Pinjam</th>

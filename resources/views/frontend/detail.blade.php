@@ -91,10 +91,12 @@
                             </tr>
                             <tr>
                                 <th scope="row">Keterangan</th>
-                                @if($barang->info)
-                                <td>{{ $barang->info }}</td>
-                                @else
-                                <td>-</td>
+                                @if($barang->info == 1)
+                                <td>Barang Inventaris</td>
+                                @elseif($barang->info == 2)
+                                <td>Barang Habis Pakai</td>
+                                @elseif($barang->info == 3)
+                                <td>Barang Hibah</td>
                                 @endif
                             </tr>
                         </tbody>
