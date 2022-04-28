@@ -52,11 +52,11 @@
                                 <td>{{ $data->nama }} - {{ $data->tipe }}</td>
                                 <td>{{ $data->stock }} {{ $data->satuan->nama_satuan }}</td>
                                 <td>{{ $data->lokasi }}</td>
-                                @if($barang->info == 1)
+                                @if($data->info == 1)
                                 <td>Barang Inventaris</td>
-                                @elseif($barang->info == 2)
+                                @elseif($data->info == 2)
                                 <td>Barang Habis Pakai</td>
-                                @elseif($barang->info == 3)
+                                @elseif($data->info == 3)
                                 <td>Barang Hibah</td>
                                 @endif
                             </tr>
