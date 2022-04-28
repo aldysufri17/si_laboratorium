@@ -25,10 +25,14 @@
             <div class="py-2 collapse-inner rounded" style="background-color: rgb(230, 230, 230)">
                 <h6 class="collapse-header text-dark">Admin Management:</h6>
                 @role('admin')
-                <a class="collapse-item text-red" href="{{ route('roles.index') }}">Roles</a>
-                <a class="collapse-item text-red" href="{{ route('operator.index') }}">Pengurus</a>
+                <a class="collapse-item text-red" href="{{ route('roles.index') }}">Data Roles</a>
+                <a class="collapse-item text-red" href="{{ route('operator.index') }}">Data Pengurus</a>
                 @endrole
-                <a class="collapse-item text-red" href="{{ route('users.index') }}">Pengguna</a>
+                <a class="collapse-item text-red" href="{{ route('users.index') }}">Data Pengguna</a>
+                @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
+                <a class="collapse-item text-red" href="{{ route('satuan.index') }}">Data Satuan</a>
+                <a class="collapse-item text-red" href="{{ route('kategori.index') }}">Data Kategori</a>
+                @endrole
             </div>
         </div>
     </li>
@@ -42,11 +46,8 @@
         </a>
         <div id="barangDropDown" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class=" py-2 collapse-inner rounded" style="background-color: rgb(230, 230, 230)">
-                @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
-                <a class="collapse-item text-red" href="{{ route('satuan.index') }}">Data Satuan</a>
-                <a class="collapse-item text-red" href="{{ route('kategori.index') }}">Data Kategori</a>
-                @endrole
                 <a class="collapse-item text-red" href="{{ route('barang.index') }}">Data Barang</a>
+                <a class="collapse-item text-red" href="{{ route('mutasi') }}">Data Mutasi</a>
                 <a class="collapse-item text-red" href="{{ route('barang.damaged') }}">Barang Rusak</a>
             </div>
         </div>
@@ -61,8 +62,8 @@
         </a>
         <div id="inventarisDropDown" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class=" py-2 collapse-inner rounded" style="background-color: rgb(230, 230, 230)">
-                <a class="collapse-item text-red" href="{{ route('inventaris.index') }}">Inventaris Barang</a>
-                <a class="collapse-item text-red" href="{{ route('mutasi') }}">Mutasi Stok</a>
+                <a class="collapse-item text-red" href="{{ route('inventaris.index') }}">Data Inventaris</a>
+                <a class="collapse-item text-red" href="{{ route('inventaris.add', auth()->user()->role_id) }}">Tambah Inventaris</a>
             </div>
         </div>
     </li>

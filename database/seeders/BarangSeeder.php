@@ -26,6 +26,7 @@ class BarangSeeder extends Seeder
             'kategori_lab'  => 1,
             'satuan_id'     => 1,
             'kategori_id'   => 1,
+            'info'          => 1,
             'gambar'        => 'arduino.jpg',
         ]);
         Barang::create([
@@ -39,6 +40,7 @@ class BarangSeeder extends Seeder
             'kategori_lab'  => 1,
             'satuan_id'     => 1,
             'kategori_id'   => 1,
+            'info'          => 1,
             'gambar'        => 'mega.webp',
         ]);
         Barang::create([
@@ -52,6 +54,7 @@ class BarangSeeder extends Seeder
             'kategori_lab'  => 1,
             'satuan_id'     => 2,
             'kategori_id'   => 1,
+            'info'          => 1,
             'gambar'        => 'cahaya.jpg',
         ]);
         Barang::create([
@@ -65,6 +68,7 @@ class BarangSeeder extends Seeder
             'kategori_lab'  => 1,
             'satuan_id'     => 1,
             'kategori_id'   => 1,
+            'info'          => 1,
             'gambar'        => 'lcd162.jpg',
         ]);
         Barang::create([
@@ -78,6 +82,7 @@ class BarangSeeder extends Seeder
             'kategori_lab'  => 1,
             'satuan_id'     => 1,
             'kategori_id'   => 2,
+            'info'          => 1,
             'gambar'        => 'o-.webp',
         ]);
         Barang::create([
@@ -91,6 +96,7 @@ class BarangSeeder extends Seeder
             'kategori_lab'  => 1,
             'satuan_id'     => 1,
             'kategori_id'   => 2,
+            'info'          => 1,
             'gambar'        => 'positif.jpg',
         ]);
         Barang::create([
@@ -104,6 +110,7 @@ class BarangSeeder extends Seeder
             'kategori_lab'  => 1,
             'satuan_id'     => 1,
             'kategori_id'   => 1,
+            'info'          => 1,
             'gambar'        => 'ultrasonic.jpg',
         ]);
         Barang::create([
@@ -117,6 +124,7 @@ class BarangSeeder extends Seeder
             'kategori_lab'  => 1,
             'satuan_id'     => 2,
             'kategori_id'   => 1,
+            'info'          => 1,
             'gambar'        => 'r10k.jpg',
         ]);
         Barang::create([
@@ -130,6 +138,7 @@ class BarangSeeder extends Seeder
             'kategori_lab'  => 1,
             'satuan_id'     => 1,
             'kategori_id'   => 1,
+            'info'          => 1,
             'gambar'        => 'uap.jpg',
         ]);
 
@@ -145,6 +154,7 @@ class BarangSeeder extends Seeder
             'kategori_lab'  => 2,
             'satuan_id'     => 3,
             'kategori_id'   => 5,
+            'info'          => 1,
             'gambar'        => 'flashdisk.jpg',
         ]);
         Barang::create([
@@ -158,6 +168,7 @@ class BarangSeeder extends Seeder
             'kategori_lab'  => 2,
             'satuan_id'     => 3,
             'kategori_id'   => 4,
+            'info'          => 1,
             'gambar'        => 'lcd.jpg',
         ]);
         Barang::create([
@@ -171,6 +182,7 @@ class BarangSeeder extends Seeder
             'kategori_lab'  => 2,
             'satuan_id'     => 3,
             'kategori_id'   => 4,
+            'info'          => 1,
             'gambar'        => 'keyboard.jpg',
         ]);
         Barang::create([
@@ -184,6 +196,7 @@ class BarangSeeder extends Seeder
             'kategori_lab'  => 2,
             'satuan_id'     => 3,
             'kategori_id'   => 4,
+            'info'          => 1,
             'gambar'        => 'mouse.webp',
         ]);
         Barang::create([
@@ -197,6 +210,7 @@ class BarangSeeder extends Seeder
             'kategori_lab'  => 2,
             'satuan_id'     => 3,
             'kategori_id'   => 4,
+            'info'          => 1,
             'gambar'        => 'laptop.png',
         ]);
         // Jarkom
@@ -211,6 +225,7 @@ class BarangSeeder extends Seeder
             'kategori_lab'  => 3,
             'satuan_id'     => 4,
             'kategori_id'   => 6,
+            'info'          => 1,
             'gambar'        => 'router.webp',
         ]);
         Barang::create([
@@ -224,6 +239,7 @@ class BarangSeeder extends Seeder
             'kategori_lab'  => 3,
             'satuan_id'     => 4,
             'kategori_id'   => 6,
+            'info'          => 1,
             'gambar'        => 'repeater.jpg',
         ]);
         Barang::create([
@@ -237,6 +253,7 @@ class BarangSeeder extends Seeder
             'kategori_lab'  => 3,
             'satuan_id'     => 4,
             'kategori_id'   => 6,
+            'info'          => 1,
             'gambar'        => 'repeater.jpg',
         ]);
         // Mulmed
@@ -252,6 +269,7 @@ class BarangSeeder extends Seeder
             'satuan_id'     => 5,
             'kategori_id'   => 8,
             'info'          => 'Hibah Universitas',
+            'info'          => 1,
             'gambar'        => 'vr.webp',
         ]);
         Barang::create([
@@ -266,6 +284,7 @@ class BarangSeeder extends Seeder
             'satuan_id'     => 5,
             'kategori_id'   => 8,
             'info'          => 'Hibah Departemen',
+            'info'          => 1,
             'gambar'        => 'kv.jpg',
         ]);
         Barang::create([
@@ -280,6 +299,7 @@ class BarangSeeder extends Seeder
             'satuan_id'     => 5,
             'kategori_id'   => 8,
             'info'          => 'Hibah Departemen',
+            'info'          => 1,
             'gambar'        => 'kf.jpg',
         ]);
         Barang::create([
@@ -294,6 +314,7 @@ class BarangSeeder extends Seeder
             'satuan_id'     => 5,
             'kategori_id'   => 8,
             'info'          => 'Hibah Departemen',
+            'info'          => 1,
             'gambar'        => 'scan.png',
         ]);
     }

@@ -75,7 +75,7 @@
                             <span class="text-danger">{{$message}}</span>
                             @enderror
                         </div>
-                        
+
                         {{-- Satuan --}}
                         <div class="col-sm-5">
                             <span style="color:red;">*</span>Satuan</label>
@@ -108,23 +108,35 @@
                     {{-- Lokasi Barang --}}
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
                         <span style="color:red;">*</span>Lokasi Barang</label>
-                            <select class="form-control form-control-user  @error('lokasi') is-invalid @enderror" name="lokasi" aria-label="Default select example">
-                                <option selected disabled>Pilih Lokasi</option>
-                                <option  value="Laboratorium Sistem Tertanam dan
-                                Robotika">Laboratorium Sistem Tertanam dan Robotika</option>
-                                <option value="Laboratorium Rekayasa Perangkat Lunak">Laboratorium Rekayasa Perangkat Lunak</option>
-                                <option value="Laboratorium Jaringan dan Keamanan Komputer">Laboratorium Jaringan dan Keamanan Komputer</option>
-                                <option value="Laboratorium Multimedia">Laboratorium Multimedia</option>
-                            </select>
+                        <select class="form-control form-control-user  @error('lokasi') is-invalid @enderror"
+                            name="lokasi" aria-label="Default select example">
+                            <option selected disabled>Pilih Lokasi</option>
+                            <option value="Laboratorium Sistem Tertanam dan
+                                Robotika" @if (auth()->user()->role_id == 3) selected @endif >Laboratorium Sistem Tertanam dan Robotika</option>
+                            <option value="Laboratorium Rekayasa Perangkat Lunak" @if (auth()->user()->role_id == 4) selected @endif>Laboratorium Rekayasa Perangkat Lunak
+                            </option>
+                            <option value="Laboratorium Jaringan dan Keamanan Komputer" @if (auth()->user()->role_id == 5) selected @endif>Laboratorium Jaringan dan
+                                Keamanan Komputer</option>
+                            <option value="Laboratorium Multimedia" @if (auth()->user()->role_id == 6) selected @endif>Laboratorium Multimedia</option>
+                        </select>
                         @error('lokasi')
                         <span class="text-danger">{{$message}}</span>
                         @enderror
                     </div>
 
-                    {{-- Gambar Barang --}}
+                    {{-- keterangan --}}
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
-                        <span style="color:red;">*</span>Gambar</label>
-                        <input type="file" class="form-control" name="gambar" id="gambar">
+                        <span style="color:red;">*</span>Keterangan Barang</label>
+                        <select class="form-control form-control-user @error('keterangan') is-invalid @enderror"
+                            name="keterangan">
+                            <option selected disabled>Pilih Keterangan</option>
+                            <option value="1">Barang Inventaris</option>
+                            <option value="2">Barang Hasbis Pakai</option>
+                            <option value="3">Barang Hibah</option>
+                        </select>
+                        @error('keterangan')
+                        <span class="text-danger">{{$message}}</span>
+                        @enderror
                     </div>
 
                     {{-- Tampil --}}
@@ -140,16 +152,10 @@
                         @enderror
                     </div>
 
-                    {{-- info --}}
+                    {{-- Gambar Barang --}}
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
-                        <div class="form-group">
-                            <span style="color:red;">*</span>Informasi Tambahan</label>
-                            <textarea class="form-control @error('info') is-invalid @enderror"
-                                id="exampleFormControlTextarea1" name="info" rows="3"></textarea>
-                        </div>
-                        @error('info')
-                        <span class="text-danger">{{$message}}</span>
-                        @enderror
+                        <span style="color:red;">*</span>Gambar</label>
+                        <input type="file" class="form-control" name="gambar" id="gambar">
                     </div>
                 </div>
             </div>

@@ -32,12 +32,12 @@
             <table class="table mx-5 table-striped table-dark table-bordered">
                 <tbody>
                     <tr>
-                        <th scope="row">Kategori</th>
-                        <td>{{$barang->kategori->nama_kategori}}</td>
-                    </tr>
-                    <tr>
                         <th scope="row">Nama</th>
                         <td>{{ $barang->nama }} - {{$barang->tipe}}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Kategori</th>
+                        <td>{{$barang->kategori->nama_kategori}}</td>
                     </tr>
                     <tr>
                         <th scope="row">Stock</th>
@@ -53,10 +53,12 @@
                     </tr>
                     <tr>
                         <th scope="row">Keterangan</th>
-                        @if($barang->info)
-                        <td>{{ $barang->info }}</td>
-                        @else
-                        <td>-</td>
+                        @if($barang->info == 1)
+                        <td>Barang Inventaris</td>
+                        @elseif($barang->info == 2)
+                        <td>Barang Habis Pakai</td>
+                        @elseif($barang->info == 3)
+                        <td>Barang Hibah</td>
                         @endif
                     </tr>
                 </tbody>

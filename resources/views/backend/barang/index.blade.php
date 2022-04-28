@@ -36,7 +36,7 @@
         </a>
         <a class="btn btn-sm btn-info ml-3" data-toggle="modal" data-target="#importModal">
             <i class="fa-solid fa-file-csv"></i> Import Exel</a>
-            <a href="{{ route('barang.pdf',0) }}" class="btn btn-sm btn-danger">
+            <a href="{{ route('barang.pdf',0) }}" class="btn btn-sm btn-danger ml-3">
                 <i class="fa-solid fa-file-export"></i> Export PDF
             </a>
         @endrole

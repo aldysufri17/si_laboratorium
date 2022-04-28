@@ -34,6 +34,7 @@
                     @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
                     <thead>
                         <tr>
+                            <th width="25%">Kode Mutasi</th>
                             <th width="25%">Kode Barang</th>
                             <th width="25%">Nama Barang</th>
                             <th width="5%">Masuk</th>
@@ -47,6 +48,7 @@
                     <tbody>
                         @foreach ($inventaris as $data)
                         <tr>
+                            <td>{{ $data->kode_mutasi }}</td>
                             <td>{{ $data->barang->kode_barang }}</td>
                             <td>{{ $data->barang->nama }} - {{ $data->barang->tipe }}</td>
                             <td>{{ $data->masuk }}</td>

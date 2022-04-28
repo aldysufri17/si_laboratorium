@@ -74,6 +74,7 @@ class InventarisController extends Controller
         }
         $inventaris = Inventaris::where('kategori_lab', $kategori_lab)->where('status', 2)->pluck('barang_id');
         $barang = Barang::where('kategori_lab', $kategori_lab)
+            ->where('info', 1)
             ->whereNotIn('id', $inventaris)
             ->get();
         return view('backend.inventaris.add', compact('barang'));
@@ -99,17 +100,19 @@ class InventarisController extends Controller
             $kategori_lab = 4;
         }
 
-        $request->validate([
-            'kode1' => 'required',
-            'kode2' => 'required',
-            'kode3' => 'required',
-            'kode4' => 'required',
-            'barang' => 'required',
-        ]);
+        $request->validate(
+            [
+                'kode_inventaris' => 'required|unique:inventaris',
+                'barang' => 'required',
+            ],
+            [
+                'unique' => 'Kode sudah digunakan',
+            ]
+        );
 
         $inventaris = Inventaris::create([
             'barang_id'         => $request->barang,
-            'kode_inventaris'   => $request->kode1 . '.' . $request->kode2 . '.' . $request->kode3 . '.' . $request->kode4,
+            'kode_inventaris'   => $request->kode_inventaris,
             'kode_mutasi'       => 0,
             'status'            => 2,
             'deskripsi'         => 'Created',

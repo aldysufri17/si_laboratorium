@@ -103,6 +103,7 @@ class BarangController extends Controller
             'tgl_masuk' => 'required',
             'show'      => 'required|in:0,1',
             'lokasi'    => 'required',
+            'keterangan'    => 'required',
         ], [
             'required' => ':attribute wajib diisi',
         ]);
@@ -141,7 +142,7 @@ class BarangController extends Controller
                 'kategori_lab'  => $kategori_lab,
                 'satuan_id'     => $request->satuan_id,
                 'kategori_id'   => $request->kategori_id,
-                'info'          => $request->info,
+                'info'          => $request->keterangan,
                 'gambar'        => $new_gambar,
             ]);
 
@@ -171,7 +172,7 @@ class BarangController extends Controller
                 'show'          => $request->show,
                 'lokasi'        => $request->lokasi,
                 'kategori_lab'  => $kategori_lab,
-                'info'          => $request->info,
+                'info'          => $request->keterangan,
             ]);
 
             // Inventaris
@@ -257,7 +258,7 @@ class BarangController extends Controller
                 'lokasi'        => $request->lokasi,
                 'satuan_id'     => $request->satuan_id,
                 'kategori_id'   => $request->kategori_id,
-                'info'          => $request->info,
+                'info'          => $request->keterangan,
                 'gambar'        => $new_gambar,
             ]);
         } else {
@@ -270,7 +271,7 @@ class BarangController extends Controller
                 'tgl_masuk'     => $request->tgl_masuk,
                 'show'          => $request->show,
                 'lokasi'        => $request->lokasi,
-                'info'        => $request->info,
+                'info'        => $request->keterangan,
 
             ]);
         }

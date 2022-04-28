@@ -22,71 +22,15 @@
             @csrf
             <div class="card-body ">
                 <div class="form-group row">
+                    {{-- Tanggal masuk --}}
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
-                        {{-- Jumlah --}}
-                        <label><span style="color:red;">*</span>Kode Inventaris</label><br>
-                        @php
-                        $max = App\Models\Inventaris::max('id');
-                        $id = $max + 1;
-                        if (strlen($id) == 1) {
-                        $kode = "000".$id;
-                        } else if(strlen($id) == 2) {
-                        $kode = "00".$id;
-                        } else if(strlen($id) == 3) {
-                        $kode = "0".$id;
-                        }else {
-                        $kode = $id;
-                        }
-                        @endphp
-                        <div class="row">
-                            <div class="col-sm-3">
-                                <div class="d-flex">
-                                    <input type="text"
-                                        class="form-control  form-control-user @error('kode1') is-invalid @enderror"
-                                        autocomplete="off" id="examplekode1" autocomplete="off" placeholder="No"
-                                        name="kode1" min="1" value="{{ $kode }}">
-                                    <span class="font-weight-bold ml-2" style="font-size: 25px">.</span>
-                                </div>
-                                @error('kode1')
-                                <span class="text-danger">{{$message}}</span>
-                                @enderror
-                            </div>
-                            <div class="col-sm-2">
-                                <div class="d-flex">
-                                    <input type="text"
-                                        class="form-control  form-control-user @error('kode2') is-invalid @enderror"
-                                        autocomplete="off" id="examplekode2" autocomplete="off" placeholder="No"
-                                        name="kode2" min="1" value="{{ $id }}">
-                                    <span class="font-weight-bold ml-2" style="font-size: 25px">.</span>
-                                </div>
-                                @error('kode2')
-                                <span class="text-danger">{{$message}}</span>
-                                @enderror
-                            </div>
-                            <div class="col-sm-3">
-                                <div class="d-flex">
-                                    <input type="text"
-                                        class="form-control  form-control-user @error('kode3') is-invalid @enderror"
-                                        autocomplete="off" id="examplekode3" autocomplete="off" placeholder="No"
-                                        name="kode3" min="1" value="{{ old('kode3') }}">
-                                    <span class="font-weight-bold ml-2" style="font-size: 25px">.</span>
-                                </div>
-                                @error('kode3')
-                                <span class="text-danger">{{$message}}</span>
-                                @enderror
-                            </div>
-                            <div class="col-sm-4">
-                                <div class="d-flex">
-                                    <input type="text"
-                                        class="form-control  form-control-user @error('kode4') is-invalid @enderror"
-                                        autocomplete="off" id="examplekode4" autocomplete="off" placeholder="Tahun Pengadaan"
-                                        name="kode4" min="1" value="{{ old('kode4') }}">
-                                </div>
-                                @error('kode4')
-                                <span class="text-danger">{{$message}}</span>
-                                @enderror
-                            </div>
-                        </div>
+                        <span style="color:red;">*</span>Kode Inventaris</label>
+                        <input type="text"
+                            class="form-control form-control-user @error('kode_inventaris') is-invalid @enderror"
+                            autocomplete="off" id="exampleTgl_masuk" placeholder="Kode Inventaris" name="kode_inventaris">
+                        @error('kode_inventaris')
+                        <span class="text-danger">{{$message}}</span>
+                        @enderror
                     </div>
 
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
