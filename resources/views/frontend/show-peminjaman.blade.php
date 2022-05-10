@@ -332,7 +332,7 @@
                             </thead>
                             <tbody>
                                 @foreach ($aktif as $data)
-                                @if ($data->status == 5)
+                                @if ($data->status == 3)
                                 <tr style="background-color: rgb(204, 204, 204)">
                                     <td><img width="90px"
                                             src="{{ asset($data->barang->gambar ? 'images/barang/'. $data->barang->gambar : 'images/empty.jpg') }}"
