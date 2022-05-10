@@ -45,18 +45,13 @@ class HomeController extends Controller
                 $pesan = Peminjaman::where('user_id', $user_id)->where('status', 1)->value('pesan');
                 $request->session()->flash('tolak', "ditolak, $pesan !!");
             }
-            // Diaktifkan
-            $aktif = Peminjaman::where('user_id', $user_id)->where('tgl_end', '>', date('Y-m-d'))->where('status', 3)->get();
-            if ($aktif) {
-                $request->session()->flash('aktif', "status aktif !!");
-            }
             // Telat
-            $telat = Peminjaman::where('user_id', $user_id)->where('status', 3)->get();
+            $telat = Peminjaman::where('user_id', $user_id)->where('tgl_end', '<', date('Y-m-d'))->where('status', 2)->get();
             if ($telat) {
                 $request->session()->flash('telat', "Telat");
             }
             // dd($telat);
-            return view('frontend.home', compact('peminjaman', 'aktif'), ['telat' => $telat, 'tolak' => $tolak]);
+            return view('frontend.home', compact('peminjaman'), ['telat' => $telat, 'tolak' => $tolak]);
         }
         return view('frontend.home');
     }
@@ -213,7 +208,7 @@ class HomeController extends Controller
             $request->session()->flash('tolak', "ditolak, $pesan !!");
         }
         // Telat
-        $telat = Peminjaman::where('user_id', $user_id)->where('status', 3)->get();
+        $telat = Peminjaman::where('user_id', $user_id)->where('tgl_end', '<', date('Y-m-d'))->where('status', 2)->get();
         if ($telat) {
             $request->session()->flash('telat', "Telat");
         }
