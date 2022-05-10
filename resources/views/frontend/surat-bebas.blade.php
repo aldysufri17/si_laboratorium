@@ -91,30 +91,30 @@
                         src="https://rekreartive.com/wp-content/uploads/2018/10/Logo-Undip-Universitas-Diponegoro-Semarang-Warna.jpg">
                 </td>
                 <td colspan="2" class="text-center">
-                    <span style="font-size: 15pt; font-weight: bold">PEMINJAMAN BARANG LABORATORIUM<br>DEPARTMENT TEKNIK
-                        KOMPUTER</span><br>
-                    <span style="font-size: 10pt; ">1. Sistem Tertanam dan
-                        Robotika 2. Rekayasa Perangkat Lunak</span><br>
-                    <span style="font-size: 10pt;">3. Keamanan dan Jaringan Komputer 4. Multimedia</span><br>
-                    <span style="font-size: 10pt;">Jl. Prof.Soedarto, Tembalang, Kec. Tembalang, Kota Semarang, Jawa
-                        Tengah 50275</span><br>
-                    <span style="font-size: 6pt;">Kontak : (024) 76480609<br>Email: siskom@undip.ac.id</span>
+                    <span style="font-size: 15pt;">KEMENTERIAN RISET, TEKNOLOGI DAN PENDIDIKAN TINGGI
+                        UNIVERSITAS DIPONEGORO
+                        </span><br>
+                    <span style="font-size: 15pt; font-weight: bold">FAKULTAS TEKNIK</span><br>
+                    <span style="font-size: 10pt; ">Jl. Prof. Sudharto, SH., Tembalang, Semarang, Kode Pos 50275<br>
+                        Telp. (024) 7460053,7450055 - Fax. (024) 7460055<br>Site : http://www.ft.undip.ac.id - Email : teknik@undip.ac.id
+                        </span><br>
                     @php
                     date_default_timezone_set('Asia/jakarta');
                     $date = date("l jS \of F Y h:i:s A");
                     $surat = "Created $date \n website: http://silab18.herokuapp.com/"
                     @endphp
-                <td rowspan="1"><img src="data:image/png;base64,{{DNS2D::getBarcodePNG(strval($surat), 'QRCODE',3,3)}}"
+                {{-- <td rowspan="1"><img src="data:image/png;base64,{{DNS2D::getBarcodePNG(strval($surat), 'QRCODE',3,3)}}"
                     style="background-color: rgb(255, 255, 255); padding:5px; border-radius:1px" alt="barcode" />
-                </td>
+                </td> --}}
                 </td>
             </tr>
         </table>
         <hr widht="200px;">
     </section>
     <section class="font-cambria">
-        <div class="yth">Kepada Yth.<br>Kepala Laboratorium<br>DEPARTMENT TEKNIK KOMPUTER</div>
-        <div>Dengan hormat,<br>Yang bertanda tangan dibawah ini, menyatakan bahwa :</div>
+        <br>
+        <div class="text-center" style="font-weight: bold; font-size:20px">SURAT PERNYATAAN</div><br>
+        <div>Saya yang bertandatangan di bawah ini:</div>
     </section>
     <section>
         <table class="line-height-table">
@@ -149,7 +149,8 @@
     </section>
     <br>
     <section>
-        <div>Bahwa memang benar mahasiswa tersebut diatas bebas tanggungan pada Laboratorium Departemen Teknik Komputer
+        <div>
+            Dengan ini menyatakan bahwa, Sudah tidak memiliki tanggungan peminjaman barang pada Laboratorium Departemen Teknik Komputer.
         </div>
     </section>
     <br>
@@ -203,32 +204,29 @@
                 <td style="width: 30%;">Semarang, {{date('d-m-Y')}}</td>
             </tr>
             <tr>
-                <td colspan="2">Mengetahui,</td>
-            </tr>
-            <tr>
-                <td>Dosen pengampu/pembimbing,</td>
+                <td style="width: 70%;"></td>
                 <td>Hormat saya,</td>
             </tr>
             <tr>
                 <td colspan="2" style="height: 70px"></td>
             </tr>
             <tr>
-                <td class="align-top">(............................................................)</td>
-                <td class="align-top">(............................................................)</td>
+                <td style="width: 70%;"></td>
+                <td class="align-top">(
+                    @hasanyrole('admin')
+                    {{$request->name}}
+                    @else
+                    {{$name}}
+                    @endhasanyrole)
+                    <br>
+                    NIM.@hasanyrole('admin')
+                    {{$request->nim}}
+                    @else
+                    {{$nim}}
+                    @endhasanyrole</td>
             </tr>
         </table>
         <br>
-        <table>
-            <tr>
-                <td class="col-center">Menyetujui,<br>Kepala Laboratorium</td>
-            </tr>
-            <tr>
-                <td style="height: 70px"></td>
-            </tr>
-            <tr>
-                <td class="align-top col-center">(............................................................)</td>
-            </tr>
-        </table>
     </section>
 </body>
 

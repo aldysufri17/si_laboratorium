@@ -198,8 +198,8 @@ class HomeController extends Controller
             ->paginate(7);
         $aktif = Peminjaman::with('barang')
             ->where('user_id',  $user_id)
-            ->Where('status', 3)
-            ->orwhere('status', 5)
+            ->Where('status', 2)
+            ->orwhere('status', 3)
             ->paginate(7);
         // Disetujui
         $setujui = Peminjaman::where('user_id', $user_id)->where('status', 2)->get();
@@ -212,17 +212,12 @@ class HomeController extends Controller
             $pesan = Peminjaman::where('user_id', $user_id)->where('status', 1)->value('pesan');
             $request->session()->flash('tolak', "ditolak, $pesan !!");
         }
-        // Diaktifkan
-        $mulai = Peminjaman::where('user_id', $user_id)->where('tgl_end', '>', date('Y-m-d'))->where('status', 3)->get();
-        if ($mulai) {
-            $request->session()->flash('aktif', "status aktif !!");
-        }
         // Telat
         $telat = Peminjaman::where('user_id', $user_id)->where('status', 3)->get();
         if ($telat) {
             $request->session()->flash('telat', "Telat");
         }
-        return view('frontend.show-peminjaman', compact('proses', 'aktif', 'selesai', 'setujui', 'tolak', 'mulai', 'telat'));
+        return view('frontend.show-peminjaman', compact('proses', 'aktif', 'selesai', 'setujui', 'tolak', 'telat'));
     }
 
     public function langkahPeminjaman()

@@ -41,13 +41,12 @@
                     @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
                     <thead>
                         <tr>
-                            <th width="20%">Kode Inventaris</th>
-                            <th width="15%">Kode Barang</th>
-                            <th width="20%">Nama Barang</th>
+                            <th width="15%">Kode Inventaris</th>
+                            <th width="15%">Nama Barang</th>
                             <th width="5%">Baik</th>
                             <th width="5%">Rusak</th>
                             <th width="5%">Total</th>
-                            <th width="10%">Tahun</th>
+                            <th width="20%">Keterangan</th>
                             <th width="15%">Aksi</th>
                         </tr>
                     </thead>
@@ -55,16 +54,19 @@
                         @foreach ($inventaris as $data)
                         <tr>
                             <td>{{ $data->kode_inventaris }}</td>
-                            <td>{{ $data->barang->kode_barang }}</td>
                             <td>{{ $data->barang->nama }} - {{ $data->barang->tipe }}</td>
-                            <td>{{ $data->barang->stock }}</td>
+                            <td>{{ $data->stok }}</td>
                             @if ( $data->barang->jml_rusak == null)
                             <td>0</td>
                             @else
                             <td>{{ $data->barang->jml_rusak }}</td>
                             @endif
-                            <td>{{ $data->barang->stock + $data->barang->jml_rusak }}</td>
-                            <td>{{substr($data->kode_inventaris,-4)}}</td>
+                            <td>{{ $data->stok + $data->barang->jml_rusak }}</td>
+                            @if ($data->keterangan == null)
+                            <td>-</td>
+                            @else
+                            <td>{{$data->keterangan}}</td>
+                            @endif
                             <td style="display: flex">
                                 @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
                                 <a href="{{ route('inventaris.edit', $data->id) }}" class="btn btn-primary mx-2"

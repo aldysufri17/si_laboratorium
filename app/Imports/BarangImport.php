@@ -68,6 +68,7 @@ class BarangImport implements ToModel, WithStartRow, WithCustomCsvSettings
             'info'          => $row[3],
             'lokasi'        => $lokasi,
             'satuan_id'     => 0,
+            'pengadaan_id'  => 1,
             'kategori_id'   => 0,
             'show'          => 0,
             'tgl_masuk'     => date('Y-m-d'),

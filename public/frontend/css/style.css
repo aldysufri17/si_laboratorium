@@ -1297,3 +1297,11 @@ section {
 .img-hover-zoom:hover img {
   transform: scale(1.1);
 }
+
+input[type="checkbox"]:disabled{
+  background: gray;
+}
+input[type="checkbox"]:disabled{
+  background: gray;
+  border: 1px solid #d4d4d5;
+}

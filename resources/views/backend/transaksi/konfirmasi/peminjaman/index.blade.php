@@ -14,9 +14,9 @@
             <li class="breadcrumb-item">Filter Peminjaman</li>
         </ol>
     </div>
-    <div class="d-sm-flex align-items-center mb-4">
-        <a href="{{ route('scan', 'peminjaman') }}" class="btn btn-sm btn-info mx-2">
-            <i class="fas fa-barcode"></i> Scan Barcode
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <a href="{{ route('scan', 'pengembalian') }}" class="btn btn-sm btn-info">
+            <i class="fas fa-barcode"></i> Scan Barcode Pengembalian
         </a>
     </div>
 
@@ -66,9 +66,9 @@
         </ol>
     </div>
     @include('sweetalert::alert')
-    <div class="d-sm-flex align-items-center mb-4">
-        <a href="{{ route('scan', 'peminjaman') }}" class="btn btn-sm btn-info mx-2">
-            <i class="fas fa-barcode"></i> Scan Barcode
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <a href="{{ route('scan', 'pengembalian') }}" class="btn btn-sm btn-info">
+            <i class="fas fa-barcode"></i> Scan Barcode Pengembalian
         </a>
     </div>
     <div class="align-items-center bg-light p-3 border-left-success rounded">

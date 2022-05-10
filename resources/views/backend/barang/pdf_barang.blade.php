@@ -97,7 +97,7 @@
                     <th>Baik</th>
                     <th>Rusak</th>
                     <th>Total</th>
-                    <th>Lokasi</th>
+                    <th>Jenis Pengadaan</th>
                     <th>Tanggal Masuk</th>
                 </tr>
             </thead>
@@ -114,7 +114,7 @@
                     <td>{{ $data->jml_rusak }}</td>
                     @endif
                     <td>{{$data->stock + $data->jml_rusak}}</td>
-                    <td>{{$data->lokasi}}</td>
+                    <td>{{$data->pengadaan->nama_pengadaan}}</td>
                     <td>{{$data->tgl_masuk}}</td>
                 </tr>
                 @endforeach

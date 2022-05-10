@@ -90,15 +90,8 @@
                                 <td>{{ $barang->tgl_masuk }}</td>
                             </tr>
                             <tr>
-                                <th scope="row">Keterangan</th>
-                                @if($barang->info == 1)
-                                <td>Barang Inventaris</td>
-                                @elseif($barang->info == 2)
-                                <td>Barang Habis Pakai</td>
-                                @elseif($barang->info == 3)
-                                <td>Barang Hibah</td>
-                                @endif
-                            </tr>
+                                <th scope="row">Jenis Pengadaan</th>
+                                <td>{{$barang->pengadaan->nama_pengadaan}}</td>
                         </tbody>
                     </table>
                 </div>

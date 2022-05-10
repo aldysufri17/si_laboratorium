@@ -41,7 +41,7 @@
                         <td>{{$barang->kategori->nama_kategori}}</td>
                     </tr>
                     <tr>
-                        <th scope="row">Stock</th>
+                        <th scope="row">Stok</th>
                         <td>{{ $barang->stock }} {{ $barang->satuan->nama_satuan }}</td>
                     </tr>
                     <tr>

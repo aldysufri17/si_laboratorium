@@ -133,6 +133,11 @@
                 <td>:</td>
                 <td>{{$alamat}}</td>
             </tr>
+            <tr>
+                <td>Keperluan</td>
+                <td>:</td>
+                <td>Peminjaman Barang</td>
+            </tr>
         </table>
     </section>
     <br>
@@ -191,30 +196,18 @@
                 <td style="width: 30%;">Semarang, <?= date('d-m-Y') ?></td>
             </tr>
             <tr>
-                <td colspan="2">Mengetahui,</td>
-            </tr>
-            <tr>
-                <td>Dosen pengampu/pembimbing,</td>
+                <td style="width: 70%;"></td>
                 <td>Hormat saya,</td>
             </tr>
             <tr>
+                <td style="width: 70%;"></td>
+
                 <td colspan="2" style="height: 70px"></td>
             </tr>
             <tr>
-                <td class="align-top">(............................................................)</td>
-                <td class="align-top">(............................................................)</td>
-            </tr>
-        </table>
-        <br>
-        <table>
-            <tr>
-                <td class="col-center">Menyetujui,<br>Kepala Laboratorium</td>
-            </tr>
-            <tr>
-                <td style="height: 70px"></td>
-            </tr>
-            <tr>
-                <td class="align-top col-center">(............................................................)</td>
+                <td style="width: 70%;"></td>
+
+                <td class="align-top">({{$name}})</td>
             </tr>
         </table>
     </section>

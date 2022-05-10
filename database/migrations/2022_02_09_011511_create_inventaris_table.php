@@ -21,8 +21,10 @@ class CreateinventarisTable extends Migration
             $table->integer('masuk')->nullable();
             $table->integer('keluar')->nullable();
             $table->integer('total');
+            $table->integer('stok');
             $table->text('status');
             $table->text('deskripsi')->nullable();
+            $table->text('keterangan')->nullable();
             $table->text('kategori_lab');
             $table->timestamps();
         });

@@ -33,11 +33,11 @@
                         <td>{{ $peminjaman->barang->nama }} - {{ $peminjaman->barang->tipe }}</td>
                     </tr>
                     <tr>
-                        <th scope="row">Kategori Barang</th>
-                        <td>{{$peminjaman->barang->kategori->nama_kategori}}</td>
+                        <th scope="row">Stok Barang Sekarang</th>
+                        <td>{{ $peminjaman->barang->stock }} {{$peminjaman->barang->satuan->nama_satuan}}</td>
                     </tr>
                     <tr>
-                        <th scope="row">Jumlah Pinjam</th>
+                        <th scope="row">Jumlah Barang Pinjam</th>
                         <td>{{ $peminjaman->jumlah }} {{$peminjaman->barang->satuan->nama_satuan}}</td>
                     </tr>
                     <tr>

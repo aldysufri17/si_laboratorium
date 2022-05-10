@@ -11,7 +11,7 @@
         <button id="notif" type="button" class="close" data-dismiss="alert">
             <i class="fa fa-times"></i>
         </button>
-        <strong>Pengajuan barang {{$data->barang->nama}} {{ $message }}</strong> {{ session('error') }}
+        <strong>Pengajuan barang {{$data->barang->nama}}-{{$data->barang->tipe}} {{ $message }}</strong> {{ session('error') }}
     </div>
     @endif
 </a>
@@ -26,7 +26,7 @@
         <button id="notif" type="button" class="close" data-dismiss="alert">
             <i class="fa fa-times"></i>
         </button>
-        <strong>Pengajuan {{$data->barang->nama}} {{ $message }}</strong> {{ session('error') }}
+        <strong>Pengajuan {{$data->barang->nama}}-{{$data->barang->tipe}} {{ $message }}</strong> {{ session('error') }}
     </div>
     @endif
 </a>
@@ -41,7 +41,7 @@
         <button id="notif" type="button" class="close" data-dismiss="alert">
             <i class="fa fa-times"></i>
         </button>
-        <strong>Pengajuan barang {{$data->barang->nama}} {{ $message }}</strong> {{ session('error') }}
+        <strong>Pengajuan barang {{$data->barang->nama}}-{{$data->barang->tipe}} {{ $message }}</strong> {{ session('error') }}
     </div>
     @endif
 </a>
@@ -59,7 +59,7 @@
             <button id="notif" type="button" class="close" data-dismiss="alert">
                 <i class="fa fa-times"></i>
             </button>
-            <strong>Pengembalian Barang {{$data->barang->nama}} {{ $message }} {{ $late }} Hari!!!</strong>
+            <strong>Pengembalian Barang {{$data->barang->nama}}-{{$data->barang->tipe}} {{ $message }} {{ $late }} Hari!!!</strong>
             {{ session('error') }}
         </div>
         @endif

@@ -78,7 +78,6 @@ class InventarisController extends Controller
             ->whereNotIn('id', $inventaris)
             ->get();
         return view('backend.inventaris.add', compact('barang'));
-        // dd($barang);
     }
 
     /**
@@ -104,18 +103,22 @@ class InventarisController extends Controller
             [
                 'kode_inventaris' => 'required|unique:inventaris',
                 'barang' => 'required',
+                'stok' => 'required',
             ],
             [
                 'unique' => 'Kode sudah digunakan',
+                'required' => 'Masukan Tidak boleh kosong.!!'
             ]
         );
-
+        $random = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
         $inventaris = Inventaris::create([
             'barang_id'         => $request->barang,
             'kode_inventaris'   => $request->kode_inventaris,
-            'kode_mutasi'       => 0,
+            'kode_mutasi'       => 'CR' . $random,
             'status'            => 2,
             'deskripsi'         => 'Created',
+            'keterangan'        => $request->keterangan,
+            'stok'              => $request->stok,
             'kategori_lab'      => $kategori_lab,
             'masuk'             => 0,
             'keluar'            => 0,
@@ -171,48 +174,57 @@ class InventarisController extends Controller
         } elseif (Auth::user()->role_id == 6) {
             $kategori_lab = 4;
         }
-        $jml_stok = $request->stock + $request->jumlah;
-        $jml_rusak = $request->jml_rusak ? $request->jml_rusak : 0;
+        $total_brg = $request->stok_brg + $request->jumlah;
+        $jml_rusak = $request->jml_rusak;
         $id_brg = $request->id_brg;
+        $stok_inventaris = $request->stok_inventaris;
+        $id_inven = $request->id_inventaris;
         if ($request->status == 1) {
-            $barang = Barang::whereId($id_brg)->update(['stock' => $jml_stok]);
-            // Inventaris
+            Barang::whereId($id_brg)->update(['stock' => $total_brg]);
+            $inventaris = Inventaris::whereId($id_inven)->update(['stok' => $stok_inventaris + $request->jumlah]);
+            // mutasi dan ineventaris
             $random = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
             Inventaris::create([
                 'barang_id'         => $id_brg,
                 'status'            => 1,
                 'deskripsi'         => 'Masuk',
-                'kode_inventaris'   => $request->kode_inventaris,
+                'keterangan'        => $request->keterangan,
+                'kode_inventaris'   => 'IN' . $random,
                 'kode_mutasi'       => 'IN' . $random,
-                'masuk'             => $request->stock,
+                'masuk'             => $request->jumlah,
                 'kategori_lab'      => $kategori_lab,
                 'keluar'            => 0,
-                'total'             => $jml_stok,
+                'total'             => $total_brg,
+                'stok'              => $stok_inventaris + $request->jumlah,
             ]);
         } else {
             $random = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
-            if ($request->stock < $request->jumlah) {
+            if ($request->stok_brg < $request->jumlah || $stok_inventaris < $request->jumlah) {
                 return redirect()->route('inventaris.index')->with('warning', 'Jumlah Stok Kurang!.');
             }
 
-            $barang = Barang::whereId($id_brg)->update([
-                'stock'     => $request->stock - $request->jumlah,
+            Barang::whereId($id_brg)->update([
+                'stock'     => $request->stok_brg - $request->jumlah,
                 'jml_rusak' => $jml_rusak + $request->jumlah
             ]);
+            $inventaris = Inventaris::whereId($id_inven)->update(['stok' => $stok_inventaris - $request->jumlah]);
 
+            // mutasi dan ineventaris
             Inventaris::create([
                 'barang_id'         => $id_brg,
                 'status'            => 0,
                 'deskripsi'         => 'Rusak',
-                'kode_inventaris'   => $request->kode_inventaris,
+                'keterangan'        => $request->keterangan,
+                'kode_inventaris'   => 'OUT' . $random,
                 'kode_mutasi'       => 'OUT' . $random,
                 'masuk'             => 0,
                 'kategori_lab'      => $kategori_lab,
                 'keluar'            => $request->jumlah,
-                'total'             => $request->stock - $request->jumlah,
+                'total'             => $request->stok_brg - $request->jumlah,
+                'stok'              => $stok_inventaris - $request->jumlah,
             ]);
         }
-        if ($barang) {
+        if ($inventaris) {
             return redirect()->route('inventaris.index')->with('success', 'Inventaris Berhasil diperbarui!.');
         } else {
             return redirect()->route('inventaris.index')->with('error', 'Inventaris Gagal diperbarui!.');

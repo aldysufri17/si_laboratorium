@@ -72,10 +72,10 @@
                             @csrf
                             <div class="row mt-2">
                                 <div class="col-md-6">
-                                    <span>Jumlah</span>
+                                    <span>Jumlah <span class="text-danger" style="font-size: 14px">(Maksimal 5 barang)</span></span>
                                     <input type="number"
                                         class="form-control mt-2 mb-3 @error('jumlah') is-invalid @enderror"
-                                        placeholder="Jumlah" name="jumlah" min="1" value="{{$keranjang->jumlah ? $keranjang->jumlah : ''}}">
+                                        placeholder="Jumlah" name="jumlah" min="1" max="5" id="inp" value="{{$keranjang->jumlah ? $keranjang->jumlah : ''}}" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
                                     @error('jumlah')
                                     <span class="text-danger">{{$message}}</span>
                                     @enderror
@@ -196,5 +196,11 @@
     setInterval(function () {
             document.getElementById('notif').click();
         }, 4000);
+
+        document.getElementById("inp").addEventListener("change", function() {
+        let v = parseInt(this.value);
+        if (v < 1) this.value = 1;
+        if (v > 5) this.value = 5;
+});
 </script>
 @endsection

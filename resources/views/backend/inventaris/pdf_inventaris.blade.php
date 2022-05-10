@@ -98,7 +98,7 @@
                     <th>Baik</th>
                     <th>Rusak</th>
                     <th>Total</th>
-                    <th>Tahun Pengadaan</th>
+                    <th>Keterangan</th>
                 </tr>
             </thead>
             <tbody>
@@ -115,7 +115,11 @@
                     <td>{{ $data->barang->jml_rusak }}</td>
                     @endif
                     <td>{{$data->barang->stock + $data->barang->jml_rusak}}</td>
-                    <td>{{substr($data->kode_inventaris,-4)}}</td>
+                    @if ($data->keterangan == null)
+                    <td>-</td>
+                    @else
+                    <td>{{$data->keterangan}}</td>
+                    @endif
                 </tr>
                 @endforeach
             </tbody>

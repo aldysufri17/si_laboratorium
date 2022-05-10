@@ -1,6 +1,6 @@
 @extends('backend.layouts.app')
 
-@section('title', 'Tambah Inventaris')
+@section('title', 'Edit Inventaris')
 
 @section('content')
 
@@ -8,11 +8,11 @@
 
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-2">
-        <h1 class="h5 mb-0 text-light">Form Tambah Inventaris</h1>
+        <h1 class="h5 mb-0 text-light">Form Edit Inventaris</h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Dashboard</a></li>
             <li class="breadcrumb-item"><a href="{{ url('/inventaris')}}">Catatan Inventaris</a></li>
-            <li class="breadcrumb-item">Tambah Inventaris</li>
+            <li class="breadcrumb-item">Edit Inventaris</li>
         </ol>
     </div>
 
@@ -21,9 +21,9 @@
         <form method="POST" action="{{route('inventaris.update', $inventaris->kode_inventaris)}}">
             @csrf
             @method('PUT')
-            <input type="text" hidden name="stock" value="{{$inventaris->barang->stock}}">
-            <input type="text" hidden name="jml_rusak" value="{{$inventaris->barang->jml_rusak}}">
+            <input type="text" hidden name="stok_brg" value="{{$inventaris->barang->stock}}">
             <input type="text" hidden name="id_brg" value="{{$inventaris->barang->id}}">
+            <input type="text" hidden name="id_inventaris" value="{{$inventaris->id}}">
             <div class="card-body ">
                 <div class="form-group row">
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
@@ -37,13 +37,13 @@
                     </div>
 
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
-                        <span style="color:red;">*</span>Total Stok Barang Sekarang</label>
-                        <input type="text" disabled class="form-control form-control-user" value="{{$inventaris->barang->stock}}">
+                        <span style="color:red;">*</span>Total Stok Barang Inventaris</label>
+                        <input type="text" readonly class="form-control form-control-user"  name="stok_inventaris" value="{{$inventaris->stok}}">
                     </div>
 
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
                         <span style="color:red;">*</span>Total Barang Rusak Sekarang</label>
-                        <input type="text" disabled class="form-control form-control-user" value="{{$inventaris->barang->jml_rusak ? $inventaris->barang->jml_rusak : 0}}">
+                        <input type="text" readonly class="form-control form-control-user" name="jml_rusak" value="{{$inventaris->barang->jml_rusak ? $inventaris->barang->jml_rusak : 0}}">
                     </div>
 
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
@@ -68,6 +68,17 @@
                             value="{{ old('jumlah') }}">
 
                         @error('jumlah')
+                        <span class="text-danger">{{$message}}</span>
+                        @enderror
+                    </div>
+
+                    <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
+                        <div class="form-group">
+                            <span style="color:red;">*</span>Keterangan</label>
+                            <textarea class="form-control @error('keterangan') is-invalid @enderror"
+                                id="exampleFormControlTextarea1" name="keterangan" rows="3">{{$inventaris->keterangan}}</textarea>
+                        </div>
+                        @error('keterangan')
                         <span class="text-danger">{{$message}}</span>
                         @enderror
                     </div>

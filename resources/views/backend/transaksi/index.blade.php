@@ -67,10 +67,10 @@
                             <td>{{ $data->tgl_start }}</td>
                             <td>{{ $data->tgl_end }}</td>
                             <td>
-                                @if ($data->status == 3)
-                                <span class="badge badge-success">Active</span>
+                                @if ($data->status == 2)
+                                <span class="badge badge-success">Pinjam</span>
                                 @elseif($data->status == 4)
-                                <span class="badge badge-primary">Clear</span>
+                                <span class="badge badge-primary">Selesai</span>
                                 @else
                                 <span class="badge badge-secondary">Pending</span>
                                 @endif

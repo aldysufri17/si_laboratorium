@@ -16,7 +16,7 @@
         </ol>
     </div>
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <a href="javascript:history.back()" class="btn btn-sm btn-danger">
+        <a href="{{route('konfirmasi.pengajuan')}}" class="btn btn-sm btn-danger">
             <i class="fas fa-angle-double-left"></i> Kembali
         </a>
     </div>
@@ -115,7 +115,7 @@
     </div>
     @include('sweetalert::alert')
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <a href="{{ route('konfirmasi.peminjaman') }}" class="btn btn-sm btn-danger">
+        <a href="{{route('konfirmasi.pengajuan')}}" class="btn btn-sm btn-danger">
             <i class="fas fa-angle-double-left"></i> Kembali
         </a>
     </div>

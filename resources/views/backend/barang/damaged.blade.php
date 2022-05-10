@@ -14,6 +14,16 @@
         </ol>
     </div>
 
+    <div class="d-sm-flex align-items-center mb-4">
+        @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
+        <a href="{{ route('damaged.create') }}" class="btn btn-sm btn-success">
+            <i class="fas fa-plus"></i> Tambah Barang Rusak
+        </a>
+        @endrole
+    </div>
+    {{-- Alert Messages --}}
+    @include('sweetalert::alert')
+    
     <!-- DataTales Example -->
     <div class="card shadow mb-4 border-0 bgdark">
         <div class="card-body">
@@ -86,6 +96,13 @@
             <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Dashboard</a></li>
             <li class="breadcrumb-item">Daftar Barang Rusak</li>
         </ol>
+    </div>
+    <div class="d-sm-flex align-items-center mb-4">
+        @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
+        <a href="{{ route('damaged.create') }}" class="btn btn-sm btn-success">
+            <i class="fas fa-plus"></i> Tambah Barang Rusak
+        </a>
+        @endrole
     </div>
     <div class="align-items-center bg-light p-3 border-left-success rounded">
         <span class="">Oops!</span><br>

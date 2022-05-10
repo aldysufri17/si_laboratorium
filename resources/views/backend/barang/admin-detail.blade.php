@@ -37,7 +37,7 @@
                         <tr>
                             <th width="15%">Kategori</th>
                             <th width="15%">Nama</th>
-                            <th width="15%">Stock</th>
+                            <th width="15%">Stok</th>
                             <th width="10%">Tampilkan</th>
                             <th width="15%">Lokasi Barang</th>
                             <th width="15%">Detail</th>

@@ -61,7 +61,7 @@
                             <th width="15%">Kode Barang</th>
                             <th width="15%">Kategori</th>
                             <th width="15%">Nama</th>
-                            <th width="15%">Stock</th>
+                            <th width="15%">Stok</th>
                             <th width="10%">Tampilkan</th>
                             @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
                             <th width="25%">Aksi</th>

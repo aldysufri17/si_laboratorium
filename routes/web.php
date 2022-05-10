@@ -19,6 +19,9 @@ Route::get('/detail/{id}', [App\Http\Controllers\HomeController::class, 'detail'
 Auth::routes();
 
 Route::middleware(['auth'])->group(function () {
+    // Peminjaman delete
+    Route::delete('/delete/{id}', [App\Http\Controllers\PeminjamanController::class, 'destroy'])->name('peminjaman.destroy');
+
     // Profile Routes
     Route::prefix('profile')->name('profile.')->middleware('auth')->group(function () {
         Route::get('/', [DashboardController::class, 'getProfile'])->name('detail');
@@ -63,6 +66,10 @@ Route::middleware(['auth'])->group(function () {
         Route::get('export-csv/{data}', [App\Http\Controllers\BarangController::class, 'export'])->name('export.barang');
         Route::post('import-csv', [App\Http\Controllers\BarangController::class, 'import'])->name('import.barang');
         Route::get('barang/PDF/{id}', [App\Http\Controllers\BarangController::class, 'barangPdf'])->name('barang.pdf');
+        Route::get('add/damaged', [App\Http\Controllers\BarangController::class, 'createDamaged'])->name('damaged.create');
+        Route::post('store/damaged', [App\Http\Controllers\BarangController::class, 'storeDamaged'])->name('damaged.store');
+        Route::get('stok/show', [App\Http\Controllers\BarangController::class, 'showStok'])->name('stok.show');
+        Route::post('update/update', [App\Http\Controllers\BarangController::class, 'updateStok'])->name('stok.update');
 
 
         // Inventaris
@@ -139,7 +146,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/peminjaman/edit/{id}', [App\Http\Controllers\PeminjamanController::class, 'edit'])->name('peminjaman.edit');
         Route::get('/kembalikan', [App\Http\Controllers\PeminjamanController::class, 'kembalikan'])->name('kembalikan');
         Route::post('/peminjaman/update/{id}', [App\Http\Controllers\PeminjamanController::class, 'update'])->name('peminjaman.update');
-        Route::delete('/delete/{id}', [App\Http\Controllers\PeminjamanController::class, 'destroy'])->name('peminjaman.destroy');
         Route::get('/cetak-surat', [App\Http\Controllers\PeminjamanController::class, 'print'])->name('print');
         // Route::get('/surat-bebas', [App\Http\Controllers\PeminjamanController::class, 'suratBebas'])->name('suratBebas');
         Route::resource('surat', App\Http\Controllers\SuratController::class);

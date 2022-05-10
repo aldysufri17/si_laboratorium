@@ -50,6 +50,9 @@
                 <a class="collapse-item text-red" href="{{ route('barang.index') }}">Data Barang</a>
                 <a class="collapse-item text-red" href="{{ route('mutasi') }}">Data Mutasi</a>
                 <a class="collapse-item text-red" href="{{ route('barang.damaged') }}">Barang Rusak</a>
+                @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
+                <a class="collapse-item text-red" href="{{ route('stok.show') }}">Update Stok</a>
+                @endrole
             </div>
         </div>
     </li>
@@ -63,7 +66,9 @@
         </a>
         <div id="inventarisDropDown" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class=" py-2 collapse-inner rounded" style="background-color: rgb(230, 230, 230)">
+                @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
                 <a class="collapse-item text-red" href="{{ route('inventaris.add', auth()->user()->role_id) }}">Tambah Inventaris</a>
+                @endrole
                 <a class="collapse-item text-red" href="{{ route('inventaris.index') }}">Data Inventaris</a>
             </div>
         </div>
@@ -81,7 +86,7 @@
             <div class=" py-2 collapse-inner rounded" style="background-color: rgb(230, 230, 230)">
                 <a class="collapse-item text-red" href="{{ route('konfirmasi.pengajuan') }}">Pengajuan</a>
                 <a class="collapse-item text-red" href="{{ route('konfirmasi.peminjaman') }}">Daftar Peminjam</a>
-                <a class="collapse-item text-red" href="{{route('konfirmasi.pengembalian')}}">Pengembalian</a>
+                {{-- <a class="collapse-item text-red" href="{{route('konfirmasi.pengembalian')}}">Pengembalian</a> --}}
             </div>
         </div>
     </li>
