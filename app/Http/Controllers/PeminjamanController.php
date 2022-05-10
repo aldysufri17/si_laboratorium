@@ -177,7 +177,7 @@ class PeminjamanController extends Controller
 
     public function store(Request $request, $id)
     {
-        $max = Peminjaman::where('user_id', Auth::user()->id)->where('status', '!=', 4)->count();
+        $max = Peminjaman::where('user_id', Auth::user()->id)->where('status', '!=', 4)->Where('status', '!=', 1)->count();
         $id_cart = $request->ckd_chld;
         $count = count($id_cart);
         $total = $max + $count;
