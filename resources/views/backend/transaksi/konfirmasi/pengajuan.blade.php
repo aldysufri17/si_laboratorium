@@ -71,8 +71,10 @@
 <script>
     $(document).ready(function () {
         $('#dataTable').DataTable({
-            responsive: true,
-            autoWidth: false,
+            "paging": false,
+   "ordering": false,
+   "searching": false,
+   "bInfo": false,
         });
     });
 

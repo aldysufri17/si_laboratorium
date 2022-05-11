@@ -27,12 +27,14 @@ class KeranjangController extends Controller
 
     public function store(Request $request, $id)
     {
+        $kategori_lab = Barang::whereId($id)->value('kategori_lab');
         if (Auth::check()) {
             $cart = Keranjang::create([
                 'user_id' => Auth::user()->id,
                 'barang_id' => $id,
                 'status' => 0,
                 'jumlah' => $request->jumlah,
+                'kategori_lab' => $kategori_lab,
             ]);
             if ($cart) {
                 return redirect()->route('cart')->with('success', 'Barang berhasil ditambah!.');

@@ -57,7 +57,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <span>Keperluan</span>
-                                    <input type="text"
+                                    <input type="text" readonly
                                         class="form-control mt-2 mb-3 @error('alasan') is-invalid @enderror"
                                         placeholder="Keperluan" name="alasan"
                                         value="{{old('alasan') ??$peminjaman->alasan}}">
@@ -70,12 +70,12 @@
                             <div class="row mt-2">
                                 <div class="col-md-6">
                                     <span>Tanggal Penggunaan</span>
-                                    <input type="date" class="form-control mt-2 mb-3" name="tgl_start"
+                                    <input type="date" readonly class="form-control mt-2 mb-3" name="tgl_start"
                                         value="{{old('tgl_start') ?? $peminjaman->tgl_start}}">
                                 </div>
                                 <div class="col-md-6">
                                     <span>Tanggal Pengembalian</span>
-                                    <input type="date" class="form-control mt-2 mb-3" name="tgl_end"
+                                    <input type="date" class="form-control mt-2 mb-3" name="tgl_end" readonly
                                         value="{{old('tgl_end') ?? $peminjaman->tgl_end}}">
                                 </div>
                             </div>

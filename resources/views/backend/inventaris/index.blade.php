@@ -35,7 +35,6 @@
     <!-- DataTales Example -->
     <div class="card shadow mb-4 border-0 bgdark">
         <div class="card-body">
-            <h6 class="m-0 font-weight-bold text-light">Inventaris Barang</h6>
             <div class="table-responsive">
                 <table id="dataTable" class="table table-borderless dt-responsive" cellspacing="0" width="100%">
                     @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
@@ -115,7 +114,7 @@
                     </tbody>
                     @endrole
                 </table>
-                {{ $inventaris->links() }}
+                {{-- {{ $inventaris->links() }} --}}
             </div>
         </div>
     </div>
@@ -189,6 +188,7 @@
         $('#deleteModal').modal('show')
         $('#delete_id').val(sid)
     });
+});
 
 </script>
 @endsection

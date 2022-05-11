@@ -104,7 +104,7 @@
                                                                 </p>
                                                             </div>
                                                             <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                                                                <button type="button" class="btn btn-link px-2"
+                                                                {{-- <button type="button" class="btn btn-link px-2"
                                                                     id="minus" value="{{$data->id}}">
                                                                     <i class="fas fa-minus"></i>
                                                                 </button>
@@ -116,7 +116,10 @@
                                                                 <button type="button" class="btn btn-link px-2"
                                                                     id="plus" value="{{$data->id}}">
                                                                     <i class="fas fa-plus"></i>
-                                                                </button>
+                                                                </button> --}}
+                                                                <p><span class="text-muted">Jumlah:<br> </span>
+                                                                    {{$data->jumlah}}
+                                                                </p>
                                                             </div>
                                                             <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
                                                                 {{-- <a class="btn" title="Form"

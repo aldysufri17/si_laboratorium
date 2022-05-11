@@ -90,48 +90,6 @@
                             </div>
                         </form>
                     </div>
-                    <div id="Paris" class="tabcontent p-3 py-5">
-                        <div class="d-flex justify-content-center align-items-center mb-3">
-                            <div class="d-flex flex-row align-items-center">
-                                <h5>Antrian Penggunaan</h5>
-                                <hr>
-                            </div>
-                        </div>
-                        @if ($peminjaman->IsNotEmpty())
-                        <div class="table-responsive">
-                            <table id="dataTable" class="table table-borderless dt-responsive" cellspacing="0"
-                                width="100%">
-                                <thead>
-                                    <tr>
-                                        <th>Nim</th>
-                                        <th>Nama</th>
-                                        <th>Tanggal Peminjaman</th>
-                                        <th>Tanggal Pengembalian</th>
-                                        <th>Jumlah</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach ($peminjaman as $peminjam)
-                                    <tr>
-                                        <th>{{$peminjam->user->nim}}</th>
-                                        <th>{{$peminjam->user->name}}</th>
-                                        <th>{{$peminjam->tgl_start}}</th>
-                                        <th>{{$peminjam->tgl_end}}</th>
-                                        <th>{{$peminjam->jumlah}} {{$peminjam->barang->satuan->nama_satuan}}</th>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                        @else
-                        <div class="align-items-center bg-light p-3 rounded" style="border-left: 3px solid blue">
-                            <span class="">Oops!</span><br>
-                            <p><i class="fa-solid fa-circle-info text-info"></i> Barang Belum Ada yang
-                                Pinjam</p>
-                        </div>
-                        @endif
-
-                    </div>
                 </div>
             </div>
         </div>
