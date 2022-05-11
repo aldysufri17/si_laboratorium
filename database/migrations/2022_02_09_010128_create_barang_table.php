@@ -22,6 +22,7 @@ class CreateBarangTable extends Migration
             $table->string('nama');
             $table->integer('stock');
             $table->text('tipe');
+            $table->text('keterangan_rusak')->nullable();
             $table->text('kategori_lab')->nullable();
             $table->date('tgl_masuk');
             $table->text('lokasi');

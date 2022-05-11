@@ -41,7 +41,7 @@ class PeminjamanController extends Controller
                 ->where('status', '>', 2)
                 ->select('kategori_lab', DB::raw('count(*) as total'))
                 ->groupBy('kategori_lab')
-                ->paginate(5);
+                ->get();
         } else {
             if (request()->start_date || request()->end_date) {
                 $start_date = Carbon::parse(request()->start_date)->format('Y-m-d');
@@ -50,12 +50,12 @@ class PeminjamanController extends Controller
                     ->where('kategori_lab', $kategori_lab)
                     ->where('status', '>=', 2)
                     ->whereBetween('date', [$start_date, $end_date])
-                    ->paginate(5);
+                    ->get();
             } else {
                 $peminjaman = Peminjaman::with('user', 'barang')
                     ->where('kategori_lab', $kategori_lab)
                     ->where('status', '>=', 2)
-                    ->paginate(5);
+                    ->get();
             }
         }
         return view('backend.transaksi.index', compact('peminjaman'));
@@ -76,12 +76,12 @@ class PeminjamanController extends Controller
                 ->where('kategori_lab', $data)
                 ->where('status', '>', 2)
                 ->whereBetween('date', [$start_date, $end_date])
-                ->paginate(5);
+                ->get();
         } else {
             $peminjaman = Peminjaman::with('user', 'barang')
                 ->where('kategori_lab', $data)
                 ->where('status', '>', 2)
-                ->paginate(5);
+                ->get();
         }
         return view('backend.transaksi.admin-peminjaman', compact('peminjaman'));
     }
@@ -103,7 +103,7 @@ class PeminjamanController extends Controller
             ->where('kategori_lab', $kategori_lab)
             ->where('status', 0)
             ->groupBy('date')
-            ->paginate(5);
+            ->get();
         return view('backend.transaksi.konfirmasi.pengajuan', compact('peminjaman'));
     }
 
@@ -122,7 +122,7 @@ class PeminjamanController extends Controller
             ->where('kategori_lab', $kategori_lab)
             ->where('date', $data)
             ->Where('status', 0)
-            ->paginate(5);
+            ->get();
         return view('backend.transaksi.konfirmasi.pengajuan-detail', compact('peminjaman'));
     }
 
@@ -144,7 +144,7 @@ class PeminjamanController extends Controller
             ->where('status', 2)
             ->orwhere('status', 3)
             ->groupBy('date')
-            ->paginate(5);
+            ->get();
         return view('backend.transaksi.konfirmasi.peminjaman.index', compact('peminjaman'));
     }
 
@@ -164,7 +164,7 @@ class PeminjamanController extends Controller
             ->where('kategori_lab', $kategori_lab)
             ->where('status', 2)
             ->orwhere('status', 3)
-            ->paginate(5);
+            ->get();
         return view('backend.transaksi.konfirmasi.peminjaman.detail', compact('peminjaman'));
     }
 
@@ -177,38 +177,37 @@ class PeminjamanController extends Controller
 
     public function store(Request $request, $id)
     {
-        $max = Peminjaman::where('user_id', Auth::user()->id)->where('status', '!=', 4)->Where('status', '!=', 1)->count();
+        // $max = Peminjaman::where('user_id', Auth::user()->id)->where('status', '!=', 4)->Where('status', '!=', 1)->count();
         $id_cart = $request->ckd_chld;
-        $count = count($id_cart);
-        $total = $max + $count;
-        if ($max >= 4 || $count > 4 || $total > 4) {
-            return redirect()->back()->with('max', 'Anda hanya dapat melakukan peminjaman sebanyak 4 barang...!!');
+        // $count = count($id_cart);
+        // $total = $max + $count;
+        // if ($max >= 4 || $count > 4 || $total > 4) {
+        //     return redirect()->back()->with('max', 'Anda hanya dapat melakukan peminjaman sebanyak 4 barang...!!');
+        // } else {
+        $peminjaman = Keranjang::whereIn('id', $id_cart)->get();
+        foreach ($peminjaman as $data) {
+            $peminjaman = Peminjaman::create([
+                'id'            => substr(str_shuffle("0123456789"), 0, 8),
+                'user_id'       => $id,
+                'barang_id'     => $data->barang_id,
+                'tgl_start'     => $data->tgl_start,
+                'tgl_end'       => $data->tgl_end,
+                'jumlah'        => $data->jumlah,
+                'kategori_lab'  => $data->kategori_lab,
+                'alasan'        => $data->alasan,
+                'status'        => 0,
+                'date'          => date('Y-m-d')
+            ]);
+        }
+
+        foreach ($id_cart as $id) {
+            Keranjang::where('id', $id)->update(['status' => 1]);
+        }
+
+        if ($peminjaman) {
+            return redirect()->route('daftar.pinjaman')->with('success', 'Pengajuan Berhasil ditambah!.');
         } else {
-            $peminjaman = Keranjang::whereIn('id', $id_cart)->get();
-            foreach ($peminjaman as $data) {
-                $peminjaman = Peminjaman::create([
-                    'id'            => substr(str_shuffle("0123456789"), 0, 8),
-                    'user_id'       => $id,
-                    'barang_id'     => $data->barang_id,
-                    'tgl_start'     => $data->tgl_start,
-                    'tgl_end'       => $data->tgl_end,
-                    'jumlah'        => $data->jumlah,
-                    'kategori_lab'  => $data->kategori_lab,
-                    'alasan'        => $data->alasan,
-                    'status'        => 0,
-                    'date'          => date('Y-m-d')
-                ]);
-            }
-
-            foreach ($id_cart as $id) {
-                Keranjang::where('id', $id)->update(['status' => 1]);
-            }
-
-            if ($peminjaman) {
-                return redirect()->route('daftar.pinjaman')->with('success', 'Pengajuan Berhasil ditambah!.');
-            } else {
-                return redirect()->route('daftar.pinjaman')->with('error', 'Gagal ditambah!.');
-            }
+            return redirect()->route('daftar.pinjaman')->with('error', 'Gagal ditambah!.');
         }
     }
 

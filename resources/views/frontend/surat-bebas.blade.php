@@ -98,14 +98,6 @@
                     <span style="font-size: 10pt; ">Jl. Prof. Sudharto, SH., Tembalang, Semarang, Kode Pos 50275<br>
                         Telp. (024) 7460053,7450055 - Fax. (024) 7460055<br>Site : http://www.ft.undip.ac.id - Email : teknik@undip.ac.id
                         </span><br>
-                    @php
-                    date_default_timezone_set('Asia/jakarta');
-                    $date = date("l jS \of F Y h:i:s A");
-                    $surat = "Created $date \n website: http://silab18.herokuapp.com/"
-                    @endphp
-                {{-- <td rowspan="1"><img src="data:image/png;base64,{{DNS2D::getBarcodePNG(strval($surat), 'QRCODE',3,3)}}"
-                    style="background-color: rgb(255, 255, 255); padding:5px; border-radius:1px" alt="barcode" />
-                </td> --}}
                 </td>
             </tr>
         </table>
@@ -114,7 +106,7 @@
     <section class="font-cambria">
         <br>
         <div class="text-center" style="font-weight: bold; font-size:20px">SURAT PERNYATAAN</div><br>
-        <div>Saya yang bertandatangan di bawah ini:</div>
+        <div>Saya yang bertandatangan di bawah ini menerangkan bahwa:</div>
     </section>
     <section>
         <table class="line-height-table">
@@ -137,6 +129,16 @@
                 @endhasanyrole
             </tr>
             <tr>
+                <td>Fakultas</td>
+                <td>:</td>
+                <td>Teknik</td>
+            </tr>
+            <tr>
+                <td>Jurusan</td>
+                <td>:</td>
+                <td>Departemen Teknik Komputer</td>
+            </tr>
+            <tr>
                 <td>Alamat</td>
                 <td>:</td>
                 @hasanyrole('admin')
@@ -150,10 +152,10 @@
     <br>
     <section>
         <div>
-            Dengan ini menyatakan bahwa, Sudah tidak memiliki tanggungan peminjaman barang pada Laboratorium Departemen Teknik Komputer.
+            Dengan ini menyatakan bahwa, Sudah tidak memiliki tanggungan administrasi di Laboratorium Departemen Teknik Komputer.
         </div>
     </section>
-    <br>
+    {{-- <br>
     <section>
         <table border="1" class="lab bordered highlight responsive-table">
             <thead>
@@ -191,6 +193,10 @@
                 </tr>
             </tbody>
         </table>
+    </section> --}}
+    <br>
+    <section>
+        <div>Surat keterangan ini digunakan sebagai bukti bebas Laboratorium Departemen Teknik Komputer</div>
     </section>
     <br>
     <section>
@@ -198,7 +204,14 @@
     </section>
     <br>
     <section id="ttd">
-        <table>
+        @php
+        date_default_timezone_set('Asia/jakarta');
+        $date = date("l jS \of F Y h:i:s A");
+        $surat = "Created $date \n website: http://silab18.herokuapp.com/"
+        @endphp
+    <img src="data:image/png;base64,{{DNS2D::getBarcodePNG(strval($surat), 'QRCODE',3,3)}}"
+        style="background-color: rgb(255, 255, 255); padding:5px; border-radius:1px" alt="barcode" />
+        {{-- <table>
             <tr>
                 <td style="width: 70%;"></td>
                 <td style="width: 30%;">Semarang, {{date('d-m-Y')}}</td>
@@ -225,7 +238,7 @@
                     {{$nim}}
                     @endhasanyrole</td>
             </tr>
-        </table>
+        </table> --}}
         <br>
     </section>
 </body>

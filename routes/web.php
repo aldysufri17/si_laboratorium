@@ -60,14 +60,20 @@ Route::middleware(['auth'])->group(function () {
         // Barang
         Route::resource('barang', App\Http\Controllers\BarangController::class);
         Route::get('laboratoirum/{data}', [App\Http\Controllers\BarangController::class, 'adminBarang'])->name('admin.barang');
+        Route::get('/qr-code/{data}', [App\Http\Controllers\BarangController::class, 'qrcode'])->name('qrcode');
+        Route::post('import-csv', [App\Http\Controllers\BarangController::class, 'import'])->name('import.barang');
+        Route::get('export-csv/{data}', [App\Http\Controllers\BarangController::class, 'export'])->name('export.barang');
+        Route::get('barang/PDF/{id}', [App\Http\Controllers\BarangController::class, 'barangPdf'])->name('barang.pdf');
+
+        // Barang Rusak
         Route::get('damaged/barang', [App\Http\Controllers\BarangController::class, 'damaged'])->name('barang.damaged');
         Route::get('damaged/{data}', [App\Http\Controllers\BarangController::class, 'adminDamaged'])->name('admin.damaged');
-        Route::get('/qr-code/{data}', [App\Http\Controllers\BarangController::class, 'qrcode'])->name('qrcode');
-        Route::get('export-csv/{data}', [App\Http\Controllers\BarangController::class, 'export'])->name('export.barang');
-        Route::post('import-csv', [App\Http\Controllers\BarangController::class, 'import'])->name('import.barang');
-        Route::get('barang/PDF/{id}', [App\Http\Controllers\BarangController::class, 'barangPdf'])->name('barang.pdf');
         Route::get('add/damaged', [App\Http\Controllers\BarangController::class, 'createDamaged'])->name('damaged.create');
         Route::post('store/damaged', [App\Http\Controllers\BarangController::class, 'storeDamaged'])->name('damaged.store');
+        Route::get('damaged/export-csv/{data}', [App\Http\Controllers\BarangController::class, 'damagedexport'])->name('damaged.export');
+        Route::get('damaged/barang/PDF/{id}', [App\Http\Controllers\BarangController::class, 'damagedPdf'])->name('damaged.pdf');
+
+        // Update Stock
         Route::get('stok/show', [App\Http\Controllers\BarangController::class, 'showStok'])->name('stok.show');
         Route::post('update/update', [App\Http\Controllers\BarangController::class, 'updateStok'])->name('stok.update');
 
@@ -81,8 +87,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/mutasi', [App\Http\Controllers\InventarisController::class, 'mutasi'])->name('mutasi');
         Route::get('mutasi/admin/{data}', [App\Http\Controllers\InventarisController::class, 'adminMutasi'])->name('admin.mutasi');
         Route::get('/PDF/{id}', [App\Http\Controllers\InventarisController::class, 'inventarisPdf'])->name('inventaris.pdf');
-
-
+        Route::get('mutasi/export-csv/{data}/{status}', [App\Http\Controllers\InventarisController::class, 'mutasiExport'])->name('export.mutasi');
+        Route::get('mutasi/exportpdf/{data}/{status}', [App\Http\Controllers\InventarisController::class, 'mutasiPdf'])->name('mutasi.pdf');
 
         // transaksi
         Route::get('/daftar-peminjaman', [App\Http\Controllers\PeminjamanController::class, 'index'])->name('daftar.peminjaman');
@@ -118,6 +124,8 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/persuratan/riwayat', [App\Http\Controllers\PersuratanController::class, 'riwayat'])->name('persuratan.riwayat');
         Route::get('/persuratan/konfirmasi', [App\Http\Controllers\PersuratanController::class, 'konfirmasi'])->name('persuratan.konfirmasi');
         Route::get('/persuratan/status/{id}/{status}', [App\Http\Controllers\PersuratanController::class, 'status'])->name('persuratan.status');
+        Route::get('/persuratan/export-csv', [App\Http\Controllers\PersuratanController::class, 'suratExport'])->name('export.surat');
+        Route::get('/persuratan/mutasi/exportpdf', [App\Http\Controllers\PersuratanController::class, 'suratPdf'])->name('surat.pdf');
 
         // Satuan
         Route::resource('satuan', App\Http\Controllers\SatuanController::class);

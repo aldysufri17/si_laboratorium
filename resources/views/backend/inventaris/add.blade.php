@@ -35,8 +35,9 @@
 
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
                         <span style="color:red;">*</span>Nama Barang</label>
-                        <select id="select" class="form-control form-control-user @error('barang') is-invalid @enderror"
-                            name="barang">
+                        <select id="select"
+                            class="form-control selectpicker form-control-user @error('barang') is-invalid @enderror"
+                            name="barang" data-live-search="true">
                             <option selected disabled>Pilih Barang</option>
                             @foreach ($barang as $data)
                             <option value="{{$data->id}}">{{ $data->nama }} - {{ $data->tipe }}</option>
@@ -82,14 +83,21 @@
 
 
 @section('scripts')
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script>
+    $(function () {
+        $(".selectpicker").select2({
+            maximumSelectionLength: 2
+        });
+    });
     $.ajaxSetup({
         headers: {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         }
     });
 
-    $(document).on('click', '#select', function () {
+    $(document).on('change', '.selectpicker', function () {
         var select = $('#select option:selected').val()
 
         $.ajax({

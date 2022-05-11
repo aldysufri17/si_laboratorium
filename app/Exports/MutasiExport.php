@@ -2,18 +2,20 @@
 
 namespace App\Exports;
 
-use App\Models\Barang;
+use App\Models\Inventaris;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class BarangExport implements FromCollection, WithHeadings
+
+class MutasiExport implements FromCollection, WithHeadings
 {
     private $data;
-    public function __construct(int $data)
+    private $status;
+    public function __construct(int $data, int $status)
     {
         $this->data = $data;
+        $this->status = $status;
     }
 
     public function headings(): array
@@ -26,7 +28,7 @@ class BarangExport implements FromCollection, WithHeadings
             } elseif ($this->data == 3) {
                 $name = 'Laboratorium Jaringan dan Keamanan Komputer';
             } elseif ($this->data == 4) {
-                $name = 'Laboratorium Multimedia';
+                $kategori_lab = 4;
             }
         }
 
@@ -40,11 +42,16 @@ class BarangExport implements FromCollection, WithHeadings
             $name = 'Laboratorium Multimedia';
         }
         return [
-            ['Data Barang ' . $name . " Pada " . date('Y-m-d')],
-            ['Kode Barang', 'Kategori', 'Nama', 'Tipe', 'Stok', 'Satuan', 'Lokasi', 'Jenis Jenis Pengadaan']
+            ['Data Inventaris ' . $name . " Pada " . date('Y-m-d')],
+            [
+                'Date', 'Kode Mutasi', 'Nama Barang', 'Tipe', 'Masuk', 'Keluar', 'Total', 'Keterangan'
+            ]
         ];
     }
 
+    /**
+     * @return \Illuminate\Support\Collection
+     */
     public function collection()
     {
         if (Auth::user()->role_id == 2) {
@@ -68,12 +75,22 @@ class BarangExport implements FromCollection, WithHeadings
         } elseif (Auth::user()->role_id == 6) {
             $kategori_lab = 4;
         }
-        $barang = Barang::join('satuan', 'satuan.id', '=', 'barang.satuan_id')
-            ->join('kategori', 'kategori.id', '=', 'barang.kategori_id')
-            ->join('pengadaan', 'pengadaan.id', '=', 'barang.pengadaan_id')
-            ->select('kode_barang', 'kategori.nama_kategori', 'barang.nama', 'tipe', 'stock', 'satuan.nama_satuan', 'lokasi', 'pengadaan.nama_pengadaan')
-            ->where('barang.kategori_lab', $kategori_lab)
-            ->get();
-        return $barang;
+
+        if ($this->status == 2) {
+            $inventaris = Inventaris::join('barang', 'barang.id', '=', 'inventaris.barang_id')
+                ->select('inventaris.created_at', 'kode_mutasi', 'barang.nama', 'barang.tipe', 'masuk', 'keluar', 'total', 'deskripsi')
+                ->where('inventaris.kategori_lab', $kategori_lab)
+                ->where('status', '<', 2)
+                ->orderBy('inventaris.created_at', 'DESC')
+                ->get();
+        } else {
+            $inventaris = Inventaris::join('barang', 'barang.id', '=', 'inventaris.barang_id')
+                ->select('inventaris.created_at', 'kode_mutasi', 'barang.nama', 'barang.tipe', 'masuk', 'keluar', 'total', 'deskripsi')
+                ->where('inventaris.kategori_lab', $kategori_lab)
+                ->where('status', $this->status)
+                ->orderBy('inventaris.created_at', 'DESC')
+                ->get();
+        }
+        return $inventaris;
     }
 }

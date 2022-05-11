@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use Barryvdh\DomPDF\Facade as PDF;
 use App\Exports\BarangExport;
+use App\Exports\DamagedExport;
 use App\Imports\BarangImport;
 use App\Models\Kategori;
 use App\Models\Pengadaan;
@@ -47,12 +48,12 @@ class BarangController extends Controller
         if (Auth::user()->role_id == 2) {
             $barang = Barang::select('kategori_lab', DB::raw('count(*) as total'))
                 ->groupBy('kategori_lab')
-                ->paginate(5);
+                ->get();
         } else {
             $barang = Barang::with('satuan', 'kategori')
                 ->where('kategori_lab', $kategori_lab)
                 ->orderBy('created_at', 'desc')
-                ->paginate(5);
+                ->get();
         }
         return view('backend.barang.index', ['barang' => $barang]);
     }
@@ -62,7 +63,7 @@ class BarangController extends Controller
         $barang = Barang::with('satuan', 'kategori')
             ->where('kategori_lab', $data)
             ->orderBy('created_at', 'desc')
-            ->paginate(5);
+            ->get();
         return view('backend.barang.admin-detail', ['barang' => $barang]);
     }
 
@@ -307,7 +308,7 @@ class BarangController extends Controller
                 ->select('kategori_lab', DB::raw('count(*) as total'))
                 // ->selectRaw(DB::raw("SUM(jml_rusak) as total"))
                 ->groupBy('kategori_lab')
-                ->paginate(5);
+                ->get();
             // dd($barang);
             return view('backend.barang.damaged', compact('barang'));
         } else {
@@ -320,14 +321,15 @@ class BarangController extends Controller
             } elseif (Auth::user()->role_id == 6) {
                 $kategori_lab = 4;
             }
-            $barang = Barang::whereNotNull('jml_rusak')->where('kategori_lab', $kategori_lab)->paginate(5);
+            $barang = Barang::whereNotNull('jml_rusak')->where('kategori_lab', $kategori_lab)->get();
+
             return view('backend.barang.damaged', compact('barang'));
         }
     }
 
     public function adminDamaged($data)
     {
-        $barang = Barang::whereNotNull('jml_rusak')->where('kategori_lab', $data)->paginate(5);
+        $barang = Barang::whereNotNull('jml_rusak')->where('kategori_lab', $data)->get();
         return view('backend.barang.admin-damaged', compact('barang'));
     }
 
@@ -521,7 +523,13 @@ class BarangController extends Controller
         $stok = $request->total_stok;
         $rsk = $request->total_rusak;
         $jml = $request->jumlah;
-        Barang::whereId($id_barang)->update(['stock' => $stok - $jml, 'jml_rusak' => $rsk + $jml]);
+        if ($request->keterangan == null) {
+            $ket = '-';
+        } else {
+            $ket = $request->keterangan;
+        }
+
+        Barang::whereId($id_barang)->update(['stock' => $stok - $jml, 'jml_rusak' => $rsk + $jml, 'keterangan_rusak' => $ket]);
 
         // mutasi dan ineventaris
         $random = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
@@ -595,5 +603,73 @@ class BarangController extends Controller
         } else {
             return redirect()->route('barang.index')->with('error', 'Stok Barang Gagal ditambahi!.');
         }
+    }
+
+    public function damagedExport($data)
+    {
+        if (Auth::user()->role_id == 2) {
+            if (Auth::user()->role_id == 2) {
+                if ($data == 1) {
+                    $name = 'Laboratorium Sistem Tertanam dan Robotika';
+                } elseif ($data == 2) {
+                    $name = 'Laboratorium Rekayasa Perangkat Lunak';
+                } elseif ($data == 3) {
+                    $name = 'Laboratorium Jaringan dan Keamanan Komputer';
+                } elseif ($data == 4) {
+                    $name = 'Laboratorium Multimedia';
+                }
+            }
+        }
+
+        if (Auth::user()->role_id == 3) {
+            $name = "Laboratorium Sistem Tertanam dan Robotika";
+        } elseif (Auth::user()->role_id == 4) {
+            $name = "Laboratorium Rekayasa Perangkat Lunak";
+        } elseif (Auth::user()->role_id == 5) {
+            $name = "Laboratorium Jaringan dan Keamanan Komputer";
+        } elseif (Auth::user()->role_id == 6) {
+            $name = "Laboratorium Multimedia";
+        }
+        return Excel::download(new DamagedExport($data), 'Data Barang Rusak' . '-' . $name . date('Y-m-d') . '.xlsx');
+    }
+
+    public function damagedPdf($data)
+    {
+        if (Auth::user()->role_id == 2) {
+            if (Auth::user()->role_id == 2) {
+                if ($data == 1) {
+                    $name = 'Laboratorium Sistem Tertanam dan Robotika';
+                    $kategori_lab = 1;
+                } elseif ($data == 2) {
+                    $name = 'Laboratorium Rekayasa Perangkat Lunak';
+                    $kategori_lab = 2;
+                } elseif ($data == 3) {
+                    $name = 'Laboratorium Jaringan dan Keamanan Komputer';
+                    $kategori_lab = 3;
+                } elseif ($data == 4) {
+                    $name = 'Laboratorium Multimedia';
+                    $kategori_lab = 4;
+                }
+            }
+        }
+
+        if (Auth::user()->role_id == 3) {
+            $name = "Laboratorium Sistem Tertanam dan Robotika";
+            $kategori_lab = 1;
+        } elseif (Auth::user()->role_id == 4) {
+            $name = "Laboratorium Rekayasa Perangkat Lunak";
+            $kategori_lab = 2;
+        } elseif (Auth::user()->role_id == 5) {
+            $name = "Laboratorium Jaringan dan Keamanan Komputer";
+            $kategori_lab = 3;
+        } elseif (Auth::user()->role_id == 6) {
+            $name = "Laboratorium Multimedia";
+            $kategori_lab = 4;
+        }
+        $barang = Barang::where('kategori_lab', $kategori_lab)->whereNotNull('jml_rusak')->get();
+        // return view('backend.inventaris.pdf_inventaris', compact('name', 'inventaris'));
+        $pdf = Pdf::loadview('backend.barang.pdf_damaged', compact('name', 'barang'));
+
+        return $pdf->download("Data Barang Rusak" . "_" . $name . '_' . date('d-m-Y') . '.pdf');
     }
 }

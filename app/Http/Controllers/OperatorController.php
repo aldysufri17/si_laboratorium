@@ -31,7 +31,7 @@ class OperatorController extends Controller
      */
     public function index()
     {
-        $users = User::where('role_id', '>', 1)->with('roles')->paginate(5);
+        $users = User::where('role_id', '>', 1)->with('roles')->get();
 
         return view('backend.operator.index', ['users' => $users]);
     }

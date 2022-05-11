@@ -86,19 +86,20 @@
             <div class=" py-2 collapse-inner rounded" style="background-color: rgb(230, 230, 230)">
                 <a class="collapse-item text-red" href="{{ route('konfirmasi.pengajuan') }}">Pengajuan</a>
                 <a class="collapse-item text-red" href="{{ route('konfirmasi.peminjaman') }}">Daftar Peminjam</a>
+                <a class="collapse-item text-red" href="{{ route('daftar.peminjaman') }}">Riwayat Peminjam</a>
                 {{-- <a class="collapse-item text-red" href="{{route('konfirmasi.pengembalian')}}">Pengembalian</a> --}}
             </div>
         </div>
     </li>
     @endrole
     <!-- Nav Item - Pages Collapse Menu -->
+    @role('admin')
     <li class="nav-item">
         <a class="nav-link" href="{{route('daftar.peminjaman')}}">
             <i class="fa-solid fa-book"></i>
             <span>Daftar Peminjaman</span>
         </a>
     </li>
-    @role('admin')
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#suratDropDown"
             aria-expanded="true" aria-controls="suratDropDown">
@@ -109,7 +110,7 @@
             <div class=" py-2 collapse-inner rounded" style="background-color: rgb(230, 230, 230)">
                 <a class="collapse-item text-red" href="{{ route('persuratan.create') }}">Buat Surat</a>
                 <a class="collapse-item text-red" href="{{ route('persuratan.konfirmasi') }}">Konfirmasi Surat</a>
-                <a class="collapse-item text-red" href="{{ route('persuratan.riwayat') }}">Riwayat Surat</a>
+                {{-- <a class="collapse-item text-red" href="{{ route('persuratan.riwayat') }}">Riwayat Surat</a> --}}
             </div>
         </div>
     </li>

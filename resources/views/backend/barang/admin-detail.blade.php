@@ -30,7 +30,6 @@
     <!-- DataTales Example -->
     <div class="card shadow mb-4 border-0 bgdark">
         <div class="card-body">
-            <h6 class="m-0 font-weight-bold text-light">Daftar Semua Barang</h6>
             <div class="table-responsive">
                 <table id="dataTable" class="table table-borderless dt-responsive" cellspacing="0" width="100%">
                     <thead>
@@ -70,7 +69,6 @@
                         @endforeach
                     </tbody>
                 </table>
-                {{ $barang->links() }}
             </div>
         </div>
     </div>
@@ -82,8 +80,6 @@
 <script>
     $(document).ready(function () {
         $('#dataTable').DataTable({
-            "bInfo": false,
-            "paging": false,
             responsive: true,
             autoWidth: false,
             "order": [[ 0, "desc" ]]

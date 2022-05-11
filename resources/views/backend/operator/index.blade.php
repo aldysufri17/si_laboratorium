@@ -27,9 +27,8 @@
     <!-- DataTales Example -->
     <div class="card shadow mb-4 border-0 bgdark">
         <div class="card-body">
-            <h6 class="m-0 font-weight-bold text-light">Daftar Semua Pengurus</h6>
             <div class="table-responsive">
-                <table class="table table-borderless table-dark bgdark" id="dataTable" width="100%" cellspacing="0">
+                <table id="dataTable" class="table table-borderless dt-responsive" cellspacing="0" width="100%">
                     <thead>
                         <tr>
                             <th width="20%">Nama</th>
@@ -84,7 +83,6 @@
                         @endforeach
                     </tbody>
                 </table>
-                {{ $users->links() }}
             </div>
         </div>
     </div>
@@ -118,8 +116,8 @@
 <script>
     $(document).ready(function () {
         $('#dataTable').DataTable({
-            "bInfo": false,
-            "paging": false
+            responsive: true,
+            autoWidth: false,
         });
 
         $(document).on('click', '.delete-btn', function () {

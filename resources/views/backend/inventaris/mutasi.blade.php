@@ -15,10 +15,29 @@
         </ol>
     </div>
     @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <a href="{{ route('export.inventaris', 0) }}" class="btn btn-sm btn-warning">
-            <i class="fa-solid fa-file-csv"></i> Export Exel
-        </a>
+    <div class="d-sm-flex align-items-center mb-4">
+        <div class="dropdown mr-3">
+            <button class="btn btn-warning dropdown-toggle" type="button" id="dropdownexel" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <i class="fa-solid fa-file-csv"></i> Export Exel
+            </button>
+            <div class="dropdown-menu bgdark" aria-labelledby="dropdownexel">
+                <a class="dropdown-item text-light" href="{{route('export.mutasi',['data' => 0,'status' => 1])}}">Status Masuk</a>
+                <a class="dropdown-item text-light" href="{{route('export.mutasi',['data' => 0,'status' => 0])}}">Status Keluar</a>
+                <a class="dropdown-item text-light" href="{{route('export.mutasi',['data' => 0,'status' => 2])}}">Semua Status</a>
+            </div>
+        </div>
+        <div class="dropdown">
+            <button class="btn btn-info dropdown-toggle" type="button" id="dropdownPDF" data-toggle="dropdown"
+                aria-haspopup="true" aria-expanded="false">
+                <i class="fa-solid fa-file-csv"></i> Export Exel
+            </button>
+            <div class="dropdown-menu bgdark" aria-labelledby="dropdownPDF">
+                <a class="dropdown-item text-light" href="{{route('mutasi.pdf',['data' => 0,'status' => 1])}}">Status Masuk</a>
+                <a class="dropdown-item text-light" href="{{route('mutasi.pdf',['data' => 0,'status' => 0])}}">Status Keluar</a>
+                <a class="dropdown-item text-light" href="{{route('mutasi.pdf',['data' => 0,'status' => 2])}}">Semua Status</a>
+            </div>
+        </div>
     </div>
     @endrole
 
@@ -28,7 +47,6 @@
     <!-- DataTales Example -->
     <div class="card shadow mb-4 border-0 bgdark">
         <div class="card-body">
-            <h6 class="m-0 font-weight-bold text-light">Mutasi Stock Barang</h6>
             <div class="table-responsive">
                 <table id="dataTable" class="table table-borderless dt-responsive" cellspacing="0" width="100%">
                     @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
@@ -90,8 +108,8 @@
                                 @endif</td>
                             <td class="text-center">{{ $data->total }}</td>
                             <td class="d-sm-flex justify-content-center">
-                                <a href="{{route('admin.mutasi', $data->kategori_lab)}}" class="btn btn-primary" data-toggle="tooltip" data-placement="top"
-                                    title="Show">
+                                <a href="{{route('admin.mutasi', $data->kategori_lab)}}" class="btn btn-primary"
+                                    data-toggle="tooltip" data-placement="top" title="Show">
                                     <i class="fa fa-eye"></i>
                                 </a>
                             </td>
@@ -100,7 +118,6 @@
                     </tbody>
                     @endrole
                 </table>
-                {{ $inventaris->links() }}
             </div>
         </div>
     </div>
@@ -129,8 +146,6 @@
 <script>
     $(document).ready(function () {
         $('#dataTable').DataTable({
-            "bInfo": false,
-            "paging": false,
             responsive: true,
             autoWidth: false,
             "order": [

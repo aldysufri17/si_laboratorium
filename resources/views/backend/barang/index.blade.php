@@ -31,14 +31,14 @@
         <a href="{{ route('qrcode', 0) }}" class="btn btn-sm btn-primary mx-3">
             <i class="fas fa-qrcode"></i> Cetak Semua QR-Code
         </a>
+        <a class="btn btn-sm btn-info ml-3" data-toggle="modal" data-target="#importModal">
+            <i class="fa-solid fa-file-csv"></i> Import Exel</a>
         <a href="{{ route('export.barang', 0) }}" class="btn btn-sm btn-warning">
             <i class="fa-solid fa-file-csv"></i> Export Exel
         </a>
-        <a class="btn btn-sm btn-info ml-3" data-toggle="modal" data-target="#importModal">
-            <i class="fa-solid fa-file-csv"></i> Import Exel</a>
-            <a href="{{ route('barang.pdf',0) }}" class="btn btn-sm btn-danger ml-3">
-                <i class="fa-solid fa-file-export"></i> Export PDF
-            </a>
+        <a href="{{ route('barang.pdf',0) }}" class="btn btn-sm btn-danger ml-3">
+            <i class="fa-solid fa-file-export"></i> Export PDF
+        </a>
         @endrole
     </div>
 
@@ -48,18 +48,13 @@
     <!-- DataTales Example -->
     <div class="card shadow mb-4 border-0 bgdark">
         <div class="card-body">
-            @hasanyrole('admin')
-            <h6 class="m-0 font-weight-bold text-light">Daftar Laboratorium</h6>
-            @else
-            <h6 class="m-0 font-weight-bold text-light">Daftar Semua Barang</h6>
-            @endhasanyrole
             <div class="table-responsive">
                 <table id="dataTable" class="table table-borderless dt-responsive" cellspacing="0" width="100%">
                     @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
                     <thead>
                         <tr>
                             <th width="15%">Kode Barang</th>
-                            <th width="15%">Kategori</th>
+                            <th width="15%">Pengadaan</th>
                             <th width="15%">Nama</th>
                             <th width="15%">Stok</th>
                             <th width="10%">Tampilkan</th>
@@ -72,20 +67,16 @@
                         @foreach ($barang as $data)
                         <tr>
                             <td>{{$data->kode_barang}}</td>
-                            @if($data->kategori_id == 0)
-                            <td>Default</td>
-                            @else
-                            <td>{{ $data->kategori->nama_kategori }}</td>
-                            @endif
-                            
+                            <td>{{$data->pengadaan->nama_pengadaan}}</td>
+
                             <td>{{ $data->nama }} - {{ $data->tipe }}</td>
-                            
+
                             @if($data->satuan_id == 0)
                             <td>{{ $data->stock }} - Default</td>
                             @else
                             <td>{{ $data->stock }} - {{ $data->satuan->nama_satuan }}</td>
                             @endif
-                            
+
                             <td>@if ($data->show == 0)
                                 <span class="badge badge-danger">Tidak</span>
                                 @elseif ($data->show == 1)
@@ -142,7 +133,7 @@
                     </tbody>
                     @endrole
                 </table>
-                {{ $barang->links() }}
+                {{-- {{ $barang->links() }} --}}
             </div>
         </div>
     </div>
@@ -179,20 +170,16 @@
 <script>
     $(document).ready(function () {
         $('#dataTable').DataTable({
-            "bInfo": false,
-            "paging": false,
             responsive: true,
             autoWidth: false,
-            "order": [
-                [0, "desc"]
-            ]
         });
 
-        $(document).on('click', '.delete-btn',function () {
+        $(document).on('click', '.delete-btn', function () {
             var sid = $(this).val();
             $('#deleteModal').modal('show')
             $('#delete_id').val(sid)
         });
     });
+
 </script>
 @endsection

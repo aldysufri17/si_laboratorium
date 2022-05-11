@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Concerns\FromCollection;
 use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class BarangExport implements FromCollection, WithHeadings
+class DamagedExport implements FromCollection, WithHeadings
 {
     private $data;
     public function __construct(int $data)
@@ -41,7 +41,7 @@ class BarangExport implements FromCollection, WithHeadings
         }
         return [
             ['Data Barang ' . $name . " Pada " . date('Y-m-d')],
-            ['Kode Barang', 'Kategori', 'Nama', 'Tipe', 'Stok', 'Satuan', 'Lokasi', 'Jenis Jenis Pengadaan']
+            ['Waktu', 'Kode Barang', 'Kategori', 'Jenis Pengadaan', 'Nama', 'Tipe', 'Jumlah Rusak', 'Keterangan']
         ];
     }
 
@@ -68,10 +68,10 @@ class BarangExport implements FromCollection, WithHeadings
         } elseif (Auth::user()->role_id == 6) {
             $kategori_lab = 4;
         }
-        $barang = Barang::join('satuan', 'satuan.id', '=', 'barang.satuan_id')
-            ->join('kategori', 'kategori.id', '=', 'barang.kategori_id')
+        $barang = Barang::join('kategori', 'kategori.id', '=', 'barang.kategori_id')
             ->join('pengadaan', 'pengadaan.id', '=', 'barang.pengadaan_id')
-            ->select('kode_barang', 'kategori.nama_kategori', 'barang.nama', 'tipe', 'stock', 'satuan.nama_satuan', 'lokasi', 'pengadaan.nama_pengadaan')
+            ->select('barang.updated_at', 'kode_barang', 'kategori.nama_kategori', 'pengadaan.nama_pengadaan', 'nama', 'tipe', 'jml_rusak', 'keterangan_rusak')
+            ->whereNotNull('jml_rusak')
             ->where('barang.kategori_lab', $kategori_lab)
             ->get();
         return $barang;

@@ -50,7 +50,6 @@
                         @endforeach
                     </tbody>
                 </table>
-                {{ $peminjaman->links() }}
             </div>
         </div>
     </div>
@@ -66,11 +65,6 @@
         </ol>
     </div>
     @include('sweetalert::alert')
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <a href="{{ route('scan', 'pengembalian') }}" class="btn btn-sm btn-info">
-            <i class="fas fa-barcode"></i> Scan Barcode Pengembalian
-        </a>
-    </div>
     <div class="align-items-center bg-light p-3 border-left-success rounded">
         <span class="">Oops!</span><br>
         <p><i class="fa-solid fa-circle-info text-info"></i> Belum Terdapat Peminjaman</p>
@@ -82,8 +76,8 @@
 <script>
     $(document).ready(function () {
         $('#dataTable').DataTable({
-            "bInfo": false,
-            "paging": false
+            responsive: true,
+            autoWidth: false,
         });
     });
 

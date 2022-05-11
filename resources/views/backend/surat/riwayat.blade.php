@@ -18,6 +18,12 @@
         <a href="{{ route('persuratan.create') }}" class="btn btn-sm btn-success">
             <i class="fas fa-plus"></i> Buat Surat
         </a>
+        <a href="{{ route('export.surat') }}" class="btn btn-sm btn-warning">
+            <i class="fa-solid fa-file-csv"></i> Export Exel
+        </a>
+        <a href="{{ route('surat.pdf') }}" class="btn btn-sm btn-danger ml-3">
+            <i class="fa-solid fa-file-export"></i> Export PDF
+        </a>
     </div>
 
     {{-- Alert Messages --}}

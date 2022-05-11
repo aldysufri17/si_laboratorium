@@ -16,8 +16,14 @@
 
     <div class="d-sm-flex align-items-center mb-4">
         @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
-        <a href="{{ route('damaged.create') }}" class="btn btn-sm btn-success">
+        <a href="{{ route('damaged.create') }}" class="btn btn-sm btn-success mr-3">
             <i class="fas fa-plus"></i> Tambah Barang Rusak
+        </a>
+        <a href="{{ route('damaged.export', 0) }}" class="btn btn-sm btn-warning">
+            <i class="fa-solid fa-file-csv"></i> Export Exel
+        </a>
+        <a href="{{ route('damaged.pdf',0) }}" class="btn btn-sm btn-danger ml-3">
+            <i class="fa-solid fa-file-export"></i> Export PDF
         </a>
         @endrole
     </div>
@@ -61,28 +67,27 @@
                     @else
                     <thead>
                         <tr>
-                            <th width="25%">Kode Barang</th>
-                            <th width="20%">Kategori Barang</th>
-                            <th width="25%">Nama Barang</th>
-                            <th width="20%">Jumlah</th>
-                            <th width="10%">Status</th>
+                            <th width="15%">Date</th>
+                            <th width="15%">Kode Barang</th>
+                            <th width="20%">Nama Barang</th>
+                            <th width="15%">Jumlah</th>
+                            <th width="25%">Keterangan</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($barang as $data)
                         <tr>
+                            <td>{{ $data->updated_at }}</td>
                             <td>{{ $data->kode_barang }}</td>
-                            <td>{{ $data->kategori->nama_kategori }}</td>
                             <td>{{ $data->nama }} - {{ $data->tipe }}</td>
                             <td>{{ $data->jml_rusak }} - {{$data->satuan->nama_satuan}}</td>
-                            <td><span class="badge badge-danger">Rusak</span></td>
+                            <td>{{$data->keterangan_rusak}}</td>
                         </tr>
                         @endforeach
                     </tbody>
                     @endhasanyrole
                 </table>
 
-                {{ $barang->links() }}
             </div>
         </div>
     </div>
@@ -116,8 +121,6 @@
 <script>
     $(document).ready(function () {
         $('#dataTable').DataTable({
-            "bInfo": false,
-            "paging": false,
             responsive: true,
             autoWidth: false,
         });

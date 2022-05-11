@@ -70,7 +70,7 @@
                                     <input type="text" hidden value="{{$data->barang->stock}}" id="stok">
                                     <a href="{{ route('konfirmasi.peminjaman.status', ['id_peminjaman' => $data->id, 'status' => 4,'barang_id' => $data->barang_id, 'jumlah' => $data->jumlah, 'user_id' => $data->user_id]) }}"
                                         class="btn btn-warning" data-toggle="tooltip" data-placement="top"
-                                        title="Akhiri">
+                                        title="Barang diterima">
                                         <i class="fas fa-dolly-flatbed"></i>
                                     </a>
                                 </td>
@@ -78,7 +78,6 @@
                             @endforeach
                         </tbody>
                     </table>
-                    {{ $peminjaman->links() }}
                 </div>
         </div>
     </div>
@@ -138,8 +137,6 @@
 <script>
     $(document).ready(function () {
         $('#dataTable').DataTable({
-            "bInfo": false,
-            "paging": false,
             responsive: true,
             autoWidth: false,
         });

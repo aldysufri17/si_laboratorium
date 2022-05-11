@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Exports\InventarisExport;
+use App\Exports\MutasiExport;
 use App\Models\Barang;
 use App\Models\Inventaris;
 use Barryvdh\DomPDF\Facade\Pdf;
@@ -365,5 +366,94 @@ class InventarisController extends Controller
         $pdf = Pdf::loadview('backend.inventaris.pdf_inventaris', compact('name', 'inventaris'));
 
         return $pdf->download("Inventaris Data" . "_" . $name . '_' . date('d-m-Y') . '.pdf');
+    }
+
+    public function mutasiExport($data, $status)
+    {
+        if (Auth::user()->role_id == 2) {
+            if (Auth::user()->role_id == 2) {
+                if ($data == 1) {
+                    $name = 'Laboratorium Sistem Tertanam dan Robotika';
+                } elseif ($data == 2) {
+                    $name = 'Laboratorium Rekayasa Perangkat Lunak';
+                } elseif ($data == 3) {
+                    $name = 'Laboratorium Jaringan dan Keamanan Komputer';
+                } elseif ($data == 4) {
+                    $name = 'Laboratorium Multimedia';
+                }
+            }
+        }
+
+        if ($status == 0) {
+            $sts = 'Barang Keluar';
+        } elseif ($status == 1) {
+            $sts = 'Barang Masuk';
+        } else {
+            $sts = 'Semua Barang';
+        }
+
+        if (Auth::user()->role_id == 3) {
+            $name = "Laboratorium Sistem Tertanam dan Robotika";
+        } elseif (Auth::user()->role_id == 4) {
+            $name = "Laboratorium Rekayasa Perangkat Lunak";
+        } elseif (Auth::user()->role_id == 5) {
+            $name = "Laboratorium Jaringan dan Keamanan Komputer";
+        } elseif (Auth::user()->role_id == 6) {
+            $name = "Laboratorium Multimedia";
+        }
+        return Excel::download(new MutasiExport($data, $status), 'Data Mutasi' . '-' . $sts . '-' . $name . '-' . date('Y-m-d') . '.xlsx');
+    }
+
+    public function mutasiPdf($data, $status)
+    {
+        if (Auth::user()->role_id == 2) {
+            if (Auth::user()->role_id == 2) {
+                if ($data == 1) {
+                    $name = 'Laboratorium Sistem Tertanam dan Robotika';
+                    $kategori_lab = 1;
+                } elseif ($data == 2) {
+                    $name = 'Laboratorium Rekayasa Perangkat Lunak';
+                    $kategori_lab = 2;
+                } elseif ($data == 3) {
+                    $name = 'Laboratorium Jaringan dan Keamanan Komputer';
+                    $kategori_lab = 3;
+                } elseif ($data == 4) {
+                    $name = 'Laboratorium Multimedia';
+                    $kategori_lab = 4;
+                }
+            }
+        }
+
+        if ($status == 0) {
+            $sts = 'Barang Keluar';
+        } elseif ($status == 1) {
+            $sts = 'Barang Masuk';
+        } else {
+            $sts = 'Semua Barang';
+        }
+
+        if (Auth::user()->role_id == 3) {
+            $name = "Laboratorium Sistem Tertanam dan Robotika";
+            $kategori_lab = 1;
+        } elseif (Auth::user()->role_id == 4) {
+            $name = "Laboratorium Rekayasa Perangkat Lunak";
+            $kategori_lab = 2;
+        } elseif (Auth::user()->role_id == 5) {
+            $name = "Laboratorium Jaringan dan Keamanan Komputer";
+            $kategori_lab = 3;
+        } elseif (Auth::user()->role_id == 6) {
+            $name = "Laboratorium Multimedia";
+            $kategori_lab = 4;
+        }
+
+        if ($status < 2) {
+            $inventaris = Inventaris::where('status', $status)->where('kategori_lab', $kategori_lab)->get();
+        } else {
+            $inventaris = Inventaris::where('status', '<', 2)->where('kategori_lab', $kategori_lab)->get();
+        }
+        // return view('backend.inventaris.pdf_inventaris', compact('name', 'inventaris'));
+        $pdf = Pdf::loadview('backend.inventaris.pdf_mutasi', compact('name', 'inventaris'));
+
+        return $pdf->download("Data Mutasi" . '-' . $sts . "_" . $name . '_' . date('d-m-Y') . '.pdf');
     }
 }
