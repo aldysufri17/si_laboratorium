@@ -28,18 +28,23 @@ class KeranjangController extends Controller
     public function store(Request $request, $id)
     {
         $kategori_lab = Barang::whereId($id)->value('kategori_lab');
+        $stock = Barang::whereId($id)->value('stock');
         if (Auth::check()) {
-            $cart = Keranjang::create([
-                'user_id' => Auth::user()->id,
-                'barang_id' => $id,
-                'status' => 0,
-                'jumlah' => $request->jumlah,
-                'kategori_lab' => $kategori_lab,
-            ]);
-            if ($cart) {
-                return redirect()->route('cart')->with('success', 'Barang berhasil ditambah!.');
+            if ($stock < $request->jumlah) {
+                return redirect()->back()->with('stock', 'Stock tidak mencukupi!.');
             } else {
-                return redirect()->route('cart')->with('error', 'Barang Gagal ditambah!.');
+                $cart = Keranjang::create([
+                    'user_id' => Auth::user()->id,
+                    'barang_id' => $id,
+                    'status' => 0,
+                    'jumlah' => $request->jumlah,
+                    'kategori_lab' => $kategori_lab,
+                ]);
+                if ($cart) {
+                    return redirect()->route('cart')->with('success', 'Barang berhasil ditambah!.');
+                } else {
+                    return redirect()->route('cart')->with('error', 'Barang Gagal ditambah!.');
+                }
             }
         } else {
             return redirect()->route('login')->with('info', 'Anda harus login dahulu!.');

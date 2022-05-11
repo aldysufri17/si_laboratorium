@@ -3,14 +3,7 @@
 @section('title', 'Detail Barang')
 
 <main id="main">
-    @if ($message = Session::get('eror'))
-    <div class="alert alert-danger alert-dismissible" role="alert">
-        <button type="button" class="close" data-dismiss="alert">
-            <i class="fa fa-times"></i>
-        </button>
-        <strong>{{ $message }}</strong> {{ session('error') }}
-    </div>
-    @endif
+
     <!-- ======= Breadcrumbs Section ======= -->
     <section class="breadcrumbs">
         <div class="container">
@@ -26,6 +19,14 @@
 
         </div>
     </section><!-- Breadcrumbs Section -->
+    @if ($message = Session::get('stock'))
+    <div class="alert alert-danger alert-dismissible shake" role="alert">
+        <button id="notif" type="button" class="close" data-dismiss="alert">
+            <i class="fa fa-times"></i>
+        </button>
+        <strong>{{ $message }}</strong> {{ session('error') }}
+    </div>
+    @endif
 
     <section id="portfolio-details" class="portfolio-details">
         <div class="card shadow-sm mx-5 bg-white rounded">
