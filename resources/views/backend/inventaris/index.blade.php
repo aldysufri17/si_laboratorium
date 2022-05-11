@@ -180,15 +180,9 @@
 <script>
     $(document).ready(function () {
         $('#dataTable').DataTable({
-            "bInfo": false,
-            "paging": false,
             responsive: true,
             autoWidth: false,
-            "order": [
-                [0, "desc"]
-            ]
         });
-    });
 
     $(document).on('click', '.delete-btn', function () {
         var sid = $(this).val();

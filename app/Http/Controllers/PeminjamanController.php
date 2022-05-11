@@ -177,38 +177,48 @@ class PeminjamanController extends Controller
 
     public function store(Request $request, $id)
     {
-        // $max = Peminjaman::where('user_id', Auth::user()->id)->where('status', '!=', 4)->Where('status', '!=', 1)->count();
         $id_cart = $request->ckd_chld;
+        $user_id = Auth::user()->id;
+        $keranjang = Keranjang::where('barang_id', $id)->where('user_id', $user_id)->first();
+        $peminjaman = Peminjaman::where('barang_id', $id)->where('user_id', $user_id)->paginate(5);
+        $cart = Keranjang::whereIn('id', $id_cart)->get();
+        return view('frontend.form', compact('id_cart', 'keranjang', 'peminjaman', 'cart'));
+
+
+        // $max = Peminjaman::where('user_id', Auth::user()->id)->where('status', '!=', 4)->Where('status', '!=', 1)->count();
+        // $id_cart = $request->ckd_chld;
         // $count = count($id_cart);
         // $total = $max + $count;
         // if ($max >= 4 || $count > 4 || $total > 4) {
         //     return redirect()->back()->with('max', 'Anda hanya dapat melakukan peminjaman sebanyak 4 barang...!!');
         // } else {
-        $peminjaman = Keranjang::whereIn('id', $id_cart)->get();
-        foreach ($peminjaman as $data) {
-            $peminjaman = Peminjaman::create([
-                'id'            => substr(str_shuffle("0123456789"), 0, 8),
-                'user_id'       => $id,
-                'barang_id'     => $data->barang_id,
-                'tgl_start'     => $data->tgl_start,
-                'tgl_end'       => $data->tgl_end,
-                'jumlah'        => $data->jumlah,
-                'kategori_lab'  => $data->kategori_lab,
-                'alasan'        => $data->alasan,
-                'status'        => 0,
-                'date'          => date('Y-m-d')
-            ]);
-        }
 
-        foreach ($id_cart as $id) {
-            Keranjang::where('id', $id)->update(['status' => 1]);
-        }
 
-        if ($peminjaman) {
-            return redirect()->route('daftar.pinjaman')->with('success', 'Pengajuan Berhasil ditambah!.');
-        } else {
-            return redirect()->route('daftar.pinjaman')->with('error', 'Gagal ditambah!.');
-        }
+        // $peminjaman = Keranjang::whereIn('id', $id_cart)->get();
+        // foreach ($peminjaman as $data) {
+        //     $peminjaman = Peminjaman::create([
+        //         'id'            => substr(str_shuffle("0123456789"), 0, 8),
+        //         'user_id'       => $id,
+        //         'barang_id'     => $data->barang_id,
+        //         'tgl_start'     => $data->tgl_start,
+        //         'tgl_end'       => $data->tgl_end,
+        //         'jumlah'        => $data->jumlah,
+        //         'kategori_lab'  => $data->kategori_lab,
+        //         'alasan'        => $data->alasan,
+        //         'status'        => 0,
+        //         'date'          => date('Y-m-d')
+        //     ]);
+        // }
+
+        // foreach ($id_cart as $id) {
+        //     Keranjang::where('id', $id)->update(['status' => 1]);
+        // }
+
+        // if ($peminjaman) {
+        //     return redirect()->route('daftar.pinjaman')->with('success', 'Pengajuan Berhasil ditambah!.');
+        // } else {
+        //     return redirect()->route('daftar.pinjaman')->with('error', 'Gagal ditambah!.');
+        // }
     }
 
     public function edit($id)

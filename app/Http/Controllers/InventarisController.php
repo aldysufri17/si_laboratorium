@@ -27,7 +27,7 @@ class InventarisController extends Controller
                 ->where('status', 2)
                 ->groupBy('kategori_lab')
                 ->orderBy('created_at', 'desc')
-                ->paginate(8);
+                ->get();
         } else {
             if (Auth::user()->role_id == 3) {
                 $kategori_lab = 1;
@@ -41,7 +41,7 @@ class InventarisController extends Controller
             $inventaris = Inventaris::with('barang')
                 ->where('kategori_lab', $kategori_lab)
                 ->where('status', 2)
-                ->paginate(8);
+                ->get();
         }
 
         return view('backend.inventaris.index', compact('inventaris'));
@@ -53,7 +53,7 @@ class InventarisController extends Controller
             ->where('kategori_lab', $data)
             ->where('status', 2)
             ->orderBy('created_at', 'desc')
-            ->paginate(10);
+            ->get();
         return view('backend.inventaris.admin-inventaris', compact('inventaris'));
     }
 
@@ -324,7 +324,7 @@ class InventarisController extends Controller
             ->where('kategori_lab', $data)
             ->where('status', '!=', 2)
             ->orderBy('created_at', 'desc')
-            ->paginate(10);
+            ->get();
         return view('backend.inventaris.admin-mutasi', compact('inventaris'));
     }
 

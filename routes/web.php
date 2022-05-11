@@ -148,7 +148,10 @@ Route::middleware(['auth'])->group(function () {
         Route::delete('/cart/delete/{id}', [App\Http\Controllers\KeranjangController::class, 'destroy'])->name('cart.destroy');
         Route::get('/form/pengajuan/{id}', [App\Http\Controllers\KeranjangController::class, 'pengajuan'])->name('form.pengajuan');
         Route::post('/checkout/{id}', [App\Http\Controllers\PeminjamanController::class, 'store'])->name('checkout');
-        Route::post('/keranjang/update/{id}', [App\Http\Controllers\KeranjangController::class, 'update'])->name('keranjang.update');
+        Route::post('/keranjang/update', [App\Http\Controllers\KeranjangController::class, 'update'])->name('keranjang.update');
+        Route::get('/decrement', [App\Http\Controllers\KeranjangController::class, 'decrement'])->name('keranjang.dec');
+        Route::get('/increment', [App\Http\Controllers\KeranjangController::class, 'increment'])->name('keranjang.inc');
+
 
         Route::get('/daftar/pinjaman', [App\Http\Controllers\HomeController::class, 'pinjaman'])->name('daftar.pinjaman');
         Route::get('/peminjaman/edit/{id}', [App\Http\Controllers\PeminjamanController::class, 'edit'])->name('peminjaman.edit');

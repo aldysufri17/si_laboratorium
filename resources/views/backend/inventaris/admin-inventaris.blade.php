@@ -63,7 +63,6 @@
                         @endforeach
                     </tbody>
                 </table>
-                {{ $inventaris->links() }}
             </div>
         </div>
     </div>
@@ -75,15 +74,9 @@
 <script>
     $(document).ready(function () {
         $('#dataTable').DataTable({
-            "bInfo": false,
-            "paging": false,
             responsive: true,
             autoWidth: false,
-            "order": [
-                [0, "desc"]
-            ]
         });
-    });
 
 </script>
 @endsection

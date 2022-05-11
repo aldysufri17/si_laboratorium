@@ -30,10 +30,15 @@
     <section id="portfolio-details" class="portfolio-details">
         <div class="card shadow-sm mx-5 bg-white rounded">
             <div class="d-sm-flex justify-content-between mb-2 p-2">
-                <button type="button" onclick="javascript:history.back()" class="btn btn-danger btn-user float-right mb-3"> <i class="fas fa-angle-double-left"></i> Kembali</button>
-                <form action="{{route('cart.store', ['id' => $barang->id])}}">
-                    <button type="submit" class="btn btn-success btn-user float-right mb-3"> <i class="fas fa-cart-plus"></i> Tambah</button>
-                </form>
+                <button type="button" onclick="javascript:history.back()"
+                    class="btn btn-danger btn-user float-right mb-3"> <i class="fas fa-angle-double-left"></i>
+                    Kembali</button>
+                {{-- <form action="{{route('cart.store', ['id' => $barang->id])}}">
+                <button type="submit" class="btn btn-success btn-user float-right mb-3"> <i
+                        class="fas fa-cart-plus"></i> Tambah</button>
+                </form> --}}
+                <button type="button" id="jumlah" class="btn btn-success btn-user float-right mb-3">
+                    <i class="fas fa-cart-plus"></i> Tambah</button>
             </div>
             <div class="card-body px-4">
                 <div class="d-flex flex-column align-items-center mb-3 text-center">
@@ -42,7 +47,8 @@
                         data-gallery="portfolioGallery" class="portfolio-lightbox preview-link mb-3">
                         @if (file_exists(public_path('/images/barang/' . $barang->gambar)))
                         <div class="img-hover-zoom">
-                            <img width="300px" src="{{ asset($barang->gambar ? 'images/barang/'. $barang->gambar : 'images/empty.jpg') }}"
+                            <img width="300px"
+                                src="{{ asset($barang->gambar ? 'images/barang/'. $barang->gambar : 'images/empty.jpg') }}"
                                 class="img-fluid" alt="">
                         </div>
                     </a>
@@ -99,6 +105,32 @@
         </div>
     </section>
 </main><!-- End #main -->
+
+<div class="modal fade" id="jumlahModal" tabindex="-1" role="dialog" aria-labelledby="jumlahModalExample"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content bgdark shadow-2-strong ">
+            <div class="modal-header bg-secondary">
+                <h5 class="modal-title text-light" id="jumlahModalExample">Masukkan Jumlah Barang</h5>
+                <button class="close close-mdl" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form action="{{route('cart.store', ['id' => $barang->id])}}">
+                <div class="modal-body border-0 text-dark">
+                    <div class="col-md-12">
+                        <span>Jumlah</span>
+                        <input type="number" min="1" class="form-control mt-2 mb-3" name="jumlah" id="inp" value="1" oninput="this.value = this.value.replace(/[^0-9.]/g, '').replace(/(\..*?)\..*/g, '$1');">
+                    </div>
+                </div>
+                <div class="modal-footer border-0">
+                    <button class="btn btn-danger close-mdl" type="button" data-dismiss="modal">Batal</button>
+                    <button type="submit" id="off" class="btn btn-success">Oke</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 @endsection
 
 @section('script')
@@ -111,6 +143,19 @@
         "order": [
             [0, "desc"]
         ]
+    });
+    $(document).on('click', '#jumlah', function () {
+        $('#jumlahModal').modal('show')
+        // alert('heho');
+    });
+    $(document).on('click', '.close-mdl', function () {
+        $('#jumlahModal').modal('hide')
+
+    });
+
+    document.getElementById("inp").addEventListener("change", function() {
+        let v = parseInt(this.value);
+        if (v < 1) this.value = 1;
     });
 
 </script>
