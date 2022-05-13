@@ -26,18 +26,24 @@
                 <table class="table table-borderless table-dark bgdark" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th width="10%" class="text-center">Tanggal Masuk</th>
-                            <th width="15%" class="text-center">Jumlah</th>
+                            <th width="10%" class="text-center">NIM</th>
+                            <th width="10%" class="text-center">Nama</th>
+                            <th width="15%" class="text-center">Jumlah Pengajuan</th>
                             <th width="10%" class="text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($peminjaman as $item)
                         <tr>
-                        <td class="text-center">{{ $item->date }}</td>
+                            @php
+                            $id = $item->user_id;
+                            $nim = App\Models\user::where('id', $id)->value('nim');   
+                            @endphp
+                        <td class="text-center">{{ $nim }}</td>
+                        <td class="text-center">{{ $item->user->name }}</td>
                         <td class="text-center">{{ $item->total }}</td>
                         <td class="d-sm-flex justify-content-center">
-                            <a href="{{route('pengajuan.detail', $item->date)}}" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Show">
+                            <a href="{{route('show.pengajuan', ['id' => $item->user_id])}}" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Show">
                                 <i class="fa fa-eye"></i>
                             </a>
                         </td>

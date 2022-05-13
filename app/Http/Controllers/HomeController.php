@@ -83,15 +83,18 @@ class HomeController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function ad()
-    {
-        $user_id = Auth::user()->id;
-        $peminjaman = Peminjaman::with('barang')
-            ->where('user_id',  $user_id)
-            ->Where('status', '<', 0)
-            ->paginate(7);
-        return view('frontend.show-peminjaman', compact('peminjaman'));
-    }
+    // public function ad()
+    // {
+    //     $user_id = Auth::user()->id;
+    //     $peminjaman = Peminjaman::with('barang')
+    //         ->where('user_id',  $user_id)
+    //         ->Where('status', '<', 0)
+    //         ->select('kategori_lab', DB::raw('count(*) as total'))
+    //         ->groupBy('kategori_lab')
+    //         ->get();
+    //     dd($peminjaman);
+    //     return view('frontend.show-peminjaman', compact('peminjaman'));
+    // }
 
     /**
      * Show the form for editing the specified resource.
@@ -185,7 +188,9 @@ class HomeController extends Controller
         $user_id = Auth::user()->id;
         $proses = Peminjaman::with('barang')
             ->where('user_id',  $user_id)
-            ->Where('status', '<', 3)
+            ->Where('status', '<', 4)
+            ->select('created_at', DB::raw('count(*) as total'))
+            ->groupBy('created_at')
             ->paginate(7);
         $selesai = Peminjaman::with('barang')
             ->where('user_id',  $user_id)
@@ -224,5 +229,14 @@ class HomeController extends Controller
     {
         $barang = Barang::with('satuan', 'kategori')->where('show', 1)->paginate(8);;
         return view('frontend.inventaris', compact('barang'));
+    }
+
+    public function detailShow($date, Request $request)
+    {
+        $user_id = Auth::user()->id;
+        $datetime = new \Carbon\Carbon($date);
+        $proses = Peminjaman::where('created_at', $datetime)->where('user_id', $user_id)->paginate(5);
+        $detail = Peminjaman::where('created_at', $datetime)->where('user_id', $user_id)->first();
+        return view('frontend.peminjaman-detail-show', compact('proses', 'detail'));
     }
 }

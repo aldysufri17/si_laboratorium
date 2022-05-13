@@ -54,9 +54,9 @@
                     <thead>
                         <tr>
                             <th width="15%">Kode Barang</th>
-                            <th width="15%">Pengadaan</th>
                             <th width="15%">Nama</th>
                             <th width="15%">Stok</th>
+                            <th width="15%">Pengadaan</th>
                             <th width="10%">Tampilkan</th>
                             @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
                             <th width="25%">Aksi</th>
@@ -67,7 +67,6 @@
                         @foreach ($barang as $data)
                         <tr>
                             <td>{{$data->kode_barang}}</td>
-                            <td>{{$data->pengadaan->nama_pengadaan}}</td>
 
                             <td>{{ $data->nama }} - {{ $data->tipe }}</td>
 
@@ -76,6 +75,7 @@
                             @else
                             <td>{{ $data->stock }} - {{ $data->satuan->nama_satuan }}</td>
                             @endif
+                            <td>{{$data->pengadaan->nama_pengadaan}}</td>
 
                             <td>@if ($data->show == 0)
                                 <span class="badge badge-danger">Tidak</span>

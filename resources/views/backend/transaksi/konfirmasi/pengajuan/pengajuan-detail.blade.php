@@ -16,7 +16,7 @@
         </ol>
     </div>
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <a href="{{route('konfirmasi.pengajuan')}}" class="btn btn-sm btn-danger">
+        <a href="javascript:history.back()" class="btn btn-sm btn-danger">
             <i class="fas fa-angle-double-left"></i> Kembali
         </a>
     </div>
@@ -28,6 +28,32 @@
     <!-- DataTales Example -->
     <div class="card shadow mb-4 border-0 bgdark">
         <div class="card-body">
+            <div class="detail mb-4">
+            <h4 class="text-center font-weight-bold text-light">DETAIL PEMINJAMAN</h4>
+
+                <table class="table table-borderless" cellspacing="0" width="100%">
+                    <tr>
+                        <td width="25%" class="font-weight-bold">NIM Peminjam</td>
+                        <td>: </td>
+                    </tr>
+                    <tr>
+                        <td class="font-weight-bold">Nama Peminjam</td>
+                        <td>: dddddd</td>
+                    </tr>
+                    <tr>
+                        <td class="font-weight-bold">Keperluan</td>
+                        <td>: dddd</td>
+                    </tr>
+                    <tr>
+                        <td class="font-weight-bold">Tanggal Peminjaman</td>
+                        <td>: ddd</td>
+                    </tr>
+                    <tr>
+                        <td class="font-weight-bold">Tanggal Pengembalian</td>
+                        <td>: ddd</td>
+                    </tr>
+                </table>
+            </div>
             <div class="table-responsive">
                 <table id="dataTable" class="table table-borderless dt-responsive" cellspacing="0" width="100%">
                     <thead>
@@ -50,21 +76,17 @@
                             <td>{{ $data->jumlah }} {{ $data->barang->satuan->nama_satuan }}</td>
                             <td>{{ $data->tgl_start }}</td>
                             <td>{{ $data->tgl_end }}</td>
-                            <td style="display: flex">
-                                <a class="btn btn-info" href="{{ route('konfirmasi.peminjaman.show', $data->id) }}" title="Show">
+                            <td class="text-center">
+                                {{-- <a class="btn btn-info" href="{{ route('konfirmasi.peminjaman.show', $data->id) }}" title="Show">
                                     <i class="fas fa-eye"></i>
-                                </a>
+                                </a> --}}
                                 <button class="btn btn-danger tolak-btn" title="Tolak" value="{{$data->id}}">
                                     <i class="fa fa-ban"></i>
                                 </button>
-                                {{-- <a href="{{ route('konfirmasi.peminjaman.status', ['id_peminjaman' => $data->id, 'status' => 1, 'barang_id' => $data->barang_id, 'jumlah' => $data->jumlah, 'user_id' => $data->user_id]) }}"
-                                    class="btn btn-danger mx-" data-toggle="tooltip" data-placement="top" title="Reject">
-                                    <i class="fa fa-ban"></i>
-                                </a> --}}
-                                <a href="{{ route('konfirmasi.peminjaman.status', ['id_peminjaman' => $data->id, 'status' => 2,'barang_id' => $data->barang_id, 'jumlah' => $data->jumlah, 'user_id' => $data->user_id]) }}"
+                                {{-- <a href="{{ route('konfirmasi.peminjaman.status', ['id_peminjaman' => $data->id, 'status' => 2,'barang_id' => $data->barang_id, 'jumlah' => $data->jumlah, 'user_id' => $data->user_id]) }}"
                                     class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Accept">
                                     <i class="fa fa-check"></i>
-                                </a>
+                                </a> --}}
                             </td>
                         </tr>
                         @endforeach

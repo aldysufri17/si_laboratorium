@@ -98,7 +98,8 @@ Route::middleware(['auth'])->group(function () {
 
         // pengajuan
         Route::get('/konfirmasi-pengajuan', [App\Http\Controllers\PeminjamanController::class, 'pengajuan'])->name('konfirmasi.pengajuan');
-        Route::get('/konfirmasi/pengajuan/{data}', [App\Http\Controllers\PeminjamanController::class, 'pengajuanDetail'])->name('pengajuan.detail');
+        Route::get('/pengajuan/show/{id}', [App\Http\Controllers\PeminjamanController::class, 'showPengajuan'])->name('show.pengajuan');
+        Route::get('/konfirmasi/pengajuan/{id}/{date}', [App\Http\Controllers\PeminjamanController::class, 'pengajuanDetail'])->name('pengajuan.detail');
 
         // peminjaman
         Route::get('/konfirmasi-peminjaman', [App\Http\Controllers\PeminjamanController::class, 'peminjaman'])->name('konfirmasi.peminjaman');
@@ -109,6 +110,7 @@ Route::middleware(['auth'])->group(function () {
 
         // update status transaksi
         Route::get('/konfirmasi/{id_peminjaman}/{status}/{barang_id}/{jumlah}/{user_id}', [App\Http\Controllers\PeminjamanController::class, 'konfirmasiStatus'])->name('konfirmasi.peminjaman.status');
+        Route::get('/konfirmasi/status/{id}/{date}/{status}', [App\Http\Controllers\PeminjamanController::class, 'statusPeminjaman'])->name('konfirmasi.status');
 
         // pengembalian
         Route::get('/konfirmasi-pengembalian', [App\Http\Controllers\PeminjamanController::class, 'pengembalian'])->name('konfirmasi.pengembalian');
@@ -154,9 +156,10 @@ Route::middleware(['auth'])->group(function () {
 
 
         Route::get('/daftar/pinjaman', [App\Http\Controllers\HomeController::class, 'pinjaman'])->name('daftar.pinjaman');
+        Route::get('/daftar/show/pinjaman/{date}', [App\Http\Controllers\HomeController::class, 'detailShow'])->name('peminjaman.show.detail');
         Route::get('/peminjaman/edit/{id}', [App\Http\Controllers\PeminjamanController::class, 'edit'])->name('peminjaman.edit');
         Route::get('/kembalikan', [App\Http\Controllers\PeminjamanController::class, 'kembalikan'])->name('kembalikan');
-        Route::post('/peminjaman/update/{id}', [App\Http\Controllers\PeminjamanController::class, 'update'])->name('peminjaman.update');
+        Route::post('/peminjaman/update/{date}', [App\Http\Controllers\PeminjamanController::class, 'update'])->name('peminjaman.update');
         Route::get('/cetak-surat', [App\Http\Controllers\PeminjamanController::class, 'print'])->name('print');
         // Route::get('/surat-bebas', [App\Http\Controllers\PeminjamanController::class, 'suratBebas'])->name('suratBebas');
         Route::resource('surat', App\Http\Controllers\SuratController::class);

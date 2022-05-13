@@ -99,15 +99,15 @@ class PeminjamanController extends Controller
             $kategori_lab = 4;
         }
         $peminjaman = Peminjaman::withCount('user')
-            ->select('date', DB::raw('count(*) as total'))
+            ->select('user_id', DB::raw('count(*) as total'))
             ->where('kategori_lab', $kategori_lab)
             ->where('status', 0)
-            ->groupBy('date')
+            ->groupBy('user_id')
             ->get();
-        return view('backend.transaksi.konfirmasi.pengajuan', compact('peminjaman'));
+        return view('backend.transaksi.konfirmasi.pengajuan.index', compact('peminjaman'));
     }
 
-    public function pengajuanDetail($data)
+    public function showPengajuan($id)
     {
         if (Auth::user()->role_id == 3) {
             $kategori_lab = 1;
@@ -118,12 +118,33 @@ class PeminjamanController extends Controller
         } elseif (Auth::user()->role_id == 6) {
             $kategori_lab = 4;
         }
+        $peminjaman = Peminjaman::where('user_id', $id)
+            ->select('created_at', DB::raw('count(*) as total'))
+            ->where('kategori_lab', $kategori_lab)
+            ->where('status', 0)
+            ->groupBy('created_at')
+            ->get();
+        return view('backend.transaksi.konfirmasi.pengajuan.show', compact('peminjaman', 'id'));
+    }
+
+    public function pengajuanDetail($id, $date)
+    {
+        if (Auth::user()->role_id == 3) {
+            $kategori_lab = 1;
+        } elseif (Auth::user()->role_id == 4) {
+            $kategori_lab = 2;
+        } elseif (Auth::user()->role_id == 5) {
+            $kategori_lab = 3;
+        } elseif (Auth::user()->role_id == 6) {
+            $kategori_lab = 4;
+        }
+        $datetime = new \Carbon\Carbon($date);
         $peminjaman = Peminjaman::with('user', 'barang')
             ->where('kategori_lab', $kategori_lab)
-            ->where('date', $data)
+            ->where('created_at', $datetime)
             ->Where('status', 0)
             ->get();
-        return view('backend.transaksi.konfirmasi.pengajuan-detail', compact('peminjaman'));
+        return view('backend.transaksi.konfirmasi.pengajuan.pengajuan-detail', compact('peminjaman'));
     }
 
     // Konfirmasi Peminjaman
@@ -223,22 +244,24 @@ class PeminjamanController extends Controller
 
     public function edit($id)
     {
-        $peminjaman = Peminjaman::with('barang')->whereId($id)->first();
-        return view('frontend.edit-detail', compact('peminjaman'));
+        $datetime = new \Carbon\Carbon($id);
+        $user_id = Auth::user()->id;
+        $peminjaman = Peminjaman::with('barang')->where('user_id', $user_id)->where('created_at', $datetime)->first();
+        return view('frontend.edit-detail', compact('peminjaman', 'datetime'));
     }
 
     public function update(Request $request, $id)
     {
         $request->validate([
-            'jumlah' => 'required',
             'alasan' => 'required',
             'tgl_start' => 'required',
             'tgl_end' => 'required',
         ]);
-        $peminjaman = Peminjaman::whereId($id)->update([
+        $datetime = new \Carbon\Carbon($id);
+        $user_id = Auth::user()->id;
+        $peminjaman = Peminjaman::where('user_id', $user_id)->where('created_at', $datetime)->update([
             'tgl_start' => $request->tgl_start,
             'tgl_end'   => $request->tgl_end,
-            'jumlah'    => $request->jumlah,
             'alasan'    => $request->alasan,
         ]);
         if ($peminjaman) {
@@ -251,17 +274,18 @@ class PeminjamanController extends Controller
     public function destroy($id, Request $request)
     {
         $pem = $request->delete_id;
-        $jml = $request->brg_jml;
-        $stok = $request->brg_stok;
-        $barang_id = Peminjaman::where('id', $pem)->value('barang_id');
-        $user_id = Peminjaman::where('id', $pem)->value('user_id');
-        if ($jml || $stok) {
-            Barang::whereId($barang_id)->update(['stock' => $stok + $jml]);
+        $user_id = Auth::user()->id;
+        $jumlah = Peminjaman::where('user_id', $user_id)->where('created_at', $pem)->pluck('jumlah');
+        $barang_id = Peminjaman::where('user_id', $user_id)->where('created_at', $pem)->pluck('barang_id');
+        $stock = Barang::whereIn('id', $barang_id)->pluck('stock');
+
+        foreach ($barang_id as $index => $id) {
+            Barang::whereid($id)->update(['stock' => $stock[$index] + $jumlah[$index]]);
+            Keranjang::where('user_id', $user_id)->whereid('barang_id', $id)->delete();
         }
-        Keranjang::where('user_id', $user_id)->where('barang_id', $barang_id)->delete();
-        $peminjaman = Peminjaman::where('id', $pem)->delete();
+        $peminjaman = Peminjaman::where('user_id', $user_id)->where('created_at', $pem)->delete();
         if ($peminjaman) {
-            return redirect()->back()->with('success', 'Barang Berhasil dihapus!.');
+            return redirect()->route('daftar.pinjaman')->with('success', 'Barang Berhasil dihapus!.');
         } else {
             return redirect()->back()->with('error', 'Barang Gagal dihapus!.');
         }
@@ -349,6 +373,80 @@ class PeminjamanController extends Controller
             ]);
             Barang::whereid($barang_id)->update(['stock' => $total - $jumlah]);
             Peminjaman::whereId($id_peminjaman)->update(['status' => $status]);
+            if ($inventaris) {
+                return redirect()->back()->with('success', 'Peminjaman Berhasil di Setujui!.');
+            }
+        }
+    }
+
+    public function statusPeminjaman($id, $date, $status)
+    {
+        if (Auth::user()->role_id == 3) {
+            $kategori_lab = 1;
+        } elseif (Auth::user()->role_id == 4) {
+            $kategori_lab = 2;
+        } elseif (Auth::user()->role_id == 5) {
+            $kategori_lab = 3;
+        } elseif (Auth::user()->role_id == 6) {
+            $kategori_lab = 4;
+        }
+        $datetime = new \Carbon\Carbon($date);
+        if ($status == 2) {
+            $barang_id = Peminjaman::where('user_id', $id)->where('created_at', $datetime)->pluck('barang_id');
+            $jumlah = Peminjaman::where('user_id', $id)->where('created_at', $datetime)->pluck('jumlah');
+            $stock = Barang::whereIn('id', $barang_id)->pluck('stock');
+            $random = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
+
+            $telat = Peminjaman::where('user_id', $id)->where('created_at', $datetime)->first();
+            if ($telat->tgl_end < date('Y-m-d')) {
+                return redirect()->back()->with('warning', 'Konfirmasi pengajuan telat!.');
+            }
+
+            foreach ($barang_id as $index => $barang) {
+                // Mutasi
+                $inventaris = Inventaris::create([
+                    'barang_id'         => $barang,
+                    'status'            => 0,
+                    'deskripsi'         => "Pinjam",
+                    'kode_mutasi'       => 'OUT' . $random,
+                    'kode_inventaris'   => 'OUT' . $random,
+                    'masuk'             => 0,
+                    'keluar'            => $jumlah[$index],
+                    'kategori_lab'      => $kategori_lab,
+                    'total'             => $stock[$index] - $jumlah[$index],
+                    'stok'              => 0
+                ]);
+                Barang::whereid($barang)->update(['stock' => $stock[$index] - $jumlah[$index]]);
+                Peminjaman::where('user_id', $id)->where('barang_id', $barang)->update(['status' => $status]);
+            }
+
+
+            // $sisa = Barang::where('id', $barang_id)->first();
+            // $kategori_lab = $sisa->kategori_lab;
+            // $total = $sisa->stock;
+            // if ($total - $jumlah < 0) {
+            //     return redirect()->back()->with('warning', 'Inventaris Barang tidak mencukupi!.');
+            // }
+            // $telat = Peminjaman::whereid($id_peminjaman)->first();
+            // if ($telat->tgl_end < date('Y-m-d')) {
+            //     return redirect()->back()->with('warning', 'Konfirmasi pengajuan telat!.');
+            // }
+            // $random = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
+            // // Mutasi
+            // $inventaris = Inventaris::create([
+            //     'barang_id'         => $barang_id,
+            //     'status'            => 0,
+            //     'deskripsi'         => "Pinjam",
+            //     'kode_mutasi'       => 'OUT' . $random,
+            //     'kode_inventaris'   => 'OUT' . $random,
+            //     'masuk'             => 0,
+            //     'keluar'            => $jumlah,
+            //     'kategori_lab'      => $kategori_lab,
+            //     'total'             => $total - $jumlah,
+            //     'stok'              => 0
+            // ]);
+            // Barang::whereid($barang_id)->update(['stock' => $total - $jumlah]);
+            // Peminjaman::whereId($id_peminjaman)->update(['status' => $status]);
             if ($inventaris) {
                 return redirect()->back()->with('success', 'Peminjaman Berhasil di Setujui!.');
             }
@@ -621,7 +719,9 @@ class PeminjamanController extends Controller
 
     public function kembalikan(Request $request)
     {
-        $peminjaman = Peminjaman::whereId($request->pem_id)->update(['status' => 3]);
+        $user_id = Auth::user()->id;
+        $datetime = new \Carbon\Carbon($request->pem_id);
+        $peminjaman = Peminjaman::where('created_at', $datetime)->where('user_id', $user_id)->update(['status' => 3]);
         if ($peminjaman) {
             return redirect()->back()->with('success', 'Pengajuan Berhasil di Lakukan!.');
         } else {

@@ -68,11 +68,19 @@
                                     </button>
                                     <input type="text" hidden value="{{$data->jumlah}}" id="jumlah">
                                     <input type="text" hidden value="{{$data->barang->stock}}" id="stok">
+                                    @if ($data->status == 3)
                                     <a href="{{ route('konfirmasi.peminjaman.status', ['id_peminjaman' => $data->id, 'status' => 4,'barang_id' => $data->barang_id, 'jumlah' => $data->jumlah, 'user_id' => $data->user_id]) }}"
                                         class="btn btn-warning" data-toggle="tooltip" data-placement="top"
                                         title="Barang diterima">
                                         <i class="fas fa-dolly-flatbed"></i>
                                     </a>
+                                    @else
+                                    <a href="#"
+                                        class="btn btn-secondary" data-toggle="tooltip" data-placement="top"
+                                        title="Barang diterima">
+                                        <i class="fas fa-dolly-flatbed"></i>
+                                    </a>
+                                    @endif
                                 </td>
                             </tr>
                             @endforeach

@@ -59,9 +59,11 @@
                             <div class="table-responsive">
                                 <table id="dataTable" class="table table-borderless dt-responsive" cellspacing="0"
                                     width="100%">
-                                    <thead >
-                                        <tr >
-                                            <th style="border:none" width="15%"></th>
+                                    <thead>
+                                        <tr>
+                                            <th style="border:none" width="15%"><input style="border: 1px solid black"
+                                                    class="form-check-input" type="checkbox" id="checkAll"> Pilih Semua
+                                                Barang</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -106,7 +108,7 @@
                                                             <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
                                                                 {{-- <button type="button" class="btn btn-link px-2"
                                                                     id="minus" value="{{$data->id}}">
-                                                                    <i class="fas fa-minus"></i>
+                                                                <i class="fas fa-minus"></i>
                                                                 </button>
 
                                                                 <input id="jumlah" min="0" name="quantity"
@@ -271,7 +273,7 @@
         $("#off").attr("disabled", true);
 
         $(function () {
-            $('.checkbox').click(function () {
+            $('.checkbox').change(function () {
                 if ($('.checkbox:checked').length > 0) {
                     $('#off').removeAttr('disabled');
                 } else {
@@ -307,6 +309,18 @@
                 }
             });
         });
+    });
+
+    $("#checkAll").click(function () {
+        $('input:checkbox').not(this).prop('checked', this.checked);
+        if ($('#checkAll:checked').length > 0) {
+            $('#off').removeAttr('disabled');
+        } else {
+            $('#off').attr('disabled', 'disabled');
+        }
+        if ($('#checkbox:checked').length > 0) {
+            $('#off').attr('disabled', 'disabled');
+        }
     });
 
 </script>

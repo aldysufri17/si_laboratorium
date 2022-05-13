@@ -179,6 +179,7 @@ class KeranjangController extends Controller
             ]
         );
     }
+
     public function increment(Request $request)
     {
         $cart_id = $request->id;
