@@ -26,6 +26,19 @@
         <strong>{{ $message }}</strong> {{ session('error') }}
     </div>
     @endif
+    @if ($message = Session::get('name'))
+    <div class="alert alert-danger alert-dismissible shake" role="alert">
+        <button id="notif" type="button" class="close" data-dismiss="alert">
+            <i class="fa fa-times"></i>
+        </button>
+        <strong>{{ $message }}</strong> {{ session('error') }}
+    </div>
+    @endif
+    @if (session('errorr'))
+    <div class="alert alert-error">
+        {{ session('errorr') }}
+    </div>
+    @endif
     <section id="portfolio-details" class="portfolio-details">
         <div class="card shadow-sm mx-4 mb-4 bg-white rounded">
             <div class="row">
@@ -33,11 +46,6 @@
                     <div class="text-center">
                         <h5>DAFTAR BARANG TERPILIH</h5>
                     </div>
-                    @foreach ($cart as $key=>$item)
-                        <span>{{$key+1}}.</span>
-                        <span>{{$item->barang->nama}} - {{$item->barang->tipe}}</span><br>
-                        <span class="text-muted">Jumlah: </span><span class="font-weight-bold">{{$item->jumlah}} {{$item->barang->satuan->nama_satuan}}</span><br>
-                    @endforeach
                 </div>
                 <div class="col-md-8" style="padding-left: 0%">
                     <div class="d-sm-flex justify-content-start tab">
@@ -54,26 +62,28 @@
                                 <hr>
                             </div>
                         </div>
-                        <form action="{{route('keranjang.update')}}" method="post">
-                            <input type="text" name="cart" class="form-control" value="{{ json_encode($id_cart) }}" hidden/>
+                        <form method="POST" action="{{route('checkout.store')}}">
+                            <input type="text" name="cart" id="cart" class="form-control"
+                                value="" />
                             @csrf
                             <div class="row mt-2">
                                 <div class="col-md-6">
-                                    <span>Tanggal Penggunaan</span>
-                                    <input type="date" class="form-control mt-2 mb-3" name="tgl_start" value="">
+                                    <span style="color:red;">*</span>Nama Keranjang</label>
+                                    <input type="text"
+                                        class="form-control form-control-user @error('nama_keranjang') is-invalid @enderror"
+                                        autocomplete="off" placeholder="Nama Keranjang" name="nama_keranjang"
+                                        value="{{ old('nama_keranjang') }}">
+
+                                    @error('nama_keranjang')
+                                    <span class="text-danger">{{$message}}</span>
+                                    @enderror
                                 </div>
-                                <div class="col-md-6">
-                                    <span>Tanggal Pengembalian</span>
-                                    <input type="date" class="form-control mt-2 mb-3" name="tgl_end" value="">
-                                </div>
-                            </div>
-                            <div class="row mt-2">
                                 <div class="col-md-6">
                                     <span>Keperluan</span>
                                     <select class="form-control form-control-user @error('alasan') is-invalid @enderror"
                                         name="alasan">
                                         <option selected disabled>Pilih Keperluan</option>
-                                        <option value="Praktikum" >Praktikum</option>
+                                        <option value="Praktikum">Praktikum</option>
                                         <option value="Penelitian">Penelitian</option>
                                         <option value="Lainnya">Lainnya</option>
                                     </select>
@@ -82,11 +92,19 @@
                                     @enderror
                                 </div>
                             </div>
-
+                            <div class="row mt-2">
+                                <div class="col-md-6">
+                                    <span>Tanggal Penggunaan</span>
+                                    <input type="date" class="form-control mt-2 mb-3" name="tgl_start">
+                                </div>
+                                <div class="col-md-6">
+                                    <span>Tanggal Pengembalian</span>
+                                    <input type="date" class="form-control mt-2 mb-3" name="tgl_end">
+                                </div>
+                            </div>
                             <div class="card-footer mt-5 border-0" style="background-color: rgba(0, 255, 255, 0)">
-                                <button type="submit" class="btn btn-primary btn-user float-right mb-3">Simpan</button>
-                                <a class="btn btn-danger float-right mr-3 mb-3"
-                                    href="/cart">Batal</a>
+                                <button type="submit" id="submit" class="btn btn-primary btn-user float-right mb-3">Simpan</button>
+                                <a class="btn btn-danger float-right mr-3 mb-3" id="batal" href="/cart">Batal</a>
                             </div>
                         </form>
                     </div>
@@ -104,9 +122,6 @@
         "paging": false,
         responsive: true,
         autoWidth: false,
-        "order": [
-            [0, "desc"]
-        ]
     });
 
 
@@ -129,13 +144,19 @@
     }
 
     setInterval(function () {
-            document.getElementById('notif').click();
-        }, 4000);
+        document.getElementById('notif').click();
+    }, 4000);
 
-        document.getElementById("inp").addEventListener("change", function() {
-        let v = parseInt(this.value);
-        if (v < 1) this.value = 1;
-        if (v > 5) this.value = 5;
-});
+    document.getElementById("inp").addEventListener("click", function () {
+        cart = @json($id_cart);
+        cart.push(JSON.parse(localStorage.getItem('cart')));
+        localStorage.setItem('cart', JSON.stringify(cart));
+        dd = localStorage.getItem("cart");
+        $('#cart').val(dd);
+    });
+
+    document.getElementById("batal").addEventListener("click", function () {
+        localStorage.removeItem('cart');
+    });
 </script>
 @endsection

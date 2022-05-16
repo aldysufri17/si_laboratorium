@@ -14,6 +14,11 @@
             <li class="breadcrumb-item">Filter Pengajuan</li>
         </ol>
     </div>
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <a href="{{ route('konfirmasi.pengajuan') }}" class="btn btn-sm btn-danger">
+            <i class="fas fa-angle-double-left"></i> Kembali
+        </a>
+    </div>
 
     {{-- Alert Messages --}}
     @include('sweetalert::alert')
@@ -33,25 +38,58 @@
                     <tbody>
                         @foreach ($peminjaman as $item)
                         <tr>
-                        <td class="text-center">{{ $item->created_at }}</td>
-                        <td class="text-center">{{ $item->total }}</td>
-                        <td class="d-sm-flex justify-content-center">
-                            <a class="btn btn-primary" href="{{route('pengajuan.detail', ['id'=> $id, 'date' => $item->created_at])}}" title="Show">
-                                <i class="fa fa-eye"></i> 
-                            </a>
-                            <button class="btn btn-danger tolak-btn mx-2" title="Tolak" value="{{$item->created_at}}">
-                                <i class="fa fa-ban"></i>
-                            </button>
-                            <a href="{{route('konfirmasi.status',['id'=> $id, 'date' => $item->created_at, 'status' => 2])}}"
-                                class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Accept">
-                                <i class="fa fa-check"></i>
-                            </a>
-                        </td>
-                    </tr>
+                            <td class="text-center">{{ $item->created_at }}</td>
+                            <td class="text-center">{{ $item->total }}</td>
+                            <td class="d-sm-flex justify-content-center">
+                                <a class="btn btn-primary"
+                                    href="{{route('pengajuan.detail', ['id'=> $id, 'date' => $item->created_at])}}"
+                                    title="Show">
+                                    <i class="fa fa-eye"></i>
+                                </a>
+                                <button class="btn btn-danger tolak-btn mx-2" title="Tolak" value="{{$item->created_at}}">
+                                    <i class="fa fa-ban"></i>
+                                </button>
+                                <input type="text" id="id_user" hidden value="{{$id}}">
+                                <a href="{{route('konfirmasi.status',['id'=> $id, 'date' => $item->created_at, 'status' => 2])}}"
+                                    class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Accept">
+                                    <i class="fa fa-check"></i>
+                                </a>
+                            </td>
+                        </tr>
                         @endforeach
                     </tbody>
                 </table>
             </div>
+        </div>
+    </div>
+</div>
+
+{{-- Tolak Delete --}}
+<div class="modal fade" id="tolakModal" tabindex="-1" role="dialog" aria-labelledby="tolakModalExample"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content bgdark shadow-2-strong ">
+            <div class="modal-header bg-danger">
+                <h5 class="modal-title text-light" id="tolakModalExample">Anda yakin ingin
+                    Menghapus?
+                </h5>
+                <button class="close close-mdl" type="button" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div>
+            <form method="GET" action="{{ route('peminjaman.tolak') }}">
+                @csrf
+                <div class="modal-body border-0 text-dark">
+                    <input type="text" class="form-control form-control-user" placeholder="Tambahkan alasan penolakan"
+                        name="pesan">
+                    <input type="hidden" name="date_id" id="date_id">
+                    <input type="hidden" name="user_id" id="user_id">
+                </div>
+                <div class="modal-footer border-0">
+                    <button class="btn btn-danger close-mdl" type="button" data-dismiss="modal">Batal</button>
+                    <button class="btn btn-primary" type="submit">Oke</button>
+                </div>
+            </form>
         </div>
     </div>
 </div>
@@ -65,6 +103,11 @@
             <li class="breadcrumb-item">Filter Pengajuan</li>
         </ol>
     </div>
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        <a href="{{ route('konfirmasi.pengajuan') }}" class="btn btn-sm btn-danger">
+            <i class="fas fa-angle-double-left"></i> Kembali
+        </a>
+    </div>
     @include('sweetalert::alert')
     <div class="align-items-center bg-light p-3 border-left-success rounded">
         <span class="">Oops!</span><br>
@@ -77,16 +120,18 @@
 <script>
     $(document).ready(function () {
         $('#dataTable').DataTable({
-            "paging": false,
-   "ordering": false,
-   "searching": false,
-   "bInfo": false,
+            "bInfo": false,
+            responsive: true,
+            autoWidth: false,
         });
     });
-    $(document).on('click', '.detail-btn',function () {
-            var sid = $(this).val();
-            $('#detailModal').modal('show')
-            $('#peminjaman_id').val(sid)
-        });
+    $(document).on('click', '.tolak-btn', function () {
+        var sid = $(this).val();
+        var uid = $('#id_user').val();
+        $('#tolakModal').modal('show')
+        $('#date_id').val(sid)
+        $('#user_id').val(uid)
+    });
+
 </script>
 @endsection

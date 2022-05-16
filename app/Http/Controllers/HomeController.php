@@ -183,23 +183,20 @@ class HomeController extends Controller
         return view('frontend.detail', compact('barang'));
     }
 
-    public function pinjaman(Request $request)
+    public function pinjamanFilterLab(Request $request)
     {
         $user_id = Auth::user()->id;
-        $proses = Peminjaman::with('barang')
+        $peminjaman = Peminjaman::with('barang')
             ->where('user_id',  $user_id)
             ->Where('status', '<', 4)
-            ->select('created_at', DB::raw('count(*) as total'))
-            ->groupBy('created_at')
+            ->select('kategori_lab')
+            ->groupBy('kategori_lab')
             ->paginate(7);
-        $selesai = Peminjaman::with('barang')
+        $riwayat = Peminjaman::with('barang')
             ->where('user_id',  $user_id)
             ->Where('status', 4)
-            ->paginate(7);
-        $aktif = Peminjaman::with('barang')
-            ->where('user_id',  $user_id)
-            ->Where('status', 2)
-            ->orwhere('status', 3)
+            ->select('kategori_lab', 'kategori_lab as total')
+            ->groupBy('kategori_lab')
             ->paginate(7);
         // Disetujui
         $setujui = Peminjaman::where('user_id', $user_id)->where('status', 2)->get();
@@ -217,7 +214,20 @@ class HomeController extends Controller
         if ($telat) {
             $request->session()->flash('telat', "Telat");
         }
-        return view('frontend.show-peminjaman', compact('proses', 'aktif', 'selesai', 'setujui', 'tolak', 'telat'));
+        return view('frontend.show-peminjaman-lab', compact('peminjaman', 'riwayat', 'setujui', 'tolak', 'telat'));
+    }
+
+    public function pinjamanDate($kategori, Request $request)
+    {
+        $user_id = Auth::user()->id;
+        $peminjaman = Peminjaman::with('barang')
+            ->where('user_id',  $user_id)
+            ->where('kategori_lab',  $kategori)
+            ->Where('status', '<', 4)
+            ->select('created_at', 'nama_keranjang', 'kategori_lab', DB::raw('count(*) as total'))
+            ->groupBy('created_at', 'nama_keranjang', 'kategori_lab')
+            ->paginate(7);
+        return view('frontend.show-peminjaman', compact('peminjaman'));
     }
 
     public function langkahPeminjaman()
@@ -231,12 +241,52 @@ class HomeController extends Controller
         return view('frontend.inventaris', compact('barang'));
     }
 
-    public function detailShow($date, Request $request)
+    public function detailShow($date, $kategori, Request $request)
     {
         $user_id = Auth::user()->id;
         $datetime = new \Carbon\Carbon($date);
-        $proses = Peminjaman::where('created_at', $datetime)->where('user_id', $user_id)->paginate(5);
-        $detail = Peminjaman::where('created_at', $datetime)->where('user_id', $user_id)->first();
-        return view('frontend.peminjaman-detail-show', compact('proses', 'detail'));
+        $peminjaman = Peminjaman::where('created_at', $datetime)
+            ->where('kategori_lab', $kategori)
+            ->where('user_id', $user_id)
+            ->paginate(5);
+        $detail = Peminjaman::where('created_at', $datetime)
+            ->where('kategori_lab', $kategori)
+            ->where('user_id', $user_id)
+            ->first();
+        return view('frontend.peminjaman-detail-show', compact('peminjaman', 'detail'));
+    }
+
+    public function riwayatPeminjaman($kategori)
+    {
+        $user_id = Auth::user()->id;
+        $riwayat = Peminjaman::with('barang')
+            ->where('user_id',  $user_id)
+            ->where('kategori_lab',  $kategori)
+            ->Where('status',  4)
+            ->select('created_at', 'nama_keranjang', 'kode_peminjaman', 'updated_at', DB::raw('count(*) as total'))
+            ->groupBy('created_at', 'nama_keranjang', 'kode_peminjaman', 'updated_at')
+            ->paginate(7);
+        return view('frontend.riwayat-peminjaman', compact('riwayat'));
+    }
+
+    public function riwayatDetail(Request $request)
+    {
+        $kode = $request->kode;
+        $kategori = $request->kategori;
+        $output = "";
+        $user_id = Auth::user()->id;
+        $peminjaman = Peminjaman::where('kode_peminjaman', $kode)
+            ->where('kategori_lab', $kategori)
+            ->where('user_id', $user_id)
+            ->get();
+        foreach ($peminjaman as $data) {
+            $output .= '<tr>' .
+                '<td>' . $data->barang->kode_barang . '</td>' .
+                '<td>' . $data->barang->nama . "-" . $data->barang->tipe . '</td>' .
+                '<td>' . $data->jumlah . $data->barang->satuan->nama_satuan . '</td>' .
+                '</tr>';
+        }
+        // asset('images/empty.jpg')
+        return Response($output);
     }
 }

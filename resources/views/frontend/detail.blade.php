@@ -27,6 +27,14 @@
         <strong>{{ $message }}</strong> {{ session('error') }}
     </div>
     @endif
+    @if ($message = Session::get('max'))
+    <div class="alert alert-danger alert-dismissible shake" role="alert">
+        <button id="notif" type="button" class="close" data-dismiss="alert">
+            <i class="fa fa-times"></i>
+        </button>
+        <strong>{{ $message }}</strong> {{ session('error') }}
+    </div>
+    @endif
 
     <section id="portfolio-details" class="portfolio-details">
         <div class="card shadow-sm mx-5 bg-white rounded">

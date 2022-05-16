@@ -100,14 +100,14 @@
                         Tengah 50275</span><br>
                     <span style="font-size: 6pt;">Kontak : (024) 76480609<br>Email: siskom@undip.ac.id</span>
                 </td>
-                @php
+                {{-- @php
                 date_default_timezone_set('Asia/jakarta');
                 $date = date("l jS \of F Y h:i:s A");
                 $surat = "Created $date \n website: http://silab18.herokuapp.com/"
                 @endphp
                 <td rowspan="1"><img src="data:image/png;base64,{{DNS2D::getBarcodePNG(strval($surat), 'QRCODE',3,3)}}"
-                        style="background-color: rgb(255, 255, 255); padding:5px; border-radius:1px" alt="barcode" />
-                </td>
+                style="background-color: rgb(255, 255, 255); padding:5px; border-radius:1px" alt="barcode" />
+                </td> --}}
             </tr>
         </table>
         <hr widht="200px;">
@@ -121,12 +121,7 @@
             <tr>
                 <td style="width: 20%">Nama</td>
                 <td style="width: 2%">:</td>
-                <td>{{$name}}</td>
-            </tr>
-            <tr>
-                <td>NIM</td>
-                <td>:</td>
-                <td>{{$nim}}</td>
+                <td>{{$name}} / {{$nim}}</td>
             </tr>
             <tr>
                 <td>Alamat</td>
@@ -134,15 +129,45 @@
                 <td>{{$alamat}}</td>
             </tr>
             <tr>
+                <td>Nama Keranjang</td>
+                <td>:</td>
+                <td>{{$detail->nama_keranjang}}</td>
+            </tr>
+            <tr>
+                <td>Waktu Pengajuan</td>
+                <td>:</td>
+                <td>{{$detail->created_at->format('d M Y')}}
+                    <strong>({{$detail->created_at->format('H:i:s A')}})</strong></td>
+            </tr>
+            <tr>
+                <td>Tanggal Peminjaman</td>
+                <td>:</td>
+                <td>{{Carbon\Carbon::parse($detail->tgl_start)->format('d M Y') }}</td>
+            </tr>
+            <tr>
+                <td>Tanggal Peminjaman</td>
+                <td>:</td>
+                <td>{{Carbon\Carbon::parse($detail->tgl_end)->format('d M Y') }}</td>
+            </tr>
+            <tr>
                 <td>Keperluan</td>
                 <td>:</td>
-                <td>Peminjaman Barang</td>
+                <td>{{$detail->alasan}}</td>
             </tr>
         </table>
     </section>
     <br>
     <section>
-        <div>Mengajukan permohonan peminjaman barang di Laboratorium Departemen Teknik Komputer
+        <div>Mengajukan permohonan peminjaman barang di Laboratorium  
+            @if ($detail->kategori_lab == 1)
+            Sistem Tertanam dan Robotika
+            @elseif ($detail->kategori_lab == 2)
+            Rekayasa Perangkat Lunak
+            @elseif($detail->kategori_lab == 3)
+            Jaringan dan Keamanan Komputer
+            @elseif($detail->kategori_lab == 4)
+            Multimedia
+            @endif
             <br>Adapun barang yang akan saya pinjam adalah :</div>
     </section>
     <br>
@@ -151,38 +176,23 @@
         <table border="1" class="bordered highlight responsive-table">
             <thead>
                 <tr>
-                    <th>Barcode</th>
-                    <th>Nama Barang</th>
-                    <th>Laboratorium</th>
-                    <th>jumlah</th>
-                    <th>Tanggal Peminjaman</th>
-                    <th>Tanggal Pengembalian</th>
+                    {{-- <th>Barcode</th> --}}
+                    <th width="3%">No</th>
+                    <th width="15%">Kode Barang</th>
+                    <th width="15%">Nama Barang</th>
+                    <th width="5%">Jumlah</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($peminjaman as $key=>$a)
                 <tr>
-                    <td>
+                    {{-- <td>
                         {!! DNS1D::getBarcodeHTML(strval($a->id), "C128",3.5,45) !!}
-                    </td>
-                    <td align="center">
-                        <div class="row">{{ $a->barang->nama}}</div>
-                        <div class="row text-muted">{{ $a->barang->tipe}}</div>
-                    </td>
-                    <td align="center">
-                        @if ($a->barang->kategori_lab == 1)
-                        Laboratorium Sistem Tertanam dan Robotika
-                        @elseif ($a->barang->kategori_lab == 2)
-                        Laboratorium Rekayasa Perangkat Lunak
-                        @elseif($a->barang->kategori_lab == 3)
-                        Laboratorium Jaringan dan Keamanan Komputer
-                        @elseif($a->barang->kategori_lab == 4)
-                        Laboratorium Multimedia
-                        @endif
-                    </td>
-                    <td align="center">{{$a->jumlah }}</td>
-                    <td align="center">{{$a->tgl_start }}</td>
-                    <td align="center">{{ $a->tgl_end}}</td>
+                    </td> --}}
+                    <td align="center">{{$key+1}}</td>
+                    <td align="center">{{$a->barang->kode_barang}}</td>
+                    <td align="center">{{ $a->barang->nama}} - {{ $a->barang->tipe}}</td>
+                    <td align="center">{{$a->jumlah }} {{$a->barang->satuan->nama_satuan}}</td>
                 </tr>
                 @endforeach
             </tbody>
@@ -193,20 +203,24 @@
         <table>
             <tr>
                 <td style="width: 70%;"></td>
-                <td style="width: 30%;">Semarang, <?= date('d-m-Y') ?></td>
+                <td style="width: 30%;">Semarang, {{date('d-m-Y')}}</td>
             </tr>
             <tr>
-                <td style="width: 70%;"></td>
+                <td colspan="2"></td>
+            </tr>
+            <tr>
+                <td></td>
                 <td>Hormat saya,</td>
             </tr>
             <tr>
-                <td style="width: 70%;"></td>
-
-                <td colspan="2" style="height: 70px"></td>
+                <td style="height: 70px">
+                    <img src="data:image/png;base64,{{DNS2D::getBarcodePNG(strval($detail->kode_peminjaman), 'QRCODE',5,5)}}"
+                        style="background-color: rgb(255, 255, 255); padding:5px; border-radius:1px" alt="barcode" />
+                </td>
+                <td style="height: 70px"></td>
             </tr>
             <tr>
-                <td style="width: 70%;"></td>
-
+                <td class="align-top" style="font-size: 8pt;">{{date("d-m-Y h:i:s A")}}</td>
                 <td class="align-top">({{$name}})</td>
             </tr>
         </table>

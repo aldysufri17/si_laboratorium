@@ -37,17 +37,18 @@
                         <tr>
                             @php
                             $id = $item->user_id;
-                            $nim = App\Models\user::where('id', $id)->value('nim');   
+                            $nim = App\Models\user::where('id', $id)->value('nim');
                             @endphp
-                        <td class="text-center">{{ $nim }}</td>
-                        <td class="text-center">{{ $item->user->name }}</td>
-                        <td class="text-center">{{ $item->total }}</td>
-                        <td class="d-sm-flex justify-content-center">
-                            <a href="{{route('show.pengajuan', ['id' => $item->user_id])}}" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Show">
-                                <i class="fa fa-eye"></i>
-                            </a>
-                        </td>
-                    </tr>
+                            <td class="text-center">{{ $nim }}</td>
+                            <td class="text-center">{{ $item->user->name }}</td>
+                            <td class="text-center">{{ $item->total }}</td>
+                            <td class="d-sm-flex justify-content-center">
+                                <a href="{{route('show.pengajuan', ['id' => $item->user_id])}}" class="btn btn-primary"
+                                    data-toggle="tooltip" data-placement="top" title="Show">
+                                    <i class="fa fa-eye"></i>
+                                </a>
+                            </td>
+                        </tr>
                         @endforeach
                     </tbody>
                 </table>
@@ -77,10 +78,9 @@
 <script>
     $(document).ready(function () {
         $('#dataTable').DataTable({
-            "paging": false,
-   "ordering": false,
-   "searching": false,
-   "bInfo": false,
+            responsive: true,
+            autoWidth: false,
+            "bInfo": false,
         });
     });
 

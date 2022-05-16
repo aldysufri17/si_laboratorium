@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Peminjaman extends Model
 {
     use HasFactory;
-    protected $fillable = ['id', 'user_id', 'kategori_lab', 'barang_id', 'jumlah', 'tgl_start', 'tgl_end', 'status', 'date', 'alasan', 'pesan'];
+    protected $fillable = ['id', 'user_id', 'kategori_lab', 'barang_id', 'jumlah', 'tgl_start', 'tgl_end', 'status', 'kode_peminjaman', 'alasan', 'pesan', 'nama_keranjang'];
     protected $table = 'peminjaman';
 
     public function user()

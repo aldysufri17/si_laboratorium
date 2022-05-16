@@ -86,7 +86,7 @@ class BarangSeeder extends Seeder
             'gambar'        => 'o-.webp',
         ]);
         Barang::create([
-            'kode_barang'   => "Em-6" . $date,
+            'kode_barang'   => "EM-6" . $date,
             'nama'          => "Obeng",
             'tipe'          => "Positif",
             'stock'         => 15,

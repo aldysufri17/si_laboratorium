@@ -28,29 +28,32 @@
     <!-- DataTales Example -->
     <div class="card shadow mb-4 border-0 bgdark">
         <div class="card-body">
-            <div class="detail mb-4">
             <h4 class="text-center font-weight-bold text-light">DETAIL PEMINJAMAN</h4>
-
+            <div class="detail mb-4">
                 <table class="table table-borderless" cellspacing="0" width="100%">
                     <tr>
                         <td width="25%" class="font-weight-bold">NIM Peminjam</td>
-                        <td>: </td>
+                        <td>: {{$detail->user->nim}}</td>
                     </tr>
                     <tr>
                         <td class="font-weight-bold">Nama Peminjam</td>
-                        <td>: dddddd</td>
+                        <td>: {{$detail->user->name}}</td>
                     </tr>
                     <tr>
                         <td class="font-weight-bold">Keperluan</td>
-                        <td>: dddd</td>
+                        <td>: {{$detail->alasan}}</td>
                     </tr>
                     <tr>
                         <td class="font-weight-bold">Tanggal Peminjaman</td>
-                        <td>: ddd</td>
+                        <td>: {{$detail->tgl_start}}</td>
                     </tr>
                     <tr>
                         <td class="font-weight-bold">Tanggal Pengembalian</td>
-                        <td>: ddd</td>
+                        <td>: {{$detail->tgl_end}}</td>
+                    </tr>
+                    <tr>
+                        <td class="font-weight-bold">Waktu Masuk Pengajuan</td>
+                        <td>: {{$detail->created_at}}</td>
                     </tr>
                 </table>
             </div>
@@ -58,34 +61,27 @@
                 <table id="dataTable" class="table table-borderless dt-responsive" cellspacing="0" width="100%">
                     <thead>
                         <tr>
-                            <th width="15%">NIM</th>
-                            <th width="15%">Nama</th>
+                            <th width="2%">No</th>
+                            <th width="10%">Kode Barang</th>
                             <th width="10%">Barang</th>
                             <th width="5%">Jumlah</th>
-                            <th width="10%">Peminjaman</th>
-                            <th width="10%">Pengembalian</th>
                             <th width="15%" class="text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($peminjaman as $result => $data)
+                        @foreach ($peminjaman as $key => $data)
                         <tr>
-                            <td>{{ $data->user->nim }}</td>
-                            <td>{{ $data->user->name }}</td>
+                            <td>{{ $key+1 }}</td>
+                            <td>{{ $data->barang->kode_barang }}</td>
                             <td>{{ $data->barang->nama }} - {{ $data->barang->tipe }}</td>
                             <td>{{ $data->jumlah }} {{ $data->barang->satuan->nama_satuan }}</td>
-                            <td>{{ $data->tgl_start }}</td>
-                            <td>{{ $data->tgl_end }}</td>
                             <td class="text-center">
-                                {{-- <a class="btn btn-info" href="{{ route('konfirmasi.peminjaman.show', $data->id) }}" title="Show">
-                                    <i class="fas fa-eye"></i>
-                                </a> --}}
-                                <button class="btn btn-danger tolak-btn" title="Tolak" value="{{$data->id}}">
-                                    <i class="fa fa-ban"></i>
+                                <button class="btn btn-danger delete-btn" title="Delete" value="{{$data->id}}">
+                                    <i class="fas fa-trash"></i>
                                 </button>
                                 {{-- <a href="{{ route('konfirmasi.peminjaman.status', ['id_peminjaman' => $data->id, 'status' => 2,'barang_id' => $data->barang_id, 'jumlah' => $data->jumlah, 'user_id' => $data->user_id]) }}"
-                                    class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Accept">
-                                    <i class="fa fa-check"></i>
+                                class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Accept">
+                                <i class="fa fa-check"></i>
                                 </a> --}}
                             </td>
                         </tr>
@@ -96,29 +92,31 @@
         </div>
     </div>
 </div>
-<div class="modal fade" id="tolakModal" tabindex="-1" role="dialog" aria-labelledby="tolakModalExample"
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalExample"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content bgdark shadow-2-strong ">
             <div class="modal-header bg-danger">
-                <h5 class="modal-title text-light" id="tolakModalExample">Berikan Alasan Penolakan</h5>
-                <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                <h5 class="modal-title text-light" id="deleteModalExample">Anda yakin ingin
+                    Menghapus?
+                </h5>
+                <button class="close close-mdl" type="button" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">×</span>
                 </button>
             </div>
-            <div class="modal-body border-0 text-light">
-                <form id="user-delete-form" method="GET" action="{{ route('peminjaman.tolak') }}">
-                    @csrf
-                    <input type="hidden" name="peminjaman_id" id="peminjaman_id">
-                    <textarea type="text" class="form-control form-control-user" placeholder="Pesan" name="pesan"></textarea>
-                </form>
+            <div class="modal-body border-0 text-white">Jika anda yakin ingin manghapus, Tekan Oke !!
             </div>
             <div class="modal-footer border-0">
-                <button class="btn btn-danger" type="button" data-dismiss="modal">Batal</button>
+                <button class="btn btn-danger close-mdl" type="button" data-dismiss="modal">Batal</button>
                 <a class="btn btn-primary" href="{{ route('logout') }}"
                     onclick="event.preventDefault(); document.getElementById('user-delete-form').submit();">
                     Oke
                 </a>
+                <form id="user-delete-form" method="POST" action="{{ route('peminjaman.destroy', ['id' => 1]) }}">
+                    @csrf
+                    @method('DELETE')
+                    <input type="hidden" name="delete_id" id="delete_id">
+                </form>
             </div>
         </div>
     </div>
@@ -155,10 +153,11 @@
             autoWidth: false,
         });
     });
-    $(document).on('click', '.tolak-btn',function () {
-            var sid = $(this).val();
-            $('#tolakModal').modal('show')
-            $('#peminjaman_id').val(sid)
-        });
+    $(document).on('click', '.delete-btn', function () {
+        var sid = $(this).val();
+        $('#deleteModal').modal('show')
+        $('#delete_id').val(sid)
+    });
+
 </script>
 @endsection

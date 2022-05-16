@@ -31,18 +31,20 @@
                 <table class="table table-borderless table-dark bgdark" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th width="10%" class="text-center">Tanggal Masuk</th>
-                            <th width="15%" class="text-center">Jumlah</th>
+                            <th width="10%" class="text-center">NIM</th>
+                            <th width="10%" class="text-center">Nama Peminjam</th>
+                            <th width="15%" class="text-center">Total Barang Peminjaman</th>
                             <th width="10%" class="text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($peminjaman as $item)
                         <tr>
-                        <td class="text-center">{{ $item->date }}</td>
+                        <td class="text-center">{{ $item->user->nim }}</td>
+                        <td class="text-center">{{ $item->user->name }}</td>
                         <td class="text-center">{{ $item->total }}</td>
                         <td class="d-sm-flex justify-content-center">
-                            <a href="{{route('konfirmasi.peminjaman.detail', $item->date)}}" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Show">
+                            <a href="{{route('show.peminjaman', ['id' => $item->user_id])}}" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Show">
                                 <i class="fa fa-eye"></i>
                             </a>
                         </td>
@@ -78,6 +80,7 @@
         $('#dataTable').DataTable({
             responsive: true,
             autoWidth: false,
+            "bInfo": false,
         });
     });
 

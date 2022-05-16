@@ -19,7 +19,7 @@
     </section>
     <!-- Breadcrumbs Section -->
     @include('sweetalert::alert')
-    @if ($message = Session::get('max'))
+    @if ($message = Session::get('tgl'))
     <div class="alert alert-warning alert-dismissible shake" role="alert">
         <button type="button" id="notif" class="close" data-dismiss="alert">
             <i class="fa fa-times"></i>
@@ -29,6 +29,15 @@
     @endif
 
     @if ($message = Session::get('form'))
+    <div class="alert alert-warning alert-dismissible shake" role="alert">
+        <button type="button" id="notif" class="close" data-dismiss="alert">
+            <i class="fa fa-times"></i>
+        </button>
+        <strong>{{ $message }}</strong> {{ session('error') }}
+    </div>
+    @endif
+
+    @if ($message = Session::get('keranjang'))
     <div class="alert alert-warning alert-dismissible shake" role="alert">
         <button type="button" id="notif" class="close" data-dismiss="alert">
             <i class="fa fa-times"></i>
@@ -53,7 +62,7 @@
                     <h3>Keranjang Pengajuan Barang</h3>
                 </center>
                 <div class="container h-100 py-3">
-                    <form action="{{route('checkout', auth()->user()->id)}}" method="post">
+                    <form action="{{route('pengajuan.form')}}" method="post">
                         @csrf
                         <div class="row d-flex justify-content-center align-items-center h-100">
                             <div class="table-responsive">
@@ -77,7 +86,7 @@
                                                             <div class="col-md-1 col-lg-1 col-xl-1">
                                                                 <input style="border: 1px solid black"
                                                                     class="form-check-input checkbox" type="checkbox"
-                                                                    id="" name="ckd_chld[]" value="{{$data->id}}">
+                                                                    id="ckd" name="ckd_chld[]" value="{{$data->id}}">
                                                             </div>
                                                             <div class="col-md-2 col-lg-2 col-xl-2">
                                                                 <img src="{{ asset($data->barang->gambar ? 'images/barang/'. $data->barang->gambar : 'images/empty.jpg') }}"
@@ -106,9 +115,9 @@
                                                                 </p>
                                                             </div>
                                                             <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                                                                {{-- <button type="button" class="btn btn-link px-2"
+                                                                <button type="button" class="btn btn-link px-2"
                                                                     id="minus" value="{{$data->id}}">
-                                                                <i class="fas fa-minus"></i>
+                                                                    <i class="fas fa-minus"></i>
                                                                 </button>
 
                                                                 <input id="jumlah" min="0" name="quantity"
@@ -118,27 +127,18 @@
                                                                 <button type="button" class="btn btn-link px-2"
                                                                     id="plus" value="{{$data->id}}">
                                                                     <i class="fas fa-plus"></i>
-                                                                </button> --}}
-                                                                <p><span class="text-muted">Jumlah:<br> </span>
+                                                                </button>
+                                                                {{-- <p><span class="text-muted">Jumlah:<br> </span>
                                                                     {{$data->jumlah}}
-                                                                </p>
+                                                                </p> --}}
                                                             </div>
                                                             <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
-                                                                {{-- <a class="btn" title="Form"
-                                                        href="{{route('form.pengajuan', $data->barang->id)}}">
-                                                                <i class="fas fa-edit text-primary"></i>
-                                                                </a> --}}
                                                                 <button type="button" class="btn delete-btn"
                                                                     title="Delete" value="{{$data->id}}">
                                                                     <i class="fas fa-trash fa-lg text-danger"></i>
                                                                 </button>
                                                             </div>
                                                         </div>
-                                                        {{-- @if ($data->tgl_start == null || $data->tgl_end == null || $data->jumlah == null ||
-                                            $data->kategori_lab == null || $data->alasan == null)
-                                            <div class="text-center font-weight-bold text-danger shake">== Form Penggunaan Belum diisi
-                                                ==</div>
-                                            @endif --}}
                                                     </div>
                                                 </div>
                                             </td>
@@ -149,28 +149,84 @@
                                 <div class="card mt-3">
                                     <div class="card-body">
                                         <button type="button" id="off"
-                                            class="btn btn-warning btn-block btn-lg">Checkout</button>
+                                            class="btn btn-warning btn-block btn-lg btn-ckd">Checkout</button>
                                     </div>
                                 </div>
                             </div>
                             {{-- {{ $cart->links() }} --}}
                         </div>
+
                         {{-- Modal Checkout --}}
                         <div class="modal fade" id="ckdModal" tabindex="-1" role="dialog"
-                            aria-labelledby="ckdModalExample" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
-                                <div class="modal-content bgdark shadow-2-strong ">
+                            aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div class="modal-dialog modal-lg" role="document">
+                                <div class="modal-content">
                                     <div class="modal-header bg-warning">
-                                        <h5 class="modal-title text-light" id="ckdModalExample">Anda yakin ingin
-                                            Checkout?
-                                        </h5>
+                                        <h5 class="modal-title text-light font-weight-bold" id="ckdModalExample">
+                                            Checkout</h5>
                                         <button class="close close-mdl" type="button" data-dismiss="modal"
                                             aria-label="Close">
                                             <span aria-hidden="true">×</span>
                                         </button>
                                     </div>
-                                    <div class="modal-body border-0 text-dark">Jika anda yakin, Tekan
-                                        Oke !!
+                                    <div class="modal-body">
+                                        <div class="text-center">
+                                            <h6 class="font-weight-bold mb-0">TAMPILKAN BARANG TERPILIH</h6>
+                                            <button type="button" class="btn" id="show"><i
+                                                    class="fas fa-angle-down"></i></button>
+                                            <div id="selected" class="mt-3 mb-0">
+                                                <table class="table table-bordered">
+                                                    <thead>
+                                                        <tr>
+                                                            <th>Kode Barang</th>
+                                                            <th>Nama</th>
+                                                            <th>Jumlah</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody id="barang">
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                            <button type="button" class="btn" id="hide"><i
+                                                    class="fas fa-angle-up"></i></button>
+                                            <h6 class="font-weight-bold my-3">FORM PENGGUNAAN</h6>
+                                        </div>
+                                        <div class="row mt-2">
+                                            <div class="col-md-6">
+                                                <span style="color:red;">*</span>Nama Keranjang</label>
+                                                <input type="text"
+                                                    class="form-control form-control-user @error('nama_keranjang') is-invalid @enderror"
+                                                    autocomplete="off" placeholder="Nama Keranjang"
+                                                    name="nama_keranjang">
+                                                @error('nama_keranjang')
+                                                <span class="text-danger">{{$message}}</span>
+                                                @enderror
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span style="color:red;">*</span>Keperluan</label>
+                                                <select
+                                                    class="form-control form-control-user @error('alasan') is-invalid @enderror"
+                                                    name="alasan">
+                                                    <option selected disabled>Pilih Keperluan</option>
+                                                    <option value="Praktikum">Praktikum</option>
+                                                    <option value="Penelitian">Penelitian</option>
+                                                    <option value="Lainnya">Lainnya</option>
+                                                </select>
+                                                @error('alasan')
+                                                <span class="text-danger">{{ $message }}</span>
+                                                @enderror
+                                            </div>
+                                        </div>
+                                        <div class="row mt-2">
+                                            <div class="col-md-6">
+                                                <span style="color:red;">*</span>Tanggal Penggunaan</label>
+                                                <input type="date" class="form-control mt-2 mb-3" name="tgl_start">
+                                            </div>
+                                            <div class="col-md-6">
+                                                <span style="color:red;">*</span>Tanggal Pengembalian</label>
+                                                <input type="date" class="form-control mt-2 mb-3" name="tgl_end">
+                                            </div>
+                                        </div>
                                     </div>
                                     <div class="modal-footer border-0">
                                         <button class="btn btn-danger close-mdl" type="button"
@@ -247,7 +303,7 @@
         $('#dataTable').DataTable({
             responsive: true,
             autoWidth: false,
-            "ordering": false
+            "ordering": false,
         });
 
         $(document).on('click', '.delete-btn', function () {
@@ -285,7 +341,7 @@
         $(document).on('click', '#minus', function () {
             var id = $(this).val();
             $.ajax({
-                url: "{{ route('keranjang.dec') }}",
+                url: "{{ route('keranjang.dec',0) }}",
                 type: "GET",
                 data: {
                     id: id
@@ -299,7 +355,7 @@
         $(document).on('click', '#plus', function () {
             var id = $(this).val();
             $.ajax({
-                url: "{{ route('keranjang.inc') }}",
+                url: "{{ route('keranjang.inc',0) }}",
                 type: "GET",
                 data: {
                     id: id
@@ -321,6 +377,43 @@
         if ($('#checkbox:checked').length > 0) {
             $('#off').attr('disabled', 'disabled');
         }
+    });
+
+    $(".btn-ckd").click(function () {
+        ckd = $('#ckd:checked').map(function (idx, elem) {
+            return $(elem).val();
+        }).get();
+        const values = [...ckd.values()];
+        // console.log(values)
+
+        $.ajax({
+            url: "{{ route('cart.selected') }}",
+            type: "GET",
+            data: {
+                ckd: values
+            },
+            success: function (data) {
+                $('#barang').html(data);
+            }
+        });
+    });
+
+    $("#hide").click(function () {
+        $('#selected').hide();
+        $('#hide').hide();
+        $('#show').show();
+    });
+
+    window.onload = window.onload = function () {
+        $('#selected').hide();
+        $('#hide').hide();
+        $('#show').show();
+    }
+
+    $("#show").click(function () {
+        $('#selected').show();
+        $('#show').hide();
+        $('#hide').show();
     });
 
 </script>

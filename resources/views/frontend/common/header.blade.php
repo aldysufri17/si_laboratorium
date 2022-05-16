@@ -62,15 +62,7 @@
                                 src="{{ asset(auth()->user()->foto ? 'images/user/'. auth()->user()->foto : 'images/'. $foto) }}"></a>
                         <ul>
                             <li><a href="{{ route('profile.detail') }}">Profile</a></li>
-                            <li><a href="{{ route('daftar.pinjaman') }}">Pinjaman Saya @if(App\Models\Peminjaman::where('user_id', auth()->user()->id)->where('status',2)->count() >= 1)
-                                <div class="fisa" style="background-color: blue">
-                                    @if(App\Models\Peminjaman::where('user_id', auth()->user()->id)->where('status',2)->count() == 100)
-                                    99++
-                                    @else
-                                    {{ App\Models\Peminjaman::where('user_id', auth()->user()->id)->where('status',2)->count() }}
-                                    @endif
-                                </div>
-                            @endif</a></li>
+                            <li><a href="{{ route('daftar.pinjaman') }}">Pinjaman Saya</a></li>
                             <li><a href="{{ route('surat.index') }}">Surat Bebas Lab</a></li>
                             <li><a class="nav-link scrollto" href="{{ route('logout') }}"
                                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
