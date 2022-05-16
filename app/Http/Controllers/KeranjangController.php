@@ -126,9 +126,9 @@ class KeranjangController extends Controller
         $keranjang = Keranjang::whereIn('id', $id_cart)->get();
         $kode_peminjaman = $user_id . substr(str_shuffle("0123456789"), 0, 8);
         $nama_keranjang = str_replace(' ', '_', strtolower($request->nama_keranjang));
-        $cek = Peminjaman::where('nama_keranjang', $nama_keranjang)->where('user_id', $user_id)->first();
+        $cek = Peminjaman::where('nama_keranjang', $nama_keranjang)->where('status', '<', 4)->where('user_id', $user_id)->first();
         if ($cek->nama == $nama_keranjang) {
-            return redirect()->back()->with('name', 'Tanggal peminjaman tidak falid...!!');
+            return redirect()->back()->with('name', 'Nama Keranjang sudah ada...!!');
         } else {
             $keranjang_name = $nama_keranjang;
         }

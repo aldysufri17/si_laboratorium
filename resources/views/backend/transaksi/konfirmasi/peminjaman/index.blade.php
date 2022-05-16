@@ -1,6 +1,6 @@
 @extends('backend.layouts.app')
 
-@section('title', 'Filter Peminjaman')
+@section('title', 'Daftar Peminjaman')
 
 @section('content')
 
@@ -8,15 +8,15 @@
 <div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-2">
-        <h1 class="h5 mb-0 text-light">Filter Peminjaman</h1>
+        <h1 class="h5 mb-0 text-light">Daftar Peminjaman</h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Dashboard</a></li>
-            <li class="breadcrumb-item">Filter Peminjaman</li>
+            <li class="breadcrumb-item">Daftar Peminjaman</li>
         </ol>
     </div>
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <a href="{{ route('scan', 'pengembalian') }}" class="btn btn-sm btn-info">
-            <i class="fas fa-barcode"></i> Scan Barcode Pengembalian
+        <a href="{{ route('scan.pengembalian') }}" class="btn btn-sm btn-info">
+            <i class="fas fa-qrcode"></i> Scan Pengembalian
         </a>
     </div>
 
@@ -33,7 +33,6 @@
                         <tr>
                             <th width="10%" class="text-center">NIM</th>
                             <th width="10%" class="text-center">Nama Peminjam</th>
-                            <th width="15%" class="text-center">Total Barang Peminjaman</th>
                             <th width="10%" class="text-center">Aksi</th>
                         </tr>
                     </thead>
@@ -42,7 +41,6 @@
                         <tr>
                         <td class="text-center">{{ $item->user->nim }}</td>
                         <td class="text-center">{{ $item->user->name }}</td>
-                        <td class="text-center">{{ $item->total }}</td>
                         <td class="d-sm-flex justify-content-center">
                             <a href="{{route('show.peminjaman', ['id' => $item->user_id])}}" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Show">
                                 <i class="fa fa-eye"></i>
@@ -60,10 +58,10 @@
 <div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-2">
-        <h1 class="h5 mb-0 text-light">Peminjaman</h1>
+        <h1 class="h5 mb-0 text-light">Daftar Peminjaman</h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Dashboard</a></li>
-            <li class="breadcrumb-item">Filter Peminjaman</li>
+            <li class="breadcrumb-item">Daftar Peminjaman</li>
         </ol>
     </div>
     @include('sweetalert::alert')

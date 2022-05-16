@@ -1,6 +1,6 @@
 @extends('backend.layouts.app')
 
-@section('title', 'Filter Pengajuan')
+@section('title', 'Daftar Keranjang')
 
 @section('content')
 
@@ -8,10 +8,11 @@
 <div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-2">
-        <h1 class="h5 mb-0 text-light">Filter Pengajuan</h1>
+        <h1 class="h5 mb-0 text-light">Daftar Keranjang</h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Dashboard</a></li>
-            <li class="breadcrumb-item">Filter Pengajuan</li>
+            <li class="breadcrumb-item"><a href="{{ route('konfirmasi.pengajuan')}}">Daftar Pengajuan</a></li>
+            <li class="breadcrumb-item">Daftar Keranjang</li>
         </ol>
     </div>
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -30,7 +31,8 @@
                 <table class="table table-borderless table-dark bgdark" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th width="10%" class="text-center">Waktu Pengajuan Masuk</th>
+                            <th width="10%" class="text-center">Kode Peminjaman</th>
+                            <th width="10%" class="text-center">Nama Keranjang</th>
                             <th width="15%" class="text-center">Jumlah Barang</th>
                             <th width="10%" class="text-center">Aksi</th>
                         </tr>
@@ -38,19 +40,20 @@
                     <tbody>
                         @foreach ($peminjaman as $item)
                         <tr>
-                            <td class="text-center">{{ $item->created_at }}</td>
+                            <td class="text-center">{{ $item->kode_peminjaman }}</td>
+                            <td class="text-center" style="text-transform: uppercase">{{ $item->nama_keranjang }}</td>
                             <td class="text-center">{{ $item->total }}</td>
                             <td class="d-sm-flex justify-content-center">
                                 <a class="btn btn-primary"
-                                    href="{{route('pengajuan.detail', ['id'=> $id, 'date' => $item->created_at])}}"
+                                    href="{{route('pengajuan.detail', ['id'=>$id,'kode'=>$item->kode_peminjaman])}}"
                                     title="Show">
                                     <i class="fa fa-eye"></i>
                                 </a>
-                                <button class="btn btn-danger tolak-btn mx-2" title="Tolak" value="{{$item->created_at}}">
+                                <button class="btn btn-danger tolak-btn mx-2" title="Tolak" value="{{$item->kode_peminjaman}}">
                                     <i class="fa fa-ban"></i>
                                 </button>
                                 <input type="text" id="id_user" hidden value="{{$id}}">
-                                <a href="{{route('konfirmasi.status',['id'=> $id, 'date' => $item->created_at, 'status' => 2])}}"
+                                <a href="{{route('konfirmasi.status',['id'=> $id, 'kode' => $item->kode_peminjaman, 'status' => 2])}}"
                                     class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Accept">
                                     <i class="fa fa-check"></i>
                                 </a>
@@ -82,7 +85,7 @@
                 <div class="modal-body border-0 text-dark">
                     <input type="text" class="form-control form-control-user" placeholder="Tambahkan alasan penolakan"
                         name="pesan">
-                    <input type="hidden" name="date_id" id="date_id">
+                    <input type="hidden" name="kode" id="kode_id">
                     <input type="hidden" name="user_id" id="user_id">
                 </div>
                 <div class="modal-footer border-0">
@@ -97,10 +100,11 @@
 <div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-2">
-        <h1 class="h5 mb-0 text-light">Filter Pengajuan</h1>
+        <h1 class="h5 mb-0 text-light">Daftar Keranjang</h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Dashboard</a></li>
-            <li class="breadcrumb-item">Filter Pengajuan</li>
+            <li class="breadcrumb-item"><a href="{{ route('konfirmasi.pengajuan')}}">Daftar Pengajuan</a></li>
+            <li class="breadcrumb-item">Daftar Keranjang</li>
         </ol>
     </div>
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -129,7 +133,7 @@
         var sid = $(this).val();
         var uid = $('#id_user').val();
         $('#tolakModal').modal('show')
-        $('#date_id').val(sid)
+        $('#kode_id').val(sid)
         $('#user_id').val(uid)
     });
 

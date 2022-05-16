@@ -292,12 +292,6 @@
 @endsection
 
 @section('script')
-<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-<script src="{{asset('admin/vendor/datatables/jquery.dataTables.min.js')}}"></script>
-<script src="{{asset('admin/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
-<script src="https://cdn.datatables.net/responsive/2.1.0/js/dataTables.responsive.min.js" type="text/javascript">
-</script>
-
 <script>
     $(document).ready(function () {
         $('#dataTable').DataTable({

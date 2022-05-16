@@ -68,10 +68,16 @@ class SuratController extends Controller
                 ->orwhere('status', '=', 2)
                 ->orwhere('status', '=', 3)
                 ->get();
+            $kode = $id . substr(str_shuffle("0123456789"), 0, 8);
             if ($peminjaman->isEmpty()) {
                 $surat = Surat::create([
-                    'user_id' => $id,
-                    'status' => 0
+                    'user_id'    => $id,
+                    'kode'       => $kode,
+                    'nama'       => $request->nama,
+                    'nim'        => $request->nim,
+                    'alamat'     => $request->alamat,
+                    'no_telp'    => $request->mobile_number,
+                    'status'     => 0
                 ]);
                 if ($surat) {
                     return redirect()->route('surat.index')->with('success', 'Surat berhasil diajukan!.');
@@ -93,12 +99,13 @@ class SuratController extends Controller
      */
     public function show($id)
     {
+        $kode = $id;
         $name = Auth::user()->name;
         $nim = Auth::user()->nim;
         $alamat = Auth::user()->alamat;
-        $pdf = PDF::loadview('frontend.surat-bebas', ['name' => $name, 'nim' => $nim, 'alamat' => $alamat]);
+        $pdf = PDF::loadview('frontend.surat-bebas', compact('name', 'nim', 'alamat', 'kode'));
         // return view('frontend.surat-bebas', ['name' => $name, 'nim' => $nim, 'alamat' => $alamat]);
-        $surat = Surat::whereId($id)->where('status', 2)->get();
+        $surat = Surat::where('kode', $kode)->where('status', 2)->get();
         if ($surat->isEmpty()) {
             return redirect()->back()->with('info', 'Pengajuan belum disetujui Admin!.');
         }
@@ -140,6 +147,25 @@ class SuratController extends Controller
             return redirect()->route('surat.index')->with('success', 'Surat berhasil dihapus!.');
         } else {
             return redirect()->back()->with('error', 'Surat Gagal dihapus!.');
+        }
+    }
+
+    public function cekSuratBebas($kode)
+    {
+        $surat = Surat::where('kode', $kode)->where('status', 2)->get();
+        if ($surat->isEmpty()) {
+            return redirect('/')->with('info', "Surat Tidak Terdaftar");
+        } else {
+            return redirect('/')->with('info', "Surat Terdaftar");
+        }
+    }
+    public function cekSuratPeminjaman($kode)
+    {
+        $surat = Peminjaman::where('kode', $kode)->get();
+        if ($surat->isEmpty()) {
+            return redirect('/')->with('info', "Surat Tidak Terdaftar");
+        } else {
+            return redirect('/')->with('info', "Surat Terdaftar");
         }
     }
 }

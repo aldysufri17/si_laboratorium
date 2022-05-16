@@ -44,10 +44,22 @@ class DashboardController extends Controller
             } elseif (Auth::user()->role_id == 6) {
                 $kategori_lab = 4;
             }
-            $peminjaman = Peminjaman::where('kategori_lab', $kategori_lab)->where('status', 0)->get();
-            $total = Peminjaman::where('kategori_lab', $kategori_lab)->where('status', 0)->count();
-            $request->session()->flash('eror', "$total pengajuan belum disetujui !!!");
-            $telat = Peminjaman::where('status', 2)->orwhere('status', 3)->where('tgl_end', '<', date('Y-m-d'))->where('kategori_lab', $kategori_lab)->paginate(5);
+            $peminjaman = Peminjaman::where('kategori_lab', $kategori_lab)
+                ->where('status', 0)
+                ->select('kode_peminjaman')
+                ->groupBy('kode_peminjaman')
+                ->get();
+            $total = count($peminjaman);
+            $request->session()->flash('eror', "$total Keranjang pengajuan belum disetujui !!!");
+            // $telat = Peminjaman::whereBetween('status', [2, 3])->where('tgl_end', '<', date('Y-m-d'))->where('kategori_lab', $kategori_lab)->paginate(5);
+
+            $telat = Peminjaman::whereBetween('status', [2, 3])
+                ->where('tgl_end', '<', date('Y-m-d'))
+                ->where('kategori_lab', $kategori_lab)
+                ->select('kode_peminjaman', 'nama_keranjang', 'user_id', 'tgl_end')
+                ->groupBy('kode_peminjaman', 'nama_keranjang', 'user_id', 'tgl_end')
+                ->paginate(5);
+            // dd($telat);
             $habis = Barang::where('stock', 0)->paginate(5);
             return view('backend.dashboard',  compact(['peminjaman', 'telat', 'habis']));
         }

@@ -110,7 +110,7 @@
             <div class=" py-2 collapse-inner rounded" style="background-color: rgb(230, 230, 230)">
                 <a class="collapse-item text-red" href="{{ route('persuratan.create') }}">Buat Surat</a>
                 <a class="collapse-item text-red" href="{{ route('persuratan.konfirmasi') }}">Konfirmasi Surat</a>
-                {{-- <a class="collapse-item text-red" href="{{ route('persuratan.riwayat') }}">Riwayat Surat</a> --}}
+                <a class="collapse-item text-red" href="{{ route('persuratan.riwayat') }}">Riwayat Surat</a>
             </div>
         </div>
     </li>

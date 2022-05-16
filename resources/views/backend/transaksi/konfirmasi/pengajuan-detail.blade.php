@@ -1,6 +1,6 @@
 @extends('backend.layouts.app')
 
-@section('title', 'Daftar Pengajuan')
+@section('title', 'Detail Pengajuan')
 
 @section('content')
 
@@ -8,11 +8,11 @@
 <div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-2">
-        <h1 class="h5 mb-0 text-light">Daftar Pengajuan</h1>
+        <h1 class="h5 mb-0 text-light">Detail Pengajuan</h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Dashboard</a></li>
-            <li class="breadcrumb-item"><a href="{{ url('konfirmasi-pengajuan')}}">Filter Pengajuan</a></li>
-            <li class="breadcrumb-item">Daftar Pengajuan</li>
+            <li class="breadcrumb-item"><a href="javascript:history.back()">Daftar Keranjang</a></li>
+            <li class="breadcrumb-item">Detail Pengajuan</li>
         </ol>
     </div>
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -22,13 +22,13 @@
     </div>
 
     {{-- Alert Messages --}}
-    {{-- @include('backend.common.alert') --}}
     @include('sweetalert::alert')
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4 border-0 bgdark">
         <div class="card-body">
-            <h4 class="text-center font-weight-bold text-light">DETAIL PEMINJAMAN</h4>
+            <h4 class="text-center font-weight-bold text-light">DETAIL PEMINJAMAN <span
+                    style="text-transform: uppercase"><u>{{$detail->nama_keranjang}}</u></span></h4>
             <div class="detail mb-4">
                 <table class="table table-borderless" cellspacing="0" width="100%">
                     <tr>
@@ -62,6 +62,7 @@
                     <thead>
                         <tr>
                             <th width="2%">No</th>
+                            <th width="10%">Gambar</th>
                             <th width="10%">Kode Barang</th>
                             <th width="10%">Barang</th>
                             <th width="5%">Jumlah</th>
@@ -72,6 +73,9 @@
                         @foreach ($peminjaman as $key => $data)
                         <tr>
                             <td>{{ $key+1 }}</td>
+                            <td><img width="100px"
+                                    src="{{ asset($data->barang->gambar ? 'images/barang/'. $data->barang->gambar : 'images/empty.jpg') }}"
+                                    class="img-fluid rounded-3"></td>
                             <td>{{ $data->barang->kode_barang }}</td>
                             <td>{{ $data->barang->nama }} - {{ $data->barang->tipe }}</td>
                             <td>{{ $data->jumlah }} {{ $data->barang->satuan->nama_satuan }}</td>
@@ -79,10 +83,6 @@
                                 <button class="btn btn-danger delete-btn" title="Delete" value="{{$data->id}}">
                                     <i class="fas fa-trash"></i>
                                 </button>
-                                {{-- <a href="{{ route('konfirmasi.peminjaman.status', ['id_peminjaman' => $data->id, 'status' => 2,'barang_id' => $data->barang_id, 'jumlah' => $data->jumlah, 'user_id' => $data->user_id]) }}"
-                                class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Accept">
-                                <i class="fa fa-check"></i>
-                                </a> --}}
                             </td>
                         </tr>
                         @endforeach
@@ -125,22 +125,22 @@
 <div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-2">
-        <h1 class="h5 mb-0 text-light">konfirmasi-pengajuan</h1>
+        <h1 class="h5 mb-0 text-light">Detail Pengajuan</h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Dashboard</a></li>
-            <li class="breadcrumb-item"><a href="{{ url('konfirmasi-pengajuan')}}">Filter Pengajuan</a></li>
-            <li class="breadcrumb-item">Daftar Pengajuan</li>
+            <li class="breadcrumb-item"><a href="javascript:history.back()">Daftar Keranjang</a></li>
+            <li class="breadcrumb-item">Detail Pengajuan</li>
         </ol>
     </div>
     @include('sweetalert::alert')
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <a href="{{route('konfirmasi.pengajuan')}}" class="btn btn-sm btn-danger">
+        <a href="javascript:history.back()" class="btn btn-sm btn-danger">
             <i class="fas fa-angle-double-left"></i> Kembali
         </a>
     </div>
     <div class="align-items-center bg-light p-3 border-left-success rounded">
         <span class="">Oops!</span><br>
-        <p><i class="fa-solid fa-circle-info text-info"></i> Belum Terdapat Pengajuan</p>
+        <p><i class="fa-solid fa-circle-info text-info"></i> Belum Terdapat Peminjaman</p>
     </div>
 </div>
 @endif

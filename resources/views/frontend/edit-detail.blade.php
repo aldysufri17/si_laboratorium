@@ -8,11 +8,11 @@
         <div class="container">
 
             <div class="d-flex justify-content-between align-items-center">
-                <h2 class="font-weight-bold">Edit Barang</h2>
+                <h2 class="font-weight-bold">Edit Form Penggunaan</h2>
                 <ol>
                     <li><a href="{{route('home')}}">Beranda</a></li>
-                    <li><a href="{{route('cart')}}">Keranjang Peminjaman</a></li>
-                    <li>Edit Barang</li>
+                    <li><a href="{{route('cart')}}">Keranjang Form Penggunaan</a></li>
+                    <li>Edit Form Penggunaan</li>
                 </ol>
             </div>
 
@@ -24,11 +24,11 @@
             <div class="p-3 py-5">
                 <div class="d-flex justify-content-center align-items-center mb-3">
                     <div class="d-flex flex-row align-items-center">
-                        <h5>Form Edit Penggunaan Barang</h5>
+                        <h5>Form Penggunaan</h5>
                         <hr>
                     </div>
                 </div>
-                <form action="{{route('peminjaman.update', $datetime)}}" method="POST"
+                <form action="{{route('peminjaman.update', $peminjaman->kode_peminjaman)}}" method="POST"
                     enctype="multipart/form-data">
                     @csrf
                     <div class="row mt-2">
@@ -57,7 +57,6 @@
                             </select>
                         </div>
                     </div>
-
                     <div class="card-footer mt-5 border-0" style="background-color: rgba(0, 255, 255, 0)">
                         <button type="submit" class="btn btn-primary btn-user float-right mb-3">Simpan</button>
                         <a class="btn btn-danger float-right mr-3 mb-3" href="{{ route('daftar.pinjaman') }}">Batal</a>

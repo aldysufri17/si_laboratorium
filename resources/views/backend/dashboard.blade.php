@@ -586,7 +586,7 @@
                 <tr>
                     <td class="bg-primary" scope="row">Nim</td>
                     <td class="bg-primary" scope="row">Nama Peminjam</td>
-                    <th class="bg-primary" scope="row">Nama Barang</th>
+                    <th class="bg-primary" scope="row">Nama Keranjang</th>
                     <th class="bg-primary">Telat</th>
                 </tr>
                 @if ($telat->isNotEmpty())
@@ -594,7 +594,7 @@
                 <tr>
                     <td scope="row">{{$data->user->nim}}</td>
                     <td scope="row">{{$data->user->name}}</td>
-                    <td scope="row">{{$data->barang->nama}} - {{$data->barang->tipe}}</td>
+                    <td scope="row"><span style="text-transform:uppercase">{{$data->nama_keranjang}}</span></td>
                     @if ($data->tgl_end < date('Y-m-d')) @php $start=\Carbon\Carbon::createFromFormat('Y-m-d', $data->
                         tgl_end);
                         $now = \Carbon\Carbon::createFromFormat('Y-m-d', date('Y-m-d'));

@@ -207,10 +207,13 @@
         @php
         date_default_timezone_set('Asia/jakarta');
         $date = date("l jS \of F Y h:i:s A");
-        $surat = "Created $date \n website: http://silab18.herokuapp.com/"
+        $surat = "Created $date \n website: http://silab18.herokuapp.com/verifikasi/surat-bebas/$kode"
         @endphp
-    <img src="data:image/png;base64,{{DNS2D::getBarcodePNG(strval($surat), 'QRCODE',3,3)}}"
-        style="background-color: rgb(255, 255, 255); padding:5px; border-radius:1px" alt="barcode" />
+        <div>
+            <img src="data:image/png;base64,{{DNS2D::getBarcodePNG(strval($surat), 'QRCODE',3,3)}}" style="background-color: rgb(255, 255, 255); padding:5px; border-radius:1px" alt="barcode" /><br>
+                <span class="align-top" style="font-size: 9pt;">{{date("d-m-Y h:i:s A")}}</span>
+        </div>
+
         {{-- <table>
             <tr>
                 <td style="width: 70%;"></td>

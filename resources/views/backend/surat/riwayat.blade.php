@@ -57,7 +57,6 @@
                         @endforeach
                     </tbody>
                 </table>
-                {{ $surat->links() }}
             </div>
         </div>
     </div>
@@ -89,8 +88,8 @@
 <script>
     $(document).ready(function () {
         $('#dataTable').DataTable({
-            "bInfo": false,
-            "paging": false
+            responsive: true,
+            autoWidth: false,
         });
     });
 

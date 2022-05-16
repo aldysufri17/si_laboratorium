@@ -16,6 +16,11 @@ class CreateSuratTable extends Migration
         Schema::create('surat', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->integer('user_id');
+            $table->bigInteger('kode');
+            $table->string('nim');
+            $table->string('nama');
+            $table->text('alamat');
+            $table->bigInteger('no_telp');
             $table->integer('status');
             $table->timestamps();
         });

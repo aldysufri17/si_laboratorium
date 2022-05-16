@@ -19,7 +19,7 @@ class PersuratanController extends Controller
 
     public function riwayat()
     {
-        $surat = Surat::with('user')->where('status', 2)->paginate(5);
+        $surat = Surat::with('user')->where('status', 2)->get();
         return view('backend.surat.riwayat', compact('surat'));
     }
 
@@ -31,12 +31,23 @@ class PersuratanController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name'    => 'required',
+            'nama'    => 'required',
             'nim'    => 'required',
             'alamat'    => 'required',
+            'mobile_number'    => 'required',
         ]);
-        $pdf = PDF::loadview('frontend.surat-bebas', compact('request'));
-        return $pdf->download("Surat Bebas Lab" . "_" . $request->name . '_' . $request->nim . '.pdf');
+        $kode = 0 . substr(str_shuffle("0123456789"), 0, 8);
+        $surat = Surat::create([
+            'user_id' => 0000,
+            'kode' => $kode,
+            'nama' => $request->nama,
+            'nim' => $request->nim,
+            'alamat' => $request->alamat,
+            'no_telp' => $request->mobile_number,
+            'status' => 2
+        ]);
+        $pdf = PDF::loadview('frontend.surat-bebas', compact('request', 'kode'));
+        return $pdf->download("Surat Bebas Lab" . "_" . $request->nama . '_' . $request->nim . '.pdf');
     }
 
     public function status($id, $status)

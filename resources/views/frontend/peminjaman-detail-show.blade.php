@@ -8,11 +8,11 @@
         <div class="container">
 
             <div class="d-flex justify-content-between align-items-center">
-                <h2 class="font-weight-bold">Detail Pengajuan</h2>
+                <h2 class="font-weight-bold">Detail Peminjaman</h2>
                 <ol>
                     <li><a href="{{route('home')}}">Beranda</a></li>
                     <li><a href="{{route('daftar.pinjaman')}}">Peminjaman Saya</a></li>
-                    <li>Detail Pengajuan</li>
+                    <li>Detail Peminjaman</li>
                 </ol>
             </div>
 
@@ -23,7 +23,7 @@
     <section id="portfolio-details" class="portfolio-details">
         <div class="card shadow mx-4 mb-4 p-4 border-0">
             <div class="text-center">
-                <a class="btn btn-danger float-left" href="{{route('pinjaman.date', Request::route('kategori'))}}"><i
+                <a class="btn btn-danger float-left" href="{{route('daftar.pinjaman')}}"><i
                         class="fas fa-angle-double-left"></i> kembali</a>
                 <a class="btn btn-success btn-cetak float-right" href="#" data-toggle="modal" data-target="#cetak"><i
                         class="fas fa-print"></i> Unduh Surat</a>
@@ -33,17 +33,7 @@
                 <div class="detail">
                     <div class="title">
                         <center>
-                            <h3 class="font-weight-bold">Pengajuan Laboratorium<br>
-                                @if ($detail->kategori_lab == 1)
-                                <span>Sistem Tertanam dan Robotika</span>
-                                @elseif ($detail->kategori_lab == 2)
-                                <span>Rekayasa Perangkat Lunak</span>
-                                @elseif($detail->kategori_lab == 3)
-                                <span>Jaringan dan Keamanan Komputer</span>
-                                @elseif($detail->kategori_lab == 4)
-                                <span>Multimedia</span>
-                                @endif
-                            </h3>
+                            <h3 class="font-weight-bold">Peminjaman Barang<br>Keranjang <span style="text-transform: uppercase"><u>{{$detail->nama_keranjang}}</u></span></h3>
                         </center>
                     </div>
                     <table width="500">
@@ -53,7 +43,7 @@
                         </tr>
                         <tr>
                             <td class="font-weight-bold">Nama Keranjang</td>
-                            <td>: {{$detail->nama_keranjang}}</td>
+                            <td class="font-weight-bold" style="text-transform: uppercase">: {{$detail->nama_keranjang}}</td>
                         </tr>
                         <tr>
                             <td class="font-weight-bold">Waktu Pengajuan</td>
@@ -76,6 +66,7 @@
                             <tr>
                                 <th width="15%">Gambar</th>
                                 <th width="15%">Nama Barang</th>
+                                <th width="15%">Kategori Laboratorium</th>
                                 <th class="text-center" width="10%">Status</th>
                                 <th width="10%">Jumlah</th>
                                 <th width="10%" class="text-center">Aksi</th>
@@ -93,6 +84,17 @@
                                         <div class="row text-muted">{{$data->barang->tipe}}</div>
                                     </div>
                                 </td>
+                                <td>
+                                    @if ($data->kategori_lab == 1)
+                                    <span class="badge badge-info">Sistem Tertanam dan Robotika</span>
+                                    @elseif ($data->kategori_lab == 2)
+                                    <span class="badge badge-info">Rekayasa Perangkat Lunak</span>
+                                    @elseif($data->kategori_lab == 3)
+                                    <span class="badge badge-info">Jaringan dan Keamanan Komputer</span>
+                                    @elseif($data->kategori_lab == 4)
+                                    <span class="badge badge-info">Multimedia</span>
+                                    @endif
+                                </td>
                                 <td class="text-center">
                                     @if ($data->status == 0)
                                     <span class="badge badge-secondary">Proses</span>
@@ -101,7 +103,7 @@
                                     @elseif($data->status == 2)
                                     <span class="badge badge-success">Disetujui</span>
                                     @elseif($data->status == 3)
-                                    <span class="badge badge-success">Pengembalian</span>
+                                    <span class="badge badge-warning">Pengembalian</span>
                                     @endif
                                 </td>
                                 @if($data->barang->satuan_id > 0)
@@ -185,16 +187,13 @@
                                     <span aria-hidden="true">×</span>
                                 </button>
                             </div>
-                            <div class="modal-body border-0">Surat peminjaman digunakan untuk aktivasi peminjaman
-                                barang
-                                pada laboratorium terkait</div>
+                            <div class="modal-body border-0">Surat peminjaman hanya berisi barang yang sudah disetujui.</div>
                             <div class="modal-footer border-0">
                                 <button class="btn btn-danger close-mdl" type="button"
                                     data-dismiss="modal">Batal</button>
                                 <form action="{{route('print')}}" method="get">
                                     <button class="btn btn-success" type="submit">Unduh</button>
                                     <input type="hidden" name="id_peminjaman" id="id_peminjaman">
-                                    <input type="hidden" name="id_date" id="id_date">
                                 </form>
                             </div>
                         </div>
@@ -202,10 +201,6 @@
                 </div>
                 @else
                 <div class="card shadow-sm p-3 mb-4 bg-white rounded" style="border-left: solid 4px rgb(0, 54, 233);">
-                    <div class="text-center">
-                        <a class="btn btn-danger float-left" href="{{route('daftar.pinjaman')}}"><i
-                                class="fas fa-angle-double-left"></i> kembali</a>
-                    </div>
                     <div class="card-block">
                         <span class="">Oops!</span><br>
                         <p><i class="fa-solid fa-circle-info text-primary"></i> Belum Terdapat Pengajuan Peminjaman

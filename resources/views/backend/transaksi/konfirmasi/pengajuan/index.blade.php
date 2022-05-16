@@ -1,6 +1,6 @@
 @extends('backend.layouts.app')
 
-@section('title', 'Filter Pengajuan')
+@section('title', 'Daftar Pengajuan')
 
 @section('content')
 
@@ -8,10 +8,10 @@
 <div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-2">
-        <h1 class="h5 mb-0 text-light">Filter Pengajuan</h1>
+        <h1 class="h5 mb-0 text-light">Daftar Pengajuan</h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Dashboard</a></li>
-            <li class="breadcrumb-item">Filter Pengajuan</li>
+            <li class="breadcrumb-item">Daftar Pengajuan</li>
         </ol>
     </div>
 
@@ -28,7 +28,6 @@
                         <tr>
                             <th width="10%" class="text-center">NIM</th>
                             <th width="10%" class="text-center">Nama</th>
-                            <th width="15%" class="text-center">Jumlah Pengajuan</th>
                             <th width="10%" class="text-center">Aksi</th>
                         </tr>
                     </thead>
@@ -41,7 +40,6 @@
                             @endphp
                             <td class="text-center">{{ $nim }}</td>
                             <td class="text-center">{{ $item->user->name }}</td>
-                            <td class="text-center">{{ $item->total }}</td>
                             <td class="d-sm-flex justify-content-center">
                                 <a href="{{route('show.pengajuan', ['id' => $item->user_id])}}" class="btn btn-primary"
                                     data-toggle="tooltip" data-placement="top" title="Show">
@@ -60,10 +58,10 @@
 <div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-2">
-        <h1 class="h5 mb-0 text-light">Filter Pengajuan</h1>
+        <h1 class="h5 mb-0 text-light">Daftar Pengajuan</h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Dashboard</a></li>
-            <li class="breadcrumb-item">Filter Pengajuan</li>
+            <li class="breadcrumb-item">Daftar Pengajuan</li>
         </ol>
     </div>
     @include('sweetalert::alert')

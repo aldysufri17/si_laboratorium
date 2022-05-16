@@ -32,7 +32,7 @@ class RegisterController extends Controller
      */
     protected function registered(Request $request, $user)
     {
-        return redirect()->route('login')->with('toast_warning', "Registrasi berhasil, Silahkan Login");
+        return redirect()->route('login')->with('toast_success', "Registrasi berhasil");
     }
 
     /**

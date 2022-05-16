@@ -17,10 +17,7 @@ class CreateKeranjangTable extends Migration
             $table->bigIncrements('id');
             $table->integer('user_id');
             $table->integer('barang_id');
-            $table->date('tgl_start')->nullable();
-            $table->date('tgl_end')->nullable();
             $table->integer('jumlah')->nullable();
-            $table->text('alasan')->nullable();
             $table->text('kategori_lab')->nullable();
             $table->integer('status');
             $table->timestamps();
