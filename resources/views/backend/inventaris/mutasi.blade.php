@@ -30,7 +30,7 @@
         <div class="dropdown">
             <button class="btn btn-info dropdown-toggle" type="button" id="dropdownPDF" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
-                <i class="fa-solid fa-file-csv"></i> Export Exel
+                <i class="fa-solid fa-file-csv"></i> Export PDF
             </button>
             <div class="dropdown-menu bgdark" aria-labelledby="dropdownPDF">
                 <a class="dropdown-item text-light" href="{{route('mutasi.pdf',['data' => 0,'status' => 1])}}">Status Masuk</a>
@@ -148,9 +148,6 @@
         $('#dataTable').DataTable({
             responsive: true,
             autoWidth: false,
-            "order": [
-                [0, "desc"]
-            ]
         });
     });
 

@@ -120,10 +120,17 @@
                                     @endif
                                 </td>
                                 <td class="text-center">
+                                    @if ($unduh)
                                     <a href="{{route('surat.show', ['surat' => $data->kode])}}"
-                                        class="btn {{$unduh ? 'btn-primary':'btn-secondary'}} mx-2" title="Unduh">
+                                        class="btn btn-primary mx-2" title="Unduh">
                                         <i class="fa-solid fa-print"></i>
                                     </a>
+                                    @else
+                                    <a href="#"
+                                        class="btn btn-secondary mx-2" title="Unduh">
+                                        <i class="fa-solid fa-print"></i>
+                                    </a>
+                                    @endif
                                     <a class="btn btn-danger" href="#" data-toggle="modal" title="Delete"
                                         data-target="#deleteModal">
                                         <i class="fas fa-trash"></i>

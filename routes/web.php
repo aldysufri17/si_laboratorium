@@ -33,6 +33,10 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/change-password', [DashboardController::class, 'changePassword'])->name('change-password');
     });
 
+    // Surat
+    Route::resource('surat', App\Http\Controllers\SuratController::class);
+
+
     // ---------------------------Role Admin atau Operator--------------------------
     Route::group(['middleware' => ['role:admin|operator embedded|operator rpl|operator jarkom|operator mulmed']], function () {
         Route::get('/dashboard', [App\Http\Controllers\DashboardController::class, 'index'])->name('dashboard');
@@ -171,6 +175,5 @@ Route::middleware(['auth'])->group(function () {
         Route::post('/peminjaman/update/{date}', [App\Http\Controllers\PeminjamanController::class, 'update'])->name('peminjaman.update');
         Route::get('/cetak-surat', [App\Http\Controllers\PeminjamanController::class, 'print'])->name('print');
         // Route::get('/surat-bebas', [App\Http\Controllers\PeminjamanController::class, 'suratBebas'])->name('suratBebas');
-        Route::resource('surat', App\Http\Controllers\SuratController::class);
     });
 });

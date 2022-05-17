@@ -589,12 +589,12 @@ class BarangController extends Controller
         $mutasi = Inventaris::create([
             'barang_id'         => $id_barang,
             'status'            => 1,
-            'deskripsi'         => 'Masuk',
+            'deskripsi'         => 'Update',
             'kode_inventaris'   => 'IN' . $random,
             'kode_mutasi'       => 'IN' . $random,
-            'masuk'             => 0,
+            'masuk'             => $jml,
             'kategori_lab'      => $kategori_lab,
-            'keluar'            => $jml,
+            'keluar'            => 0,
             'total'             => $stok + $jml,
             'stok'              => 0,
         ]);

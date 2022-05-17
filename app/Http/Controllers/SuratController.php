@@ -100,16 +100,9 @@ class SuratController extends Controller
     public function show($id)
     {
         $kode = $id;
-        $name = Auth::user()->name;
-        $nim = Auth::user()->nim;
-        $alamat = Auth::user()->alamat;
-        $pdf = PDF::loadview('frontend.surat-bebas', compact('name', 'nim', 'alamat', 'kode'));
-        // return view('frontend.surat-bebas', ['name' => $name, 'nim' => $nim, 'alamat' => $alamat]);
-        $surat = Surat::where('kode', $kode)->where('status', 2)->get();
-        if ($surat->isEmpty()) {
-            return redirect()->back()->with('info', 'Pengajuan belum disetujui Admin!.');
-        }
-        return $pdf->download("Surat Bebas Lab" . "_" . $name . '_' . $nim . '.pdf');
+        $surat = Surat::where('kode', $kode)->first();
+        $pdf = PDF::loadview('frontend.surat-bebas', compact('surat'));
+        return $pdf->download("Surat Bebas Lab" . "_" . $surat->nama . '_' . $surat->nim . '.pdf');
     }
 
     /**
@@ -153,19 +146,22 @@ class SuratController extends Controller
     public function cekSuratBebas($kode)
     {
         $surat = Surat::where('kode', $kode)->where('status', 2)->get();
-        if ($surat->isEmpty()) {
-            return redirect('/')->with('info', "Surat Tidak Terdaftar");
-        } else {
-            return redirect('/')->with('info', "Surat Terdaftar");
-        }
+        // if ($surat->isEmpty()) {
+        //     return redirect('/')->with('info', "Surat Tidak Terdaftar");
+        // } else {
+        //     return redirect('/')->with('info', "Surat Terdaftar");
+        // }
+        return view('frontend.home', $surat);
     }
     public function cekSuratPeminjaman($kode)
     {
         $surat = Peminjaman::where('kode_peminjaman', $kode)->get();
-        if ($surat->isEmpty()) {
-            return redirect('/')->with('info', "Surat Tidak Terdaftar");
-        } else {
-            return redirect('/')->with('info', "Surat Terdaftar");
-        }
+        return view('frontend.home', $surat);
+
+        // if ($surat->isEmpty()) {
+        //     return redirect('/')->with('info', "Surat Tidak Terdaftar");
+        // } else {
+        //     return redirect('/')->with('info', "Surat Terdaftar");
+        // }
     }
 }

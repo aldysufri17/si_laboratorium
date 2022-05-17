@@ -76,10 +76,10 @@
             </div>
 
             <div class="card-footer bgdark border-0">
-                <button type="submit" class="btn btn-primary btn-user float-right mb-3">Cetak</button>
+                <button type="submit" class="btn btn-primary btn-user float-right mb-3 ml-3">Simpan</button>
+                <a href="{{route('persuratan.riwayat')}}" class="btn btn-danger btn-user float-right mb-3">Batal</a>
             </div>
         </form>
     </div>
-
 </div>
 @endsection

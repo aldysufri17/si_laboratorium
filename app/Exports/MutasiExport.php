@@ -28,7 +28,7 @@ class MutasiExport implements FromCollection, WithHeadings
             } elseif ($this->data == 3) {
                 $name = 'Laboratorium Jaringan dan Keamanan Komputer';
             } elseif ($this->data == 4) {
-                $kategori_lab = 4;
+                $name = 'Laboratorium Multimedia';
             }
         }
 

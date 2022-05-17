@@ -113,20 +113,12 @@
             <tr>
                 <td style="width: 20%">Nama</td>
                 <td style="width: 2%">:</td>
-                @hasanyrole('admin')
-                <td>{{$request->name}}</td>
-                @else
-                <td>{{$name}}</td>
-                @endhasanyrole
+                <td>{{$surat->nama}}</td>
             </tr>
             <tr>
                 <td>NIM</td>
                 <td>:</td>
-                @hasanyrole('admin')
-                <td>{{$request->nim}}</td>
-                @else
-                <td>{{$nim}}</td>
-                @endhasanyrole
+                <td>{{$surat->nim}}</td>
             </tr>
             <tr>
                 <td>Fakultas</td>
@@ -141,11 +133,7 @@
             <tr>
                 <td>Alamat</td>
                 <td>:</td>
-                @hasanyrole('admin')
-                <td>{{$request->alamat}}</td>
-                @else
-                <td>{{$alamat}}</td>
-                @endhasanyrole
+                <td>{{$surat->alamat}}</td>
             </tr>
         </table>
     </section>
@@ -207,7 +195,7 @@
         @php
         date_default_timezone_set('Asia/jakarta');
         $date = date("l jS \of F Y h:i:s A");
-        $surat = "Created $date \n website: http://silab18.herokuapp.com/verifikasi/surat-bebas/$kode"
+        $surat = "Created $date \n website: http://silab18.herokuapp.com/verifikasi/surat-bebas/$surat->kode"
         @endphp
         <div>
             <img src="data:image/png;base64,{{DNS2D::getBarcodePNG(strval($surat), 'QRCODE',3,3)}}" style="background-color: rgb(255, 255, 255); padding:5px; border-radius:1px" alt="barcode" /><br>
@@ -230,13 +218,13 @@
                 <td style="width: 70%;"></td>
                 <td class="align-top">(
                     @hasanyrole('admin')
-                    {{$request->name}}
+                    {{$surat->name}}
                     @else
                     {{$name}}
                     @endhasanyrole)
                     <br>
                     NIM.@hasanyrole('admin')
-                    {{$request->nim}}
+                    {{$surat->nim}}
                     @else
                     {{$nim}}
                     @endhasanyrole</td>

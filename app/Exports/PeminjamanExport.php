@@ -41,7 +41,7 @@ class PeminjamanExport implements FromCollection, WithHeadings
         }
         return [
             ['Data Peminjaman ' . $name . " Pada " . date('Y-m-d')],
-            ['Date', 'NIM', 'Nama', 'Barang', 'Tipe', 'Jumlah', 'Tanggal Peminjaman', 'Tanggal Pengembalian', 'Alasan']
+            ['Date', 'Kode Peminjaman', 'NIM', 'Nama', 'Barang', 'Tipe', 'Jumlah', 'Tanggal Peminjaman', 'Tanggal Pengembalian', 'Alasan']
         ];
     }
 
@@ -74,7 +74,7 @@ class PeminjamanExport implements FromCollection, WithHeadings
 
         $peminjaman = Peminjaman::join('barang', 'barang.id', '=', 'peminjaman.barang_id')
             ->join('users', 'users.id', '=', 'peminjaman.user_id')
-            ->select('peminjaman.created_at', 'users.nim', 'users.name', 'barang.nama', 'barang.tipe', 'jumlah', 'tgl_start', 'tgl_end', 'alasan',)
+            ->select('peminjaman.created_at', 'kode_peminjaman', 'users.nim', 'users.name', 'barang.nama', 'barang.tipe', 'jumlah', 'tgl_start', 'tgl_end', 'alasan',)
             ->where('peminjaman.status', 4)
             ->where('peminjaman.kategori_lab', $kategori_lab)
             ->get();

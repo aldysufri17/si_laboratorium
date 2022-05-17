@@ -11,7 +11,8 @@
         <button id="notif" type="button" class="close" data-dismiss="alert">
             <i class="fa fa-times"></i>
         </button>
-        <strong>Pengajuan barang {{$data->barang->nama}}-{{$data->barang->tipe}} {{ $message }}</strong> {{ session('error') }}
+        <strong>Pengajuan barang {{$data->barang->nama}}-{{$data->barang->tipe}} {{ $message }}</strong>
+        {{ session('error') }}
     </div>
     @endif
 </a>
@@ -31,6 +32,24 @@
     @endif
 </a>
 @endforeach
+
+@if ($message = Session::get('surat'))
+    @if ($surat->isNotEmpty())
+    <div class="alert alert-info alert-dismissible shake" style="margin-bottom: -6px; margin:0 5px" role="alert">
+        <button id="notif" type="button" class="close" data-dismiss="alert">
+            <i class="fa fa-times"></i>
+        </button>
+        <strong>Surat Terdaftar Pada Sistem</strong> {{ session('error') }}
+    </div>
+    @else
+        <div class="alert alert-info alert-dismissible shake" style="margin-bottom: -6px; margin:0 5px" role="alert">
+            <button id="notif" type="button" class="close" data-dismiss="alert">
+                <i class="fa fa-times"></i>
+            </button>
+            <strong>Surat Tidak Terdaftar Pada Sistem</strong> {{ session('error') }}
+        </div>
+    @endif
+@endif
 {{-- end ditolak--}}
 
 @foreach ($telat as $data)
@@ -44,7 +63,8 @@
             <button id="notif" type="button" class="close" data-dismiss="alert">
                 <i class="fa fa-times"></i>
             </button>
-            <strong>Pengembalian Barang {{$data->barang->nama}}-{{$data->barang->tipe}} {{ $message }} {{ $late }} Hari!!!</strong>
+            <strong>Pengembalian Barang {{$data->barang->nama}}-{{$data->barang->tipe}} {{ $message }} {{ $late }}
+                Hari!!!</strong>
             {{ session('error') }}
         </div>
         @endif

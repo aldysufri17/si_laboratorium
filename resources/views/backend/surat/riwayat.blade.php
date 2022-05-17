@@ -14,8 +14,8 @@
             <li class="breadcrumb-item">Daftar Riwayat Persuratan</li>
         </ol>
     </div>
-    <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <a href="{{ route('persuratan.create') }}" class="btn btn-sm btn-success">
+    <div class="d-sm-flex mb-4">
+        <a href="{{ route('persuratan.create') }}" class="btn btn-sm btn-success mr-3">
             <i class="fas fa-plus"></i> Buat Surat
         </a>
         <a href="{{ route('export.surat') }}" class="btn btn-sm btn-warning">
@@ -27,32 +27,43 @@
     </div>
 
     {{-- Alert Messages --}}
-    {{-- @include('backend.common.alert') --}}
     @include('sweetalert::alert')
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4 border-0 bgdark">
         <div class="card-body">
-            <h6 class="m-0 font-weight-bold text-light">Daftar Semua Riwayat Persuratan</h6>
             <div class="table-responsive">
                 <table class="table table-borderless table-dark bgdark" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
                             <th width="20%">Date</th>
+                            <th width="25%">Kode</th>
                             <th width="20%">Nama</th>
                             <th width="15%">NIM</th>
-                            <th width="25%">Email</th>
-                            <th width="15%">No Telepon</th>
+                            <th width="15%">Alamat</th>
+                            <th width="15%">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($surat as $data)
                         <tr>
-                            <td>{{ $data->created_at }}</td>
-                            <td>{{ $data->user->name }}</td>
-                            <td>{{ $data->user->nim }}</td>
-                            <td>{{ $data->user->email }}</td>
-                            <td>{{ $data->user->mobile_number }}</td>
+                            <td>
+                                <div class="col">
+                                    <div class="row">{{$data->created_at->format('d M Y')}}</div>
+                                    <div class="row text-muted">
+                                        <strong>({{$data->created_at->format('H:i:s A')}})</strong></div>
+                                </div>
+                            </td>
+                            <td>{{ $data->kode }}</td>
+                            <td>{{ $data->nama }}</td>
+                            <td>{{ $data->nim }}</td>
+                            <td>{{ $data->alamat }}</td>
+                            <td>
+                                <a href="{{route('surat.show', ['surat' => $data->kode])}}"
+                                    class="btn btn-info" title="Unduh Surat">
+                                    <i class="fa-solid fa-print"></i>
+                                </a>
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>

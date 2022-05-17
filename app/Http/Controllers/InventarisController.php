@@ -312,8 +312,8 @@ class InventarisController extends Controller
             $inventaris = Inventaris::with('barang')
                 ->where('kategori_lab', $kategori_lab)
                 ->where('status', '!=', 2)
-                ->orderBy('created_at', 'desc')
-                ->paginate(8);
+                ->orderBy('id', 'DESC')
+                ->get();
         }
         return view('backend.inventaris.mutasi', ['inventaris' => $inventaris]);
     }
@@ -323,7 +323,7 @@ class InventarisController extends Controller
         $inventaris = Inventaris::with('barang')
             ->where('kategori_lab', $data)
             ->where('status', '!=', 2)
-            ->orderBy('created_at', 'desc')
+            ->orderBy('id', 'DESC')
             ->get();
         return view('backend.inventaris.admin-mutasi', compact('inventaris'));
     }

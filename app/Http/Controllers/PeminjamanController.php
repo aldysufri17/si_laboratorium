@@ -461,7 +461,7 @@ class PeminjamanController extends Controller
                 // Mutasi
                 $inventaris = Inventaris::create([
                     'barang_id'         => $barang,
-                    'status'            => 0,
+                    'status'            => 1,
                     'deskripsi'         => "Selesai",
                     'kode_mutasi'       => 'IN' . $random,
                     'kode_inventaris'   => 'IN' . $random,
@@ -579,7 +579,7 @@ class PeminjamanController extends Controller
                     // Mutasi
                     Inventaris::create([
                         'barang_id'         => $barang,
-                        'status'            => 0,
+                        'status'            => 1,
                         'deskripsi'         => "Selesai",
                         'kode_mutasi'       => 'IN' . $random,
                         'kode_inventaris'   => 'IN' . $random,
