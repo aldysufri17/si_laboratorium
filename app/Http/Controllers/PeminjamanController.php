@@ -185,11 +185,6 @@ class PeminjamanController extends Controller
         } elseif (Auth::user()->role_id == 6) {
             $kategori_lab = 4;
         }
-        // $peminjaman = Peminjaman::where('user_id', $id)
-        //     ->select('created_at', DB::raw('count(*) as total'))
-        //     ->where('kategori_lab', $kategori_lab)
-        //     ->groupBy('created_at')
-        //     ->get();
         $peminjaman = Peminjaman::where('user_id', $id)
             ->select('kode_peminjaman', 'nama_keranjang', DB::raw('count(*) as total'))
             ->where('kategori_lab', $kategori_lab)
@@ -251,7 +246,6 @@ class PeminjamanController extends Controller
         foreach ($keranjang as $data) {
 
             $peminjaman = Peminjaman::create([
-                'id'                => substr(str_shuffle("0123456789"), 0, 8),
                 'kode_peminjaman'   => $kode_peminjaman,
                 'nama_keranjang'    => $nama_keranjang,
                 'user_id'           => $user_id,

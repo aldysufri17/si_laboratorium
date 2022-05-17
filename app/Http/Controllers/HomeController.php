@@ -297,6 +297,7 @@ class HomeController extends Controller
         $user_id = Auth::user()->id;
         $peminjaman = Peminjaman::where('user_id', $user_id)
             ->where('kode_peminjaman', $id)
+            ->orderBy('id', 'DESC')
             ->paginate(5);
         $detail = Peminjaman::where('user_id', $user_id)
             ->where('kode_peminjaman', $id)
