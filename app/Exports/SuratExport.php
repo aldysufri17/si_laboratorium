@@ -4,22 +4,23 @@ namespace App\Exports;
 
 use App\Models\Surat;
 use Maatwebsite\Excel\Concerns\FromCollection;
+use Maatwebsite\Excel\Concerns\WithHeadings;
 
-class SuratExport implements FromCollection
+
+class SuratExport implements FromCollection, WithHeadings
 {
     public function headings(): array
     {
         return [
             ['Data Riwayat Surat Pada' . date('Y-m-d')],
-            ['Nama', 'NIM', 'Alamat', 'Tanggal']
+            ['kode', 'Nama', 'NIM', 'Alamat', 'Waktu Pembuatan']
         ];
     }
 
     public function collection()
     {
-        $surat = Surat::join('user', 'user.id', '=', 'surat.user_id')
-            ->select('user.name', 'user.nim', 'user.alamat', 'surat.created_at')
-            ->where('status', 1)
+        $surat = Surat::select('kode', 'nama', 'nim', 'alamat', 'created_at')
+            ->where('status', 2)
             ->get();
         return $surat;
     }

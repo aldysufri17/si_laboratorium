@@ -62,17 +62,17 @@ class PersuratanController extends Controller
         }
     }
 
-    public function damagedExport($data)
+    public function suratExport()
     {
-        return Excel::download(new SuratExport($data), 'Data Riwayat Surat' . '-' . date('Y-m-d') . '.xlsx');
+        return Excel::download(new SuratExport(), 'Data Riwayat Surat' . '-' . date('Y-m-d') . '.xlsx');
     }
 
-    public function damagedPdf($data)
+    public function suratPdf()
     {
         $surat = Surat::where('status', 1)->get();
         // return view('backend.inventaris.pdf_inventaris', compact('name', 'inventaris'));
         $pdf = Pdf::loadview('backend.surat.pdf_surat', compact('surat'));
 
-        return $pdf->download("Data Barang Rusak" . "_" . date('d-m-Y') . '.pdf');
+        return $pdf->download("Data Riwayat Surat" . "_" . date('d-m-Y') . '.pdf');
     }
 }

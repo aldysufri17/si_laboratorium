@@ -48,6 +48,17 @@
     <div class="card shadow mb-4 border-0 bgdark">
         <div class="card-body">
             <div class="table-responsive">
+                <div class="my-2">
+                    <form action="{{route('mutasi')}}" method="GET">
+                        @csrf
+                        <h6 class="mb-0 my-3 text-warning">* Filter Berdasarkan Tanggal Mutasi</h6>
+                        <div class="input-group mb-3">
+                            <input type="date" class="form-control" value="{{Request::get('start_date')}}" name="start_date">
+                            <input type="date" class="form-control" value="{{Request::get('end_date')}}" name="end_date">
+                            <button class="btn btn-primary" type="submit">Filter</button>
+                        </div>
+                    </form>
+                </div>
                 <table id="dataTable" class="table table-borderless dt-responsive" cellspacing="0" width="100%">
                     @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
                     <thead>
@@ -80,7 +91,13 @@
                                 <span class="badge badge-info">Created</span>
                                 @endif</td>
                             <td>{{ $data->deskripsi }}</td>
-                            <td>{{ $data->created_at }}</td>
+                            <td>
+                                <div class="col">
+                                    <div class="row">{{$data->created_at->format('d M Y')}}</div>
+                                    <div class="row text-muted">
+                                        <strong>({{$data->created_at->format('H:i:s A')}})</strong></div>
+                                </div>
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -134,6 +151,11 @@
             <li class="breadcrumb-item">Mutasi Stock Barang</li>
         </ol>
     </div>
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        @if (app('request')->input('start_date') || app('request')->input('start_date') )
+        <a class="btn btn-sm btn-danger" href="{{route('mutasi')}}"><i class="fas fa-angle-double-left"></i> Tampilkan Semua Data</a>
+        @endif
+   </div>
     <div class="align-items-center bg-light p-3 border-left-success rounded">
         <span class="">Oops!</span><br>
         <p><i class="fa-solid fa-circle-info text-info"></i> Belum Terdapat Data Mutasi</p>

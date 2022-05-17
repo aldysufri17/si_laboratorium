@@ -14,7 +14,7 @@
         </ol>
     </div>
     <div class="d-sm-flex align-items-center mb-4">
-        <a class="btn btn-sm btn-danger" href="javascript:history.back()"><i class="fas fa-angle-double-left"></i> Kembali</a>
+        <a class="btn btn-sm btn-danger" href="{{route('daftar.peminjaman')}}"><i class="fas fa-angle-double-left"></i> Kembali</a>
         <a href="{{ route('export.peminjaman', Request::route('data')) }}" class="btn btn-sm btn-warning mx-3">
             <i class="fa-solid fa-file-csv"></i> Export Exel
         </a>
@@ -30,7 +30,7 @@
                 <div class="my-2">
                     <form action="{{route('admin.peminjaman', Request::route('data'))}}" method="GET">
                         @csrf
-                        <h6 class="mb-0 my-3 text-warning">* Filter Berdasarkan Date</h6>
+                        <h6 class="mb-0 my-3 text-warning">* Filter Berdasarkan Tanggal Selesai Peminjaman</h6>
                         <div class="input-group mb-3">
                             <input type="date" class="form-control" value="{{Request::get('start_date')}}" name="start_date">
                             <input type="date" class="form-control" value="{{Request::get('end_date')}}" name="end_date">
@@ -54,7 +54,13 @@
                     <tbody>
                         @foreach ($peminjaman as $result => $data)
                         <tr>
-                            <td>{{ $data->created_at }}</td>
+                            <td>
+                                <div class="col">
+                                    <div class="row">{{$data->created_at->format('d M Y')}}</div>
+                                    <div class="row text-muted">
+                                        <strong>({{$data->created_at->format('H:i:s A')}})</strong></div>
+                                </div>
+                            </td>
                             <td>{{$data->kode_peminjaman}}</td>
                             <td>{{ $data->user->nim }}/<br>{{ $data->user->name }}</td>
                             <td>{{ $data->barang->nama }} - {{ $data->barang->tipe }}</td>

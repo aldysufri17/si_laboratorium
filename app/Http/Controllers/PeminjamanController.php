@@ -17,11 +17,9 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class PeminjamanController extends Controller
 {
-    private $x;
     public function __construct(Request $request)
     {
         $this->middleware('auth');
-        $this->x = $request->ckd_chld;
     }
 
     // Peminjaman
@@ -45,12 +43,12 @@ class PeminjamanController extends Controller
                 ->get();
         } else {
             if (request()->start_date || request()->end_date) {
-                $start_date = Carbon::parse(request()->start_date)->format('Y-m-d');
-                $end_date = Carbon::parse(request()->end_date)->format('Y-m-d');
+                $start_date = Carbon::parse(request()->start_date)->toDateTimeString();
+                $end_date = Carbon::parse(request()->end_date)->toDateTimeString();
                 $peminjaman = Peminjaman::with('user', 'barang')
                     ->where('kategori_lab', $kategori_lab)
                     ->where('status', '>=', 2)
-                    ->whereBetween('date', [$start_date, $end_date])
+                    ->whereBetween('updated_at', [$start_date, $end_date])
                     ->get();
             } else {
                 $peminjaman = Peminjaman::with('user', 'barang')
@@ -71,12 +69,12 @@ class PeminjamanController extends Controller
     public function adminPeminjaman($data)
     {
         if (request()->start_date || request()->end_date) {
-            $start_date = Carbon::parse(request()->start_date)->format('Y-m-d');
-            $end_date = Carbon::parse(request()->end_date)->format('Y-m-d');
+            $start_date = Carbon::parse(request()->start_date)->toDateTimeString();
+            $end_date = Carbon::parse(request()->end_date)->toDateTimeString();
             $peminjaman = Peminjaman::with('user', 'barang')
                 ->where('kategori_lab', $data)
                 ->where('status', '>', 2)
-                ->whereBetween('date', [$start_date, $end_date])
+                ->whereBetween('updated_at', [$start_date, $end_date])
                 ->get();
         } else {
             $peminjaman = Peminjaman::with('user', 'barang')

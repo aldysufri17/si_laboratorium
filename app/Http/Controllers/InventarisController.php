@@ -7,6 +7,7 @@ use App\Exports\MutasiExport;
 use App\Models\Barang;
 use App\Models\Inventaris;
 use Barryvdh\DomPDF\Facade\Pdf;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -22,6 +23,7 @@ class InventarisController extends Controller
     public function index()
     {
         if (Auth::user()->role_id == 2) {
+
             $inventaris = Inventaris::with('barang')
                 ->select('kategori_lab', DB::raw('count(*) as total'))
                 ->where('status', 2)
@@ -38,10 +40,21 @@ class InventarisController extends Controller
             } elseif (Auth::user()->role_id == 6) {
                 $kategori_lab = 4;
             }
-            $inventaris = Inventaris::with('barang')
-                ->where('kategori_lab', $kategori_lab)
-                ->where('status', 2)
-                ->get();
+
+            if (request()->start_date || request()->end_date) {
+                $start_date = Carbon::parse(request()->start_date)->toDateTimeString();
+                $end_date = Carbon::parse(request()->end_date)->toDateTimeString();
+                $inventaris = Inventaris::with('barang')
+                    ->where('kategori_lab', $kategori_lab)
+                    ->whereBetween('created_at', [$start_date, $end_date])
+                    ->where('status', 2)
+                    ->get();
+            } else {
+                $inventaris = Inventaris::with('barang')
+                    ->where('kategori_lab', $kategori_lab)
+                    ->where('status', 2)
+                    ->get();
+            }
         }
 
         return view('backend.inventaris.index', compact('inventaris'));
@@ -49,11 +62,23 @@ class InventarisController extends Controller
 
     public function adminInventaris($data)
     {
-        $inventaris = Inventaris::with('barang')
-            ->where('kategori_lab', $data)
-            ->where('status', 2)
-            ->orderBy('created_at', 'desc')
-            ->get();
+        if (request()->start_date || request()->end_date) {
+            $start_date = Carbon::parse(request()->start_date)->toDateTimeString();
+            $end_date = Carbon::parse(request()->end_date)->toDateTimeString();
+            $inventaris = Inventaris::with('barang')
+                ->where('kategori_lab', $data)
+                ->where('status', 2)
+                ->orderBy('created_at', 'desc')
+                ->whereBetween('created_at', [$start_date, $end_date])
+                ->get();
+        } else {
+            $inventaris = Inventaris::with('barang')
+                ->where('kategori_lab', $data)
+                ->where('status', 2)
+                ->orderBy('created_at', 'desc')
+                ->get();
+        }
+
         return view('backend.inventaris.admin-inventaris', compact('inventaris'));
     }
 
@@ -309,22 +334,44 @@ class InventarisController extends Controller
             } elseif (Auth::user()->role_id == 6) {
                 $kategori_lab = 4;
             }
-            $inventaris = Inventaris::with('barang')
-                ->where('kategori_lab', $kategori_lab)
-                ->where('status', '!=', 2)
-                ->orderBy('id', 'DESC')
-                ->get();
+            if (request()->start_date || request()->end_date) {
+                $start_date = Carbon::parse(request()->start_date)->toDateTimeString();
+                $end_date = Carbon::parse(request()->end_date)->toDateTimeString();
+                $inventaris = Inventaris::with('barang')
+                    ->where('kategori_lab', $kategori_lab)
+                    ->where('status', '!=', 2)
+                    ->orderBy('id', 'DESC')
+                    ->whereBetween('created_at', [$start_date, $end_date])
+                    ->get();
+            } else {
+                $inventaris = Inventaris::with('barang')
+                    ->where('kategori_lab', $kategori_lab)
+                    ->where('status', '!=', 2)
+                    ->orderBy('id', 'DESC')
+                    ->get();
+            }
         }
         return view('backend.inventaris.mutasi', ['inventaris' => $inventaris]);
     }
 
     public function adminMutasi($data)
     {
-        $inventaris = Inventaris::with('barang')
-            ->where('kategori_lab', $data)
-            ->where('status', '!=', 2)
-            ->orderBy('id', 'DESC')
-            ->get();
+        if (request()->start_date || request()->end_date) {
+            $start_date = Carbon::parse(request()->start_date)->toDateTimeString();
+            $end_date = Carbon::parse(request()->end_date)->toDateTimeString();
+            $inventaris = Inventaris::with('barang')
+                ->where('kategori_lab', $data)
+                ->where('status', '!=', 2)
+                ->orderBy('id', 'DESC')
+                ->whereBetween('created_at', [$start_date, $end_date])
+                ->get();
+        } else {
+            $inventaris = Inventaris::with('barang')
+                ->where('kategori_lab', $data)
+                ->where('status', '!=', 2)
+                ->orderBy('id', 'DESC')
+                ->get();
+        }
         return view('backend.inventaris.admin-mutasi', compact('inventaris'));
     }
 
@@ -407,20 +454,18 @@ class InventarisController extends Controller
     public function mutasiPdf($data, $status)
     {
         if (Auth::user()->role_id == 2) {
-            if (Auth::user()->role_id == 2) {
-                if ($data == 1) {
-                    $name = 'Laboratorium Sistem Tertanam dan Robotika';
-                    $kategori_lab = 1;
-                } elseif ($data == 2) {
-                    $name = 'Laboratorium Rekayasa Perangkat Lunak';
-                    $kategori_lab = 2;
-                } elseif ($data == 3) {
-                    $name = 'Laboratorium Jaringan dan Keamanan Komputer';
-                    $kategori_lab = 3;
-                } elseif ($data == 4) {
-                    $name = 'Laboratorium Multimedia';
-                    $kategori_lab = 4;
-                }
+            if ($data == 1) {
+                $name = 'Laboratorium Sistem Tertanam dan Robotika';
+                $kategori_lab = 1;
+            } elseif ($data == 2) {
+                $name = 'Laboratorium Rekayasa Perangkat Lunak';
+                $kategori_lab = 2;
+            } elseif ($data == 3) {
+                $name = 'Laboratorium Jaringan dan Keamanan Komputer';
+                $kategori_lab = 3;
+            } elseif ($data == 4) {
+                $name = 'Laboratorium Multimedia';
+                $kategori_lab = 4;
             }
         }
 

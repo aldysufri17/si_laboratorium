@@ -59,7 +59,13 @@
                     <tbody>
                         @foreach ($peminjaman as $result => $data)
                         <tr>
-                            <td>{{ $data->created_at }}</td>
+                            <td>
+                                <div class="col">
+                                    <div class="row">{{$data->created_at->format('d M Y')}}</div>
+                                    <div class="row text-muted">
+                                        <strong>({{$data->created_at->format('H:i:s A')}})</strong></div>
+                                </div>
+                            </td>
                             <td>{{ $data->user->nim }}</td>
                             <td>{{ $data->user->name }}</td>
                             <td>{{ $data->barang->nama }} - {{ $data->barang->tipe }}</td>
@@ -126,6 +132,11 @@
             <li class="breadcrumb-item">Daftar Peminjaman</li>
         </ol>
     </div>
+    <div class="d-sm-flex align-items-center justify-content-between mb-4">
+        @if (app('request')->input('start_date') || app('request')->input('start_date') )
+        <a class="btn btn-sm btn-danger" href="{{'daftar.peminjaman'}}"><i class="fas fa-angle-double-left"></i> Tampilkan Semua Data</a>
+        @endif
+   </div>
     @include('sweetalert::alert')
     <div class="align-items-center bg-light p-3 border-left-success rounded">
         <span class="">Oops!</span><br>

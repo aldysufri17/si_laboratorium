@@ -36,10 +36,22 @@
     <div class="card shadow mb-4 border-0 bgdark">
         <div class="card-body">
             <div class="table-responsive">
+                <div class="my-2">
+                    <form action="{{route('inventaris.index')}}" method="GET">
+                        @csrf
+                        <h6 class="mb-0 my-3 text-warning">* Filter Berdasarkan Tanggal Inventaris</h6>
+                        <div class="input-group mb-3">
+                            <input type="date" class="form-control" value="{{Request::get('start_date')}}" name="start_date">
+                            <input type="date" class="form-control" value="{{Request::get('end_date')}}" name="end_date">
+                            <button class="btn btn-primary" type="submit">Filter</button>
+                        </div>
+                    </form>
+                </div>
                 <table id="dataTable" class="table table-borderless dt-responsive" cellspacing="0" width="100%">
                     @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
                     <thead>
                         <tr>
+                            <th width="15%">Date</th>
                             <th width="15%">Kode Inventaris</th>
                             <th width="15%">Nama Barang</th>
                             <th width="5%">Baik</th>
@@ -52,6 +64,13 @@
                     <tbody>
                         @foreach ($inventaris as $data)
                         <tr>
+                            <td>
+                                <div class="col">
+                                    <div class="row">{{$data->created_at->format('d M Y')}}</div>
+                                    <div class="row text-muted">
+                                        <strong>({{$data->created_at->format('H:i:s A')}})</strong></div>
+                                </div>
+                            </td>
                             <td>{{ $data->kode_inventaris }}</td>
                             <td>{{ $data->barang->nama }} - {{ $data->barang->tipe }}</td>
                             <td>{{ $data->stok }}</td>
@@ -162,6 +181,9 @@
     @include('sweetalert::alert')
     @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
+         @if (app('request')->input('start_date') || app('request')->input('start_date') )
+         <a class="btn btn-sm btn-danger" href="{{route('inventaris.index')}}"><i class="fas fa-angle-double-left"></i> Tampilkan Semua Data</a>
+         @endif
         <a href="{{ route('inventaris.add', auth()->user()->role_id)}}" class="btn btn-sm btn-success">
             <i class="fas fa-plus"></i> Tambah Inventaris
         </a>
