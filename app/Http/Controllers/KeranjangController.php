@@ -84,35 +84,6 @@ class KeranjangController extends Controller
         return view('frontend.form-pengajuan', compact('barang', 'peminjaman', 'keranjang'));
     }
 
-    // public function checkout(Request $request, $id)
-    // {
-    //     $id_cart = $request->ckd_chld;
-    //     $peminjaman = Keranjang::whereIn('id', $id_cart)->get();
-    //     foreach ($peminjaman as $data) {
-    //         $peminjaman = Peminjaman::create([
-    //             'id'            => substr(str_shuffle("0123456789"), 0, 8),
-    //             'user_id'       => $id,
-    //             'barang_id'     => $data->barang_id,
-    //             'tgl_start'     => $data->tgl_start,
-    //             'tgl_end'       => $data->tgl_end,
-    //             'jumlah'        => $data->jumlah,
-    //             'kategori_lab'  => $data->kategori_lab,
-    //             'alasan'        => $data->alasan,
-    //             'status'        => 0,
-    //             'date'          => date('Y-m-d')
-    //         ]);
-    //     }
-    //     foreach ($id_cart as $id) {
-    //         $keranjang = Keranjang::where('id', $id)->update(['status' => 1]);
-    //     }
-
-    //     if ($keranjang) {
-    //         return redirect()->route('daftar.pinjaman')->with('success', 'Pengajuan Berhasil ditambah!.');
-    //     } else {
-    //         return redirect()->route('daftar.pinjaman')->with('error', 'Gagal ditambah!.');
-    //     }
-    // }
-
     public function update(Request $request)
     {
         $request->validate([
