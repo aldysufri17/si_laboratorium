@@ -35,14 +35,17 @@ class KeranjangController extends Controller
             $duplicated = Keranjang::where('user_id', Auth::user()->id)
                 ->where('status', 0)
                 ->where('barang_id', $id)
-                ->select('barang_id', DB::raw('count(`barang_id`) as total'))
+                ->select('barang_id')
                 ->groupBy('barang_id')
-                ->get();
-            foreach ($duplicated as $record) {
-                if ($record->total = 1) {
-                    return redirect()->back()->with('max', 'Barang sudah dipilih!.');
-                }
+                ->first();
+            if ($duplicated != null) {
+                return redirect()->back()->with('max', 'Barang sudah dipilih!.');
             }
+            // foreach ($duplicated as $record) {
+            //     if ($record->total = 1) {
+            //         return redirect()->back()->with('max', 'Barang sudah dipilih!.');
+            //     }
+            // }
 
             if ($stock < $request->jumlah) {
                 return redirect()->back()->with('stock', 'Stock tidak mencukupi!.');
