@@ -284,7 +284,6 @@ class PeminjamanController extends Controller
     {
         $user_id = Auth::user()->id;
         $request->validate([
-            'nama_keranjang' => 'required',
             'alasan' => 'required',
             'tgl_start' => 'required',
             'tgl_end' => 'required',
