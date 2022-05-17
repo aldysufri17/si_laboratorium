@@ -143,9 +143,11 @@
         evt.currentTarget.className += " active";
     }
 
-    setInterval(function () {
-        document.getElementById('notif').click();
-    }, 4000);
+    if (document.getElementById('notif')) {
+            setTimeout(function () {
+            document.getElementById('notif').click();
+        }, 4000);
+        }
 
     document.getElementById("inp").addEventListener("click", function () {
         cart = @json($id_cart);

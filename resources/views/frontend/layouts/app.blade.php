@@ -18,12 +18,9 @@
     <script src="{{asset('frontend/vendor/glightbox/js/glightbox.min.js')}}"></script>
     <script src="{{asset('frontend/vendor/isotope-layout/isotope.pkgd.min.js')}}"></script>
     <script src="{{asset('frontend/vendor/swiper/swiper-bundle.min.js')}}"></script>
-    <script src="{{asset('frontend/vendor/php-email-form/validate.js')}}"></script>
 
     <!-- Template Main JS File -->
     <script src="{{asset('frontend/js/main.js')}}"></script>
-    <!-- Custom scripts for all pages-->
-    {{-- <script src="{{asset('admin/js/sb-admin-2.min.js')}}"></script> --}}
     <script src="{{asset('admin/vendor/datatables/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('admin/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
     <script src="https://cdn.datatables.net/responsive/2.1.0/js/dataTables.responsive.min.js" type="text/javascript">
@@ -34,7 +31,5 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="{{asset('admin/vendor/datatables/jquery.dataTables.min.js')}}"></script>
     <script src="{{asset('admin/vendor/datatables/dataTables.bootstrap4.min.js') }}"></script>
-    <script src="https://cdn.datatables.net/responsive/2.1.0/js/dataTables.responsive.min.js" type="text/javascript">
-    </script>
     @yield('script')
 </body>

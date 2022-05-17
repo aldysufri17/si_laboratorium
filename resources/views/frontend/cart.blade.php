@@ -316,9 +316,11 @@
             // alert('heho');
         });
 
-        setTimeout(function () {
+        if (document.getElementById('notif')) {
+            setTimeout(function () {
             document.getElementById('notif').click();
         }, 4000);
+        }
 
         $("#off").attr("disabled", true);
 

@@ -228,9 +228,11 @@
         autoWidth: false,
     });
 
-    setInterval(function () {
-        document.getElementById('notif').click();
-    }, 4000);
+    if (document.getElementById('notif')) {
+            setTimeout(function () {
+            document.getElementById('notif').click();
+        }, 4000);
+        }
 
     $(document).on('click', '.delete-btn', function () {
         var sid = $(this).val();

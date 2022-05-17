@@ -470,9 +470,11 @@
         autoWidth: false,
     });
 
-    setInterval(function () {
-        document.getElementById('notif').click();
-    }, 4000);
+    if (document.getElementById('notif')) {
+            setTimeout(function () {
+            document.getElementById('notif').click();
+        }, 4000);
+        }
 
     window.onload = window.onload = function () {
         document.getElementById('clickButton').click();

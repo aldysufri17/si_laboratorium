@@ -149,9 +149,11 @@
         autoWidth: false,
     });
 
-    setInterval(function () {
-        document.getElementById('notif').click();
-    }, 4000);
+    if (document.getElementById('notif')) {
+            setTimeout(function () {
+            document.getElementById('notif').click();
+        }, 4000);
+        }
 
     $(document).on('click', '.close-mdl', function () {
         $('#detailModal').modal('hide')

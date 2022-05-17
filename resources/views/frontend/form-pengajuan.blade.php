@@ -193,9 +193,11 @@
         evt.currentTarget.className += " active";
     }
 
-    setInterval(function () {
+    if (document.getElementById('notif')) {
+            setTimeout(function () {
             document.getElementById('notif').click();
         }, 4000);
+        }
 
         document.getElementById("inp").addEventListener("change", function() {
         let v = parseInt(this.value);
