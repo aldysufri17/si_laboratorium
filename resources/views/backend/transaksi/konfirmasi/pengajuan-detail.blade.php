@@ -27,8 +27,8 @@
     <!-- DataTales Example -->
     <div class="card shadow mb-4 border-0 bgdark">
         <div class="card-body">
-            <h4 class="text-center font-weight-bold text-light">DETAIL PEMINJAMAN <span
-                    style="text-transform: uppercase"><u>{{$detail->nama_keranjang}}</u></span></h4>
+            <h4 class="text-center font-weight-bold text-light">DETAIL PEMINJAMAN<br>Kode : <span
+                    style="text-transform: uppercase"><u>{{$detail->kode_peminjaman}}</u></span></h4>
             <div class="detail mb-4">
                 <table class="table table-borderless" cellspacing="0" width="100%">
                     <tr>

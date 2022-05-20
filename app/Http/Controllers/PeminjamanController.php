@@ -119,10 +119,10 @@ class PeminjamanController extends Controller
             $kategori_lab = 4;
         }
         $peminjaman = Peminjaman::where('user_id', $id)
-            ->select('kode_peminjaman', 'nama_keranjang', DB::raw('count(*) as total'))
+            ->select('kode_peminjaman', 'created_at', DB::raw('count(*) as total'))
             ->where('kategori_lab', $kategori_lab)
             ->where('status', 0)
-            ->groupBy('kode_peminjaman', 'nama_keranjang')
+            ->groupBy('kode_peminjaman', 'created_at')
             ->get();
         return view('backend.transaksi.konfirmasi.pengajuan.show', compact('peminjaman', 'id'));
     }
@@ -184,10 +184,10 @@ class PeminjamanController extends Controller
             $kategori_lab = 4;
         }
         $peminjaman = Peminjaman::where('user_id', $id)
-            ->select('kode_peminjaman', 'nama_keranjang', DB::raw('count(*) as total'))
+            ->select('kode_peminjaman', DB::raw('count(*) as total'))
             ->where('kategori_lab', $kategori_lab)
             ->whereBetween('status', [2, 3])
-            ->groupBy('kode_peminjaman', 'nama_keranjang')
+            ->groupBy('kode_peminjaman')
             ->get();
         return view('backend.transaksi.konfirmasi.peminjaman.show', compact('peminjaman', 'id'));
     }
@@ -225,18 +225,18 @@ class PeminjamanController extends Controller
         $user_id = Auth::user()->id;
         $keranjang = Keranjang::whereIn('id', $id_cart)->get();
         $kode_peminjaman = $user_id . substr(str_shuffle("0123456789"), 0, 8);
-        $nama_keranjang = str_replace(' ', '_', strtolower($request->nama_keranjang));
-        // cek nama keranjang
-        $cek = Peminjaman::where('nama_keranjang', $nama_keranjang)->where('user_id', $user_id)->get();
-        if ($cek->isNotEmpty()) {
-            return redirect()->back()->with('keranjang', 'Nama Keranjang Sudah Ada...!!');
-        }
+        // $nama_keranjang = str_replace(' ', '_', strtolower($request->nama_keranjang));
+        // // cek nama keranjang
+        // $cek = Peminjaman::where('nama_keranjang', $nama_keranjang)->where('user_id', $user_id)->get();
+        // if ($cek->isNotEmpty()) {
+        //     return redirect()->back()->with('keranjang', 'Nama Keranjang Sudah Ada...!!');
+        // }
         // cek validate tanggal
         if ($request->tgl_end < $request->tgl_start || $request->tgl_start < date('Y-m-d')) {
             return redirect()->back()->with('tgl', 'Tanggal peminjaman tidak falid...!!');
         }
         // cek validate
-        if ($request->tgl_end == null || $request->tgl_start == null || $request->alasan == null || $request->nama_keranjang == null) {
+        if ($request->tgl_end == null || $request->tgl_start == null || $request->alasan == null) {
             return redirect()->back()->with('form', 'Form Penggunaan Harus Lengkap...!!');
         }
 
@@ -245,7 +245,7 @@ class PeminjamanController extends Controller
 
             $peminjaman = Peminjaman::create([
                 'kode_peminjaman'   => $kode_peminjaman,
-                'nama_keranjang'    => $nama_keranjang,
+                // 'nama_keranjang'    => $nama_keranjang,
                 'user_id'           => $user_id,
                 'barang_id'         => $data->barang_id,
                 'tgl_start'         => $request->tgl_start,
@@ -618,11 +618,11 @@ class PeminjamanController extends Controller
             ->where('status', '>', 1)
             ->get();
         $detail = $peminjaman->first();
-        $nama_keranjang = strtoupper($detail->nama_keranjang);
+        // $nama_keranjang = strtoupper($detail->nama_keranjang);
         $pdf = PDF::loadview('frontend.surat-peminjaman', compact('peminjaman', 'name', 'nim', 'alamat', 'detail'));
         // return view('frontend.surat', ['peminjaman' => $peminjaman, 'name' => $name, 'nim' => $nim, 'alamat' => $alamat]);
 
-        return $pdf->download("Surat Peminjaman" . "_" . $nama_keranjang . "_" . $name . '_' . $nim . '.pdf');
+        return $pdf->download("Surat Peminjaman" . "_" . $detail->kode_peminjaman . "_" . $name . '_' . $nim . '.pdf');
     }
 
     public function suratBebas()

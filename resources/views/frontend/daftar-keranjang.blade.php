@@ -151,7 +151,7 @@
                         <table id="dataTable" class="table table-borderless dt-responsive" cellspacing="0" width="100%">
                             <thead>
                                 <tr>
-                                    <th width="15%" class="text-center">Nama Keranjang</th>
+                                    <th width="15%" class="text-center">Kode Peminjaman</th>
                                     <th width="15%" class="text-center">Total Barang</th>
                                     <th width="15%" class="text-center">Telat Pengembalian</th>
                                     <th width="15%" class="text-center">Status</th>
@@ -161,7 +161,7 @@
                             <tbody>
                                 @foreach ($peminjaman as $data)
                                 <tr>
-                                    <td class="text-center" style="text-transform: uppercase">{{$data->nama_keranjang}}
+                                    <td class="text-center" style="text-transform: uppercase">{{$data->kode_peminjaman}}
                                     </td>
                                     <td class="text-center">{{$data->total}}</td>
                                     @php

@@ -31,7 +31,7 @@
         <a href="{{ route('qrcode', 0) }}" class="btn btn-sm btn-primary mx-3">
             <i class="fas fa-qrcode"></i> Cetak Semua QR-Code
         </a>
-        <a class="btn btn-sm btn-info ml-3" data-toggle="modal" data-target="#importModal">
+        <a class="btn btn-sm btn-info mr-3" data-toggle="modal" data-target="#importModal">
             <i class="fa-solid fa-file-csv"></i> Import Exel</a>
         <a href="{{ route('export.barang', 0) }}" class="btn btn-sm btn-warning">
             <i class="fa-solid fa-file-csv"></i> Export Exel

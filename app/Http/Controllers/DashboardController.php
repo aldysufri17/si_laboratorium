@@ -56,8 +56,8 @@ class DashboardController extends Controller
             $telat = Peminjaman::whereBetween('status', [2, 3])
                 ->where('tgl_end', '<', date('Y-m-d'))
                 ->where('kategori_lab', $kategori_lab)
-                ->select('kode_peminjaman', 'nama_keranjang', 'user_id', 'tgl_end')
-                ->groupBy('kode_peminjaman', 'nama_keranjang', 'user_id', 'tgl_end')
+                ->select('kode_peminjaman', 'user_id', 'tgl_end')
+                ->groupBy('kode_peminjaman', 'user_id', 'tgl_end')
                 ->paginate(5);
             // dd($telat);
             $habis = Barang::where('stock', 0)->paginate(5);

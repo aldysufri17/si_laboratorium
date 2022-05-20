@@ -32,7 +32,6 @@
                     <thead>
                         <tr>
                             <th width="10%" class="text-center">Kode Peminjaman</th>
-                            <th width="10%" class="text-center">Nama Keranjang</th>
                             <th width="10%" class="text-center">Jumlah Barang</th>
                             <th width="15%" class="text-center">Pengembalian Telat</th>
                             <th width="10%" class="text-center">Aksi</th>
@@ -42,7 +41,7 @@
                         @foreach ($peminjaman as $item)
                         <tr>
                             <td class="text-center">{{ $item->kode_peminjaman }}</td>
-                            <td class="text-center">{{ $item->nama_keranjang }}</td>
+                            {{-- <td class="text-center">{{ $item->nama_keranjang }}</td> --}}
                             <td class="text-center">{{ $item->total }}</td>
                             @php
                             $datetime = new \Carbon\Carbon($item->created_at);

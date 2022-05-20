@@ -33,7 +33,7 @@
                 <div class="detail">
                     <div class="title">
                         <center>
-                            <h3 class="font-weight-bold">Peminjaman Barang<br>Keranjang <span style="text-transform: uppercase"><u>{{$detail->nama_keranjang}}</u></span></h3>
+                            <h3 class="font-weight-bold">Peminjaman Barang<br>Kode : <span style="text-transform: uppercase"><u>{{$detail->kode_peminjaman}}</u></span></h3>
                         </center>
                     </div>
                     <table width="500">
@@ -42,8 +42,8 @@
                             <td>: {{$detail->alasan}}</td>
                         </tr>
                         <tr>
-                            <td class="font-weight-bold">Nama Keranjang</td>
-                            <td class="font-weight-bold" style="text-transform: uppercase">: {{$detail->nama_keranjang}}</td>
+                            <td class="font-weight-bold">Kode Peminjaman</td>
+                            <td class="font-weight-bold" style="text-transform: uppercase">: {{$detail->kode_peminjaman}}</td>
                         </tr>
                         <tr>
                             <td class="font-weight-bold">Waktu Pengajuan</td>

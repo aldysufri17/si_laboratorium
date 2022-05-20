@@ -46,7 +46,7 @@
                             <tr>
                                 <th width="15%" class="text-center">Waktu Pengajuan Peminjaman</th>
                                 <th width="15%" class="text-center">Waktu Barang Dikembalikan</th>
-                                <th width="10%" class="text-center">Nama Keranjang</th>
+                                <th width="10%" class="text-center">Kode Peminjaman</th>
                                 <th width="10%" class="text-center">Jumlah Barang</th>
                                 <th width="10%" class="text-center">Aksi</th>
                             </tr>
@@ -68,7 +68,7 @@
                                             <strong>({{$data->updated_at->format('H:i:s A')}})</strong></div>
                                     </div>
                                 </td>
-                                <td class="text-center">{{ $data->nama_keranjang }}</td>
+                                <td class="text-center">{{ $data->kode_peminjaman }}</td>
                                 <td class="text-center">{{ $data->total }}</td>
                                 <td class="d-sm-flex justify-content-center">
                                     <button class="btn btn-primary detail-btn" title="Show"

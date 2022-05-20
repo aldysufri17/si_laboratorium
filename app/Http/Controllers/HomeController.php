@@ -189,14 +189,14 @@ class HomeController extends Controller
         $peminjaman = Peminjaman::with('barang')
             ->where('user_id',  $user_id)
             ->Where('status', '<', 4)
-            ->select('nama_keranjang', 'kode_peminjaman', DB::raw('count(*) as total'))
-            ->groupBy('nama_keranjang', 'kode_peminjaman')
+            ->select('kode_peminjaman', DB::raw('count(*) as total'))
+            ->groupBy('kode_peminjaman')
             ->paginate(7);
         $riwayat = Peminjaman::with('barang')
             ->where('user_id',  $user_id)
             ->Where('status',  4)
-            ->select('created_at', 'nama_keranjang', 'kode_peminjaman', 'updated_at', DB::raw('count(*) as total'))
-            ->groupBy('created_at', 'nama_keranjang', 'kode_peminjaman', 'updated_at')
+            ->select('created_at',  'kode_peminjaman', 'updated_at', DB::raw('count(*) as total'))
+            ->groupBy('created_at',  'kode_peminjaman', 'updated_at')
             // ->select('nama_keranjang', 'kode_peminjaman', DB::raw('count(*) as total'))
             // ->groupBy('nama_keranjang', 'kode_peminjaman')
             ->paginate(7);
@@ -260,8 +260,8 @@ class HomeController extends Controller
             ->where('user_id',  $user_id)
             ->where('kategori_lab',  $kategori)
             ->Where('status', '<', 4)
-            ->select('created_at', 'nama_keranjang', 'kategori_lab', DB::raw('count(*) as total'))
-            ->groupBy('created_at', 'nama_keranjang', 'kategori_lab')
+            ->select('created_at', 'kategori_lab', DB::raw('count(*) as total'))
+            ->groupBy('created_at', 'kategori_lab')
             ->paginate(7);
         return view('frontend.show-peminjaman', compact('peminjaman'));
     }
@@ -313,8 +313,8 @@ class HomeController extends Controller
             ->where('user_id',  $user_id)
             ->where('kategori_lab',  $kategori)
             ->Where('status',  4)
-            ->select('created_at', 'nama_keranjang', 'kode_peminjaman', 'updated_at', DB::raw('count(*) as total'))
-            ->groupBy('created_at', 'nama_keranjang', 'kode_peminjaman', 'updated_at')
+            ->select('created_at', 'kode_peminjaman', 'updated_at', DB::raw('count(*) as total'))
+            ->groupBy('created_at', 'kode_peminjaman', 'updated_at')
             ->paginate(7);
         return view('frontend.riwayat-peminjaman', compact('riwayat'));
     }

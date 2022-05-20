@@ -120,7 +120,7 @@
                     <table id="dataTable" class="table table-borderless dt-responsive" cellspacing="0" width="100%">
                         <thead>
                             <tr>
-                                <th width="10%" class="text-center">Nama Keranjang</th>
+                                <th width="10%" class="text-center">Kode Peminjaman</th>
                                 <th width="10%" class="text-center">Total Barang</th>
                                 <th width="10%" class="text-center">Pengembalian Telat</th>
                                 <th width="15%" class="text-center">Status Barang Pengajuan</th>
@@ -136,7 +136,7 @@
                                         <div class="row text-muted"><strong>({{$data->created_at->format('H:i:s A')}})</strong></div>
                                     </div>
                                     </td> --}}
-                                <td class="text-center" style=" text-transform: uppercase;">{{ $data->nama_keranjang }}</td>
+                                <td class="text-center" style=" text-transform: uppercase;">{{ $data->kode_peminjaman }}</td>
                                 <td class="text-center">{{ $data->total }}</td>
                                 @php
                                 $datetime = new \Carbon\Carbon($data->created_at);

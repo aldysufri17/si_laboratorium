@@ -267,11 +267,11 @@
             autoInsertCss: true
         });
 
+        setTimeout(function () {
         if (document.getElementById('notif')) {
-            setTimeout(function () {
             document.getElementById('notif').click();
-        }, 4000);
         }
+    }, 4000);
 
     </script>
     @endsection

@@ -31,8 +31,9 @@
                 <table class="table table-borderless table-dark bgdark" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
+                            
+                            <th width="10%" class="text-center">Waktu Pengajuan</th>
                             <th width="10%" class="text-center">Kode Peminjaman</th>
-                            <th width="10%" class="text-center">Nama Keranjang</th>
                             <th width="15%" class="text-center">Jumlah Barang</th>
                             <th width="10%" class="text-center">Aksi</th>
                         </tr>
@@ -40,13 +41,20 @@
                     <tbody>
                         @foreach ($peminjaman as $item)
                         <tr>
+                            <td >
+                                <div class="col">
+                                    <div class="row">{{$item->created_at->format('d M Y')}}</div>
+                                    <div class="row text-muted">
+                                        <strong>({{$item->created_at->format('H:i:s A')}})</strong></div>
+                                </div>
+                            </td>
                             <td class="text-center">{{ $item->kode_peminjaman }}</td>
-                            <td class="text-center" style="text-transform: uppercase">{{ $item->nama_keranjang }}</td>
+                            {{-- <td class="text-center" style="text-transform: uppercase">{{ $item->kode_peminjaman }}</td> --}}
                             <td class="text-center">{{ $item->total }}</td>
                             <td class="d-sm-flex justify-content-center">
                                 <a class="btn btn-primary"
                                     href="{{route('pengajuan.detail', ['id'=>$id,'kode'=>$item->kode_peminjaman])}}"
-                                    title="Show">
+                                    title="Detail">
                                     <i class="fa fa-eye"></i>
                                 </a>
                                 <button class="btn btn-danger tolak-btn mx-2" title="Tolak" value="{{$item->kode_peminjaman}}">
@@ -54,7 +62,7 @@
                                 </button>
                                 <input type="text" id="id_user" hidden value="{{$id}}">
                                 <a href="{{route('konfirmasi.status',['id'=> $id, 'kode' => $item->kode_peminjaman, 'status' => 2])}}"
-                                    class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Accept">
+                                    class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Setujui">
                                     <i class="fa fa-check"></i>
                                 </a>
                             </td>

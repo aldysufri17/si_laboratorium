@@ -1,5 +1,5 @@
 @extends('frontend.layouts.app')
-@section('title', 'Keranjang Pengajuan')
+@section('title', 'Keranjang Barang')
 @section('content')
 
 <main id="main">
@@ -8,10 +8,10 @@
         <div class="container">
 
             <div class="d-flex justify-content-between align-items-center">
-                <h2 class="font-weight-bold">Keranjang Pengajuan</h2>
+                <h2 class="font-weight-bold">Keranjang Barang</h2>
                 <ol>
                     <li><a href="{{route('home')}}">Beranda</a></li>
-                    <li>Keranjang Pengajuan</li>
+                    <li>Keranjang Barang</li>
                 </ol>
             </div>
 
@@ -53,13 +53,13 @@
                 <a href="{{url('/search')}}" class="btn btn-success btn-user float-right mb-3"> <i
                         class="fas fa-plus"></i>
                     Tambah Barang</a>
-                <a href="{{route('daftar.pinjaman')}}" class="btn btn-info btn-user float-right mb-3">Lihat Barang
+                <a href="{{route('daftar.pinjaman')}}" class="btn btn-info btn-user float-right mb-3">Lihat Keranjang
                     Pinjaman
                     Saya <i class="fas fa-clipboard-list"></i></a>
             </div>
             <div class="card-body mx-5">
                 <center>
-                    <h3>Keranjang Pengajuan Barang</h3>
+                    <h3>Keranjang Barang</h3>
                 </center>
                 <div class="container h-100 py-3">
                     <form action="{{route('pengajuan.form')}}" method="post">
@@ -192,15 +192,25 @@
                                             <h6 class="font-weight-bold my-3">FORM PENGGUNAAN</h6>
                                         </div>
                                         <div class="row mt-2">
-                                            <div class="col-md-6">
+                                            {{-- <div class="col-md-6">
                                                 <span style="color:red;">*</span>Nama Keranjang</label>
-                                                <input type="text"
+                                                <input type="text" style="text-transform: uppercase"
                                                     class="form-control form-control-user @error('nama_keranjang') is-invalid @enderror"
                                                     autocomplete="off" placeholder="Nama Keranjang"
                                                     name="nama_keranjang">
                                                 @error('nama_keranjang')
                                                 <span class="text-danger">{{$message}}</span>
                                                 @enderror
+                                            </div> --}}
+                                            <div class="row mt-2">
+                                                <div class="col-md-6">
+                                                    <span style="color:red;">*</span>Tanggal Penggunaan</label>
+                                                    <input type="date" class="form-control mt-2 mb-3" name="tgl_start">
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <span style="color:red;">*</span>Tanggal Pengembalian</label>
+                                                    <input type="date" class="form-control mt-2 mb-3" name="tgl_end">
+                                                </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <span style="color:red;">*</span>Keperluan</label>
@@ -215,16 +225,6 @@
                                                 @error('alasan')
                                                 <span class="text-danger">{{ $message }}</span>
                                                 @enderror
-                                            </div>
-                                        </div>
-                                        <div class="row mt-2">
-                                            <div class="col-md-6">
-                                                <span style="color:red;">*</span>Tanggal Penggunaan</label>
-                                                <input type="date" class="form-control mt-2 mb-3" name="tgl_start">
-                                            </div>
-                                            <div class="col-md-6">
-                                                <span style="color:red;">*</span>Tanggal Pengembalian</label>
-                                                <input type="date" class="form-control mt-2 mb-3" name="tgl_end">
                                             </div>
                                         </div>
                                     </div>

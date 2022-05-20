@@ -146,19 +146,21 @@ class SuratController extends Controller
     public function cekSuratBebas($kode)
     {
         $surat = Surat::where('kode', $kode)->where('status', 2)->get();
+        $nama = $surat->first();
         if ($surat->isEmpty()) {
             return redirect('/')->with('info', "Surat Tidak Terdaftar");
         } else {
-            return redirect('/')->with('info', "Surat Terdaftar");
+            return redirect('/')->with('info', "Surat Terdaftar Atas Nama $nama->nama/$nama->nim");
         }
     }
     public function cekSuratPeminjaman($kode)
     {
         $surat = Peminjaman::where('kode_peminjaman', $kode)->get();
+        $nama = $surat->first();
         if ($surat->isEmpty()) {
             return redirect('/')->with('info', "Surat Tidak Terdaftar");
         } else {
-            return redirect('/')->with('info', "Surat Terdaftar");
+            return redirect('/')->with('info', "Surat Terdaftar Atas Nama $nama->nama/$nama->nim");
         }
     }
 }

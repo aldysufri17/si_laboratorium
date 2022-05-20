@@ -134,9 +134,9 @@
                 <td>{{$alamat}}</td>
             </tr>
             <tr>
-                <td>Nama Keranjang</td>
+                <td>Kode Peminjaman</td>
                 <td>:</td>
-                <td style="text-transform: uppercase; font-weight:bold">{{$detail->nama_keranjang}}</td>
+                <td style="text-transform: uppercase; font-weight:bold">{{$detail->kode_peminjaman}}</td>
             </tr>
             <tr>
                 <td>Waktu Pengajuan</td>
