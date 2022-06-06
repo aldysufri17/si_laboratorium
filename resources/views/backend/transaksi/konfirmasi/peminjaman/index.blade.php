@@ -15,7 +15,10 @@
         </ol>
     </div>
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <a href="{{ route('scan.pengembalian') }}" class="btn btn-sm btn-info">
+        {{-- <a href="{{ route('scan.pengembalian') }}" class="btn btn-sm btn-info">
+            <i class="fas fa-qrcode"></i> Scan Pengembalian
+        </a> --}}
+        <a href="https://aldysufri17.github.io/scan.github.io/" class="btn btn-sm btn-info">
             <i class="fas fa-qrcode"></i> Scan Pengembalian
         </a>
     </div>
