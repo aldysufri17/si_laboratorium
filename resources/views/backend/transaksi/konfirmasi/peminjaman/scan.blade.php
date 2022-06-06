@@ -17,6 +17,9 @@
         <a href="{{ route('konfirmasi.peminjaman') }}" class="btn btn-sm btn-danger">
             <i class="fas fa-angle-double-left"></i> Kembali
         </a>
+        <a href="https://aldysufri17.github.io/scan.github.io/" class="btn btn-sm btn-danger">
+            <i class="fas fa-angle-double-left"></i> Scan
+        </a>
     </div>
 
     @include('sweetalert::alert')
