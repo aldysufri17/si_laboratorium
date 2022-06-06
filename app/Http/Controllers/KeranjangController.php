@@ -113,11 +113,23 @@ class KeranjangController extends Controller
         if ($status == 0) {
             $cart_id = $request->id;
             $jml = Keranjang::where('id', $cart_id)->value('jumlah');
-            Keranjang::where('id', $cart_id)->update(['jumlah' => $jml + 1]);
+            $barang = Keranjang::where('id', $cart_id)->value('barang_id');
+            $stock = Barang::where('id', $barang)->value('stock');
+            if ($jml >= $stock) {
+                Keranjang::where('id', $cart_id)->update(['jumlah' => $stock]);
+            } else {
+                Keranjang::where('id', $cart_id)->update(['jumlah' => $jml + 1]);
+            }
         } else {
             $cart_id = $request->id;
+            $barang = Peminjaman::where('id', $cart_id)->value('barang_id');
             $jml = Peminjaman::where('id', $cart_id)->value('jumlah');
-            Peminjaman::where('id', $cart_id)->update(['jumlah' => $jml + 1]);
+            $stock = Barang::where('id', $barang)->value('stock');
+            if ($jml >= $stock) {
+                Peminjaman::where('id', $cart_id)->update(['jumlah' => $stock]);
+            } else {
+                Peminjaman::where('id', $cart_id)->update(['jumlah' => $jml + 1]);
+            }
         }
     }
 

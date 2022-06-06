@@ -74,7 +74,7 @@
                 <div class="card-body tabcontent p-3" id="Proses">
                     @if ($peminjaman->isNotEmpty())
                     <center>
-                        <h3 class="font-weight-bold">Daftar Keranjang Peminjaman</h3>
+                        <h3 class="font-weight-bold">Daftar Peminjaman</h3>
                     </center>
                     <div class="row d-flex justify-content-center my-4">
                         <div class="col-xl-3 col-md-3">
@@ -370,7 +370,7 @@
                                 <tr>
                                     <th width="15%" class="text-center">Waktu Pengajuan Peminjaman</th>
                                     <th width="15%" class="text-center">Waktu Barang Dikembalikan</th>
-                                    <th width="10%" class="text-center">Nama Keranjang</th>
+                                    <th width="10%" class="text-center">Kode Peminjaman</th>
                                     <th width="10%" class="text-center">Jumlah Barang</th>
                                     <th width="10%" class="text-center">Aksi</th>
                                 </tr>
@@ -392,7 +392,7 @@
                                                 <strong>({{$data->updated_at->format('H:i:s A')}})</strong></div>
                                         </div>
                                     </td>
-                                    <td class="text-center" style="text-transform: uppercase">{{ $data->nama_keranjang }}</td>
+                                    <td class="text-center" style="text-transform: uppercase">{{ $data->kode_peminjaman}}</td>
                                     <td class="text-center">{{ $data->total }}</td>
                                     <td class="d-sm-flex justify-content-center">
                                         <button class="btn btn-primary detail-btn" title="Show"

@@ -224,23 +224,33 @@ class PeminjamanController extends Controller
         $id_cart = $request->ckd_chld;
         $user_id = Auth::user()->id;
         $keranjang = Keranjang::whereIn('id', $id_cart)->get();
+        $jumlah = Keranjang::whereIn('id', $id_cart)->pluck('jumlah');
+        $barang_id = Keranjang::whereIn('id', $id_cart)->pluck('barang_id');
+        $stok = Barang::whereIn('id', $barang_id)->pluck('stock');
+        $nama = Barang::whereIn('id', $barang_id)->pluck('nama');
         $kode_peminjaman = $user_id . substr(str_shuffle("0123456789"), 0, 8);
         // $nama_keranjang = str_replace(' ', '_', strtolower($request->nama_keranjang));
         // // cek nama keranjang
         // $cek = Peminjaman::where('nama_keranjang', $nama_keranjang)->where('user_id', $user_id)->get();
         // if ($cek->isNotEmpty()) {
-        //     return redirect()->back()->with('keranjang', 'Nama Keranjang Sudah Ada...!!');
+        //     return redirect()->back()->with('errr', 'Nama Keranjang Sudah Ada...!!');
         // }
         // cek validate tanggal
         if ($request->tgl_end < $request->tgl_start || $request->tgl_start < date('Y-m-d')) {
-            return redirect()->back()->with('tgl', 'Tanggal peminjaman tidak falid...!!');
+            return redirect()->back()->with('errr', 'Tanggal peminjaman tidak Valid...!!');
         }
         // cek validate
         if ($request->tgl_end == null || $request->tgl_start == null || $request->alasan == null) {
-            return redirect()->back()->with('form', 'Form Penggunaan Harus Lengkap...!!');
+            return redirect()->back()->with('errr', 'Form Penggunaan Harus Lengkap...!!');
         }
 
-        // dd($keranjang_name);
+        foreach ($jumlah as $index => $jml) {
+            if ($stok[$index] - $jml <= 0 || $stok[$index] == 0) {
+                return redirect()->back()->with('errr', "Stok $nama[$index] tidak mencukupi...!!");
+            }
+        }
+
+        // // dd($keranjang_name);
         foreach ($keranjang as $data) {
 
             $peminjaman = Peminjaman::create([

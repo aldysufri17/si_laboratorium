@@ -6,9 +6,9 @@ use App\Http\Controllers\OperatorController;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
-// Route::get('/', [App\Http\Controllers\HomeController::class, 'credit']);
-Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
-// Route::get('/app', [App\Http\Controllers\HomeController::class, 'index']);
+Route::get('/', [App\Http\Controllers\HomeController::class, 'credit']);
+// Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
+Route::get('/app', [App\Http\Controllers\HomeController::class, 'index']);
 Route::get('/daftar', [App\Http\Controllers\Auth\RegisterController::class, 'daftar'])->name('daftar');
 Route::get('/search', [App\Http\Controllers\HomeController::class, 'search'])->name('search');
 Route::get('/langkah-peminjaman', [App\Http\Controllers\HomeController::class, 'langkahPeminjaman'])->name('langkahPeminjaman');

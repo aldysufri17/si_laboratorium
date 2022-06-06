@@ -38,11 +38,11 @@
                 <table id="dataTable" class="table table-borderless dt-responsive" cellspacing="0" width="100%">
                     <thead>
                         <tr>
-                            <th width="20%">Nama</th>
-                            <th width="15%">NIM</th>
-                            <th width="25%">Email</th>
-                            <th width="15%">Status</th>
-                            <th width="10%">Detail</th>
+                            <th width="5%">Nama</th>
+                            <th width="5%">NIM</th>
+                            <th width="5%">Email</th>
+                            <th width="5%">Status</th>
+                            <th width="5%">Detail</th>
                             @role('admin')
                             <th width="10%">Aksi</th>
                             @endrole

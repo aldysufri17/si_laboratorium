@@ -107,7 +107,7 @@
                 @php
                 date_default_timezone_set('Asia/jakarta');
                 $date = date("l jS \of F Y h:i:s A");
-                $surat = "Created $date \n Cek Verifikasi Surat: http://silab18.herokuapp.com/verifikasi/surat-peminjaman/_$detail->kode_peminjaman"
+                $surat = "Created $date \n Cek Verifikasi Surat: http://127.0.0.1:8000/verifikasi/surat-peminjaman/_$detail->kode_peminjaman"
                 @endphp
 
                 <td rowspan="1"><img src="data:image/png;base64,{{DNS2D::getBarcodePNG(strval($surat), 'QRCODE',3,3)}}"
