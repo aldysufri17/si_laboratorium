@@ -22,7 +22,7 @@ class PeminjamanController extends Controller
         $this->middleware('auth');
     }
 
-    // Peminjaman
+    // Riwayat
     public function index()
     {
         if (Auth::user()->role_id == 3) {
@@ -57,13 +57,7 @@ class PeminjamanController extends Controller
                     ->get();
             }
         }
-        return view('backend.transaksi.index', compact('peminjaman'));
-    }
-
-    public function show($data)
-    {
-        $peminjaman = Peminjaman::with('user', 'barang')->whereId($data)->first();
-        return view('backend.transaksi.show', compact('peminjaman'));
+        return view('backend.transaksi.riwayat.index', compact('peminjaman'));
     }
 
     public function adminPeminjaman($data)
@@ -82,7 +76,7 @@ class PeminjamanController extends Controller
                 ->where('status', '>', 2)
                 ->get();
         }
-        return view('backend.transaksi.admin-peminjaman', compact('peminjaman'));
+        return view('backend.transaksi.riwayat.admin-peminjaman', compact('peminjaman'));
     }
 
     // Pengajuan
@@ -104,7 +98,7 @@ class PeminjamanController extends Controller
             ->groupBy('user_id')
             ->get();
 
-        return view('backend.transaksi.konfirmasi.pengajuan.index', compact('peminjaman'));
+        return view('backend.transaksi.pengajuan.index', compact('peminjaman'));
     }
 
     public function showPengajuan($id)
@@ -124,7 +118,7 @@ class PeminjamanController extends Controller
             ->where('status', 0)
             ->groupBy('kode_peminjaman', 'created_at')
             ->get();
-        return view('backend.transaksi.konfirmasi.pengajuan.show', compact('peminjaman', 'id'));
+        return view('backend.transaksi.pengajuan.show', compact('peminjaman', 'id'));
     }
 
     public function pengajuanDetail($id, $kode)
@@ -148,10 +142,10 @@ class PeminjamanController extends Controller
             ->where('kode_peminjaman', $kode)
             ->where('user_id', $id)
             ->first();
-        return view('backend.transaksi.konfirmasi.pengajuan-detail', compact('peminjaman', 'detail'));
+        return view('backend.transaksi.detail-peminjaman', compact('peminjaman', 'detail'));
     }
 
-    // Konfirmasi Peminjaman
+    // Peminjaman
     public function peminjaman()
     {
         if (Auth::user()->role_id == 3) {
@@ -169,7 +163,7 @@ class PeminjamanController extends Controller
             ->whereBetween('status', [2, 3])
             ->groupBy('user_id')
             ->get();
-        return view('backend.transaksi.konfirmasi.peminjaman.index', compact('peminjaman'));
+        return view('backend.transaksi.peminjaman.index', compact('peminjaman'));
     }
 
     public function showPeminjaman($id)
@@ -189,123 +183,7 @@ class PeminjamanController extends Controller
             ->whereBetween('status', [2, 3])
             ->groupBy('kode_peminjaman')
             ->get();
-        return view('backend.transaksi.konfirmasi.peminjaman.show', compact('peminjaman', 'id'));
-    }
-
-    public function konfirmasiPeminjamanDetail($data)
-    {
-        if (Auth::user()->role_id == 3) {
-            $kategori_lab = 1;
-        } elseif (Auth::user()->role_id == 4) {
-            $kategori_lab = 2;
-        } elseif (Auth::user()->role_id == 5) {
-            $kategori_lab = 3;
-        } elseif (Auth::user()->role_id == 6) {
-            $kategori_lab = 4;
-        }
-        $peminjaman = Peminjaman::with('user', 'barang')
-            ->where('date', $data)
-            ->where('kategori_lab', $kategori_lab)
-            ->where('status', 2)
-            ->orwhere('status', 3)
-            ->get();
-        return view('backend.transaksi.konfirmasi.peminjaman.detail', compact('peminjaman'));
-    }
-
-    public function create()
-    {
-        $barang = Barang::all();
-        $user = User::where('role_id', 3)->get();
-        return view('backend.transaksi.konfirmasi.peminjaman.add', compact('barang', 'user'));
-    }
-
-    public function checkout(Request $request)
-    {
-        $id_cart = $request->ckd_chld;
-        $user_id = Auth::user()->id;
-        $keranjang = Keranjang::whereIn('id', $id_cart)->get();
-        $jumlah = Keranjang::whereIn('id', $id_cart)->pluck('jumlah');
-        $barang_id = Keranjang::whereIn('id', $id_cart)->pluck('barang_id');
-        $stok = Barang::whereIn('id', $barang_id)->pluck('stock');
-        $nama = Barang::whereIn('id', $barang_id)->pluck('nama');
-        $kode_peminjaman = $user_id . substr(str_shuffle("0123456789"), 0, 8);
-        // $nama_keranjang = str_replace(' ', '_', strtolower($request->nama_keranjang));
-        // // cek nama keranjang
-        // $cek = Peminjaman::where('nama_keranjang', $nama_keranjang)->where('user_id', $user_id)->get();
-        // if ($cek->isNotEmpty()) {
-        //     return redirect()->back()->with('errr', 'Nama Keranjang Sudah Ada...!!');
-        // }
-        // cek validate tanggal
-        if ($request->tgl_end < $request->tgl_start || $request->tgl_start < date('Y-m-d')) {
-            return redirect()->back()->with('errr', 'Tanggal peminjaman tidak Valid...!!');
-        }
-        // cek validate
-        if ($request->tgl_end == null || $request->tgl_start == null || $request->alasan == null) {
-            return redirect()->back()->with('errr', 'Form Penggunaan Harus Lengkap...!!');
-        }
-
-        foreach ($jumlah as $index => $jml) {
-            if ($stok[$index] - $jml <= 0 || $stok[$index] == 0) {
-                return redirect()->back()->with('errr', "Stok $nama[$index] tidak mencukupi...!!");
-            }
-        }
-
-        // // dd($keranjang_name);
-        foreach ($keranjang as $data) {
-
-            $peminjaman = Peminjaman::create([
-                'kode_peminjaman'   => $kode_peminjaman,
-                // 'nama_keranjang'    => $nama_keranjang,
-                'user_id'           => $user_id,
-                'barang_id'         => $data->barang_id,
-                'tgl_start'         => $request->tgl_start,
-                'tgl_end'           => $request->tgl_end,
-                'jumlah'            => $data->jumlah,
-                'kategori_lab'      => $data->kategori_lab,
-                'alasan'            => $request->alasan,
-                'status'            => 0,
-            ]);
-        }
-        foreach ($id_cart as $id) {
-            Keranjang::where('id', $id)->update(['status' => 1]);
-        }
-
-        if ($peminjaman) {
-            return redirect()->route('daftar.pinjaman')->with('success', 'Pengajuan Berhasil ditambah!.');
-        } else {
-            return redirect()->route('daftar.pinjaman')->with('error', 'Gagal ditambah!.');
-        }
-    }
-
-
-    public function edit($id)
-    {
-        $user_id = Auth::user()->id;
-        $peminjaman = Peminjaman::with('barang')
-            ->where('user_id', $user_id)
-            ->where('kode_peminjaman', $id)
-            ->first();
-        return view('frontend.edit-detail', compact('peminjaman'));
-    }
-
-    public function update(Request $request, $id)
-    {
-        $user_id = Auth::user()->id;
-        $request->validate([
-            'alasan' => 'required',
-            'tgl_start' => 'required',
-            'tgl_end' => 'required',
-        ]);
-        $peminjaman = Peminjaman::where('user_id', $user_id)->where('kode_peminjaman', $id)->update([
-            'tgl_start'      => $request->tgl_start,
-            'tgl_end'        => $request->tgl_end,
-            'alasan'         => $request->alasan,
-        ]);
-        if ($peminjaman) {
-            return redirect()->route('daftar.pinjaman')->with('success', 'Barang Berhasil di edit!.');
-        } else {
-            return redirect()->back()->with('error', 'Gagal ditambah');
-        }
+        return view('backend.transaksi.peminjaman.show', compact('peminjaman', 'id'));
     }
 
     public function destroy($id, Request $request)
@@ -382,7 +260,7 @@ class PeminjamanController extends Controller
                     ->where('kategori_lab', $kategori_lab)
                     ->delete();
                 if ($peminjaman) {
-                    return redirect()->route('konfirmasi.peminjaman')->with('success', 'Keranjang Berhasil dihapus!.');
+                    return redirect()->route('peminjaman')->with('success', 'Keranjang Berhasil dihapus!.');
                 } else {
                     return redirect()->back()->with('error', 'Keranjang Gagal dihapus!.');
                 }
@@ -522,23 +400,10 @@ class PeminjamanController extends Controller
         }
     }
 
-    public function kembalikan(Request $request)
-    {
-        $user_id = Auth::user()->id;
-        $kode = $request->pem_id;
-        $peminjaman = Peminjaman::where('kode_peminjaman', $kode)->where('user_id', $user_id)->update(['status' => 3]);
-        if ($peminjaman) {
-            return redirect()->back()->with('success', 'Pengajuan Berhasil di Lakukan!.');
-        } else {
-            return redirect()->back()->with('error', 'Gagal diperbarui');
-        }
-    }
-
     public function scanPengembalian()
     {
-        return view('backend.transaksi.konfirmasi.peminjaman.scan');
+        return view('backend.transaksi.peminjaman.scan');
     }
-
 
     public function scanStore($id)
     {
@@ -609,38 +474,6 @@ class PeminjamanController extends Controller
             }
         }
     }
-    public function print(Request $request)
-    {
-        $user_id = Auth::user()->id;
-        $name = Auth::user()->name;
-        $nim = Auth::user()->nim;
-        $alamat = Auth::user()->alamat;
-        $id_peminjaman = $request->id_peminjaman;
-        $cek = Peminjaman::where('kode_peminjaman', $id_peminjaman)
-            ->where('user_id', $user_id)
-            ->where('status', 0)
-            ->get();
-        if ($cek->isNotEmpty()) {
-            return redirect()->back()->with('info', 'Terdapat pengajuan yang belum disetujui!.');
-        }
-        $peminjaman = Peminjaman::where('kode_peminjaman', $id_peminjaman)
-            ->where('user_id', $user_id)
-            ->where('status', '>', 1)
-            ->get();
-        $detail = $peminjaman->first();
-        // $nama_keranjang = strtoupper($detail->nama_keranjang);
-        $pdf = PDF::loadview('frontend.surat-peminjaman', compact('peminjaman', 'name', 'nim', 'alamat', 'detail'));
-        // return view('frontend.surat', ['peminjaman' => $peminjaman, 'name' => $name, 'nim' => $nim, 'alamat' => $alamat]);
-
-        return $pdf->download("Surat Peminjaman" . "_" . $detail->kode_peminjaman . "_" . $name . '_' . $nim . '.pdf');
-    }
-
-    public function suratBebas()
-    {
-        $id = Auth::user()->id;
-        $user = User::where('id', $id)->first();
-        return view('frontend.surat', compact('user'));
-    }
 
     public function export($data)
     {
@@ -673,5 +506,142 @@ class PeminjamanController extends Controller
         } else {
             return redirect()->back()->with('info', 'Belum terdapat peminjaman selesai!.');
         }
+    }
+
+    // Frontend
+    public function checkout(Request $request)
+    {
+        $id_cart = $request->ckd_chld;
+        $user_id = Auth::user()->id;
+        $keranjang = Keranjang::whereIn('id', $id_cart)->get();
+        $jumlah = Keranjang::whereIn('id', $id_cart)->pluck('jumlah');
+        $barang_id = Keranjang::whereIn('id', $id_cart)->pluck('barang_id');
+        $stok = Barang::whereIn('id', $barang_id)->pluck('stock');
+        $nama = Barang::whereIn('id', $barang_id)->pluck('nama');
+        $kode_peminjaman = $user_id . substr(str_shuffle("0123456789"), 0, 8);
+        // $nama_keranjang = str_replace(' ', '_', strtolower($request->nama_keranjang));
+        // // cek nama keranjang
+        // $cek = Peminjaman::where('nama_keranjang', $nama_keranjang)->where('user_id', $user_id)->get();
+        // if ($cek->isNotEmpty()) {
+        //     return redirect()->back()->with('errr', 'Nama Keranjang Sudah Ada...!!');
+        // }
+        // cek validate tanggal
+        if ($request->tgl_end < $request->tgl_start || $request->tgl_start < date('Y-m-d')) {
+            return redirect()->back()->with('errr', 'Tanggal peminjaman tidak Valid...!!');
+        }
+        // cek validate
+        if ($request->tgl_end == null || $request->tgl_start == null || $request->alasan == null) {
+            return redirect()->back()->with('errr', 'Form Penggunaan Harus Lengkap...!!');
+        }
+
+        foreach ($jumlah as $index => $jml) {
+            if ($stok[$index] - $jml <= 0 || $stok[$index] == 0) {
+                return redirect()->back()->with('errr', "Stok $nama[$index] tidak mencukupi...!!");
+            }
+        }
+
+        // // dd($keranjang_name);
+        foreach ($keranjang as $data) {
+
+            $peminjaman = Peminjaman::create([
+                'kode_peminjaman'   => $kode_peminjaman,
+                // 'nama_keranjang'    => $nama_keranjang,
+                'user_id'           => $user_id,
+                'barang_id'         => $data->barang_id,
+                'tgl_start'         => $request->tgl_start,
+                'tgl_end'           => $request->tgl_end,
+                'jumlah'            => $data->jumlah,
+                'kategori_lab'      => $data->kategori_lab,
+                'alasan'            => $request->alasan,
+                'status'            => 0,
+            ]);
+        }
+        foreach ($id_cart as $id) {
+            Keranjang::where('id', $id)->update(['status' => 1]);
+        }
+
+        if ($peminjaman) {
+            return redirect()->route('daftar.pinjaman')->with('success', 'Pengajuan Berhasil ditambah!.');
+        } else {
+            return redirect()->route('daftar.pinjaman')->with('error', 'Gagal ditambah!.');
+        }
+    }
+
+
+    public function edit($id)
+    {
+        $user_id = Auth::user()->id;
+        $peminjaman = Peminjaman::with('barang')
+            ->where('user_id', $user_id)
+            ->where('kode_peminjaman', $id)
+            ->first();
+        return view('frontend.edit-form', compact('peminjaman'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $user_id = Auth::user()->id;
+        $request->validate([
+            'alasan' => 'required',
+            'tgl_start' => 'required',
+            'tgl_end' => 'required',
+        ]);
+        $peminjaman = Peminjaman::where('user_id', $user_id)->where('kode_peminjaman', $id)->update([
+            'tgl_start'      => $request->tgl_start,
+            'tgl_end'        => $request->tgl_end,
+            'alasan'         => $request->alasan,
+        ]);
+        if ($peminjaman) {
+            return redirect()->route('daftar.pinjaman')->with('success', 'Barang Berhasil di edit!.');
+        } else {
+            return redirect()->back()->with('error', 'Gagal ditambah');
+        }
+    }
+
+    // Print Surat Peminjaman
+    public function print(Request $request)
+    {
+        $user_id = Auth::user()->id;
+        $name = Auth::user()->name;
+        $nim = Auth::user()->nim;
+        $alamat = Auth::user()->alamat;
+        $id_peminjaman = $request->id_peminjaman;
+        $cek = Peminjaman::where('kode_peminjaman', $id_peminjaman)
+            ->where('user_id', $user_id)
+            ->where('status', 0)
+            ->get();
+        if ($cek->isNotEmpty()) {
+            return redirect()->back()->with('info', 'Terdapat pengajuan yang belum disetujui!.');
+        }
+        $peminjaman = Peminjaman::where('kode_peminjaman', $id_peminjaman)
+            ->where('user_id', $user_id)
+            ->where('status', '>', 1)
+            ->get();
+        $detail = $peminjaman->first();
+        // $nama_keranjang = strtoupper($detail->nama_keranjang);
+        $pdf = PDF::loadview('frontend.surat-peminjaman', compact('peminjaman', 'name', 'nim', 'alamat', 'detail'));
+        // return view('frontend.surat', ['peminjaman' => $peminjaman, 'name' => $name, 'nim' => $nim, 'alamat' => $alamat]);
+
+        return $pdf->download("Surat Peminjaman" . "_" . $detail->kode_peminjaman . "_" . $name . '_' . $nim . '.pdf');
+    }
+
+    // Request Pengembalian
+    public function kembalikan(Request $request)
+    {
+        $user_id = Auth::user()->id;
+        $kode = $request->pem_id;
+        $peminjaman = Peminjaman::where('kode_peminjaman', $kode)->where('user_id', $user_id)->update(['status' => 3]);
+        if ($peminjaman) {
+            return redirect()->back()->with('success', 'Pengajuan Berhasil di Lakukan!.');
+        } else {
+            return redirect()->back()->with('error', 'Gagal diperbarui');
+        }
+    }
+
+    public function suratBebas()
+    {
+        $id = Auth::user()->id;
+        $user = User::where('id', $id)->first();
+        return view('frontend.surat', compact('user'));
     }
 }

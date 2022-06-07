@@ -15,11 +15,6 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class InventarisController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         if (Auth::user()->role_id == 2) {
@@ -82,11 +77,6 @@ class InventarisController extends Controller
         return view('backend.inventaris.admin-inventaris', compact('inventaris'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function add($data)
     {
         if ($data == 3) {
@@ -106,12 +96,6 @@ class InventarisController extends Controller
         return view('backend.inventaris.add', compact('barang'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
 
@@ -159,36 +143,12 @@ class InventarisController extends Controller
     }
 
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Inventaris  $inventaris
-     * @return \Illuminate\Http\Response
-     */
-    public function show(Inventaris $inventaris)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Inventaris  $inventaris
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Inventaris $inventaris, $id)
     {
         $inventaris = Inventaris::whereId($id)->first();
         return view('backend.inventaris.edit', compact('inventaris'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Inventaris  $inventaris
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Inventaris $inventaris)
     {
         if (Auth::user()->role_id == 3) {
@@ -257,12 +217,6 @@ class InventarisController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Inventaris  $inventaris
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Inventaris $inventaris, Request $request)
     {
         $inventaris = Inventaris::whereId($request->delete_id)->delete();

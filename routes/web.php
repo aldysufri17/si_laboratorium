@@ -13,7 +13,7 @@ Route::get('/daftar', [App\Http\Controllers\Auth\RegisterController::class, 'daf
 Route::get('/search', [App\Http\Controllers\HomeController::class, 'search'])->name('search');
 Route::get('/langkah-peminjaman', [App\Http\Controllers\HomeController::class, 'langkahPeminjaman'])->name('langkahPeminjaman');
 Route::get('/home/inventaris', [App\Http\Controllers\HomeController::class, 'inventaris'])->name('home.inventaris');
-Route::get('/detail/{id}', [App\Http\Controllers\HomeController::class, 'detail'])->name('detail.barang');
+Route::get('/detail/{id}', [App\Http\Controllers\HomeController::class, 'detailBarang'])->name('detail.barang');
 Route::get('/verifikasi/surat-bebas/{kode}', [App\Http\Controllers\SuratController::class, 'cekSuratBebas']);
 Route::get('/verifikasi/surat-peminjaman/_{kode}', [App\Http\Controllers\SuratController::class, 'cekSuratPeminjaman']);
 
@@ -96,11 +96,10 @@ Route::middleware(['auth'])->group(function () {
         Route::get('mutasi/export-csv/{data}/{status}', [App\Http\Controllers\InventarisController::class, 'mutasiExport'])->name('export.mutasi');
         Route::get('mutasi/exportpdf/{data}/{status}', [App\Http\Controllers\InventarisController::class, 'mutasiPdf'])->name('mutasi.pdf');
 
-        // transaksi
+        // Riwayat
         Route::get('/daftar-peminjaman', [App\Http\Controllers\PeminjamanController::class, 'index'])->name('daftar.peminjaman');
         Route::get('peminjaman/{data}', [App\Http\Controllers\PeminjamanController::class, 'adminPeminjaman'])->name('admin.peminjaman');
         Route::get('peminjaman/export-csv/{data}', [App\Http\Controllers\PeminjamanController::class, 'export'])->name('export.peminjaman');
-
 
         // pengajuan
         Route::get('/konfirmasi-pengajuan', [App\Http\Controllers\PeminjamanController::class, 'pengajuan'])->name('konfirmasi.pengajuan');
@@ -108,25 +107,13 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/konfirmasi/pengajuan/{id}/{kode}', [App\Http\Controllers\PeminjamanController::class, 'pengajuanDetail'])->name('pengajuan.detail');
 
         // peminjaman
-        Route::get('/peminjaman/show/{id}', [App\Http\Controllers\PeminjamanController::class, 'showPeminjaman'])->name('show.peminjaman');
-
-
         Route::get('/konfirmasi-peminjaman', [App\Http\Controllers\PeminjamanController::class, 'peminjaman'])->name('konfirmasi.peminjaman');
+        Route::get('/peminjaman/show/{id}', [App\Http\Controllers\PeminjamanController::class, 'showPeminjaman'])->name('show.peminjaman');
         Route::get('/konfirmasi/peminjaman/{data}', [App\Http\Controllers\PeminjamanController::class, 'konfirmasiPeminjamanDetail'])->name('konfirmasi.peminjaman.detail');
-        // Route::get('/peminjaman/create', [App\Http\Controllers\PeminjamanController::class, 'create'])->name('peminjaman.create');
-        Route::get('/konfirmasi/show/{data}', [App\Http\Controllers\PeminjamanController::class, 'show'])->name('konfirmasi.peminjaman.show');
         Route::get('/konfirmasi/tolak', [App\Http\Controllers\PeminjamanController::class, 'tolak'])->name('peminjaman.tolak');
-
-        // update status transaksi
-        Route::get('/konfirmasi/{id_peminjaman}/{status}/{barang_id}/{jumlah}/{user_id}', [App\Http\Controllers\PeminjamanController::class, 'konfirmasiStatus'])->name('konfirmasi.peminjaman.status');
         Route::get('/konfirmasi/status/{id}/{kode}/{status}', [App\Http\Controllers\PeminjamanController::class, 'statusPeminjaman'])->name('konfirmasi.status');
 
-        // pengembalian
-        Route::get('/konfirmasi-pengembalian', [App\Http\Controllers\PeminjamanController::class, 'pengembalian'])->name('konfirmasi.pengembalian');
-        Route::post('/update/all', [App\Http\Controllers\PeminjamanController::class, 'updateAll'])->name('status.update');
-
         // scan
-        Route::get('/scan/{status}', [App\Http\Controllers\PeminjamanController::class, 'scan'])->name('scan');
         Route::get('/scan-pengembalian', [App\Http\Controllers\PeminjamanController::class, 'scanPengembalian'])->name('scan.pengembalian');
         Route::get('/store/{id}', [App\Http\Controllers\PeminjamanController::class, 'scanStore'])->name('scan.store');
 
@@ -154,7 +141,6 @@ Route::middleware(['auth'])->group(function () {
 
     Route::group(['middleware' => ['role:peminjam']], function () {
         Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-        Route::get('/pem', [App\Http\Controllers\HomeController::class, 'pem'])->name('pem');
         Route::get('/cart', [App\Http\Controllers\KeranjangController::class, 'index'])->name('cart');
         Route::get('/cart/store/{id}', [App\Http\Controllers\KeranjangController::class, 'store'])->name('cart.store');
         Route::delete('/cart/delete/{id}', [App\Http\Controllers\KeranjangController::class, 'destroy'])->name('cart.destroy');
@@ -162,18 +148,13 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/decrement/{status}', [App\Http\Controllers\KeranjangController::class, 'decrement'])->name('keranjang.dec');
         Route::get('/increment/{status}', [App\Http\Controllers\KeranjangController::class, 'increment'])->name('keranjang.inc');
         Route::get('/cart/selected', [App\Http\Controllers\KeranjangController::class, 'cartSelected'])->name('cart.selected');
-
-        Route::get('/daftar/pinjaman', [App\Http\Controllers\HomeController::class, 'pinjamanFilterLab'])->name('daftar.pinjaman');
+        Route::get('/daftar/pinjaman', [App\Http\Controllers\HomeController::class, 'daftarPeminjaman'])->name('daftar.pinjaman');
         Route::get('/pengajuan/keranjang/{id}', [App\Http\Controllers\HomeController::class, 'keranjangDetail'])->name('keranjang.detail');
-        Route::get('/filter/pinjaman/{kategori}', [App\Http\Controllers\HomeController::class, 'pinjamanDate'])->name('pinjaman.date');
         Route::get('/filter/riwayat/peminjaman/{kategori}', [App\Http\Controllers\HomeController::class, 'riwayatPeminjaman'])->name('riwayat.peminjaman');
         Route::get('/peminjaman/detail/riwayat', [App\Http\Controllers\HomeController::class, 'riwayatDetail'])->name('riwayat.detail');
-
-        Route::get('/daftar/show/pinjaman/{date}/{kategori}', [App\Http\Controllers\HomeController::class, 'detailShow'])->name('peminjaman.show.detail');
         Route::get('/peminjaman/edit/{id}', [App\Http\Controllers\PeminjamanController::class, 'edit'])->name('peminjaman.edit');
         Route::get('/kembalikan', [App\Http\Controllers\PeminjamanController::class, 'kembalikan'])->name('kembalikan');
         Route::post('/peminjaman/update/{date}', [App\Http\Controllers\PeminjamanController::class, 'update'])->name('peminjaman.update');
         Route::get('/cetak-surat', [App\Http\Controllers\PeminjamanController::class, 'print'])->name('print');
-        // Route::get('/surat-bebas', [App\Http\Controllers\PeminjamanController::class, 'suratBebas'])->name('suratBebas');
     });
 });

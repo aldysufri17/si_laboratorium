@@ -28,7 +28,6 @@
     <link href="{{asset('admin/css/sb-admin-2.min.css')}}" rel="stylesheet">
     <link href="https://cdn.datatables.net/responsive/2.1.0/css/responsive.dataTables.min.css" rel="stylesheet"
         type="text/css" />
-    {{-- <script type="text/javascript" src="{{asset('js/instascan.min.js')}}"></script> --}}
     <script type="text/javascript" src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js" ></script>	
     <style>
         .select2-search input {

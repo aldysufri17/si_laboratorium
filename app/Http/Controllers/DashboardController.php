@@ -15,22 +15,11 @@ use Illuminate\Support\Facades\Http;
 class DashboardController extends Controller
 {
 
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
     public function __construct()
     {
         $this->middleware('auth');
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
     public function index(Request $request)
     {
         // notifikasi
@@ -51,7 +40,6 @@ class DashboardController extends Controller
                 ->get();
             $total = count($peminjaman);
             $request->session()->flash('eror', "$total Keranjang pengajuan belum disetujui !!!");
-            // $telat = Peminjaman::whereBetween('status', [2, 3])->where('tgl_end', '<', date('Y-m-d'))->where('kategori_lab', $kategori_lab)->paginate(5);
 
             $telat = Peminjaman::whereBetween('status', [2, 3])
                 ->where('tgl_end', '<', date('Y-m-d'))
@@ -66,12 +54,6 @@ class DashboardController extends Controller
         return view('backend.dashboard');
     }
 
-    /**
-     * User Profile
-     * @param Nill
-     * @return View Profile
-     * @author Shani Singh
-     */
     public function getProfile()
     {
         if (Auth::user()->role_id == 1) {
@@ -80,12 +62,6 @@ class DashboardController extends Controller
         return view('backend.profile');
     }
 
-    /**
-     * Update Profile
-     * @param $profileData
-     * @return Boolean With Success Message
-     * @author Shani Singh
-     */
     public function updateProfile(Request $request)
     {
         #Validations
@@ -111,12 +87,6 @@ class DashboardController extends Controller
         }
     }
 
-    /**
-     * Change Password
-     * @param Old Password, New Password, Confirm New Password
-     * @return Boolean With Success Message
-     * @author Shani Singh
-     */
     public function changePassword(Request $request)
     {
         $request->validate([

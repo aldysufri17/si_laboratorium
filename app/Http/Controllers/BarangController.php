@@ -310,7 +310,7 @@ class BarangController extends Controller
                 ->groupBy('kategori_lab')
                 ->get();
             // dd($barang);
-            return view('backend.barang.damaged', compact('barang'));
+            return view('backend.barang.rusak.damaged', compact('barang'));
         } else {
             if (Auth::user()->role_id == 3) {
                 $kategori_lab = 1;
@@ -321,16 +321,19 @@ class BarangController extends Controller
             } elseif (Auth::user()->role_id == 6) {
                 $kategori_lab = 4;
             }
-            $barang = Barang::whereNotNull('jml_rusak')->where('kategori_lab', $kategori_lab)->get();
-
-            return view('backend.barang.damaged', compact('barang'));
+            $barang = Barang::whereNotNull('jml_rusak')
+                ->where('kategori_lab', $kategori_lab)
+                ->where('jml_rusak', '>', 0)
+                ->orderBy('updated_at', 'Desc')
+                ->get();
+            return view('backend.barang.rusak.damaged', compact('barang'));
         }
     }
 
     public function adminDamaged($data)
     {
         $barang = Barang::whereNotNull('jml_rusak')->where('kategori_lab', $data)->get();
-        return view('backend.barang.admin-damaged', compact('barang'));
+        return view('backend.barang.rusak.admin-damaged', compact('barang'));
     }
 
     /**
@@ -363,7 +366,6 @@ class BarangController extends Controller
             return redirect()->route('barang.index')->with('error', 'Barang Gagal dihapus!.');
         }
     }
-
 
 
     public function qrcode($data)
@@ -504,7 +506,7 @@ class BarangController extends Controller
             $kategori_lab = 4;
         }
         $barang = Barang::where('kategori_lab', $kategori_lab)->get();
-        return view('backend.barang.damaged-add', compact('barang'));
+        return view('backend.barang.rusak.damaged-add', compact('barang'));
     }
 
     public function storeDamaged(Request $request)
@@ -668,7 +670,7 @@ class BarangController extends Controller
         }
         $barang = Barang::where('kategori_lab', $kategori_lab)->whereNotNull('jml_rusak')->get();
         // return view('backend.inventaris.pdf_inventaris', compact('name', 'inventaris'));
-        $pdf = Pdf::loadview('backend.barang.pdf_damaged', compact('name', 'barang'));
+        $pdf = Pdf::loadview('backend.barang.rusak.pdf_damaged', compact('name', 'barang'));
 
         return $pdf->download("Data Barang Rusak" . "_" . $name . '_' . date('d-m-Y') . '.pdf');
     }

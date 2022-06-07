@@ -78,15 +78,6 @@ class KeranjangController extends Controller
         }
     }
 
-    public function pengajuan($id)
-    {
-        $user_id = Auth::user()->id;
-        $keranjang = Keranjang::where('barang_id', $id)->where('user_id', $user_id)->first();
-        $barang = Barang::whereId($id)->first();
-        $peminjaman = Peminjaman::where('barang_id', $id)->where('user_id', $user_id)->paginate(5);
-        return view('frontend.form-pengajuan', compact('barang', 'peminjaman', 'keranjang'));
-    }
-
     public function decrement($status, Request $request)
     {
         if ($status == 0) {

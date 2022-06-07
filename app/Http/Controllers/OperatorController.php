@@ -22,13 +22,6 @@ class OperatorController extends Controller
         $this->middleware('role:admin');
     }
 
-
-    /**
-     * List User 
-     * @param Nill
-     * @return Array $user
-     * @author Shani Singh
-     */
     public function index()
     {
         $users = User::where('role_id', '>', 1)->with('roles')->get();
@@ -36,12 +29,6 @@ class OperatorController extends Controller
         return view('backend.operator.index', ['users' => $users]);
     }
 
-    /**
-     * Create User 
-     * @param Nill
-     * @return Array $user
-     * @author Shani Singh
-     */
     public function create()
     {
         $roles = Role::all();
@@ -49,13 +36,6 @@ class OperatorController extends Controller
         return view('backend.operator.add', ['roles' => $roles]);
     }
 
-    /**
-     * Store User
-     * \
-     * @param Request $request
-     * @return View Users
-     * @author Shani Singh
-     */
     public function store(Request $request)
     {
         // Validations
@@ -91,24 +71,12 @@ class OperatorController extends Controller
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         $user = User::findOrFail($id);
         return view('backend.operator.detail', compact('user'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit(User $operator)
     {
         $roles = Role::all();
@@ -118,13 +86,6 @@ class OperatorController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, User $operator)
     {
         // Validations
@@ -159,12 +120,6 @@ class OperatorController extends Controller
         }
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(User $operator, Request $request)
     {
         // Delete User
@@ -176,12 +131,6 @@ class OperatorController extends Controller
         }
     }
 
-    /**
-     * Update Status Of User
-     * @param Integer $status
-     * @return List Page With Success
-     * @author Shani Singh
-     */
     public function updateStatus($user_id, $status)
     {
         // Validation
