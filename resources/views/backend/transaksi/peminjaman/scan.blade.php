@@ -52,8 +52,7 @@
     scanner.addListener("scan", function(content) {
         const data = content;
 
-        const getid = data.substring(data.indexOf('_') + 1);
-        const lower = parseInt(getid);
+        const lower = data.substring(data.indexOf('_') + 1);
         var url = '{{ route("scan.store", ":lower") }}';
         url = url.replace(':lower', lower);
         document.getElementById('audio').play();

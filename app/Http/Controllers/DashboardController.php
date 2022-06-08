@@ -33,6 +33,11 @@ class DashboardController extends Controller
             } elseif (Auth::user()->role_id == 6) {
                 $kategori_lab = 4;
             }
+            $barang = Peminjaman::whereBetween('status', [2, 3])
+                ->where('kategori_lab', $kategori_lab)
+                ->groupBy('barang_id')
+                ->selectRaw('barang_id, sum(jumlah) as sum')
+                ->get();
             $peminjaman = Peminjaman::where('kategori_lab', $kategori_lab)
                 ->where('status', 0)
                 ->select('kode_peminjaman')
@@ -49,7 +54,7 @@ class DashboardController extends Controller
                 ->paginate(5);
             // dd($telat);
             $habis = Barang::where('stock', 0)->paginate(5);
-            return view('backend.dashboard',  compact(['peminjaman', 'telat', 'habis']));
+            return view('backend.dashboard',  compact(['peminjaman', 'telat', 'habis', 'barang']));
         }
         return view('backend.dashboard');
     }

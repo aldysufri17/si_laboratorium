@@ -116,7 +116,7 @@
                             <div class="row no-gutters align-items-center">
                                 <div class="col-auto">
                                     <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
-                                        {{App\Models\Peminjaman::where('kategori_lab', 1)->where('status', '=', '2')->sum('jumlah')}}
+                                        {{App\Models\Peminjaman::where('kategori_lab', 1)->whereBetween('status', [2,3])->sum('jumlah')}}
                                     </div>
                                 </div>
                             </div>
@@ -191,7 +191,7 @@
                             <div class="row no-gutters align-items-center">
                                 <div class="col-auto">
                                     <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
-                                        {{App\Models\Peminjaman::where('kategori_lab', 2)->where('status', '=', '2')->sum('jumlah')}}
+                                        {{App\Models\Peminjaman::where('kategori_lab', 2)->whereBetween('status', [2,3])->sum('jumlah')}}
                                     </div>
                                 </div>
                             </div>
@@ -255,7 +255,7 @@
                             <div class="row no-gutters align-items-center">
                                 <div class="col-auto">
                                     <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
-                                        {{App\Models\Peminjaman::where('kategori_lab', 3)->where('status', '=', '2')->sum('jumlah')}}
+                                        {{App\Models\Peminjaman::where('kategori_lab', 3)->whereBetween('status', [2,3])->sum('jumlah')}}
                                     </div>
                                 </div>
                             </div>
@@ -318,7 +318,7 @@
                             <div class="row no-gutters align-items-center">
                                 <div class="col-auto">
                                     <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
-                                        {{App\Models\Peminjaman::where('kategori_lab', 4)->where('status', '=', '2')->sum('jumlah')}}
+                                        {{App\Models\Peminjaman::where('kategori_lab', 4)->whereBetween('status', [2,3])->sum('jumlah')}}
                                     </div>
                                 </div>
                             </div>
@@ -371,7 +371,6 @@
     </div>
     @endrole
 </div>
-
 @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
 <div class="d-flex justify-content-around flex-wrap">
     <div class="Habis" style="width: 500px">
@@ -443,6 +442,32 @@
         {{$telat->links()}}
     </div>
 </div>
+@if ($barang->isNotEmpty())
+<div class="card shadow border-0 mb-4">
+    <div class="card-header bg-warning py-3">
+        <h6 class="m-0 font-weight-bold text-light">Barang Dipinjam</h6>
+    </div>
+    <div class="card-body bg-dark">
+        @foreach ($barang as $key=>$item)
+        <h4 class="small text-light font-weight-bold">{{$item->barang->nama}}-{{$item->barang->tipe}}
+            <span class="float-right">{{$item->sum}} {{$item->barang->satuan->nama_satuan}}</span></h4>
+        @php
+        $total = App\Models\Peminjaman::whereBetween('status', [2, 3])->where('barang_id',$item->barang_id)->count();
+        $rata_rata = $item->sum / $total;
+        if ($key % 2 == 0) {
+        $color = "bg-primary";
+        } else {
+        $color = "bg-danger";
+        }
+        @endphp
+        <div class="progress mb-4">
+            <div class="progress-bar {{$color}}" role="progressbar" style="width: {{$rata_rata}}%" aria-valuenow="20"
+                aria-valuemin="0" aria-valuemax="100"></div>
+        </div>
+        @endforeach
+    </div>
+</div>
+@endif
 @endrole
 
 @endsection

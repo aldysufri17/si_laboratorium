@@ -523,7 +523,7 @@
                 kode: did
             },
             success: function (data) {
-                $('#barang').html(data);
+                $('#barang').html(data.output);
             }
         });
     });

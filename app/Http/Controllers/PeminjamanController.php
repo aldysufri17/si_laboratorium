@@ -37,10 +37,9 @@ class PeminjamanController extends Controller
     // Riwayat
     public function index()
     {
-
         if (Auth::user()->role_id == 2) {
             $peminjaman = Peminjaman::with('user', 'barang')
-                ->where('status', '>', 2)
+                ->where('status', 4)
                 ->select('kategori_lab', DB::raw('count(*) as total'))
                 ->groupBy('kategori_lab')
                 ->get();
@@ -50,13 +49,17 @@ class PeminjamanController extends Controller
                 $end_date = Carbon::parse(request()->end_date)->toDateTimeString();
                 $peminjaman = Peminjaman::with('user', 'barang')
                     ->where('kategori_lab', $this->lab)
-                    ->where('status', '>=', 2)
+                    ->where('status', 4)
+                    ->select('kode_peminjaman', 'created_at', DB::raw('count(*) as total'))
+                    ->groupBy('kode_peminjaman', 'created_at')
                     ->whereBetween('updated_at', [$start_date, $end_date])
                     ->get();
             } else {
                 $peminjaman = Peminjaman::with('user', 'barang')
                     ->where('kategori_lab', $this->lab)
-                    ->where('status', '>=', 2)
+                    ->where('status', 4)
+                    ->select('kode_peminjaman', 'created_at', DB::raw('count(*) as total'))
+                    ->groupBy('kode_peminjaman', 'created_at')
                     ->get();
             }
         }
@@ -70,13 +73,17 @@ class PeminjamanController extends Controller
             $end_date = Carbon::parse(request()->end_date)->toDateTimeString();
             $peminjaman = Peminjaman::with('user', 'barang')
                 ->where('kategori_lab', $data)
-                ->where('status', '>', 2)
+                ->where('status', 4)
+                ->select('kode_peminjaman', 'created_at', DB::raw('count(*) as total'))
+                ->groupBy('kode_peminjaman', 'created_at')
                 ->whereBetween('updated_at', [$start_date, $end_date])
                 ->get();
         } else {
             $peminjaman = Peminjaman::with('user', 'barang')
                 ->where('kategori_lab', $data)
-                ->where('status', '>', 2)
+                ->where('status', 4)
+                ->select('kode_peminjaman', 'created_at', DB::raw('count(*) as total'))
+                ->groupBy('kode_peminjaman', 'created_at')
                 ->get();
         }
         return view('backend.transaksi.riwayat.admin-peminjaman', compact('peminjaman'));

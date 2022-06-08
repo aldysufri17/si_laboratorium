@@ -52,6 +52,7 @@
                 <a class="collapse-item text-red" href="{{ route('barang.damaged') }}">Barang Rusak</a>
                 @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
                 <a class="collapse-item text-red" href="{{ route('stok.show') }}">Update Stok</a>
+                <a class="collapse-item text-red" href="{{ route('barang.dipinjam') }}">Barang Dipinjam</a>
                 @endrole
             </div>
         </div>

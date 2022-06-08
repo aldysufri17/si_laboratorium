@@ -159,18 +159,44 @@ class HomeController extends Controller
     {
         $kode = $request->kode;
         $output = "";
-        $user_id = Auth::user()->id;
-        $peminjaman = Peminjaman::where('kode_peminjaman', $kode)
-            ->where('user_id', $user_id)
-            ->get();
+        $user = "";
+        if (Auth::user()->role_id == 1) {
+            $user_id = Auth::user()->id;
+            $peminjaman = Peminjaman::where('kode_peminjaman', $kode)
+                ->where('user_id', $user_id)
+                ->get();
+        } else {
+            $peminjaman = Peminjaman::where('kode_peminjaman', $kode)
+                ->get();
+        }
         foreach ($peminjaman as $data) {
+            $user = '<tr>' .
+                '<td width="30%" class="font-weight-bold">Peminjam</td>' .
+                '<td>' . ':' . " " . $data->user->name . " " . '/' . " " . $data->user->nim . '</td>' .
+                '</tr>' .
+                '<tr>' .
+                '<td width="30%" class="font-weight-bold">Keperluan</td>' .
+                '<td>' . ':' . " " . $data->alasan  . '</td>' .
+                '</tr>' .
+                '<tr>' .
+                '<td width="30%" class="font-weight-bold">Tanggal Peminjaman</td>' .
+                '<td>' . ':' . " " . $data->tgl_start  . '</td>' .
+                '</tr>' .
+                '<tr>' .
+                '<td width="30%" class="font-weight-bold">Tanggal Pengembalian</td>' .
+                '<td>' . ':' . " " . $data->tgl_end  . '</td>' .
+                '</tr>' .
+                '<tr>';
+
             $output .= '<tr>' .
                 '<td>' . $data->barang->kode_barang . '</td>' .
                 '<td>' . $data->barang->nama . "-" . $data->barang->tipe . '</td>' .
                 '<td>' . $data->jumlah . $data->barang->satuan->nama_satuan . '</td>' .
                 '</tr>';
         }
-        // asset('images/empty.jpg')
-        return Response($output);
+        return response()->json([
+            'output' => $output,
+            'user' => $user
+        ]);
     }
 }

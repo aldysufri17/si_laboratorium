@@ -614,4 +614,42 @@ class BarangController extends Controller
 
         return $pdf->download("Data Barang Rusak" . "_" . $name . '_' . date('d-m-Y') . '.pdf');
     }
+
+    public function barangDipinjam()
+    {
+        $barang = Peminjaman::where('kategori_lab', $this->lab)->groupBy('barang_id')->select('barang_id')->get();
+        return view('backend.barang.barang-dipinjam', compact('barang'));
+    }
+
+    public function dipinjamAjax(Request $request)
+    {
+        $kode = $request->select;
+        $head =
+            '<tr>' .
+            '<th width="5%">No</th>' .
+            '<th width="20%">Peminjam</th>' .
+            '<th width="15%">Tanggal Pinjam</th>' .
+            '<th width="15%">Tanggal Pengembalian</th>' .
+            '<th width="10%">Jumlah</th>' .
+            '</tr>';
+        $body = "";
+        $nama = "";
+        $peminjaman = Peminjaman::where('barang_id', $kode)->where('kategori_lab', $this->lab)->get();
+        foreach ($peminjaman as $key => $data) {
+            $nama = "Daftar Peminjam" . "<br>" . $data->barang->nama . " " . "-" . " " . $data->barang->tipe;
+            $key = $key + 1;
+            $body .= '<tr>' .
+                '<td>' . $key . '</td>' .
+                '<td>' . $data->user->name . '</td>' .
+                '<td>' . $data->tgl_start . '</td>' .
+                '<td>' . $data->tgl_end . '</td>' .
+                '<td>' . $data->jumlah . " " . $data->barang->satuan->nama_satuan . '</td>' .
+                '</tr>';
+        }
+        return response()->json([
+            'head' => $head,
+            'body' => $body,
+            'nama' => $nama
+        ]);
+    }
 }
