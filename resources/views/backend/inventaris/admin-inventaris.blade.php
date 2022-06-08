@@ -51,7 +51,7 @@
                             <th width="5%">Baik</th>
                             <th width="5%">Rusak</th>
                             <th width="5%">Total</th>
-                            <th width="20%">Keterangan</th>
+                            <th width="20%">Pengadaan</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -73,11 +73,7 @@
                             <td>{{ $data->barang->jml_rusak }}</td>
                             @endif
                             <td>{{ $data->stok + $data->barang->jml_rusak }}</td>
-                            @if ($data->keterangan == null)
-                            <td>-</td>
-                            @else
-                            <td>{{$data->keterangan}}</td>
-                            @endif
+                            <td>{{$data->barang->pengadaan->nama_pengadaan}}</td>
                         </tr>
                         @endforeach
                     </tbody>
@@ -96,6 +92,6 @@
             responsive: true,
             autoWidth: false,
         });
-
+    });
 </script>
 @endsection

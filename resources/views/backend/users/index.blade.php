@@ -38,13 +38,13 @@
                 <table id="dataTable" class="table table-borderless dt-responsive" cellspacing="0" width="100%">
                     <thead>
                         <tr>
-                            <th width="5%">Nama</th>
-                            <th width="5%">NIM</th>
-                            <th width="5%">Email</th>
-                            <th width="5%">Status</th>
-                            <th width="5%">Detail</th>
+                            <th>Nama</th>
+                            <th>NIM</th>
+                            <th>Email</th>
+                            <th>Status</th>
+                            <th>Detail</th>
                             @role('admin')
-                            <th width="10%">Aksi</th>
+                            <th>Aksi</th>
                             @endrole
                         </tr>
                     </thead>

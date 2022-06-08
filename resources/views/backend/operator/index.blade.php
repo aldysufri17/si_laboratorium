@@ -31,12 +31,12 @@
                 <table id="dataTable" class="table table-borderless dt-responsive" cellspacing="0" width="100%">
                     <thead>
                         <tr>
-                            <th width="20%">Nama</th>
-                            <th width="25%">Email</th>
-                            <th width="15%">Role</th>
-                            <th width="15%">Status</th>
-                            <th width="15%">Detail</th>
-                            <th width="10%">Aksi</th>
+                            <th>Nama</th>
+                            <th>Email</th>
+                            <th>Role</th>
+                            <th>Status</th>
+                            <th>Detail</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>

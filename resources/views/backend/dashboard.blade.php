@@ -460,7 +460,7 @@
         $color = "bg-danger";
         }
         @endphp
-        <div class="progress mb-4">
+        <div class="progress mb-4" title="Barang dipinjam oleh {{$total}} orang">
             <div class="progress-bar {{$color}}" role="progressbar" style="width: {{$rata_rata}}%" aria-valuenow="20"
                 aria-valuemin="0" aria-valuemax="100"></div>
         </div>

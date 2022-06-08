@@ -53,6 +53,7 @@
                     @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
                     <thead>
                         <tr>
+                            <th width="5%">No</th>
                             <th width="15%">Kode Barang</th>
                             <th width="15%">Nama</th>
                             <th width="15%">Stok</th>
@@ -64,8 +65,9 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($barang as $data)
+                        @foreach ($barang as $key=>$data)
                         <tr>
+                            <td>{{$key+1}}</td>
                             <td>{{$data->kode_barang}}</td>
 
                             <td>{{ $data->nama }} - {{ $data->tipe }}</td>

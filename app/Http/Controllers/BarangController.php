@@ -56,7 +56,7 @@ class BarangController extends Controller
         } else {
             $barang = Barang::with('satuan', 'kategori')
                 ->where('kategori_lab', $this->lab)
-                ->orderBy('created_at', 'desc')
+                ->orderBy('id', 'desc')
                 ->get();
         }
         return view('backend.barang.index', ['barang' => $barang]);
@@ -66,7 +66,7 @@ class BarangController extends Controller
     {
         $barang = Barang::with('satuan', 'kategori')
             ->where('kategori_lab', $data)
-            ->orderBy('created_at', 'desc')
+            ->orderBy('id', 'desc')
             ->get();
         return view('backend.barang.admin-detail', ['barang' => $barang]);
     }
@@ -111,7 +111,7 @@ class BarangController extends Controller
                 'stock'         => $request->stock,
                 'tipe'          => $request->tipe,
                 'tgl_masuk'     => $request->tgl_masuk,
-                'show'          => 0,
+                'show'          => $request->show,
                 'lokasi'        => $request->lokasi,
                 'kategori_lab'  => $this->lab,
                 'satuan_id'     => $request->satuan_id,
@@ -131,7 +131,7 @@ class BarangController extends Controller
                 'satuan_id'     => $request->satuan_id,
                 'kategori_id'   => $request->kategori_id,
                 'tgl_masuk'     => $request->tgl_masuk,
-                'show'          => 0,
+                'show'          => $request->show,
                 'lokasi'        => $request->lokasi,
                 'kategori_lab'  => $this->lab,
                 'pengadaan_id'  => $request->pengadaan_id,

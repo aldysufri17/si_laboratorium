@@ -60,8 +60,8 @@
                             <th width="5%">Baik</th>
                             <th width="5%">Rusak</th>
                             <th width="5%">Total</th>
-                            <th width="20%">Keterangan</th>
-                            <th width="15%">Aksi</th>
+                            <th width="20%">Pengadaan</th>
+                            {{-- <th width="15%">Aksi</th> --}}
                         </tr>
                     </thead>
                     <tbody>
@@ -83,22 +83,18 @@
                             <td>{{ $data->barang->jml_rusak }}</td>
                             @endif
                             <td>{{ $data->stok + $data->barang->jml_rusak }}</td>
-                            @if ($data->keterangan == null)
-                            <td>-</td>
-                            @else
-                            <td>{{$data->keterangan}}</td>
-                            @endif
-                            <td style="display: flex">
+                            <td>{{$data->barang->pengadaan->nama_pengadaan}}</td>
+                            {{-- <td style="display: flex">
                                 @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
                                 <a href="{{ route('inventaris.edit', $data->id) }}" class="btn btn-primary mx-2"
                                     title="Edit">
                                     <i class="fa fa-pen"></i>
                                 </a>
-                                {{-- <button class="btn btn-danger delete-btn" title="Delete" value="{{$data->id}}">
+                                <button class="btn btn-danger delete-btn" title="Delete" value="{{$data->id}}">
                                     <i class="fas fa-trash"></i>
-                                </button> --}}
+                                </button>
                                 @endrole
-                            </td>
+                            </td> --}}
                         </tr>
                         @endforeach
                     </tbody>
@@ -206,6 +202,7 @@
         $('#dataTable').DataTable({
             responsive: true,
             autoWidth: false,
+            "order": [[ 0, "desc" ]]
         });
 
     $(document).on('click', '.delete-btn', function () {

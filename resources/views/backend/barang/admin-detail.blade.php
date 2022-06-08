@@ -34,7 +34,8 @@
                 <table id="dataTable" class="table table-borderless dt-responsive" cellspacing="0" width="100%">
                     <thead>
                         <tr>
-                            <th width="15%">Kategori</th>
+                            <th width="5%">No</th>
+                            <th width="15%">Kode Barang</th>
                             <th width="15%">Nama</th>
                             <th width="15%">Stok</th>
                             <th width="10%">Tampilkan</th>
@@ -43,13 +44,10 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($barang as $data)
+                        @foreach ($barang as $key=>$data)
                         <tr>
-                            @if($data->kategori_id == 0)
-                            <td>Default</td>
-                            @else
-                            <td>{{ $data->kategori->nama_kategori }}</td>
-                            @endif
+                            <td>{{$key+1}}</td>
+                            <td>{{$data->kode_barang}}</td>
                             <td>{{ $data->nama }} - {{ $data->tipe }}</td>
                             @if($data->satuan_id == 0)
                             <td>{{ $data->stock }} - Default</td>
@@ -82,7 +80,6 @@
         $('#dataTable').DataTable({
             responsive: true,
             autoWidth: false,
-            "order": [[ 0, "desc" ]]
         });
     });
 

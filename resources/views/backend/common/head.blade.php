@@ -48,5 +48,10 @@
         span.select2-container--default .select2-selection--single .select2-selection__rendered{
             color: #ffffff ;
         }
+        .visible {
+  height: 3em;
+  width: 10em;
+  background: yellow;
+}
     </style>
 </head>
