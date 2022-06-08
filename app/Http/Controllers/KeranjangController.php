@@ -41,11 +41,6 @@ class KeranjangController extends Controller
             if ($duplicated != null) {
                 return redirect()->back()->with('max', 'Barang sudah dipilih!.');
             }
-            // foreach ($duplicated as $record) {
-            //     if ($record->total = 1) {
-            //         return redirect()->back()->with('max', 'Barang sudah dipilih!.');
-            //     }
-            // }
 
             if ($stock < $request->jumlah) {
                 return redirect()->back()->with('stock', 'Stock tidak mencukupi!.');

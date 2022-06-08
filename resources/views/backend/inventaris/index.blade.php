@@ -17,9 +17,9 @@
     @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
     <div class="d-sm-flex align-items-center mb-4">
 
-        <a href="{{ route('inventaris.add', auth()->user()->role_id) }}" class="btn btn-sm btn-success">
+        {{-- <a href="{{ route('inventaris.add', auth()->user()->role_id) }}" class="btn btn-sm btn-success">
             <i class="fas fa-plus"></i> Tambah Inventaris
-        </a>
+        </a> --}}
         <a href="{{ route('export.inventaris', 0) }}" class="btn btn-sm btn-warning mx-3">
             <i class="fa-solid fa-file-csv"></i> Export Exel
         </a>
@@ -44,6 +44,9 @@
                             <input type="date" class="form-control" value="{{Request::get('start_date')}}" name="start_date">
                             <input type="date" class="form-control" value="{{Request::get('end_date')}}" name="end_date">
                             <button class="btn btn-primary" type="submit">Filter</button>
+                            @if (Request::get('start_date') != "" || Request::get('end_date') != "")
+                            <a class="btn btn-warning" href="/inventaris">Clear</a>
+                            @endif
                         </div>
                     </form>
                 </div>
@@ -91,9 +94,9 @@
                                     title="Edit">
                                     <i class="fa fa-pen"></i>
                                 </a>
-                                <button class="btn btn-danger delete-btn" title="Delete" value="{{$data->id}}">
+                                {{-- <button class="btn btn-danger delete-btn" title="Delete" value="{{$data->id}}">
                                     <i class="fas fa-trash"></i>
-                                </button>
+                                </button> --}}
                                 @endrole
                             </td>
                         </tr>

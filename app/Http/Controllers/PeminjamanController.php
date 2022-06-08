@@ -17,23 +17,26 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class PeminjamanController extends Controller
 {
-    public function __construct(Request $request)
+    protected $lab;
+    public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(function ($request, $next) {
+            if (Auth::user()->role_id == 3) {
+                $this->lab = 1;
+            } elseif (Auth::user()->role_id == 4) {
+                $this->lab = 2;
+            } elseif (Auth::user()->role_id == 5) {
+                $this->lab = 3;
+            } elseif (Auth::user()->role_id == 6) {
+                $this->lab = 4;
+            }
+            return $next($request);
+        });
     }
 
     // Riwayat
     public function index()
     {
-        if (Auth::user()->role_id == 3) {
-            $kategori_lab = 1;
-        } elseif (Auth::user()->role_id == 4) {
-            $kategori_lab = 2;
-        } elseif (Auth::user()->role_id == 5) {
-            $kategori_lab = 3;
-        } elseif (Auth::user()->role_id == 6) {
-            $kategori_lab = 4;
-        }
 
         if (Auth::user()->role_id == 2) {
             $peminjaman = Peminjaman::with('user', 'barang')
@@ -46,13 +49,13 @@ class PeminjamanController extends Controller
                 $start_date = Carbon::parse(request()->start_date)->toDateTimeString();
                 $end_date = Carbon::parse(request()->end_date)->toDateTimeString();
                 $peminjaman = Peminjaman::with('user', 'barang')
-                    ->where('kategori_lab', $kategori_lab)
+                    ->where('kategori_lab', $this->lab)
                     ->where('status', '>=', 2)
                     ->whereBetween('updated_at', [$start_date, $end_date])
                     ->get();
             } else {
                 $peminjaman = Peminjaman::with('user', 'barang')
-                    ->where('kategori_lab', $kategori_lab)
+                    ->where('kategori_lab', $this->lab)
                     ->where('status', '>=', 2)
                     ->get();
             }
@@ -82,18 +85,9 @@ class PeminjamanController extends Controller
     // Pengajuan
     public function pengajuan()
     {
-        if (Auth::user()->role_id == 3) {
-            $kategori_lab = 1;
-        } elseif (Auth::user()->role_id == 4) {
-            $kategori_lab = 2;
-        } elseif (Auth::user()->role_id == 5) {
-            $kategori_lab = 3;
-        } elseif (Auth::user()->role_id == 6) {
-            $kategori_lab = 4;
-        }
         $peminjaman = Peminjaman::withCount('user')
             ->select('user_id', DB::raw('count(*) as total'))
-            ->where('kategori_lab', $kategori_lab)
+            ->where('kategori_lab', $this->lab)
             ->where('status', 0)
             ->groupBy('user_id')
             ->get();
@@ -103,18 +97,9 @@ class PeminjamanController extends Controller
 
     public function showPengajuan($id)
     {
-        if (Auth::user()->role_id == 3) {
-            $kategori_lab = 1;
-        } elseif (Auth::user()->role_id == 4) {
-            $kategori_lab = 2;
-        } elseif (Auth::user()->role_id == 5) {
-            $kategori_lab = 3;
-        } elseif (Auth::user()->role_id == 6) {
-            $kategori_lab = 4;
-        }
         $peminjaman = Peminjaman::where('user_id', $id)
             ->select('kode_peminjaman', 'created_at', DB::raw('count(*) as total'))
-            ->where('kategori_lab', $kategori_lab)
+            ->where('kategori_lab', $this->lab)
             ->where('status', 0)
             ->groupBy('kode_peminjaman', 'created_at')
             ->get();
@@ -123,22 +108,13 @@ class PeminjamanController extends Controller
 
     public function pengajuanDetail($id, $kode)
     {
-        if (Auth::user()->role_id == 3) {
-            $kategori_lab = 1;
-        } elseif (Auth::user()->role_id == 4) {
-            $kategori_lab = 2;
-        } elseif (Auth::user()->role_id == 5) {
-            $kategori_lab = 3;
-        } elseif (Auth::user()->role_id == 6) {
-            $kategori_lab = 4;
-        }
         $peminjaman = Peminjaman::with('user', 'barang')
-            ->where('kategori_lab', $kategori_lab)
+            ->where('kategori_lab', $this->lab)
             ->where('user_id', $id)
             ->where('kode_peminjaman', $kode)
             ->get();
         $detail = Peminjaman::with('user', 'barang')
-            ->where('kategori_lab', $kategori_lab)
+            ->where('kategori_lab', $this->lab)
             ->where('kode_peminjaman', $kode)
             ->where('user_id', $id)
             ->first();
@@ -148,18 +124,9 @@ class PeminjamanController extends Controller
     // Peminjaman
     public function peminjaman()
     {
-        if (Auth::user()->role_id == 3) {
-            $kategori_lab = 1;
-        } elseif (Auth::user()->role_id == 4) {
-            $kategori_lab = 2;
-        } elseif (Auth::user()->role_id == 5) {
-            $kategori_lab = 3;
-        } elseif (Auth::user()->role_id == 6) {
-            $kategori_lab = 4;
-        }
         $peminjaman = Peminjaman::withCount('user')
             ->select('user_id', DB::raw('count(*) as total'))
-            ->where('kategori_lab', $kategori_lab)
+            ->where('kategori_lab', $this->lab)
             ->whereBetween('status', [2, 3])
             ->groupBy('user_id')
             ->get();
@@ -168,18 +135,9 @@ class PeminjamanController extends Controller
 
     public function showPeminjaman($id)
     {
-        if (Auth::user()->role_id == 3) {
-            $kategori_lab = 1;
-        } elseif (Auth::user()->role_id == 4) {
-            $kategori_lab = 2;
-        } elseif (Auth::user()->role_id == 5) {
-            $kategori_lab = 3;
-        } elseif (Auth::user()->role_id == 6) {
-            $kategori_lab = 4;
-        }
         $peminjaman = Peminjaman::where('user_id', $id)
             ->select('kode_peminjaman', DB::raw('count(*) as total'))
-            ->where('kategori_lab', $kategori_lab)
+            ->where('kategori_lab', $this->lab)
             ->whereBetween('status', [2, 3])
             ->groupBy('kode_peminjaman')
             ->get();
@@ -228,36 +186,27 @@ class PeminjamanController extends Controller
                 }
             } else {
                 // Delete Peminjaman dari Operator
-                if (Auth::user()->role_id == 3) {
-                    $kategori_lab = 1;
-                } elseif (Auth::user()->role_id == 4) {
-                    $kategori_lab = 2;
-                } elseif (Auth::user()->role_id == 5) {
-                    $kategori_lab = 3;
-                } elseif (Auth::user()->role_id == 6) {
-                    $kategori_lab = 4;
-                }
                 $kode = $request->deletekode;
                 $user_id = $request->deleteuser_id;
                 $jumlah = Peminjaman::where('user_id', $user_id)
                     ->where('kode_peminjaman', $kode)
-                    ->where('kategori_lab', $kategori_lab)
+                    ->where('kategori_lab', $this->lab)
                     ->pluck('jumlah');
                 $barang_id = Peminjaman::where('user_id', $user_id)
                     ->where('kode_peminjaman', $kode)
-                    ->where('kategori_lab', $kategori_lab)
+                    ->where('kategori_lab', $this->lab)
                     ->pluck('barang_id');
                 $stock = Barang::whereIn('id', $barang_id)->pluck('stock');
                 foreach ($barang_id as $index => $id) {
                     Barang::whereid($id)->update(['stock' => $stock[$index] + $jumlah[$index]]);
                     Keranjang::where('user_id', $user_id)
-                        ->where('kategori_lab', $kategori_lab)
+                        ->where('kategori_lab', $this->lab)
                         ->where('barang_id', $id)
                         ->delete();
                 }
                 $peminjaman = Peminjaman::where('user_id', $user_id)
                     ->where('kode_peminjaman', $kode)
-                    ->where('kategori_lab', $kategori_lab)
+                    ->where('kategori_lab', $this->lab)
                     ->delete();
                 if ($peminjaman) {
                     return redirect()->route('peminjaman')->with('success', 'Keranjang Berhasil dihapus!.');
@@ -270,29 +219,20 @@ class PeminjamanController extends Controller
 
     public function statusPeminjaman($id, $kode, $status, Request $request)
     {
-        if (Auth::user()->role_id == 3) {
-            $kategori_lab = 1;
-        } elseif (Auth::user()->role_id == 4) {
-            $kategori_lab = 2;
-        } elseif (Auth::user()->role_id == 5) {
-            $kategori_lab = 3;
-        } elseif (Auth::user()->role_id == 6) {
-            $kategori_lab = 4;
-        }
         if ($status == 2) {
             $barang_id = Peminjaman::where('user_id', $id)
                 ->where('kode_peminjaman', $kode)
-                ->where('kategori_lab', $kategori_lab)
+                ->where('kategori_lab', $this->lab)
                 ->pluck('barang_id');
             $jumlah = Peminjaman::where('user_id', $id)
                 ->where('kode_peminjaman', $kode)
-                ->where('kategori_lab', $kategori_lab)
+                ->where('kategori_lab', $this->lab)
                 ->pluck('jumlah');
             $stock = Barang::whereIn('id', $barang_id)
                 ->pluck('stock');
             $telat = Peminjaman::where('user_id', $id)
                 ->where('kode_peminjaman', $kode)
-                ->where('kategori_lab', $kategori_lab)
+                ->where('kategori_lab', $this->lab)
                 ->first();
             if ($telat->tgl_end < date('Y-m-d')) {
                 return redirect()->back()->with('warning', 'Konfirmasi pengajuan telat!.');
@@ -309,7 +249,7 @@ class PeminjamanController extends Controller
                     'kode_inventaris'   => 'OUT' . $random,
                     'masuk'             => 0,
                     'keluar'            => $jumlah[$index],
-                    'kategori_lab'      => $kategori_lab,
+                    'kategori_lab'      => $this->lab,
                     'total'             => $stock[$index] - $jumlah[$index],
                     'stok'              => 0
                 ]);
@@ -317,7 +257,7 @@ class PeminjamanController extends Controller
                 Peminjaman::where('user_id', $id)
                     ->where('kode_peminjaman', $kode)
                     ->where('barang_id', $barang)
-                    ->where('kategori_lab', $kategori_lab)
+                    ->where('kategori_lab', $this->lab)
                     ->update(['status' => $status]);
             }
 
@@ -329,17 +269,17 @@ class PeminjamanController extends Controller
             $user_id = $request->terimauser_id;
             $barang_id = Peminjaman::where('user_id', $user_id)
                 ->where('kode_peminjaman', $kode)
-                ->where('kategori_lab', $kategori_lab)
+                ->where('kategori_lab', $this->lab)
                 ->pluck('barang_id');
             $jumlah = Peminjaman::where('user_id', $user_id)
                 ->where('kode_peminjaman', $kode)
-                ->where('kategori_lab', $kategori_lab)
+                ->where('kategori_lab', $this->lab)
                 ->pluck('jumlah');
             $stock = Barang::whereIn('id', $barang_id)
                 ->pluck('stock');
             $telat = Peminjaman::where('user_id', $user_id)
                 ->where('kode_peminjaman', $kode)
-                ->where('kategori_lab', $kategori_lab)
+                ->where('kategori_lab', $this->lab)
                 ->first();
 
             foreach ($barang_id as $index => $barang) {
@@ -353,7 +293,7 @@ class PeminjamanController extends Controller
                     'kode_inventaris'   => 'IN' . $random,
                     'masuk'             => $jumlah[$index],
                     'keluar'            => 0,
-                    'kategori_lab'      => $kategori_lab,
+                    'kategori_lab'      => $this->lab,
                     'total'             => $stock[$index] + $jumlah[$index],
                     'stok'              => 0
                 ]);
@@ -361,7 +301,7 @@ class PeminjamanController extends Controller
                 Peminjaman::where('user_id', $id)
                     ->where('kode_peminjaman', $kode)
                     ->where('barang_id', $barang)
-                    ->where('kategori_lab', $kategori_lab)
+                    ->where('kategori_lab', $this->lab)
                     ->update(['status' => $status]);
                 Keranjang::where('user_id', $user_id)->where('barang_id', $barang)->delete();
             }
@@ -374,15 +314,6 @@ class PeminjamanController extends Controller
 
     public function tolak(Request $request)
     {
-        if (Auth::user()->role_id == 3) {
-            $kategori_lab = 1;
-        } elseif (Auth::user()->role_id == 4) {
-            $kategori_lab = 2;
-        } elseif (Auth::user()->role_id == 5) {
-            $kategori_lab = 3;
-        } elseif (Auth::user()->role_id == 6) {
-            $kategori_lab = 4;
-        }
         $kode = $request->kode;
         $pesan = $request->pesan;
         $user_id = $request->user_id;
@@ -390,7 +321,7 @@ class PeminjamanController extends Controller
             $pesan = "Terdapat Kesalahan Data";
         }
         $peminjaman = Peminjaman::where('kode_peminjaman', $kode)
-            ->where('kategori_lab', $kategori_lab)
+            ->where('kategori_lab', $this->lab)
             ->where('user_id', $user_id)
             ->update(['status' => 1, 'pesan' => $pesan]);
         if ($peminjaman) {
@@ -407,16 +338,6 @@ class PeminjamanController extends Controller
 
     public function scanStore($id)
     {
-        if (Auth::user()->role_id == 3) {
-            $kategori_lab = 1;
-        } elseif (Auth::user()->role_id == 4) {
-            $kategori_lab = 2;
-        } elseif (Auth::user()->role_id == 5) {
-            $kategori_lab = 3;
-        } elseif (Auth::user()->role_id == 6) {
-            $kategori_lab = 4;
-        }
-
         $cek = Peminjaman::where('kode_peminjaman', $id)->get();
         if ($cek->isEmpty()) {
             return redirect()->back()->with('info', 'QR-Code tidak ditemukan!.');
@@ -431,15 +352,15 @@ class PeminjamanController extends Controller
                 return redirect()->back()->with('info', 'Peminjaman Sudah dikembalikan!.');
             } else {
                 $barang_id = Peminjaman::where('kode_peminjaman', $id)
-                    ->where('kategori_lab', $kategori_lab)
+                    ->where('kategori_lab', $this->lab)
                     ->pluck('barang_id');
 
                 $jumlah = Peminjaman::where('kode_peminjaman', $id)
-                    ->where('kategori_lab', $kategori_lab)
+                    ->where('kategori_lab', $this->lab)
                     ->pluck('jumlah');
 
                 $user_id = Peminjaman::where('kode_peminjaman', $id)
-                    ->where('kategori_lab', $kategori_lab)
+                    ->where('kategori_lab', $this->lab)
                     ->first();
                 $user = $user_id->user_id;
 
@@ -458,7 +379,7 @@ class PeminjamanController extends Controller
                         'kode_inventaris'   => 'IN' . $random,
                         'masuk'             => $jumlah[$index],
                         'keluar'            => 0,
-                        'kategori_lab'      => $kategori_lab,
+                        'kategori_lab'      => $this->lab,
                         'total'             => $stock[$index] + $jumlah[$index],
                         'stok'              => 0
                     ]);
@@ -466,7 +387,7 @@ class PeminjamanController extends Controller
                     Peminjaman::where('user_id', $user)
                         ->where('kode_peminjaman', $id)
                         ->where('barang_id', $barang)
-                        ->where('kategori_lab', $kategori_lab)
+                        ->where('kategori_lab', $this->lab)
                         ->update(['status' => 4]);
                     Keranjang::where('user_id', $user)->where('barang_id', $barang)->delete();
                 }
@@ -544,7 +465,7 @@ class PeminjamanController extends Controller
         foreach ($keranjang as $data) {
 
             $peminjaman = Peminjaman::create([
-                'kode_peminjaman'   => $kode_peminjaman,
+                'kode_peminjaman'   => "FTK-" . $kode_peminjaman,
                 // 'nama_keranjang'    => $nama_keranjang,
                 'user_id'           => $user_id,
                 'barang_id'         => $data->barang_id,

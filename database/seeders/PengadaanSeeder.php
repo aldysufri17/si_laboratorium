@@ -17,7 +17,7 @@ class PengadaanSeeder extends Seeder
         Pengadaan::create([
             'id'    => 1,
             "kode" => 'TK-0001',
-            "nama_pengadaan" => 'Barang Inventaris',
+            "nama_pengadaan" => 'Barang Laboratorium',
         ]);
         Pengadaan::create([
             'id'    => 2,

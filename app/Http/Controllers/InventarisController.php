@@ -15,6 +15,23 @@ use Maatwebsite\Excel\Facades\Excel;
 
 class InventarisController extends Controller
 {
+    protected $lab;
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            if (Auth::user()->role_id == 3) {
+                $this->lab = 1;
+            } elseif (Auth::user()->role_id == 4) {
+                $this->lab = 2;
+            } elseif (Auth::user()->role_id == 5) {
+                $this->lab = 3;
+            } elseif (Auth::user()->role_id == 6) {
+                $this->lab = 4;
+            }
+            return $next($request);
+        });
+    }
+
     public function index()
     {
         if (Auth::user()->role_id == 2) {
@@ -23,30 +40,19 @@ class InventarisController extends Controller
                 ->select('kategori_lab', DB::raw('count(*) as total'))
                 ->where('status', 2)
                 ->groupBy('kategori_lab')
-                ->orderBy('created_at', 'desc')
                 ->get();
         } else {
-            if (Auth::user()->role_id == 3) {
-                $kategori_lab = 1;
-            } elseif (Auth::user()->role_id == 4) {
-                $kategori_lab = 2;
-            } elseif (Auth::user()->role_id == 5) {
-                $kategori_lab = 3;
-            } elseif (Auth::user()->role_id == 6) {
-                $kategori_lab = 4;
-            }
-
             if (request()->start_date || request()->end_date) {
                 $start_date = Carbon::parse(request()->start_date)->toDateTimeString();
                 $end_date = Carbon::parse(request()->end_date)->toDateTimeString();
                 $inventaris = Inventaris::with('barang')
-                    ->where('kategori_lab', $kategori_lab)
+                    ->where('kategori_lab', $this->lab)
                     ->whereBetween('created_at', [$start_date, $end_date])
                     ->where('status', 2)
                     ->get();
             } else {
                 $inventaris = Inventaris::with('barang')
-                    ->where('kategori_lab', $kategori_lab)
+                    ->where('kategori_lab', $this->lab)
                     ->where('status', 2)
                     ->get();
             }
@@ -90,7 +96,7 @@ class InventarisController extends Controller
         }
         $inventaris = Inventaris::where('kategori_lab', $kategori_lab)->where('status', 2)->pluck('barang_id');
         $barang = Barang::where('kategori_lab', $kategori_lab)
-            ->where('pengadaan_id', 1)
+            // ->where('pengadaan_id', 1)
             ->whereNotIn('id', $inventaris)
             ->get();
         return view('backend.inventaris.add', compact('barang'));
@@ -98,20 +104,12 @@ class InventarisController extends Controller
 
     public function store(Request $request)
     {
-
-        if (Auth::user()->role_id == 3) {
-            $kategori_lab = 1;
-        } elseif (Auth::user()->role_id == 4) {
-            $kategori_lab = 2;
-        } elseif (Auth::user()->role_id == 5) {
-            $kategori_lab = 3;
-        } elseif (Auth::user()->role_id == 6) {
-            $kategori_lab = 4;
-        }
-
         $request->validate(
             [
-                'kode_inventaris' => 'required|unique:inventaris',
+                'kode1' => 'required',
+                'kode2' => 'required',
+                'kode3' => 'required',
+                'kode4' => 'required',
                 'barang' => 'required',
                 'stok' => 'required',
             ],
@@ -120,20 +118,21 @@ class InventarisController extends Controller
                 'required' => 'Masukan Tidak boleh kosong.!!'
             ]
         );
-        $random = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
         $inventaris = Inventaris::create([
             'barang_id'         => $request->barang,
-            'kode_inventaris'   => $request->kode_inventaris,
-            'kode_mutasi'       => 'CR' . $random,
+            'kode_inventaris'   => $request->kode1 . '.' . $request->kode2 . '.' . $request->kode3 . '.' . $request->kode4,
+            'kode_mutasi'       => 'Kosong',
             'status'            => 2,
             'deskripsi'         => 'Created',
             'keterangan'        => $request->keterangan,
             'stok'              => $request->stok,
-            'kategori_lab'      => $kategori_lab,
+            'kategori_lab'      => $this->lab,
             'masuk'             => 0,
             'keluar'            => 0,
             'total'             => 0,
         ]);
+
+        Barang::whereId($request->barang)->update(['show' => 2]);
 
         if ($inventaris) {
             return redirect()->route('inventaris.index')->with('success', 'Inventaris Berhasil dibuat!.');
@@ -151,15 +150,6 @@ class InventarisController extends Controller
 
     public function update(Request $request, Inventaris $inventaris)
     {
-        if (Auth::user()->role_id == 3) {
-            $kategori_lab = 1;
-        } elseif (Auth::user()->role_id == 4) {
-            $kategori_lab = 2;
-        } elseif (Auth::user()->role_id == 5) {
-            $kategori_lab = 3;
-        } elseif (Auth::user()->role_id == 6) {
-            $kategori_lab = 4;
-        }
         $total_brg = $request->stok_brg + $request->jumlah;
         $jml_rusak = $request->jml_rusak;
         $id_brg = $request->id_brg;
@@ -178,7 +168,7 @@ class InventarisController extends Controller
                 'kode_inventaris'   => 'IN' . $random,
                 'kode_mutasi'       => 'IN' . $random,
                 'masuk'             => $request->jumlah,
-                'kategori_lab'      => $kategori_lab,
+                'kategori_lab'      => $this->lab,
                 'keluar'            => 0,
                 'total'             => $total_brg,
                 'stok'              => $stok_inventaris + $request->jumlah,
@@ -204,7 +194,7 @@ class InventarisController extends Controller
                 'kode_inventaris'   => 'OUT' . $random,
                 'kode_mutasi'       => 'OUT' . $random,
                 'masuk'             => 0,
-                'kategori_lab'      => $kategori_lab,
+                'kategori_lab'      => $this->lab,
                 'keluar'            => $request->jumlah,
                 'total'             => $request->stok_brg - $request->jumlah,
                 'stok'              => $stok_inventaris - $request->jumlah,
@@ -276,36 +266,23 @@ class InventarisController extends Controller
                 ->select('kategori_lab', DB::raw('count(*) as total'))
                 ->where('status', '!=', 2)
                 ->groupBy('kategori_lab')
-                ->orderBy('created_at', 'desc')
                 ->paginate(8);
         } else {
-            if (Auth::user()->role_id == 3) {
-                $kategori_lab = 1;
-            } elseif (Auth::user()->role_id == 4) {
-                $kategori_lab = 2;
-            } elseif (Auth::user()->role_id == 5) {
-                $kategori_lab = 3;
-            } elseif (Auth::user()->role_id == 6) {
-                $kategori_lab = 4;
-            }
             if (request()->start_date || request()->end_date) {
                 $start_date = Carbon::parse(request()->start_date)->toDateTimeString();
                 $end_date = Carbon::parse(request()->end_date)->toDateTimeString();
                 $inventaris = Inventaris::with('barang')
-                    ->where('kategori_lab', $kategori_lab)
+                    ->where('kategori_lab', $this->lab)
                     ->where('status', '!=', 2)
-                    ->orderBy('id', 'DESC')
                     ->whereBetween('created_at', [$start_date, $end_date])
                     ->get();
             } else {
-                $inventaris = Inventaris::with('barang')
-                    ->where('kategori_lab', $kategori_lab)
+                $inventaris = Inventaris::where('kategori_lab', $this->lab)
                     ->where('status', '!=', 2)
-                    ->orderBy('id', 'DESC')
                     ->get();
             }
         }
-        return view('backend.inventaris.mutasi', ['inventaris' => $inventaris]);
+        return view('backend.inventaris.mutasi', compact('inventaris'));
     }
 
     public function adminMutasi($data)

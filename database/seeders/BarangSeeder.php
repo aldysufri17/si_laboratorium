@@ -114,7 +114,7 @@ class BarangSeeder extends Seeder
             'gambar'        => 'ultrasonic.jpg',
         ]);
         Barang::create([
-            'kode_barang'   => "Em-8" . $date,
+            'kode_barang'   => "EM-8" . $date,
             'nama'          => "Resistor",
             'tipe'          => "10k",
             'stock'         => 15,

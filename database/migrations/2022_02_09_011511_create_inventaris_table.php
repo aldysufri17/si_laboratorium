@@ -17,7 +17,7 @@ class CreateinventarisTable extends Migration
             $table->increments('id');
             $table->integer('barang_id');
             $table->text('kode_mutasi');
-            $table->text('kode_inventaris')->unique();;
+            $table->text('kode_inventaris')->unique();
             $table->integer('masuk')->nullable();
             $table->integer('keluar')->nullable();
             $table->integer('total');

@@ -56,6 +56,9 @@
                             <input type="date" class="form-control" value="{{Request::get('start_date')}}" name="start_date">
                             <input type="date" class="form-control" value="{{Request::get('end_date')}}" name="end_date">
                             <button class="btn btn-primary" type="submit">Filter</button>
+                            @if (Request::get('start_date') != "" || Request::get('end_date') != "")
+                            <a class="btn btn-warning" href="/mutasi">Clear</a>
+                            @endif
                         </div>
                     </form>
                 </div>
@@ -170,6 +173,7 @@
         $('#dataTable').DataTable({
             responsive: true,
             autoWidth: false,
+            order: [[8, 'desc']],
         });
     });
 

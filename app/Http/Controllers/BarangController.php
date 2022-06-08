@@ -17,33 +17,37 @@ use App\Models\Kategori;
 use App\Models\Pengadaan;
 use App\Models\Satuan;
 use App\Models\User;
-use Facade\FlareClient\Stacktrace\File;
 use Maatwebsite\Excel\Facades\Excel;
+use Illuminate\Contracts\Auth\Guard;
 
 
 class BarangController extends Controller
 {
+    protected $lab;
+    protected $kode;
     public function __construct()
     {
-        $this->middleware('auth');
+        $this->middleware(function ($request, $next) {
+            // $this->lab = Auth::user()->role_id;
+            if (Auth::user()->role_id == 3) {
+                $this->lab = 1;
+                $this->kode = "EM-";
+            } elseif (Auth::user()->role_id == 4) {
+                $this->lab = 2;
+                $this->kode = "RL-";
+            } elseif (Auth::user()->role_id == 5) {
+                $this->lab = 3;
+                $this->kode = "JK-";
+            } elseif (Auth::user()->role_id == 6) {
+                $this->lab = 4;
+                $this->kode = "MD-";
+            }
+            return $next($request);
+        });
     }
 
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
-        if (Auth::user()->role_id == 3) {
-            $kategori_lab = 1;
-        } elseif (Auth::user()->role_id == 4) {
-            $kategori_lab = 2;
-        } elseif (Auth::user()->role_id == 5) {
-            $kategori_lab = 3;
-        } elseif (Auth::user()->role_id == 6) {
-            $kategori_lab = 4;
-        }
 
         if (Auth::user()->role_id == 2) {
             $barang = Barang::select('kategori_lab', DB::raw('count(*) as total'))
@@ -51,7 +55,7 @@ class BarangController extends Controller
                 ->get();
         } else {
             $barang = Barang::with('satuan', 'kategori')
-                ->where('kategori_lab', $kategori_lab)
+                ->where('kategori_lab', $this->lab)
                 ->orderBy('created_at', 'desc')
                 ->get();
         }
@@ -67,34 +71,14 @@ class BarangController extends Controller
         return view('backend.barang.admin-detail', ['barang' => $barang]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
-        if (Auth::user()->role_id == 3) {
-            $kategori_lab = 1;
-        } elseif (Auth::user()->role_id == 4) {
-            $kategori_lab = 2;
-        } elseif (Auth::user()->role_id == 5) {
-            $kategori_lab = 3;
-        } elseif (Auth::user()->role_id == 6) {
-            $kategori_lab = 4;
-        }
-        $kategori = Kategori::where('kategori_lab', $kategori_lab)->get();
-        $satuan = Satuan::where('kategori_lab', $kategori_lab)->get();
+        $kategori = Kategori::where('kategori_lab', $this->lab)->get();
+        $satuan = Satuan::where('kategori_lab', $this->lab)->get();
         $pengadaan = Pengadaan::all();
         return view('backend.barang.add', compact('kategori', 'satuan', 'pengadaan'));
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -111,23 +95,9 @@ class BarangController extends Controller
             'required' => ':attribute wajib diisi',
         ]);
 
-        if (Auth::user()->role_id == 3) {
-            $kategori_lab = 1;
-            $kode = "EM-";
-        } elseif (Auth::user()->role_id == 4) {
-            $kategori_lab = 2;
-            $kode = "RL-";
-        } elseif (Auth::user()->role_id == 5) {
-            $kategori_lab = 3;
-            $kode = "JK-";
-        } elseif (Auth::user()->role_id == 6) {
-            $kategori_lab = 4;
-            $kode = "MD-";
-        }
-
         $id_barang = Barang::max('id');
         $date = Date('ymd');
-
+        $id = $id_barang + 1;
         if ($request->gambar) {
             $gambar = $request->gambar;
             $new_gambar = date('Y-m-d') . "-" . $request->nama . "-" . $request->tipe . "." . $gambar->getClientOriginalExtension();
@@ -135,116 +105,101 @@ class BarangController extends Controller
             $destination = 'images/barang/';
             $gambar->move($destination, $new_gambar);
             $barang = Barang::create([
-                'kode_barang'   => $kode . $id_barang . $date,
+                'id'            => $id,
+                'kode_barang'   => $this->kode . $id . $date,
                 'nama'          => $request->nama,
                 'stock'         => $request->stock,
                 'tipe'          => $request->tipe,
                 'tgl_masuk'     => $request->tgl_masuk,
-                'show'          => $request->show,
+                'show'          => 0,
                 'lokasi'        => $request->lokasi,
-                'kategori_lab'  => $kategori_lab,
+                'kategori_lab'  => $this->lab,
                 'satuan_id'     => $request->satuan_id,
                 'kategori_id'   => $request->kategori_id,
-                'pengadaan_id'          => $request->pengadaan_id,
+                'pengadaan_id'  => $request->pengadaan_id,
                 'info'          => $request->info,
                 'gambar'        => $new_gambar,
-            ]);
-
-            // Inventaris
-            $random = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
-            Inventaris::create([
-                'barang_id'         => $id_barang + 1,
-                'status'            => 1,
-                'deskripsi'         => 'Baru',
-                'kode_mutasi'       => 'IN' . $random,
-                'kode_inventaris'   => 'IN' . $random,
-                'masuk'             => $request->stock,
-                'kategori_lab'      => $kategori_lab,
-                'keluar'            => 0,
-                'total'             => $request->stock,
-                'stok'              => 0
             ]);
         } else {
             // Barang
             $barang = Barang::create([
-                'kode_barang'   => $kode . $id_barang . $date,
+                'id'            => $id,
+                'kode_barang'   => $this->kode . $id . $date,
                 'nama'          => $request->nama,
                 'stock'         => $request->stock,
                 'tipe'          => $request->tipe,
                 'satuan_id'     => $request->satuan_id,
                 'kategori_id'   => $request->kategori_id,
                 'tgl_masuk'     => $request->tgl_masuk,
-                'show'          => $request->show,
+                'show'          => 0,
                 'lokasi'        => $request->lokasi,
-                'kategori_lab'  => $kategori_lab,
-                'pengadaan_id'          => $request->pengadaan_id,
+                'kategori_lab'  => $this->lab,
+                'pengadaan_id'  => $request->pengadaan_id,
                 'info'          => $request->info,
-            ]);
-
-            // Inventaris
-            $random = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
-            Inventaris::create([
-                'barang_id'         => $id_barang + 1,
-                'status'            => 1,
-                'deskripsi'         => 'Baru',
-                'kode_inventaris'   => 'IN' . $random,
-                'kode_mutasi'       => 'IN' . $random,
-                'masuk'             => $request->stock,
-                'kategori_lab'      => $kategori_lab,
-                'keluar'            => 0,
-                'total'             => $request->stock,
-                'stok'              => 0
             ]);
         }
 
-        if ($barang) {
-            return redirect()->route('barang.index')->with(['success', 'Barang berhasil ditambah']);
+        // Mutasi
+        $random = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
+        Inventaris::create([
+            'barang_id'         => $id,
+            'status'            => 1,
+            'deskripsi'         => 'Baru',
+            'kode_mutasi'       => 'IN' . $random,
+            'kode_inventaris'   => 'IN' . $random,
+            'masuk'             => $request->stock,
+            'kategori_lab'      => $this->lab,
+            'keluar'            => 0,
+            'total'             => $request->stock,
+            'stok'              => 0
+        ]);
+
+        // Inventaris
+        if (strlen($id) == 1) {
+            $kode = "000" . $id;
+        } else if (strlen($id) == 2) {
+            $kode = "00" . $id;
+        } else if (strlen($id) == 3) {
+            $kode = "0" . $id;
         } else {
-            return redirect()->route('barang.index')->with(['error', 'Barang gagal ditambah']);
+            $kode = $id;
+        }
+        $Date = date("Y/m/d");
+        $year = date('Y', strtotime($Date));
+        $random = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
+        $Inventaris = Inventaris::create([
+            'barang_id'         => $id,
+            'status'            => 2,
+            'deskripsi'         => 'Created',
+            'kode_mutasi'       => 'Kosong',
+            'kode_inventaris'   => $kode . '.' . $id . '.' . $id_barang . '.' . $year,
+            'masuk'             => 0,
+            'kategori_lab'      => $this->lab,
+            'keluar'            => 0,
+            'total'             => 0,
+            'stok'              => $request->stock
+        ]);
+
+        if ($Inventaris) {
+            return redirect()->route('barang.index')->with('success', 'Barang berhasil ditambah');
+        } else {
+            return redirect()->route('barang.index')->with('error', 'Barang gagal ditambah');
         }
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  \App\Models\Barang  $barang
-     * @return \Illuminate\Http\Response
-     */
     public function show(Barang $barang)
     {
         return view('backend.barang.detail', compact('barang'));
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Models\Barang  $barang
-     * @return \Illuminate\Http\Response
-     */
     public function edit(Barang $barang)
     {
-        if (Auth::user()->role_id == 3) {
-            $kategori_lab = 1;
-        } elseif (Auth::user()->role_id == 4) {
-            $kategori_lab = 2;
-        } elseif (Auth::user()->role_id == 5) {
-            $kategori_lab = 3;
-        } elseif (Auth::user()->role_id == 6) {
-            $kategori_lab = 4;
-        }
-        $kategori = Kategori::where('kategori_lab', $kategori_lab)->get();
-        $satuan = Satuan::where('kategori_lab', $kategori_lab)->get();
+        $kategori = Kategori::where('kategori_lab', $this->lab)->get();
+        $satuan = Satuan::where('kategori_lab', $this->lab)->get();
         $pengadaan = Pengadaan::all();
         return view('backend.barang.edit', compact('barang', 'satuan', 'kategori', 'pengadaan'));
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Barang  $barang
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, Barang $barang)
     {
         $request->validate([
@@ -275,7 +230,7 @@ class BarangController extends Controller
                 'lokasi'        => $request->lokasi,
                 'satuan_id'     => $request->satuan_id,
                 'kategori_id'   => $request->kategori_id,
-                'pengadaan_id'          => $request->pengadaan_id,
+                'pengadaan_id'  => $request->pengadaan_id,
                 'info'          => $request->info,
                 'gambar'        => $new_gambar,
             ]);
@@ -284,12 +239,12 @@ class BarangController extends Controller
                 'nama'          => $request->nama,
                 'stock'         => $request->stock,
                 'tipe'          => $request->tipe,
-                'satuan_id'        => $request->satuan_id,
-                'kategori_id'        => $request->kategori_id,
+                'satuan_id'     => $request->satuan_id,
+                'kategori_id'   => $request->kategori_id,
                 'tgl_masuk'     => $request->tgl_masuk,
                 'show'          => $request->show,
                 'lokasi'        => $request->lokasi,
-                'pengadaan_id'        => $request->pengadaan_id,
+                'pengadaan_id'  => $request->pengadaan_id,
                 'info'          => $request->info,
 
             ]);
@@ -312,17 +267,8 @@ class BarangController extends Controller
             // dd($barang);
             return view('backend.barang.rusak.damaged', compact('barang'));
         } else {
-            if (Auth::user()->role_id == 3) {
-                $kategori_lab = 1;
-            } elseif (Auth::user()->role_id == 4) {
-                $kategori_lab = 2;
-            } elseif (Auth::user()->role_id == 5) {
-                $kategori_lab = 3;
-            } elseif (Auth::user()->role_id == 6) {
-                $kategori_lab = 4;
-            }
             $barang = Barang::whereNotNull('jml_rusak')
-                ->where('kategori_lab', $kategori_lab)
+                ->where('kategori_lab', $this->lab)
                 ->where('jml_rusak', '>', 0)
                 ->orderBy('updated_at', 'Desc')
                 ->get();
@@ -336,12 +282,6 @@ class BarangController extends Controller
         return view('backend.barang.rusak.admin-damaged', compact('barang'));
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Barang  $barang
-     * @return \Illuminate\Http\Response
-     */
     public function destroy(Barang $barang, Request $request)
     {
         $barang_id = $request->delete_id;
@@ -367,7 +307,6 @@ class BarangController extends Controller
         }
     }
 
-
     public function qrcode($data)
     {
         if (Auth::user()->role_id == 2) {
@@ -385,7 +324,6 @@ class BarangController extends Controller
 
         if (Auth::user()->role_id == 3) {
             $kategori_lab = 1;
-            $name = 'Laboratorium Sistem Tertanam dan Robotika';
         } elseif (Auth::user()->role_id == 4) {
             $kategori_lab = 2;
             $name = 'Laboratorium Rekayasa Perangkat Lunak';
@@ -433,6 +371,8 @@ class BarangController extends Controller
     {
         $this->validate(request(), [
             'file' => 'mimes:csv,xls,xlsx'
+        ], [
+            'required' => ':attribute Format file tidak terbaca',
         ]);
         if (Auth::user()->role_id == 3) {
             $name = "Laboratorium Sistem Tertanam dan Robotika";
@@ -496,30 +436,17 @@ class BarangController extends Controller
 
     public function createDamaged()
     {
-        if (Auth::user()->role_id == 3) {
-            $kategori_lab = 1;
-        } elseif (Auth::user()->role_id == 4) {
-            $kategori_lab = 2;
-        } elseif (Auth::user()->role_id == 5) {
-            $kategori_lab = 3;
-        } elseif (Auth::user()->role_id == 6) {
-            $kategori_lab = 4;
-        }
-        $barang = Barang::where('kategori_lab', $kategori_lab)->get();
+        $barang = Barang::where('kategori_lab', $this->lab)->get();
         return view('backend.barang.rusak.damaged-add', compact('barang'));
     }
 
     public function storeDamaged(Request $request)
     {
-        if (Auth::user()->role_id == 3) {
-            $kategori_lab = 1;
-        } elseif (Auth::user()->role_id == 4) {
-            $kategori_lab = 2;
-        } elseif (Auth::user()->role_id == 5) {
-            $kategori_lab = 3;
-        } elseif (Auth::user()->role_id == 6) {
-            $kategori_lab = 4;
-        }
+        $request->validate([
+            'jumlah'    => 'required',
+        ], [
+            'required' => ':attribute wajib diisi',
+        ]);
 
         $id_barang = $request->barang;
         $stok = $request->total_stok;
@@ -531,79 +458,92 @@ class BarangController extends Controller
             $ket = $request->keterangan;
         }
 
-        Barang::whereId($id_barang)->update(['stock' => $stok - $jml, 'jml_rusak' => $rsk + $jml, 'keterangan_rusak' => $ket]);
+        $cekInventaris = Inventaris::where('barang_id', $id_barang)->where('kode_mutasi', "kosong")->get();
+        if ($cekInventaris->IsNotEmpty()) {
+            Barang::whereId($id_barang)->update(['stock' => $stok - $jml, 'jml_rusak' => $rsk + $jml, 'keterangan_rusak' => $ket]);
 
-        // mutasi dan ineventaris
-        $random = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
-        $mutasi = Inventaris::create([
-            'barang_id'         => $id_barang,
-            'status'            => 0,
-            'deskripsi'         => 'Rusak',
-            'kode_inventaris'   => 'OUT' . $random,
-            'kode_mutasi'       => 'OUT' . $random,
-            'masuk'             => 0,
-            'kategori_lab'      => $kategori_lab,
-            'keluar'            => $jml,
-            'total'             => $stok - $jml,
-            'stok'              => 0,
-        ]);
-        if ($mutasi) {
-            return redirect()->route('barang.damaged')->with('success', 'Stok Barang Berhasil dibaharui!.');
+            // ineventaris update
+            $kodeInventaris = Inventaris::where('kode_mutasi', "kosong")->where('barang_id', $id_barang)->value('kode_inventaris');
+            $stokInventaris = Inventaris::where('kode_mutasi', "kosong")->where('barang_id', $id_barang)->value('stok');
+            Inventaris::where('kode_inventaris', $kodeInventaris)->update([
+                'stok'            => $stokInventaris - $jml,
+            ]);
+
+            // mutasi
+            $random = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
+            $mutasi = Inventaris::create([
+                'barang_id'         => $id_barang,
+                'status'            => 0,
+                'deskripsi'         => 'Rusak',
+                'kode_inventaris'   => 'OUT' . $random,
+                'kode_mutasi'       => 'OUT' . $random,
+                'masuk'             => 0,
+                'kategori_lab'      => $this->lab,
+                'keluar'            => $jml,
+                'total'             => $stokInventaris - $jml,
+                'stok'              => 0,
+            ]);
+
+            if ($mutasi) {
+                return redirect()->route('barang.damaged')->with('success', 'Stok Barang Berhasil dibaharui!.');
+            } else {
+                return redirect()->route('barang.damaged')->with('error', 'Stok Barang Gagal dibaharui!.');
+            }
         } else {
-            return redirect()->route('barang.damaged')->with('error', 'Stok Barang Gagal dibaharui!.');
+            return redirect()->route('barang.damaged')->with('warning', 'Data Inventaris Belum didaftarkan!.');
         }
     }
 
     public function showStok()
     {
-        if (Auth::user()->role_id == 3) {
-            $kategori_lab = 1;
-        } elseif (Auth::user()->role_id == 4) {
-            $kategori_lab = 2;
-        } elseif (Auth::user()->role_id == 5) {
-            $kategori_lab = 3;
-        } elseif (Auth::user()->role_id == 6) {
-            $kategori_lab = 4;
-        }
-        $barang = Barang::where('kategori_lab', $kategori_lab)->get();
+        $barang = Barang::where('kategori_lab', $this->lab)->get();
         return view('backend.barang.stok-update', compact('barang'));
     }
 
     public function updateStok(Request $request)
     {
-        if (Auth::user()->role_id == 3) {
-            $kategori_lab = 1;
-        } elseif (Auth::user()->role_id == 4) {
-            $kategori_lab = 2;
-        } elseif (Auth::user()->role_id == 5) {
-            $kategori_lab = 3;
-        } elseif (Auth::user()->role_id == 6) {
-            $kategori_lab = 4;
-        }
+        $request->validate([
+            'jumlah'    => 'required',
+        ], [
+            'required' => ':attribute wajib diisi',
+        ]);
 
         $id_barang = $request->barang;
         $stok = $request->total_stok;
         $jml = $request->jumlah;
-        Barang::whereId($id_barang)->update(['stock' => $stok + $jml]);
+        $cekInventaris = Inventaris::where('barang_id', $id_barang)->where('kode_mutasi', "kosong")->get();
+        if ($cekInventaris->IsNotEmpty()) {
+            Barang::whereId($id_barang)->update(['stock' => $stok + $jml]);
 
-        // mutasi dan ineventaris
-        $random = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
-        $mutasi = Inventaris::create([
-            'barang_id'         => $id_barang,
-            'status'            => 1,
-            'deskripsi'         => 'Update',
-            'kode_inventaris'   => 'IN' . $random,
-            'kode_mutasi'       => 'IN' . $random,
-            'masuk'             => $jml,
-            'kategori_lab'      => $kategori_lab,
-            'keluar'            => 0,
-            'total'             => $stok + $jml,
-            'stok'              => 0,
-        ]);
-        if ($mutasi) {
-            return redirect()->route('barang.index')->with('success', 'Stok Barang Berhasil ditambahi!.');
+            // ineventaris
+            $kodeInventaris = Inventaris::where('kode_mutasi', "kosong")->where('barang_id', $id_barang)->value('kode_inventaris');
+            $stokInventaris = Inventaris::where('kode_mutasi', "kosong")->where('barang_id', $id_barang)->value('stok');
+            Inventaris::where('kode_inventaris', $kodeInventaris)->update([
+                'stok'            => $stokInventaris + $jml,
+            ]);
+
+            // mutasi
+            $random = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
+            $mutasi = Inventaris::create([
+                'barang_id'         => $id_barang,
+                'status'            => 1,
+                'deskripsi'         => 'Update',
+                'kode_inventaris'   => 'IN' . $random,
+                'kode_mutasi'       => 'IN' . $random,
+                'masuk'             => $jml,
+                'kategori_lab'      => $this->lab,
+                'keluar'            => 0,
+                'total'             => $stokInventaris + $jml,
+                'stok'              => 0,
+            ]);
+
+            if ($mutasi) {
+                return redirect()->route('barang.index')->with('success', 'Stok Barang Berhasil ditambahi!.');
+            } else {
+                return redirect()->route('barang.index')->with('error', 'Stok Barang Gagal ditambahi!.');
+            }
         } else {
-            return redirect()->route('barang.index')->with('error', 'Stok Barang Gagal ditambahi!.');
+            return redirect()->route('barang.index')->with('warning', 'Data Inventaris Belum didaftarkan!.');
         }
     }
 

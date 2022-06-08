@@ -66,10 +66,10 @@
         </a>
         <div id="inventarisDropDown" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class=" py-2 collapse-inner rounded" style="background-color: rgb(230, 230, 230)">
-                @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
-                <a class="collapse-item text-red" href="{{ route('inventaris.add', auth()->user()->role_id) }}">Tambah Inventaris</a>
-                @endrole
                 <a class="collapse-item text-red" href="{{ route('inventaris.index') }}">Data Inventaris</a>
+                {{-- @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
+                <a class="collapse-item text-red" href="{{ route('inventaris.add', auth()->user()->role_id) }}">Tambah Inventaris</a>
+                @endrole --}}
             </div>
         </div>
     </li>
