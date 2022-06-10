@@ -15,12 +15,12 @@
         </ol>
     </div>
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <a href="{{ route('scan.pengembalian') }}" class="btn btn-sm btn-info">
-            <i class="fas fa-qrcode"></i> Scan Pengembalian
-        </a>
-        {{-- <a href="https://aldysufri17.github.io/scan.github.io/" class="btn btn-sm btn-info">
+        {{-- <a href="{{ route('scan.pengembalian') }}" class="btn btn-sm btn-info">
             <i class="fas fa-qrcode"></i> Scan Pengembalian
         </a> --}}
+        <a href="https://aldysufri17.github.io/scan.github.io/" class="btn btn-sm btn-info">
+            <i class="fas fa-qrcode"></i> Scan Pengembalian
+        </a>
     </div>
 
     {{-- Alert Messages --}}
@@ -45,7 +45,7 @@
                         <td class="text-center">{{ $item->user->nim }}</td>
                         <td class="text-center">{{ $item->user->name }}</td>
                         <td class="d-sm-flex justify-content-center">
-                            <a href="{{route('show.peminjaman', ['id' => $item->user_id])}}" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Show">
+                            <a href="{{route('show.peminjaman', ['id' => encrypt($item->user_id)])}}" class="btn btn-primary" data-toggle="tooltip" data-placement="top" title="Show">
                                 <i class="fa fa-eye"></i>
                             </a>
                         </td>

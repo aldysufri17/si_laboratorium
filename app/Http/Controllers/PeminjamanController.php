@@ -50,16 +50,16 @@ class PeminjamanController extends Controller
                 $peminjaman = Peminjaman::with('user', 'barang')
                     ->where('kategori_lab', $this->lab)
                     ->where('status', 4)
-                    ->select('kode_peminjaman', 'created_at', DB::raw('count(*) as total'))
-                    ->groupBy('kode_peminjaman', 'created_at')
+                    ->select('kode_peminjaman', 'updated_at', 'user_id', DB::raw('count(*) as total'))
+                    ->groupBy('kode_peminjaman', 'updated_at', 'user_id',)
                     ->whereBetween('updated_at', [$start_date, $end_date])
                     ->get();
             } else {
                 $peminjaman = Peminjaman::with('user', 'barang')
                     ->where('kategori_lab', $this->lab)
                     ->where('status', 4)
-                    ->select('kode_peminjaman', 'created_at', DB::raw('count(*) as total'))
-                    ->groupBy('kode_peminjaman', 'created_at')
+                    ->select('kode_peminjaman', 'updated_at', 'user_id', DB::raw('count(*) as total'))
+                    ->groupBy('kode_peminjaman', 'updated_at', 'user_id')
                     ->get();
             }
         }
@@ -68,22 +68,23 @@ class PeminjamanController extends Controller
 
     public function adminPeminjaman($data)
     {
+        $data = decrypt($data);
         if (request()->start_date || request()->end_date) {
             $start_date = Carbon::parse(request()->start_date)->toDateTimeString();
             $end_date = Carbon::parse(request()->end_date)->toDateTimeString();
             $peminjaman = Peminjaman::with('user', 'barang')
                 ->where('kategori_lab', $data)
                 ->where('status', 4)
-                ->select('kode_peminjaman', 'created_at', DB::raw('count(*) as total'))
-                ->groupBy('kode_peminjaman', 'created_at')
+                ->select('kode_peminjaman', 'updated_at', 'user_id', DB::raw('count(*) as total'))
+                ->groupBy('kode_peminjaman', 'updated_at', 'user_id',)
                 ->whereBetween('updated_at', [$start_date, $end_date])
                 ->get();
         } else {
             $peminjaman = Peminjaman::with('user', 'barang')
                 ->where('kategori_lab', $data)
                 ->where('status', 4)
-                ->select('kode_peminjaman', 'created_at', DB::raw('count(*) as total'))
-                ->groupBy('kode_peminjaman', 'created_at')
+                ->select('kode_peminjaman', 'updated_at', 'user_id', DB::raw('count(*) as total'))
+                ->groupBy('kode_peminjaman', 'updated_at', 'user_id',)
                 ->get();
         }
         return view('backend.transaksi.riwayat.admin-peminjaman', compact('peminjaman'));
@@ -104,6 +105,7 @@ class PeminjamanController extends Controller
 
     public function showPengajuan($id)
     {
+        $id = decrypt($id);
         $peminjaman = Peminjaman::where('user_id', $id)
             ->select('kode_peminjaman', 'created_at', DB::raw('count(*) as total'))
             ->where('kategori_lab', $this->lab)
@@ -115,6 +117,7 @@ class PeminjamanController extends Controller
 
     public function pengajuanDetail($id, $kode)
     {
+        $kode = decrypt($kode);
         $peminjaman = Peminjaman::with('user', 'barang')
             ->where('kategori_lab', $this->lab)
             ->where('user_id', $id)
@@ -142,6 +145,7 @@ class PeminjamanController extends Controller
 
     public function showPeminjaman($id)
     {
+        $id = decrypt($id);
         $peminjaman = Peminjaman::where('user_id', $id)
             ->select('kode_peminjaman', DB::raw('count(*) as total'))
             ->where('kategori_lab', $this->lab)
@@ -226,6 +230,7 @@ class PeminjamanController extends Controller
 
     public function statusPeminjaman($id, $kode, $status, Request $request)
     {
+        $kode = decrypt($kode);
         if ($status == 2) {
             $barang_id = Peminjaman::where('user_id', $id)
                 ->where('kode_peminjaman', $kode)
@@ -495,9 +500,23 @@ class PeminjamanController extends Controller
         }
     }
 
+    public function peminjamanDetail($id, Request $request)
+    {
+        $id = decrypt($id);
+        $user_id = Auth::user()->id;
+        $peminjaman = Peminjaman::where('user_id', $user_id)
+            ->where('kode_peminjaman', $id)
+            ->orderBy('id', 'DESC')
+            ->paginate(5);
+        $detail = Peminjaman::where('user_id', $user_id)
+            ->where('kode_peminjaman', $id)
+            ->first();
+        return view('frontend.peminjaman-detail', compact('peminjaman', 'detail'));
+    }
 
     public function edit($id)
     {
+        $id = decrypt($id);
         $user_id = Auth::user()->id;
         $peminjaman = Peminjaman::with('barang')
             ->where('user_id', $user_id)

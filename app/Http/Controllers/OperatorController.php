@@ -73,12 +73,14 @@ class OperatorController extends Controller
 
     public function show($id)
     {
+        $id = decrypt($id);
         $user = User::findOrFail($id);
         return view('backend.operator.detail', compact('user'));
     }
 
-    public function edit(User $operator)
+    public function edit($operator)
     {
+        $operator = User::whereId(decrypt($operator))->first();
         $roles = Role::all();
         return view('backend.operator.edit')->with([
             'roles'     => $roles,
@@ -141,7 +143,7 @@ class OperatorController extends Controller
             'user_id'   =>  'required|exists:users,id',
             'status'    =>  'required|in:0,1',
         ]);
-
+        $user_id = decrypt($user_id);
         // Update Status
         $user = User::whereId($user_id)->update(['status' => $status]);
 

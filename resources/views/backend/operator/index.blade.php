@@ -52,18 +52,18 @@
                                 <span class="badge badge-success">Active</span>
                                 @endif
                             </td>
-                            <td><a class="btn btn-info" href="{{ route('operator.show', ['operator' => $user->id]) }}"
+                            <td><a class="btn btn-info" href="{{ route('operator.show', ['operator' => encrypt($user->id)]) }}"
                                     title="Show">
                                     <i class="fas fa-eye"></i>
                                 </a></td>
                             <td style="display: flex">
                                 @if ($user->status == 0)
-                                <a href="{{ route('sts', ['user_id' => $user->id, 'status' => 1]) }}"
+                                <a href="{{ route('sts', ['user_id' => encrypt($user->id), 'status' => 1]) }}"
                                     class="btn btn-success mx-2" title="Inactive">
                                     <i class="fa fa-check"></i>
                                 </a>
                                 @elseif ($user->status == 1)
-                                <a href="{{ route('sts', ['user_id' => $user->id, 'status' => 0]) }}"
+                                <a href="{{ route('sts', ['user_id' => encrypt($user->id), 'status' => 0]) }}"
                                     class="btn btn-danger mx-2" title="Active">
                                     <i class="fa fa-ban"></i>
                                 </a>
@@ -71,7 +71,7 @@
                                 <button class="btn btn-warning reset-btn ml-2" title="Reset" value="{{$user->id}}">
                                     <i class="fa-solid fa-clock-rotate-left"></i>
                                 </button>
-                                <a href="{{ route('operator.edit', ['operator' => $user->id]) }}"
+                                <a href="{{ route('operator.edit', ['operator' => encrypt($user->id)]) }}"
                                     class="btn btn-primary mx-2" title="Edit">
                                     <i class="fa fa-pen"></i>
                                 </a>

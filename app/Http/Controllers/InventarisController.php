@@ -63,6 +63,7 @@ class InventarisController extends Controller
 
     public function adminInventaris($data)
     {
+        $data = decrypt($data);
         if (request()->start_date || request()->end_date) {
             $start_date = Carbon::parse(request()->start_date)->toDateTimeString();
             $end_date = Carbon::parse(request()->end_date)->toDateTimeString();
@@ -287,6 +288,7 @@ class InventarisController extends Controller
 
     public function adminMutasi($data)
     {
+        $data = decrypt($data);
         if (request()->start_date || request()->end_date) {
             $start_date = Carbon::parse(request()->start_date)->toDateTimeString();
             $end_date = Carbon::parse(request()->end_date)->toDateTimeString();

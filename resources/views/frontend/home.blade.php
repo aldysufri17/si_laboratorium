@@ -251,6 +251,7 @@
             </div>
         </section><!-- End kegiatan Section -->
     </main><!-- End #main -->
+    <button type="button" hidden id="stopBtn">Stop</button>
     @endsection
 
     @section('script')
@@ -267,11 +268,17 @@
             autoInsertCss: true
         });
 
-        setTimeout(function () {
-        if (document.getElementById('notif')) {
-            document.getElementById('notif').click();
+        intervalID = setInterval(function () {
+            if (document.getElementById('notif')) {
+                document.getElementById('notif').click();
+            } else {
+                document.getElementById("stopBtn").addEventListener("click", stop);
+            }
+        }, 4000);
+
+        function stop() {
+            clearInterval(intervalID);
         }
-    }, 4000);
 
     </script>
     @endsection

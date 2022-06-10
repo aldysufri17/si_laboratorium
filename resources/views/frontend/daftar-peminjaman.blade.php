@@ -213,8 +213,9 @@
                                         <span class="badge badge-success">{{ $count->count() }} Disetujui</span>
                                         @endif
                                     </td>
+                                    {{-- Aksi --}}
                                     <td class="d-sm-flex justify-content-center">
-                                        <a href="{{route('keranjang.detail', $data->kode_peminjaman)}}"
+                                        <a href="{{route('peminjaman.detail', encrypt($data->kode_peminjaman))}}"
                                             class="btn btn-primary" data-toggle="tooltip" data-placement="top"
                                             title="Show">
                                             <i class="fa fa-eye"></i>
@@ -230,7 +231,7 @@
                                             <i class="fa fa-pen"></i>
                                         </button>
                                         @else
-                                        <a href="{{route('peminjaman.edit', $data->kode_peminjaman)}}"
+                                        <a href="{{route('peminjaman.edit', encrypt($data->kode_peminjaman))}}"
                                             class="btn btn-info mx-2" title="Edit">
                                             <i class="fa fa-pen"></i>
                                         </a>
@@ -392,7 +393,8 @@
                                                 <strong>({{$data->updated_at->format('H:i:s A')}})</strong></div>
                                         </div>
                                     </td>
-                                    <td class="text-center" style="text-transform: uppercase">{{ $data->kode_peminjaman}}</td>
+                                    <td class="text-center" style="text-transform: uppercase">
+                                        {{ $data->kode_peminjaman}}</td>
                                     <td class="text-center">{{ $data->total }}</td>
                                     <td class="d-sm-flex justify-content-center">
                                         <button class="btn btn-primary detail-btn" title="Show"
@@ -458,6 +460,7 @@
 
             </div>
         </section>
+    <button type="button" hidden id="stopBtn">Stop</button>
 </main>
 @endsection
 
@@ -470,11 +473,17 @@
         autoWidth: false,
     });
 
-    if (document.getElementById('notif')) {
-            setTimeout(function () {
+    intervalID = setInterval(function () {
+        if (document.getElementById('notif')) {
             document.getElementById('notif').click();
-        }, 4000);
+        } else {
+            document.getElementById("stopBtn").addEventListener("click", stop);
         }
+    }, 4000);
+
+    function stop() {
+        clearInterval(intervalID);
+    }
 
     window.onload = window.onload = function () {
         document.getElementById('clickButton').click();

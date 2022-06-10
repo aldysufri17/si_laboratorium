@@ -114,11 +114,11 @@ class DashboardController extends Controller
         $user_id = Auth::user()->id;
         if ($request->foto) {
             $usercek = User::whereid($user_id)->first();
-            if ($usercek->foto) {
-                unlink('images/user/' . $usercek->foto);
+            if (unlink(public_path() . '/images/user/' . $usercek->foto)) {
+                unlink(public_path() . '/images/user/' . $usercek->foto);
             }
             $foto = $request->foto;
-            $new_foto = date('Y-m-d') . "-" . Auth::user()->name . "-" . Auth::user()->nim . "." . $foto->getClientOriginalExtension();
+            $new_foto = Auth::user()->name . "-" . Auth::user()->nim . "." . $foto->getClientOriginalExtension();
             $destination = 'images/user/';
             $foto->move($destination, $new_foto);
             // Store Data
@@ -138,11 +138,11 @@ class DashboardController extends Controller
         $user_id = Auth::user()->id;
         if ($request->ktm) {
             $bb = User::whereid($user_id)->first();
-            if (file_exists(public_path('images/user/ktm/' . $bb->ktm))) {
-                unlink('images/user/ktm/' . $bb->ktm);
+            if (file_exists(public_path() . '/images/user/ktm/' . $bb->ktm)) {
+                unlink(public_path() . '/images/user/ktm/' . $bb->ktm);
             }
             $ktm = $request->ktm;
-            $new_ktm = date('Y-m-d') . "-" . Auth::user()->name . "-" . Auth::user()->nim . "." . $ktm->getClientOriginalExtension();
+            $new_ktm = Auth::user()->name . "-" . Auth::user()->nim . "." . $ktm->getClientOriginalExtension();
             $destination = 'images/user/ktm/';
             $ktm->move($destination, $new_ktm);
             // Store Data

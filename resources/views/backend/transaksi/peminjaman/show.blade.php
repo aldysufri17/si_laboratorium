@@ -58,7 +58,7 @@
                                 @endif
                                 <td class="d-sm-flex justify-content-center">
                                     <a class="btn btn-primary"
-                                        href="{{route('pengajuan.detail', ['id'=>$id,'kode'=>$item->kode_peminjaman])}}"
+                                        href="{{route('pengajuan.detail', ['id'=>$id,'kode'=>encrypt($item->kode_peminjaman)])}}"
                                         title="Show">
                                         <i class="fa fa-eye"></i>
                                     </a>
@@ -167,7 +167,7 @@
             <div class="modal-footer border-0">
                 <button class="btn btn-danger close-mdl" type="button" data-dismiss="modal">Batal</button>
                 <form method="GET"
-                    action="{{route('konfirmasi.status',['id'=> $id, 'kode' => $item->kode_peminjaman, 'status' => 4])}}">
+                    action="{{route('konfirmasi.status',['id'=> $id, 'kode' => encrypt($item->kode_peminjaman), 'status' => 4])}}">
                     @csrf
                     <input type="hidden" name="terimakode" id="terimakode">
                     <input type="hidden" name="terimauser_id" id="terimauser_id">

@@ -45,7 +45,7 @@ class SuratController extends Controller
         $id = Auth::user()->id;
         $ceksurat = Surat::where('user_id', $id)->first();
         if ($ceksurat) {
-            return redirect()->route('surat.index')->with('warning', 'Hapus surat, kemudian lakukan pengajuan lagi!.');
+            return redirect()->route('surat.index')->with('warning', 'Pengajuan hanya dapat dilakukan sekali saja!.');
         } else {
             $peminjaman = Peminjaman::where('user_id', $id)
                 ->where('status', '=', 0)
@@ -77,7 +77,7 @@ class SuratController extends Controller
 
     public function show($id)
     {
-        $kode = $id;
+        $kode = decrypt($id);
         $surat = Surat::where('kode', $kode)->first();
         $pdf = PDF::loadview('frontend.surat-bebas', compact('surat'));
         return $pdf->download("Surat Bebas Lab" . "_" . $surat->nama . '_' . $surat->nim . '.pdf');

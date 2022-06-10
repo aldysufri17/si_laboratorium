@@ -56,7 +56,7 @@
                                 Laboratorium Multimedia
                                 @endif</td>
                             <td class="d-sm-flex justify-content-center">
-                                <a href="{{route('admin.damaged', $data->kategori_lab)}}" class="btn btn-primary" data-toggle="tooltip" data-placement="top"
+                                <a href="{{route('admin.damaged', encrypt($data->kategori_lab))}}" class="btn btn-primary" data-toggle="tooltip" data-placement="top"
                                     title="Show">
                                     <i class="fa fa-eye"></i>
                                 </a>

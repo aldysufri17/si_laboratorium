@@ -47,7 +47,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $user = User::FindorFail($id);
+        $user = User::FindorFail(decrypt($id));
         return view('backend.users.detail', compact('user'));
     }
 
@@ -140,7 +140,7 @@ class UserController extends Controller
             'user_id'   =>  'required|exists:users,id',
             'status'    =>  'required|in:0,1',
         ]);
-
+        $user_id = decrypt($user_id);
         // Update Status
         $user = User::whereId($user_id)->update(['status' => $status]);
 
@@ -161,8 +161,9 @@ class UserController extends Controller
      * @return Collection $user
      * @author Shani Singh
      */
-    public function edit(User $user)
+    public function edit($user)
     {
+        $user = User::whereId(decrypt($user))->first();
         $roles = Role::all();
         return view('backend.users.edit')->with([
             'roles' => $roles,

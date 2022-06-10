@@ -60,7 +60,7 @@
                                 <span class="badge badge-success">Tampil</span>
                                 @endif</td>
                             <td>{{ $data->lokasi }}</td>
-                            <td><a class="btn btn-info m-2" href="{{ route('barang.show', $data->id) }}" title="Show">
+                            <td><a class="btn btn-info m-2" href="{{ route('barang.show', encrypt($data->id)) }}" title="Show">
                                 <i class="fas fa-eye"></i>
                             </a></td>
                         </tr>

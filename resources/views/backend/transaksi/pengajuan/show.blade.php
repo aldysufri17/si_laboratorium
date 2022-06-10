@@ -53,7 +53,7 @@
                             <td class="text-center">{{ $item->total }}</td>
                             <td class="d-sm-flex justify-content-center">
                                 <a class="btn btn-primary"
-                                    href="{{route('pengajuan.detail', ['id'=>$id,'kode'=>$item->kode_peminjaman])}}"
+                                    href="{{route('pengajuan.detail', ['id'=>$id,'kode'=>encrypt($item->kode_peminjaman)])}}"
                                     title="Detail">
                                     <i class="fa fa-eye"></i>
                                 </a>
@@ -61,7 +61,7 @@
                                     <i class="fa fa-ban"></i>
                                 </button>
                                 <input type="text" id="id_user" hidden value="{{$id}}">
-                                <a href="{{route('konfirmasi.status',['id'=> $id, 'kode' => $item->kode_peminjaman, 'status' => 2])}}"
+                                <a href="{{route('konfirmasi.status',['id'=> $id, 'kode'=>encrypt($item->kode_peminjaman), 'status' => 2])}}"
                                     class="btn btn-success" data-toggle="tooltip" data-placement="top" title="Setujui">
                                     <i class="fa fa-check"></i>
                                 </a>

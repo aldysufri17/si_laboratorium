@@ -8,7 +8,7 @@ use App\Models\Peminjaman;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\Crypt;
 
 class HomeController extends Controller
 {
@@ -93,7 +93,7 @@ class HomeController extends Controller
 
     public function detailBarang($id)
     {
-        $barang = Barang::whereId($id)->first();
+        $barang = Barang::whereId(decrypt($id))->first();
         return view('frontend.detail-barang', compact('barang'));
     }
 
@@ -140,19 +140,6 @@ class HomeController extends Controller
     {
         $barang = Barang::with('satuan', 'kategori')->where('show', 1)->paginate(8);;
         return view('frontend.inventaris', compact('barang'));
-    }
-
-    public function keranjangDetail($id, Request $request)
-    {
-        $user_id = Auth::user()->id;
-        $peminjaman = Peminjaman::where('user_id', $user_id)
-            ->where('kode_peminjaman', $id)
-            ->orderBy('id', 'DESC')
-            ->paginate(5);
-        $detail = Peminjaman::where('user_id', $user_id)
-            ->where('kode_peminjaman', $id)
-            ->first();
-        return view('frontend.peminjaman-detail', compact('peminjaman', 'detail'));
     }
 
     public function riwayatDetail(Request $request)

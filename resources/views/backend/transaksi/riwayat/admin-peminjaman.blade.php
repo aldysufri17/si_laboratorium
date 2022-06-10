@@ -35,13 +35,17 @@
                             <input type="date" class="form-control" value="{{Request::get('start_date')}}" name="start_date">
                             <input type="date" class="form-control" value="{{Request::get('end_date')}}" name="end_date">
                             <button class="btn btn-primary" type="submit">Filter</button>
+                            @if (Request::get('start_date') != "" || Request::get('end_date') != "")
+                            <a class="btn btn-warning" href="{{route('daftar.peminjaman')}}">Clear</a>
+                            @endif
                         </div>
                     </form>
                 </div>
                 <table class="table table-borderless table-dark bgdark" id="dataTable" width="100%" cellspacing="0">
                     <thead>
                         <tr>
-                            <th width="20%" class="text-center">Date</th>
+                            <th width="20%" class="text-center">Tanggal Selesai</th>
+                            <th width="10%" class="text-center">Nim</th>
                             <th width="10%" class="text-center">Kode Peminjaman</th>
                             <th width="10%" class="text-center">Aksi</th>
                         </tr>
@@ -49,8 +53,9 @@
                     <tbody>
                         @foreach ($peminjaman as $result => $data)
                         <tr>
-                            <td class="text-center">{{$data->created_at->format('d M Y')}}
-                                <strong class="text-muted">({{$data->created_at->format('H:i:s A')}})</strong></td>
+                            <td class="text-center">{{$data->updated_at->format('d M Y')}}
+                                <strong class="text-muted">({{$data->updated_at->format('H:i:s A')}})</strong></td>
+                            <td class="text-center">{{$data->user->nim}}</td>
                             <td class="text-center">{{$data->kode_peminjaman}}</td>
                             <td class="d-sm-flex justify-content-center">
                                 <button class="btn btn-primary detail-btn" title="Show"

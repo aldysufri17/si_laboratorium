@@ -41,7 +41,7 @@
                             <td class="text-center">{{ $nim }}</td>
                             <td class="text-center">{{ $item->user->name }}</td>
                             <td class="d-sm-flex justify-content-center">
-                                <a href="{{route('show.pengajuan', ['id' => $item->user_id])}}" class="btn btn-primary"
+                                <a href="{{route('show.pengajuan', ['id' => encrypt($item->user_id)])}}" class="btn btn-primary"
                                     data-toggle="tooltip" data-placement="top" title="Show">
                                     <i class="fa fa-eye"></i>
                                 </a>

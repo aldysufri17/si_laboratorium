@@ -36,6 +36,7 @@
     <div class="card shadow mb-4 border-0 bgdark">
         <div class="card-body">
             <div class="table-responsive">
+                @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
                 <div class="my-2">
                     <form action="{{route('inventaris.index')}}" method="GET">
                         @csrf
@@ -50,6 +51,7 @@
                         </div>
                     </form>
                 </div>
+                @endrole
                 <table id="dataTable" class="table table-borderless dt-responsive" cellspacing="0" width="100%">
                     @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
                     <thead>
@@ -122,7 +124,7 @@
                                 @endif</td>
                             <td class="text-center">{{ $data->total }}</td>
                             <td class="d-sm-flex justify-content-center">
-                                <a href="{{route('admin.inventaris', $data->kategori_lab)}}" class="btn btn-primary"
+                                <a href="{{route('admin.inventaris', encrypt($data->kategori_lab))}}" class="btn btn-primary"
                                     data-toggle="tooltip" data-placement="top" title="Show">
                                     <i class="fa fa-eye"></i>
                                 </a>

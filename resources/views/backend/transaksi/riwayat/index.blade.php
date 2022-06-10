@@ -1,6 +1,6 @@
 @extends('backend.layouts.app')
 
-@section('title', 'Daftar Peminjaman')
+@section('title', 'Riwayat Peminjaman')
 
 @section('content')
 
@@ -8,10 +8,10 @@
 <div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-2">
-        <h1 class="h5 mb-0 text-light">Daftar Peminjaman</h1>
+        <h1 class="h5 mb-0 text-light">Riwayat Peminjaman</h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Dashboard</a></li>
-            <li class="breadcrumb-item">Daftar Peminjaman</li>
+            <li class="breadcrumb-item">Riwayat Peminjaman</li>
         </ol>
     </div>
     @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
@@ -41,7 +41,7 @@
                                 name="end_date">
                             <button class="btn btn-primary" type="submit">Filter</button>
                             @if (Request::get('start_date') != "" || Request::get('end_date') != "")
-                            <a class="btn btn-warning" href="/daftar-peminjaman">Clear</a>
+                            <a class="btn btn-warning" href="{{route('daftar.peminjaman')}}">Clear</a>
                             @endif
                         </div>
                     </form>
@@ -51,7 +51,8 @@
                     @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
                     <thead>
                         <tr>
-                            <th width="20%" class="text-center">Date</th>
+                            <th width="20%" class="text-center">Tanggal Selesai</th>
+                            <th width="10%" class="text-center">Nim</th>
                             <th width="10%" class="text-center">Kode Peminjaman</th>
                             <th width="10%" class="text-center">Aksi</th>
                         </tr>
@@ -59,8 +60,9 @@
                     <tbody>
                         @foreach ($peminjaman as $result => $data)
                         <tr>
-                            <td class="text-center">{{$data->created_at->format('d M Y')}}
-                                <strong class="text-muted">({{$data->created_at->format('H:i:s A')}})</strong></td>
+                            <td class="text-center">{{$data->updated_at->format('d M Y')}}
+                                <strong class="text-muted">({{$data->updated_at->format('H:i:s A')}})</strong></td>
+                            <td class="text-center">{{$data->user->nim}}</td>
                             <td class="text-center">{{$data->kode_peminjaman}}</td>
                             <td class="d-sm-flex justify-content-center">
                                 <button class="btn btn-primary detail-btn" title="Show"
@@ -95,7 +97,7 @@
                                 @endif</td>
                             <td class="text-center">{{ $data->total }}</td>
                             <td class="d-sm-flex justify-content-center">
-                                <a href="{{route('admin.peminjaman', $data->kategori_lab)}}" class="btn btn-primary"
+                                <a href="{{route('admin.peminjaman', encrypt($data->kategori_lab))}}" class="btn btn-primary"
                                     data-toggle="tooltip" data-placement="top" title="Show">
                                     <i class="fa fa-eye"></i>
                                 </a>
@@ -160,7 +162,7 @@
     </div>
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         @if (app('request')->input('start_date') || app('request')->input('start_date') )
-        <a class="btn btn-sm btn-danger" href="{{'daftar.peminjaman'}}"><i class="fas fa-angle-double-left"></i>
+        <a class="btn btn-sm btn-danger" href="{{route('daftar.peminjaman')}}"><i class="fas fa-angle-double-left"></i>
             Tampilkan Semua Data</a>
         @endif
     </div>

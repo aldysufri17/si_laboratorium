@@ -85,11 +85,11 @@
                                 <span class="badge badge-success">Tampil</span>
                                 @endif</td>
                             <td style="display: flex">
-                                <a class="btn btn-info m-2" href="{{ route('barang.show', $data->id) }}" title="Show">
+                                <a class="btn btn-info m-2" href="{{ route('barang.show', encrypt($data->id)) }}" title="Show">
                                     <i class="fas fa-eye"></i>
                                 </a>
                                 @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
-                                <a href="{{ route('barang.edit', $data->id) }}" class="btn btn-primary mx-2"
+                                <a href="{{ route('barang.edit', encrypt($data->id)) }}" class="btn btn-primary mx-2"
                                     title="Edit">
                                     <i class="fa fa-pen"></i>
                                 </a>
@@ -125,7 +125,7 @@
                                 @endif</td>
                             <td class="text-center">{{ $data->total }}</td>
                             <td class="d-sm-flex justify-content-center">
-                                <a href="{{route('admin.barang', $data->kategori_lab)}}" class="btn btn-primary"
+                                <a href="{{route('admin.barang', encrypt($data->kategori_lab))}}" class="btn btn-primary"
                                     data-toggle="tooltip" data-placement="top" title="Show">
                                     <i class="fa fa-eye"></i>
                                 </a>

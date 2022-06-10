@@ -42,7 +42,7 @@
             </div>
             @if ($barang->isNotEmpty())
             @foreach ($barang as $data)
-            <a href="{{route('detail.barang', $data->id)}}">
+            <a href="{{route('detail.barang', encrypt($data->id))}}">
                 <div class="card items shadow-sm p-4 mb-4 bg-white rounded">
                     <div class="card-block">
                         <h4 class="card-title text-dark">{{$data->nama}} - {{$data->tipe}}</h4>

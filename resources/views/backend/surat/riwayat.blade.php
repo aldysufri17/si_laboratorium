@@ -59,7 +59,7 @@
                             <td>{{ $data->nim }}</td>
                             <td>{{ $data->alamat }}</td>
                             <td>
-                                <a href="{{route('surat.show', ['surat' => $data->kode])}}"
+                                <a href="{{route('surat.show', ['surat' => encrypt($data->kode)])}}"
                                     class="btn btn-info" title="Unduh Surat">
                                     <i class="fa-solid fa-print"></i>
                                 </a>

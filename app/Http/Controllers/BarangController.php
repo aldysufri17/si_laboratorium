@@ -64,6 +64,7 @@ class BarangController extends Controller
 
     public function adminBarang($data)
     {
+        $data = decrypt($data);
         $barang = Barang::with('satuan', 'kategori')
             ->where('kategori_lab', $data)
             ->orderBy('id', 'desc')
@@ -187,13 +188,15 @@ class BarangController extends Controller
         }
     }
 
-    public function show(Barang $barang)
+    public function show($id)
     {
+        $barang = Barang::whereId(decrypt($id))->first();
         return view('backend.barang.detail', compact('barang'));
     }
 
-    public function edit(Barang $barang)
+    public function edit($barang)
     {
+        $barang = Barang::whereId(decrypt($barang))->first();
         $kategori = Kategori::where('kategori_lab', $this->lab)->get();
         $satuan = Satuan::where('kategori_lab', $this->lab)->get();
         $pengadaan = Pengadaan::all();
@@ -214,11 +217,11 @@ class BarangController extends Controller
         ]);
         if ($request->gambar) {
             $bb = Barang::whereid($barang->id)->first();
-            if (file_exists(public_path('/images/barang/' . $bb->gambar))) {
-                unlink('images/barang/' . $bb->gambar);
+            if (file_exists(public_path() . '/images/barang/' . $bb->gambar)) {
+                unlink(public_path() . '/images/barang/' . $bb->gambar);
             }
             $gambar = $request->gambar;
-            $new_gambar = date('Y-m-d') . "-" . $request->nama . "-" . $request->tipe . "." . $gambar->getClientOriginalExtension();
+            $new_gambar = $request->nama . "-" . $request->tipe . "." . $gambar->getClientOriginalExtension();
             $destination = 'images/barang/';
             $gambar->move($destination, $new_gambar);
             $barang_update = Barang::whereid($barang->id)->update([
@@ -278,6 +281,7 @@ class BarangController extends Controller
 
     public function adminDamaged($data)
     {
+        $data = decrypt($data);
         $barang = Barang::whereNotNull('jml_rusak')->where('kategori_lab', $data)->get();
         return view('backend.barang.rusak.admin-damaged', compact('barang'));
     }
