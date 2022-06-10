@@ -77,7 +77,7 @@
                         alt="Card image cap">
                     <div class="card-body">
                         <h5><strong>Langkah 5</strong></h5>
-                        <p class="card-text text-justify">Barang akan ditambahkan kedalam keranjang pengajuan, untuk melakukan pengajuan, pilih button form untuk mengisi formulir penggunaan barang</p>
+                        <p class="card-text text-justify">Barang akan ditambahkan kedalam keranjang pengajuan, checkout untuk melakukan pengajuan</p>
                     </div>
                 </div>
                 <div class="card mt-3" style="width: 25rem;">
@@ -85,7 +85,7 @@
                         alt="Card image cap">
                     <div class="card-body">
                         <h5><strong>Langkah 6</strong></h5>
-                        <p class="card-text text-justify">anda diharuskan mengisi formulir penggunaan barang untuk melakukan pengajuan, Setelah mengisi formulir pilih tombol simpan</p>
+                        <p class="card-text text-justify">Anda diharuskan mengisi formulir penggunaan barang untuk melakukan pengajuan, Setelah mengisi formulir pilih tombol simpan</p>
                     </div>
                 </div>
                 <div class="card mt-3" style="width: 25rem;">
@@ -101,15 +101,15 @@
                         alt="Card image cap">
                     <div class="card-body">
                         <h5><strong>Langkah 8</strong></h5>
-                        <p class="card-text text-justify">Setelah pengajuan anda disetujui, anda bisa melakukan cetak surat pengajuan untuk melakukan pengambilan barang pada laboratorium terkait.</p>
+                        <p class="card-text text-justify">Setelah pengajuan anda disetujui, anda bisa melakukan cetak surat peminjaman pada halaman detail peminjaman.</p>
                     </div>
                 </div>
                 <div class="card mt-3" style="width: 25rem;">
                     <center><img class="card-img-top p-2" src="{{asset('frontend/img/langkah/surat.png')}}"
                             height="230px" style="width: 250px" alt="Card image cap"></center>
                     <div class="card-body">
-                        <h5><strong>Surat Pengajuan Peminjaman</strong></h5>
-                        <p class="card-text text-justify"><strong><p class="text-danger">(Pengambilan barang harus dibuktikan dengan surat pengajuan)</p></strong></p>
+                        <h5><strong>Surat Peminjaman</strong></h5>
+                        <p class="card-text text-justify">Surat peminjaman dapat digunakan ketika melakukan pengembalian barang.</p>
                     </div>
                 </div>
                 <div class="card mt-3" style="width: 25rem;">
@@ -117,7 +117,7 @@
                             height="230px" alt="Card image cap">
                     <div class="card-body">
                         <h5><strong>Langkah 9</strong></h5>
-                        <p class="card-text text-justify">Peminjaman diaktifkan oleh operator laboratorium, anda dapat melihat daftar peminjaman aktif anda pada halaman peminjaman aktif</p>
+                        <p class="card-text text-justify">Setelah peminjaman selesai, akan tersedia tombol pengajuan pengembalian barang, yang dapat anda gunakan untuk melakukan pengembalian barang.</p>
                     </div>
                 </div>
             </div>
