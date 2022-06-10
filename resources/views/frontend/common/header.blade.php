@@ -20,7 +20,7 @@
         <div class="container d-flex justify-content-between px-5">
 
             <div id="logo">
-                <a href="/"><img
+                <a href="/app"><img
                         src="https://tekkom.ft.undip.ac.id/wp-content/uploads/2020/10/DEPARTEMEN-TEKKOM.png"></a>
             </div>
 
