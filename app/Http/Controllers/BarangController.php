@@ -291,16 +291,17 @@ class BarangController extends Controller
         $barang_id = $request->delete_id;
         $peminjaman = Peminjaman::where('barang_id', $barang_id)->where('status', '<', 4)->get();
         if ($peminjaman->isNotEmpty()) {
-            request()->session()->flash('active', "Barang gagal dihapus, Masih terdapat transaksi peminjaman");
+            request()->session()->flash('active', "Barang gagal dihapus, Barang masih dalam pinjaman");
             return redirect()->route('barang.index');
         }
 
         $fotoBarang = Barang::whereId($barang_id)->first();
         if ($fotoBarang->gambar) {
-            if (file_exists(public_path('/images/barang/' . $fotoBarang->gambar))) {
-                unlink('images/barang/' . $fotoBarang->gambar);
+            if (file_exists(public_path() . '/images/barang/' . $fotoBarang->gambar)) {
+                unlink(public_path() . '/images/barang/' . $fotoBarang->gambar);
             }
         }
+
         Peminjaman::where('barang_id', $barang_id)->delete();
         Inventaris::where('barang_id', $barang_id)->delete();
         $delete = Barang::whereId($barang_id)->delete();
@@ -462,39 +463,34 @@ class BarangController extends Controller
             $ket = $request->keterangan;
         }
 
-        $cekInventaris = Inventaris::where('barang_id', $id_barang)->where('kode_mutasi', "kosong")->get();
-        if ($cekInventaris->IsNotEmpty()) {
-            Barang::whereId($id_barang)->update(['stock' => $stok - $jml, 'jml_rusak' => $rsk + $jml, 'keterangan_rusak' => $ket]);
+        Barang::whereId($id_barang)->update(['stock' => $stok - $jml, 'jml_rusak' => $rsk + $jml, 'keterangan_rusak' => $ket]);
 
-            // ineventaris update
-            $kodeInventaris = Inventaris::where('kode_mutasi', "kosong")->where('barang_id', $id_barang)->value('kode_inventaris');
-            $stokInventaris = Inventaris::where('kode_mutasi', "kosong")->where('barang_id', $id_barang)->value('stok');
-            Inventaris::where('kode_inventaris', $kodeInventaris)->update([
-                'stok'            => $stokInventaris - $jml,
-            ]);
+        // ineventaris update
+        $kodeInventaris = Inventaris::where('kode_mutasi', "kosong")->where('barang_id', $id_barang)->value('kode_inventaris');
+        $stokInventaris = Inventaris::where('kode_mutasi', "kosong")->where('barang_id', $id_barang)->value('stok');
+        Inventaris::where('kode_inventaris', $kodeInventaris)->update([
+            'stok'            => $stokInventaris - $jml,
+        ]);
 
-            // mutasi
-            $random = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
-            $mutasi = Inventaris::create([
-                'barang_id'         => $id_barang,
-                'status'            => 0,
-                'deskripsi'         => 'Rusak',
-                'kode_inventaris'   => 'OUT' . $random,
-                'kode_mutasi'       => 'OUT' . $random,
-                'masuk'             => 0,
-                'kategori_lab'      => $this->lab,
-                'keluar'            => $jml,
-                'total'             => $stokInventaris - $jml,
-                'stok'              => 0,
-            ]);
+        // mutasi
+        $random = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
+        $mutasi = Inventaris::create([
+            'barang_id'         => $id_barang,
+            'status'            => 0,
+            'deskripsi'         => 'Rusak',
+            'kode_inventaris'   => 'OUT' . $random,
+            'kode_mutasi'       => 'OUT' . $random,
+            'masuk'             => 0,
+            'kategori_lab'      => $this->lab,
+            'keluar'            => $jml,
+            'total'             => $stokInventaris - $jml,
+            'stok'              => 0,
+        ]);
 
-            if ($mutasi) {
-                return redirect()->route('barang.damaged')->with('success', 'Stok Barang Berhasil dibaharui!.');
-            } else {
-                return redirect()->route('barang.damaged')->with('error', 'Stok Barang Gagal dibaharui!.');
-            }
+        if ($mutasi) {
+            return redirect()->route('barang.damaged')->with('success', 'Stok Barang Berhasil dibaharui!.');
         } else {
-            return redirect()->route('barang.damaged')->with('warning', 'Data Inventaris Belum didaftarkan!.');
+            return redirect()->route('barang.damaged')->with('error', 'Stok Barang Gagal dibaharui!.');
         }
     }
 
@@ -515,39 +511,34 @@ class BarangController extends Controller
         $id_barang = $request->barang;
         $stok = $request->total_stok;
         $jml = $request->jumlah;
-        $cekInventaris = Inventaris::where('barang_id', $id_barang)->where('kode_mutasi', "kosong")->get();
-        if ($cekInventaris->IsNotEmpty()) {
-            Barang::whereId($id_barang)->update(['stock' => $stok + $jml]);
+        Barang::whereId($id_barang)->update(['stock' => $stok + $jml]);
 
-            // ineventaris
-            $kodeInventaris = Inventaris::where('kode_mutasi', "kosong")->where('barang_id', $id_barang)->value('kode_inventaris');
-            $stokInventaris = Inventaris::where('kode_mutasi', "kosong")->where('barang_id', $id_barang)->value('stok');
-            Inventaris::where('kode_inventaris', $kodeInventaris)->update([
-                'stok'            => $stokInventaris + $jml,
-            ]);
+        // ineventaris
+        $kodeInventaris = Inventaris::where('kode_mutasi', "kosong")->where('barang_id', $id_barang)->value('kode_inventaris');
+        $stokInventaris = Inventaris::where('kode_mutasi', "kosong")->where('barang_id', $id_barang)->value('stok');
+        Inventaris::where('kode_inventaris', $kodeInventaris)->update([
+            'stok'            => $stokInventaris + $jml,
+        ]);
 
-            // mutasi
-            $random = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
-            $mutasi = Inventaris::create([
-                'barang_id'         => $id_barang,
-                'status'            => 1,
-                'deskripsi'         => 'Update',
-                'kode_inventaris'   => 'IN' . $random,
-                'kode_mutasi'       => 'IN' . $random,
-                'masuk'             => $jml,
-                'kategori_lab'      => $this->lab,
-                'keluar'            => 0,
-                'total'             => $stokInventaris + $jml,
-                'stok'              => 0,
-            ]);
+        // mutasi
+        $random = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
+        $mutasi = Inventaris::create([
+            'barang_id'         => $id_barang,
+            'status'            => 1,
+            'deskripsi'         => 'Update',
+            'kode_inventaris'   => 'IN' . $random,
+            'kode_mutasi'       => 'IN' . $random,
+            'masuk'             => $jml,
+            'kategori_lab'      => $this->lab,
+            'keluar'            => 0,
+            'total'             => $stokInventaris + $jml,
+            'stok'              => 0,
+        ]);
 
-            if ($mutasi) {
-                return redirect()->route('barang.index')->with('success', 'Stok Barang Berhasil ditambahi!.');
-            } else {
-                return redirect()->route('barang.index')->with('error', 'Stok Barang Gagal ditambahi!.');
-            }
+        if ($mutasi) {
+            return redirect()->route('barang.index')->with('success', 'Stok Barang Berhasil ditambahi!.');
         } else {
-            return redirect()->route('barang.index')->with('warning', 'Data Inventaris Belum didaftarkan!.');
+            return redirect()->route('barang.index')->with('error', 'Stok Barang Gagal ditambahi!.');
         }
     }
 
