@@ -64,10 +64,12 @@ class HomeController extends Controller
                 $barang = Barang::where('show', 1)
                     ->where('kategori_lab', $request->kategori_lab)
                     ->whereNotIn('id', $data)
+                    ->where('stock', '>', 0)
                     ->latest();
                 // dd($barang);
             } else {
                 $barang = Barang::where('show', 1)
+                    ->where('stock', '>', 0)
                     ->where('kategori_lab', $request->kategori_lab)
                     ->latest();
             }
@@ -80,9 +82,11 @@ class HomeController extends Controller
                 $barang = Barang::where('show', 1)
                     ->where('kategori_lab', 1)
                     ->whereNotIn('id', $data)
+                    ->where('stock', '>', 0)
                     ->latest();
             } else {
                 $barang = Barang::where('show', 1)
+                    ->where('stock', '>', 0)
                     ->where('kategori_lab', 1)
                     ->latest();
             }
