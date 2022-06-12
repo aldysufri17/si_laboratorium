@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Barang;
 use App\Models\Pengadaan;
 use Illuminate\Http\Request;
 
@@ -73,11 +74,20 @@ class PengadaanController extends Controller
 
     public function destroy($id)
     {
-        $pengadaan = Pengadaan::whereId($id)->delete();
-        if ($pengadaan) {
-            return redirect()->route('pengadaan.index')->with(['success', 'Pengadaan berhasil dihapus']);
+        if ($id > 5) {
+            return redirect()->route('satuan.index')->with(['success', 'Satuan berhasil dihapus']);
         } else {
-            return redirect()->route('pengadaan.index')->with(['error', 'Pengadaan gagal dihapus']);
+            $barang = Barang::where('satuan_id', $id)->get();
+            if ($barang->isNotEmpty()) {
+                return redirect()->route('satuan.index')->with(['success', 'Satuan berhasil dihapus']);
+            } else {
+                $pengadaan = Pengadaan::whereId($id)->delete();
+                if ($pengadaan) {
+                    return redirect()->route('pengadaan.index')->with(['success', 'Pengadaan berhasil dihapus']);
+                } else {
+                    return redirect()->route('pengadaan.index')->with(['error', 'Pengadaan gagal dihapus']);
+                }
+            }
         }
     }
 }

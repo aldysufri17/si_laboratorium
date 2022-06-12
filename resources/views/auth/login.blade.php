@@ -19,7 +19,7 @@
                                     @include('sweetalert::alert')
                                     <h4 class="text-light" style="margin-bottom: 1px">Selamat Datang</h4>
                                     {{-- <a class="small" href="{{route('register')}}">Belum Punya akun?</a> --}}
-                                    {{-- <p>Silahkan Login Terlebih Dahulu</p> --}}
+                                    <p>Silahkan Login Terlebih Dahulu</p>
                                 </div>
 
                                 @if (session('error'))
@@ -66,7 +66,7 @@
                                 </form>
                                 <hr>
                                 <div class="text-center">
-                                    <a class="small" href="{{route('password.request')}}">Lupa Password?</a><br>                                   
+                                    <a class="small" href="" hidden>Lupa Password?</a><br>                                   
                                     <a class="small" href="{{url('/')}}"><i class="fas fa-fw fa-home"></i> Beranda</a>
                                 </div>
                             </div>

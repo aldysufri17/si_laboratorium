@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Barang;
 use App\Models\Satuan;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -95,11 +96,16 @@ class SatuanController extends Controller
 
     public function destroy($id)
     {
-        $satuan = Satuan::whereId($id)->delete();
-        if ($satuan) {
+        $barang = Barang::where('satuan_id', $id)->get();
+        if ($barang->isNotEmpty()) {
             return redirect()->route('satuan.index')->with(['success', 'Satuan berhasil dihapus']);
         } else {
-            return redirect()->route('satuan.index')->with(['error', 'Satuan gagal dihapus']);
+            $satuan = Satuan::whereId($id)->delete();
+            if ($satuan) {
+                return redirect()->route('satuan.index')->with(['success', 'Satuan berhasil dihapus']);
+            } else {
+                return redirect()->route('satuan.index')->with(['error', 'Satuan gagal dihapus']);
+            }
         }
     }
 }

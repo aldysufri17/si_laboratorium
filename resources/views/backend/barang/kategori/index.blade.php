@@ -51,14 +51,17 @@
                             <td>{{ $data->kode }}</td>
                             <td>{{ $data->nama_kategori }}</td>
                             <td style="display: flex">
+                                @php
+                                $barang = App\Models\Barang::where('kategori_id', $data->id)->first();
+                                @endphp
                                 <a href="{{ route('kategori.edit', $data->id) }}" class="btn btn-primary m-2"
                                     title="Edit">
                                     <i class="fa fa-pen"></i>
                                 </a>
-                                <a class="btn btn-danger m-2" href="#" data-toggle="modal" data-target="#deleteModal"
+                                <button class="btn btn-danger m-2" href="#" data-toggle="modal" data-target="#deleteModal" {{$barang ? "disabled" : ""}}
                                     title="Delete">
                                     <i class="fas fa-trash"></i>
-                                </a>
+                                </button>
                             </td>
                         </tr>
                         @endforeach

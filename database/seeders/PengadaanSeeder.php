@@ -29,5 +29,10 @@ class PengadaanSeeder extends Seeder
             "kode" => 'TK-0003',
             "nama_pengadaan" => 'Barang Hibah',
         ]);
+        Pengadaan::create([
+            'id'    => 4,
+            "kode" => 'TK-0004',
+            "nama_pengadaan" => 'Barang Inventaris',
+        ]);
     }
 }

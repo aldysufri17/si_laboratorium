@@ -51,14 +51,25 @@
                             <td>{{ $data->kode }}</td>
                             <td>{{ $data->nama_pengadaan }}</td>
                             <td style="display: flex">
-                                <a href="{{ route('pengadaan.edit', $data->id) }}" class="btn btn-primary m-2"
+                                @php
+                                $barang = App\Models\Barang::where('pengadaan_id', $data->id)->first();
+                                $default = $data->id < 5;
+                                @endphp
+                                @if ($default)
+                                <button disabled class="btn btn-primary m-2"
+                                    title="Edit">
+                                    <i class="fa fa-pen"></i>
+                                </button>
+                                @else
+                                <a  href="{{ route('pengadaan.edit', $data->id) }}" class="btn btn-primary m-2"
                                     title="Edit">
                                     <i class="fa fa-pen"></i>
                                 </a>
-                                <a class="btn btn-danger m-2" href="#" data-toggle="modal" data-target="#deleteModal"
+                                @endif
+                                <button class="btn btn-danger m-2" href="#" data-toggle="modal" data-target="#deleteModal" @if ($default) disabled @else {{$barang ? "disabled" : ""}} @endif
                                     title="Delete">
                                     <i class="fas fa-trash"></i>
-                                </a>
+                                </button>
                             </td>
                         </tr>
                         @endforeach

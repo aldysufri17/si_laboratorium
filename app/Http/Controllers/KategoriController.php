@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Barang;
 use App\Models\Kategori;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -95,6 +96,10 @@ class KategoriController extends Controller
 
     public function destroy($id)
     {
+        $barang = Barang::where('satuan_id', $id)->first();
+        if ($barang) {
+            return redirect()->route('kategori.index')->with(['error', 'Kategori Masih digunakan!']);
+        }
         $kategori = Kategori::whereId($id)->delete();
         if ($kategori) {
             return redirect()->route('kategori.index')->with(['success', 'Kategori berhasil dihapus']);
