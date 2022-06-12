@@ -44,55 +44,9 @@ class HomeController extends Controller
         return view('frontend.home');
     }
 
-    public function search(Request $request)
+    public function daftarBarang()
     {
-        if ($request->kategori_lab == 1 || $request->kategori_lab == "") {
-            $lab = "Sistem Tertanam dan Robotika";
-        } elseif ($request->kategori_lab == 2) {
-            $lab = "Rekayasa Perangkat Lunak";
-        } elseif ($request->kategori_lab == 3) {
-            $lab = "Jaringan dan Keamanan Komputer";
-        } elseif ($request->kategori_lab == 4) {
-            $lab = "Multimedia";
-        }
-
-        if (Auth::check()) {
-            $data = Keranjang::where('user_id', Auth::user()->id)->pluck('barang_id');
-        }
-        if ($request->kategori_lab) {
-            if (Auth::check()) {
-                $barang = Barang::where('show', 1)
-                    ->where('kategori_lab', $request->kategori_lab)
-                    ->whereNotIn('id', $data)
-                    ->where('stock', '>', 0)
-                    ->latest();
-                // dd($barang);
-            } else {
-                $barang = Barang::where('show', 1)
-                    ->where('stock', '>', 0)
-                    ->where('kategori_lab', $request->kategori_lab)
-                    ->latest();
-            }
-
-            if ($request->search) {
-                $barang->where('nama', 'like', '%' . $request->search . '%');
-            }
-        } else {
-            if (Auth::check()) {
-                $barang = Barang::where('show', 1)
-                    ->where('kategori_lab', 1)
-                    ->whereNotIn('id', $data)
-                    ->where('stock', '>', 0)
-                    ->latest();
-            } else {
-                $barang = Barang::where('show', 1)
-                    ->where('stock', '>', 0)
-                    ->where('kategori_lab', 1)
-                    ->latest();
-            }
-        }
-
-        return view('frontend.search', ['barang' => $barang->paginate(7), 'lab' => $lab]);
+        return view('frontend.daftar-barang');
     }
 
     public function detailBarang($id)

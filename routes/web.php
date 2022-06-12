@@ -10,7 +10,7 @@ Route::get('/', [App\Http\Controllers\HomeController::class, 'credit']);
 // Route::get('/', [App\Http\Controllers\HomeController::class, 'index']);
 Route::get('/app', [App\Http\Controllers\HomeController::class, 'index']);
 Route::get('/daftar', [App\Http\Controllers\Auth\RegisterController::class, 'daftar'])->name('daftar');
-Route::get('/search', [App\Http\Controllers\HomeController::class, 'search'])->name('search');
+Route::get('/daftar-barang', [App\Http\Controllers\HomeController::class, 'daftarBarang'])->name('search');
 Route::get('/langkah-peminjaman', [App\Http\Controllers\HomeController::class, 'langkahPeminjaman'])->name('langkahPeminjaman');
 Route::get('/home/inventaris', [App\Http\Controllers\HomeController::class, 'inventaris'])->name('home.inventaris');
 Route::get('/detail/{id}', [App\Http\Controllers\HomeController::class, 'detailBarang'])->name('detail.barang');

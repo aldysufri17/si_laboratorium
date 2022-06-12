@@ -47,4 +47,6 @@
         }
         .table th { border-top: none; }
     </style>
+    @livewireStyles
+
 </head>
