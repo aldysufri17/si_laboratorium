@@ -78,13 +78,13 @@
                             </td>
                             <td>{{ $data->kode_inventaris }}</td>
                             <td>{{ $data->barang->nama }} - {{ $data->barang->tipe }}</td>
-                            <td>{{ $data->stok }}</td>
+                            <td>{{ $data->total_inventaris }}</td>
                             @if ( $data->barang->jml_rusak == null)
                             <td>0</td>
                             @else
                             <td>{{ $data->barang->jml_rusak }}</td>
                             @endif
-                            <td>{{ $data->stok + $data->barang->jml_rusak }}</td>
+                            <td>{{ $data->total_inventaris + $data->barang->jml_rusak }}</td>
                             <td>{{$data->barang->pengadaan->nama_pengadaan}}</td>
                             {{-- <td style="display: flex">
                                 @role('operator embedded|operator rpl|operator jarkom|operator mulmed')

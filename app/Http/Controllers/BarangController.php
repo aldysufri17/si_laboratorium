@@ -151,8 +151,8 @@ class BarangController extends Controller
             'masuk'             => $request->stock,
             'kategori_lab'      => $this->lab,
             'keluar'            => 0,
-            'total'             => $request->stock,
-            'stok'              => 0
+            'total_mutasi'             => $request->stock,
+            'total_inventaris'              => 0
         ]);
 
         // Inventaris
@@ -177,8 +177,8 @@ class BarangController extends Controller
             'masuk'             => 0,
             'kategori_lab'      => $this->lab,
             'keluar'            => 0,
-            'total'             => 0,
-            'stok'              => $request->stock
+            'total_mutasi'             => 0,
+            'total_inventaris'              => $request->stock
         ]);
 
         if ($Inventaris) {
@@ -466,10 +466,10 @@ class BarangController extends Controller
         Barang::whereId($id_barang)->update(['stock' => $stok - $jml, 'jml_rusak' => $rsk + $jml, 'keterangan_rusak' => $ket]);
 
         // ineventaris update
-        $kodeInventaris = Inventaris::where('kode_mutasi', "kosong")->where('barang_id', $id_barang)->value('kode_inventaris');
-        $stokInventaris = Inventaris::where('kode_mutasi', "kosong")->where('barang_id', $id_barang)->value('stok');
-        Inventaris::where('kode_inventaris', $kodeInventaris)->update([
-            'stok'            => $stokInventaris - $jml,
+        $idInventaris = Inventaris::where('kode_mutasi', "kosong")->where('barang_id', $id_barang)->value('id');
+        $stokInventaris = Inventaris::where('kode_mutasi', "kosong")->where('barang_id', $id_barang)->value('total_inventaris');
+        Inventaris::whereId($idInventaris)->update([
+            'total_inventaris'            => $stokInventaris - $jml,
         ]);
 
         // mutasi
@@ -483,8 +483,8 @@ class BarangController extends Controller
             'masuk'             => 0,
             'kategori_lab'      => $this->lab,
             'keluar'            => $jml,
-            'total'             => $stokInventaris - $jml,
-            'stok'              => 0,
+            'total_mutasi'             => $stokInventaris - $jml,
+            'total_inventaris'              => 0,
         ]);
 
         if ($mutasi) {
@@ -515,9 +515,9 @@ class BarangController extends Controller
 
         // ineventaris
         $kodeInventaris = Inventaris::where('kode_mutasi', "kosong")->where('barang_id', $id_barang)->value('kode_inventaris');
-        $stokInventaris = Inventaris::where('kode_mutasi', "kosong")->where('barang_id', $id_barang)->value('stok');
+        $stokInventaris = Inventaris::where('kode_mutasi', "kosong")->where('barang_id', $id_barang)->value('total_inventaris');
         Inventaris::where('kode_inventaris', $kodeInventaris)->update([
-            'stok'            => $stokInventaris + $jml,
+            'total_inventaris'            => $stokInventaris + $jml,
         ]);
 
         // mutasi
@@ -531,8 +531,8 @@ class BarangController extends Controller
             'masuk'             => $jml,
             'kategori_lab'      => $this->lab,
             'keluar'            => 0,
-            'total'             => $stokInventaris + $jml,
-            'stok'              => 0,
+            'total_mutasi'             => $stokInventaris + $jml,
+            'total_inventaris'              => 0,
         ]);
 
         if ($mutasi) {

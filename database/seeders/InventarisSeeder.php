@@ -30,8 +30,8 @@ class InventarisSeeder extends Seeder
                 'masuk'             => $barang[$index],
                 'kategori_lab'      => $lab[$index],
                 'keluar'            => 0,
-                'total'             => $barang[$index],
-                'stok'              => 0
+                'total_mutasi'             => $barang[$index],
+                'total_inventaris'              => 0
             ]);
 
             // Inventaris
@@ -57,8 +57,8 @@ class InventarisSeeder extends Seeder
                 'masuk'             => 0,
                 'kategori_lab'      => $lab[$index],
                 'keluar'            => 0,
-                'total'             => 0,
-                'stok'              => $barang[$index]
+                'total_mutasi'             => 0,
+                'total_inventaris'              => $barang[$index]
             ]);
         }
     }

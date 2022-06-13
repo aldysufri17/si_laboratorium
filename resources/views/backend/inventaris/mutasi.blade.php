@@ -87,7 +87,7 @@
                             <td>{{ $data->barang->nama }} - {{ $data->barang->tipe }}</td>
                             <td>{{ $data->masuk }}</td>
                             <td>{{ $data->keluar }}</td>
-                            <td>{{ $data->total }}</td>
+                            <td>{{ $data->total_mutasi }}</td>
                             <td>@if ($data->status == 1)
                                 <span class="badge badge-success">Masuk</span>
                                 @elseif($data->status == 0)
