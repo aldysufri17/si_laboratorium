@@ -262,8 +262,8 @@ class PeminjamanController extends Controller
                     'masuk'             => 0,
                     'keluar'            => $jumlah[$index],
                     'kategori_lab'      => $this->lab,
-                    'total'             => $stock[$index] - $jumlah[$index],
-                    'stok'              => 0
+                    'total_mutasi'             => $stock[$index] - $jumlah[$index],
+                    'total_inventaris'              => 0
                 ]);
                 Barang::whereid($barang)->update(['stock' => $stock[$index] - $jumlah[$index]]);
                 Peminjaman::where('user_id', $id)
@@ -306,8 +306,8 @@ class PeminjamanController extends Controller
                     'masuk'             => $jumlah[$index],
                     'keluar'            => 0,
                     'kategori_lab'      => $this->lab,
-                    'total'             => $stock[$index] + $jumlah[$index],
-                    'stok'              => 0
+                    'total_mutasi'             => $stock[$index] + $jumlah[$index],
+                    'total_inventaris'              => 0
                 ]);
                 Barang::whereid($barang)->update(['stock' => $stock[$index] + $jumlah[$index]]);
                 Peminjaman::where('user_id', $id)
@@ -392,8 +392,8 @@ class PeminjamanController extends Controller
                         'masuk'             => $jumlah[$index],
                         'keluar'            => 0,
                         'kategori_lab'      => $this->lab,
-                        'total'             => $stock[$index] + $jumlah[$index],
-                        'stok'              => 0
+                        'total_mutasi'             => $stock[$index] + $jumlah[$index],
+                        'total_inventaris'              => 0
                     ]);
                     Barang::whereid($barang)->update(['stock' => $stock[$index] + $jumlah[$index]]);
                     Peminjaman::where('user_id', $user)

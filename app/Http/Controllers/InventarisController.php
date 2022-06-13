@@ -250,10 +250,12 @@ class InventarisController extends Controller
     {
         $barang_id = $request->select;
 
-        $stock = Barang::where('id', $barang_id)->value('stock');
+        $stock = Inventaris::where('kode_mutasi', "kosong")->where('barang_id', $barang_id)->value('total_inventaris');
+        $id = Inventaris::where('kode_mutasi', "kosong")->where('barang_id', $barang_id)->value('id');
         $rusak = Barang::where('id', $barang_id)->value('jml_rusak');
         return response()->json(
             [
+                'id' => $id,
                 'stock' => $stock,
                 'rusak' => $rusak,
             ]

@@ -56,7 +56,7 @@ class BarangController extends Controller
         } else {
             $barang = Barang::with('satuan', 'kategori')
                 ->where('kategori_lab', $this->lab)
-                ->orderBy('id', 'desc')
+                ->orderBy('updated_at', 'desc')
                 ->get();
         }
         return view('backend.barang.index', ['barang' => $barang]);
@@ -151,8 +151,7 @@ class BarangController extends Controller
             'masuk'             => $request->stock,
             'kategori_lab'      => $this->lab,
             'keluar'            => 0,
-            'total_mutasi'             => $request->stock,
-            'total_inventaris'              => 0
+            'total_inventaris'  => $request->stock,
         ]);
 
         // Inventaris
@@ -177,8 +176,7 @@ class BarangController extends Controller
             'masuk'             => 0,
             'kategori_lab'      => $this->lab,
             'keluar'            => 0,
-            'total_mutasi'             => 0,
-            'total_inventaris'              => $request->stock
+            'total_inventaris'  => $request->stock
         ]);
 
         if ($Inventaris) {
@@ -454,6 +452,7 @@ class BarangController extends Controller
         ]);
 
         $id_barang = $request->barang;
+        $id_inventaris = $request->id_inventaris;
         $stok = $request->total_stok;
         $rsk = $request->total_rusak;
         $jml = $request->jumlah;
@@ -463,31 +462,43 @@ class BarangController extends Controller
             $ket = $request->keterangan;
         }
 
-        Barang::whereId($id_barang)->update(['stock' => $stok - $jml, 'jml_rusak' => $rsk + $jml, 'keterangan_rusak' => $ket]);
+        $brgstk = Barang::whereId($id_barang)->value('stock');
+        $jmlInventaris = Inventaris::whereId($id_inventaris)->value('total_inventaris');
 
-        // ineventaris update
-        $idInventaris = Inventaris::where('kode_mutasi', "kosong")->where('barang_id', $id_barang)->value('id');
-        $stokInventaris = Inventaris::where('kode_mutasi', "kosong")->where('barang_id', $id_barang)->value('total_inventaris');
-        Inventaris::whereId($idInventaris)->update([
-            'total_inventaris'            => 000,
+        if ($jml > $brgstk || $jml > $jmlInventaris) {
+            return redirect()->route('barang.damaged')->with('info', 'Stok Barang Tidak Mencukupi!.');
+        }
+
+        if ($brgstk - $jml <= 0) {
+            $jum = 0;
+        } else {
+            $jum = $brgstk - $jml;
+            // mutasi
+            $random = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
+            Inventaris::create([
+                'barang_id'         => $id_barang,
+                'status'            => 0,
+                'deskripsi'         => 'Rusak',
+                'kode_inventaris'   => 'OUT' . $random,
+                'kode_mutasi'       => 'OUT' . $random,
+                'masuk'             => 0,
+                'kategori_lab'      => $this->lab,
+                'keluar'            => $jml,
+                'total_mutasi'      => $jum,
+                'total_inventaris'  => 0,
+            ]);
+        }
+
+        // Barang Update
+        Barang::whereId($id_barang)->update(['stock' => $jum, 'jml_rusak' => $rsk + $jml, 'keterangan_rusak' => $ket]);
+
+        // inventaris update
+        $total = $stok - $jml;
+        $Inventaris = Inventaris::whereId($id_inventaris)->update([
+            'total_inventaris'   => $total,
         ]);
 
-        // mutasi
-        $random = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
-        $mutasi = Inventaris::create([
-            'barang_id'         => $id_barang,
-            'status'            => 0,
-            'deskripsi'         => 'Rusak',
-            'kode_inventaris'   => 'OUT' . $random,
-            'kode_mutasi'       => 'OUT' . $random,
-            'masuk'             => 0,
-            'kategori_lab'      => $this->lab,
-            'keluar'            => $jml,
-            'total_mutasi'             => 0101,
-            'total_inventaris'              => 0,
-        ]);
-
-        if ($mutasi) {
+        if ($Inventaris) {
             return redirect()->route('barang.damaged')->with('success', 'Stok Barang Berhasil dibaharui!.');
         } else {
             return redirect()->route('barang.damaged')->with('error', 'Stok Barang Gagal dibaharui!.');
@@ -509,30 +520,33 @@ class BarangController extends Controller
         ]);
 
         $id_barang = $request->barang;
+        $id_inventaris = $request->id_inventaris;
         $stok = $request->total_stok;
         $jml = $request->jumlah;
-        Barang::whereId($id_barang)->update(['stock' => $stok + $jml]);
 
-        // ineventaris
-        $kodeInventaris = Inventaris::where('kode_mutasi', "kosong")->where('barang_id', $id_barang)->value('kode_inventaris');
-        $stokInventaris = Inventaris::where('kode_mutasi', "kosong")->where('barang_id', $id_barang)->value('total_inventaris');
-        Inventaris::where('kode_inventaris', $kodeInventaris)->update([
-            'total_inventaris'            => 9999,
+        // Barang Update
+        $brgstk = Barang::whereId($id_barang)->value('stock');
+        Barang::whereId($id_barang)->update(['stock' => $brgstk + $jml]);
+
+        // inventaris update
+        $total = $stok + $jml;
+        Inventaris::whereId($id_inventaris)->update([
+            'total_inventaris'   => $total,
         ]);
 
         // mutasi
         $random = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
         $mutasi = Inventaris::create([
             'barang_id'         => $id_barang,
-            'status'            => 1,
+            'status'            => 0,
             'deskripsi'         => 'Update',
             'kode_inventaris'   => 'IN' . $random,
             'kode_mutasi'       => 'IN' . $random,
             'masuk'             => $jml,
             'kategori_lab'      => $this->lab,
             'keluar'            => 0,
-            'total_mutasi'             => 9898,
-            'total_inventaris'              => 0,
+            'total_inventaris'  => 0,
+            'total_mutasi'      => $brgstk + $jml,
         ]);
 
         if ($mutasi) {
@@ -612,7 +626,7 @@ class BarangController extends Controller
 
     public function barangDipinjam()
     {
-        $barang = Peminjaman::where('kategori_lab', $this->lab)->groupBy('barang_id')->select('barang_id')->get();
+        $barang = Peminjaman::where('kategori_lab', $this->lab)->whereBetween('status', [2, 3])->groupBy('barang_id')->select('barang_id')->get();
         return view('backend.barang.barang-dipinjam', compact('barang'));
     }
 

@@ -71,9 +71,9 @@
                         <tr>
                             <td>
                                 <div class="col">
-                                    <div class="row">{{$data->created_at->format('d M Y')}}</div>
+                                    <div class="row">{{$data->updated_at->format('d M Y')}}</div>
                                     <div class="row text-muted">
-                                        <strong>({{$data->created_at->format('H:i:s A')}})</strong></div>
+                                        <strong>({{$data->updated_at->format('H:i:s A')}})</strong></div>
                                 </div>
                             </td>
                             <td>{{ $data->kode_inventaris }}</td>
