@@ -36,7 +36,7 @@
                         <span class="text-danger">{{$message}}</span>
                         @enderror
                     </div>
-                    <input type="text" hidden id="id_inventaris" name="id_inventaris">
+                    <input type="text" id="id_inventaris" name="id_inventaris">
 
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
                         <span style="color:red;">*</span>Total Barang Sekarang</label>
