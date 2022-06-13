@@ -32,7 +32,7 @@
         @if ($cart->isNotEmpty())
         <div class="card shadow mx-5 py-3 mb-4 border-0">
             <div class="d-sm-flex justify-content-between mb-2 p-2">
-                <a href="{{url('/search')}}" class="btn btn-success btn-user float-right mb-3"> <i
+                <a href="{{route('search')}}" class="btn btn-success btn-user float-right mb-3"> <i
                         class="fas fa-plus"></i>
                     Tambah Barang</a>
                 <a href="{{route('daftar.pinjaman')}}" class="btn btn-info btn-user float-right mb-3">Lihat Keranjang

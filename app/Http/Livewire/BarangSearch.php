@@ -21,12 +21,14 @@ class BarangSearch extends Component
         if (Auth::check()) {
             $data = Keranjang::where('user_id', Auth::user()->id)->pluck('barang_id');
             $barang = Barang::where('show', 1)
+                ->where('pengadaan_id', '!=', 4)
                 ->where('nama', 'like', '%' . $this->search . '%')
                 ->where('kategori_lab', $this->lab)
                 ->whereNotIn('id', $data)
                 ->paginate(7);
         } else {
             $barang = Barang::where('show', 1)
+                ->where('pengadaan_id', '!=', 4)
                 ->where('nama', 'like', '%' . $this->search . '%')
                 ->where('kategori_lab', $this->lab)
                 ->paginate(7);

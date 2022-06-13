@@ -44,7 +44,7 @@ class DashboardController extends Controller
                 ->groupBy('kode_peminjaman')
                 ->get();
             $total = count($peminjaman);
-            $request->session()->flash('eror', "$total Keranjang pengajuan belum disetujui !!!");
+            $request->session()->flash('eror', "$total Pengajuan belum disetujui !!!");
 
             $telat = Peminjaman::whereBetween('status', [2, 3])
                 ->where('tgl_end', '<', date('Y-m-d'))

@@ -62,7 +62,11 @@
                                 src="{{ asset(auth()->user()->foto ? 'images/user/'. auth()->user()->foto : 'images/'. $foto) }}"></a>
                         <ul>
                             <li><a href="{{ route('profile.detail') }}">Profile</a></li>
-                            <li><a href="{{ route('daftar.pinjaman') }}">Pinjaman Saya</a></li>
+                            <li><a href="{{ route('daftar.pinjaman') }}">Pinjaman Saya 
+                                @if(App\Models\Peminjaman::where('user_id', auth()->user()->id)->where('status','<',4)->count() >= 1)
+                                <div style="background-color: #ff0000; width:10px; height:10px; border-radius:50%"></div>
+                                @endif
+                            </a></li>
                             <li><a href="{{ route('surat.index') }}">Surat Bebas Lab</a></li>
                             <li><a class="nav-link scrollto" href="{{ route('logout') }}"
                                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
