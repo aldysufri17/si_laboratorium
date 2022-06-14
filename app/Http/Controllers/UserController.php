@@ -82,7 +82,6 @@ class UserController extends Controller
             'nim'           => 'required|numeric',
             'status'        =>  'required|numeric|in:0,1',
         ]);
-        $trim = str_replace(' ', '', $request->name);
 
         if ($request->foto) {
             $foto = $request->foto;
@@ -100,7 +99,7 @@ class UserController extends Controller
                 'jk'            => $request->jk,
                 'status'        => $request->status,
                 'foto'          => $new_foto,
-                'password'      => bcrypt($trim)
+                'password'      => bcrypt(12345678)
             ]);
         } else {
             $user = User::create([
@@ -113,7 +112,7 @@ class UserController extends Controller
                 'role_id'       => 1,
                 'jk'            => $request->jk,
                 'status'        => $request->status,
-                'password'      => bcrypt($trim)
+                'password'      => bcrypt(12345678)
             ]);
         }
         // Assign Role To User

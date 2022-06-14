@@ -59,7 +59,7 @@ class OperatorController extends Controller
             'mobile_number' => $request->mobile_number,
             'role_id'       => $request->role_id,
             'status'        => $request->status,
-            'password'      => Hash::make($request->name)
+            'password'      => Hash::make(12345678)
         ]);
 
         // Assign Role To User
