@@ -87,7 +87,7 @@
             <div class=" py-2 collapse-inner rounded" style="background-color: rgb(230, 230, 230)">
                 <a class="collapse-item text-red" href="{{ route('konfirmasi.pengajuan') }}">Pengajuan</a>
                 <a class="collapse-item text-red" href="{{ route('konfirmasi.peminjaman') }}">Daftar Peminjam</a>
-                <a class="collapse-item text-red" href="{{ route('daftar.peminjaman') }}">Riwayat Peminjam</a>
+                <a class="collapse-item text-red" href="{{ route('daftar.riwayat') }}">Riwayat Peminjam</a>
                 {{-- <a class="collapse-item text-red" href="{{route('konfirmasi.pengembalian')}}">Pengembalian</a> --}}
             </div>
         </div>
@@ -96,9 +96,9 @@
     <!-- Nav Item - Pages Collapse Menu -->
     @role('admin')
     <li class="nav-item">
-        <a class="nav-link" href="{{route('daftar.peminjaman')}}">
+        <a class="nav-link" href="{{route('daftar.riwayat')}}">
             <i class="fa-solid fa-book"></i>
-            <span>Daftar Peminjaman</span>
+            <span>Riwayat Peminjam</span>
         </a>
     </li>
     <li class="nav-item">

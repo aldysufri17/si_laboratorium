@@ -102,6 +102,15 @@ class HomeController extends Controller
 
     public function riwayatDetail(Request $request)
     {
+        if (Auth::user()->role_id == 3) {
+            $lab = 1;
+        } elseif (Auth::user()->role_id == 4) {
+            $lab = 2;
+        } elseif (Auth::user()->role_id == 5) {
+            $lab = 3;
+        } elseif (Auth::user()->role_id == 6) {
+            $lab = 4;
+        }
         $kode = $request->kode;
         $output = "";
         $user = "";
@@ -110,8 +119,12 @@ class HomeController extends Controller
             $peminjaman = Peminjaman::where('kode_peminjaman', $kode)
                 ->where('user_id', $user_id)
                 ->get();
+        } else if (Auth::user()->role_id == 2) {
+            $peminjaman = Peminjaman::where('kode_peminjaman', $kode)
+                ->get();
         } else {
             $peminjaman = Peminjaman::where('kode_peminjaman', $kode)
+                ->where('kategori_lab', $lab)
                 ->get();
         }
         foreach ($peminjaman as $data) {
@@ -133,11 +146,31 @@ class HomeController extends Controller
                 '</tr>' .
                 '<tr>';
 
-            $output .= '<tr>' .
-                '<td>' . $data->barang->kode_barang . '</td>' .
-                '<td>' . $data->barang->nama . "-" . $data->barang->tipe . '</td>' .
-                '<td>' . $data->jumlah . $data->barang->satuan->nama_satuan . '</td>' .
-                '</tr>';
+            if (Auth::user()->role_id == 2) {
+
+                if ($data->kategori_lab == 1) {
+                    $lab = "Laboratorium Sistem Tertanam dan Robotika";
+                } elseif ($data->kategori_lab == 2) {
+                    $lab = "Laboratorium Rekayasa Perangkat Lunak";
+                } elseif ($data->kategori_lab == 3) {
+                    $lab = "Laboratorium Jaringan dan Keamanan Komputer";
+                } elseif ($data->kategori_lab == 4) {
+                    $lab = "Laboratorium Multimedia";
+                }
+
+                $output .= '<tr>' .
+                    '<td>' . $lab . '</td>' .
+                    '<td>' . $data->barang->kode_barang . '</td>' .
+                    '<td>' . $data->barang->nama . "-" . $data->barang->tipe . '</td>' .
+                    '<td>' . $data->jumlah . $data->barang->satuan->nama_satuan . '</td>' .
+                    '</tr>';
+            } else {
+                $output .= '<tr>' .
+                    '<td>' . $data->barang->kode_barang . '</td>' .
+                    '<td>' . $data->barang->nama . "-" . $data->barang->tipe . '</td>' .
+                    '<td>' . $data->jumlah . $data->barang->satuan->nama_satuan . '</td>' .
+                    '</tr>';
+            }
         }
         return response()->json([
             'output' => $output,

@@ -31,7 +31,7 @@
             <div class="table-responsive">
                 @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
                 <div class="my-2">
-                    <form action="{{route('daftar.peminjaman')}}" method="GET">
+                    <form action="{{route('daftar.riwayat')}}" method="GET">
                         @csrf
                         <h6 class="mb-0 my-3 text-warning">* Filter Berdasarkan Tanggal</h6>
                         <div class="input-group mb-3">
@@ -41,14 +41,14 @@
                                 name="end_date">
                             <button class="btn btn-primary" type="submit">Filter</button>
                             @if (Request::get('start_date') != "" || Request::get('end_date') != "")
-                            <a class="btn btn-warning" href="{{route('daftar.peminjaman')}}">Clear</a>
+                            <a class="btn btn-warning" href="{{route('daftar.riwayat')}}">Clear</a>
                             @endif
                         </div>
                     </form>
                 </div>
                 @endrole
                 <table class="table table-borderless table-dark bgdark" id="dataTable" width="100%" cellspacing="0">
-                    @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
+                    {{-- @role('operator embedded|operator rpl|operator jarkom|operator mulmed') --}}
                     <thead>
                         <tr>
                             <th width="20%" class="text-center">Tanggal Selesai</th>
@@ -60,8 +60,13 @@
                     <tbody>
                         @foreach ($peminjaman as $result => $data)
                         <tr>
+                            @if (auth()->user()->role_id == 2)
+                            <td class="text-center">{{$data->created_at->format('d M Y')}}
+                                <strong class="text-muted">({{$data->created_at->format('H:i:s A')}})</strong></td>
+                            @else
                             <td class="text-center">{{$data->updated_at->format('d M Y')}}
                                 <strong class="text-muted">({{$data->updated_at->format('H:i:s A')}})</strong></td>
+                            @endif
                             <td class="text-center">{{$data->user->nim}}</td>
                             <td class="text-center">{{$data->kode_peminjaman}}</td>
                             <td class="d-sm-flex justify-content-center">
@@ -73,39 +78,6 @@
                         </tr>
                         @endforeach
                     </tbody>
-                    @endrole
-                    @role('admin')
-                    <thead>
-                        <tr>
-                            <th width="20%" class="text-center">Kategori</th>
-                            <th width="10%" class="text-center">Jumlah</th>
-                            <th width="10%" class="text-center">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach ($peminjaman as $result => $data)
-                        <tr>
-                            <td class="text-center">
-                                @if ($data->kategori_lab == 1)
-                                Laboratorium Sistem Tertanam dan Robotika
-                                @elseif ($data->kategori_lab == 2)
-                                Laboratorium Rekayasa Perangkat Lunak
-                                @elseif($data->kategori_lab == 3)
-                                Laboratorium Jaringan dan Keamanan Komputer
-                                @elseif($data->kategori_lab == 4)
-                                Laboratorium Multimedia
-                                @endif</td>
-                            <td class="text-center">{{ $data->total }}</td>
-                            <td class="d-sm-flex justify-content-center">
-                                <a href="{{route('admin.peminjaman', encrypt($data->kategori_lab))}}" class="btn btn-primary"
-                                    data-toggle="tooltip" data-placement="top" title="Show">
-                                    <i class="fa fa-eye"></i>
-                                </a>
-                            </td>
-                        </tr>
-                        @endforeach
-                    </tbody>
-                    @endrole
                 </table>
             </div>
         </div>
@@ -133,6 +105,9 @@
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
+                                    @if (auth()->user()->role_id == 2)
+                                    <th>Laboratorium</th>
+                                    @endif
                                     <th>Kode Barang</th>
                                     <th>Nama</th>
                                     <th>Jumlah</th>
@@ -162,7 +137,7 @@
     </div>
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         @if (app('request')->input('start_date') || app('request')->input('start_date') )
-        <a class="btn btn-sm btn-danger" href="{{route('daftar.peminjaman')}}"><i class="fas fa-angle-double-left"></i>
+        <a class="btn btn-sm btn-danger" href="{{route('daftar.riwayat')}}"><i class="fas fa-angle-double-left"></i>
             Tampilkan Semua Data</a>
         @endif
     </div>

@@ -38,11 +38,22 @@ class PeminjamanController extends Controller
     public function index()
     {
         if (Auth::user()->role_id == 2) {
-            $peminjaman = Peminjaman::with('user', 'barang')
-                ->where('status', 4)
-                ->select('kategori_lab', DB::raw('count(*) as total'))
-                ->groupBy('kategori_lab')
-                ->get();
+            if (request()->start_date || request()->end_date) {
+                $start_date = Carbon::parse(request()->start_date)->toDateTimeString();
+                $end_date = Carbon::parse(request()->end_date)->toDateTimeString();
+                $peminjaman = Peminjaman::with('user', 'barang')
+                    ->where('status', 4)
+                    ->select('kode_peminjaman', 'created_at', 'user_id', DB::raw('count(*) as total'))
+                    ->groupBy('kode_peminjaman', 'created_at', 'user_id',)
+                    ->whereBetween('created_at', [$start_date, $end_date])
+                    ->get();
+            } else {
+                $peminjaman = Peminjaman::with('user', 'barang')
+                    ->where('status', 4)
+                    ->select('kode_peminjaman', 'created_at', 'user_id', DB::raw('count(*) as total'))
+                    ->groupBy('kode_peminjaman', 'created_at', 'user_id')
+                    ->get();
+            }
         } else {
             if (request()->start_date || request()->end_date) {
                 $start_date = Carbon::parse(request()->start_date)->toDateTimeString();
@@ -63,31 +74,7 @@ class PeminjamanController extends Controller
                     ->get();
             }
         }
-        return view('backend.transaksi.riwayat.index', compact('peminjaman'));
-    }
-
-    public function adminPeminjaman($data)
-    {
-        $data = decrypt($data);
-        if (request()->start_date || request()->end_date) {
-            $start_date = Carbon::parse(request()->start_date)->toDateTimeString();
-            $end_date = Carbon::parse(request()->end_date)->toDateTimeString();
-            $peminjaman = Peminjaman::with('user', 'barang')
-                ->where('kategori_lab', $data)
-                ->where('status', 4)
-                ->select('kode_peminjaman', 'updated_at', 'user_id', DB::raw('count(*) as total'))
-                ->groupBy('kode_peminjaman', 'updated_at', 'user_id',)
-                ->whereBetween('updated_at', [$start_date, $end_date])
-                ->get();
-        } else {
-            $peminjaman = Peminjaman::with('user', 'barang')
-                ->where('kategori_lab', $data)
-                ->where('status', 4)
-                ->select('kode_peminjaman', 'updated_at', 'user_id', DB::raw('count(*) as total'))
-                ->groupBy('kode_peminjaman', 'updated_at', 'user_id',)
-                ->get();
-        }
-        return view('backend.transaksi.riwayat.admin-peminjaman', compact('peminjaman'));
+        return view('backend.transaksi.riwayat', compact('peminjaman'));
     }
 
     // Pengajuan
@@ -359,7 +346,10 @@ class PeminjamanController extends Controller
         if ($ceksts->IsNotEmpty()) {
             return redirect()->back()->with('info', 'Masih Terdapat Proses Peminjaman!.');
         } else {
-            $cekcld = Peminjaman::where('kode_peminjaman', $id)->where('status', 4)->get();
+            $cekcld = Peminjaman::where('kode_peminjaman', $id)
+                ->where('status', 4)
+                ->where('kategori_lab', $this->lab)
+                ->get();
             if ($cekcld->IsNotEmpty()) {
                 return redirect()->back()->with('info', 'Peminjaman Sudah dikembalikan!.');
             } else {
@@ -392,8 +382,8 @@ class PeminjamanController extends Controller
                         'masuk'             => $jumlah[$index],
                         'keluar'            => 0,
                         'kategori_lab'      => $this->lab,
-                        'total_mutasi'             => $stock[$index] + $jumlah[$index],
-                        'total_inventaris'              => 0
+                        'total_mutasi'      => $stock[$index] + $jumlah[$index],
+                        'total_inventaris'  => 0
                     ]);
                     Barang::whereid($barang)->update(['stock' => $stock[$index] + $jumlah[$index]]);
                     Peminjaman::where('user_id', $user)

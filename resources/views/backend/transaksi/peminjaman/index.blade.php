@@ -24,7 +24,6 @@
     </div>
 
     {{-- Alert Messages --}}
-    {{-- @include('backend.common.alert') --}}
     @include('sweetalert::alert')
 
     <!-- DataTales Example -->

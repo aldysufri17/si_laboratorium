@@ -72,6 +72,7 @@
                             <th width="20%">Nama Barang</th>
                             <th width="15%">Jumlah</th>
                             <th width="25%">Keterangan</th>
+                            <th width="25%">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -82,12 +83,19 @@
                             <td>{{ $data->nama }} - {{ $data->tipe }}</td>
                             <td>{{ $data->jml_rusak }} - {{$data->satuan->nama_satuan}}</td>
                             <td>{{$data->keterangan_rusak}}</td>
+                            <td style="display: flex">
+                                @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
+                                <a href="{{ route('damaged.edit', $data->id) }}" class="btn btn-primary mx-2"
+                                    title="Edit">
+                                    <i class="fa fa-pen"></i>
+                                </a>
+                                @endrole
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>
                     @endhasanyrole
                 </table>
-
             </div>
         </div>
     </div>

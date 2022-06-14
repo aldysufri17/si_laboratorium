@@ -102,7 +102,7 @@
                                     <span class="badge badge-danger">Ditolak</span>
                                     @elseif($data->status == 2)
                                     <span class="badge badge-success">Disetujui</span>
-                                    @elseif($data->status == 3)
+                                    @elseif($data->status > 2)
                                     <span class="badge badge-warning">Pengembalian</span>
                                     @endif
                                 </td>

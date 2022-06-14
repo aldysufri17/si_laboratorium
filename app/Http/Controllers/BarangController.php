@@ -505,6 +505,107 @@ class BarangController extends Controller
         }
     }
 
+    public function editDamaged($id)
+    {
+        $barang = Barang::whereId($id)->first();
+        return view('backend.barang.rusak.damaged-edit', compact('barang'));
+    }
+
+    public function updateDamaged(Request $request)
+    {
+        $request->validate([
+            'jumlah'    => 'required',
+            'kategori'    => 'required',
+        ], [
+            'required' => ':attribute wajib diisi',
+        ]);
+
+        $id_barang = $request->id_barang;
+        $id_inventaris = $request->id_inventaris;
+        $stok = $request->total_stok;
+        $rsk = $request->total_rusak;
+        $jml = $request->jumlah;
+        $inventastok = Inventaris::where('barang_id', $id_barang)
+            ->where('status', 2)
+            ->value('total_inventaris');
+
+        if ($request->keterangan == null) {
+            $ket = '-';
+        } else {
+            $ket = $request->keterangan;
+        }
+
+        if ($request->kategori == 1) {
+            if ($jml > $stok || $jml > $inventastok) {
+                return redirect()->route('barang.damaged')->with('info', 'Stok Barang Tidak Mencukupi!.');
+            }
+
+            if ($stok - $jml <= 0) {
+                $jum = 0;
+            } else {
+                $jum = $stok - $jml;
+                // mutasi
+                $random = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
+                Inventaris::create([
+                    'barang_id'         => $id_barang,
+                    'status'            => 0,
+                    'deskripsi'         => 'Rusak',
+                    'kode_inventaris'   => 'OUT' . $random,
+                    'kode_mutasi'       => 'OUT' . $random,
+                    'masuk'             => 0,
+                    'kategori_lab'      => $this->lab,
+                    'keluar'            => $jml,
+                    'total_mutasi'      => $jum,
+                    'total_inventaris'  => 0,
+                ]);
+            }
+
+            // Barang Update
+            Barang::whereId($id_barang)->update(['stock' => $jum, 'jml_rusak' => $rsk + $jml, 'keterangan_rusak' => $ket]);
+
+            // inventaris update
+            $Inventaris = Inventaris::whereId($id_inventaris)->update([
+                'total_inventaris'   => $inventastok - $jml,
+            ]);
+        } else {
+            if ($jml > $rsk) {
+                return redirect()->route('barang.damaged')->with('info', 'Stok Barang Tidak Mencukupi!.');
+            }
+
+            $jum = $jml + $stok;
+
+            // Barang Update
+            Barang::whereId($id_barang)->update(['stock' => $jum, 'jml_rusak' => $rsk - $jml, 'keterangan_rusak' => $ket]);
+
+            // mutasi
+            $random = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
+            Inventaris::create([
+                'barang_id'         => $id_barang,
+                'status'            => 1,
+                'deskripsi'         => 'Reparasi',
+                'kode_inventaris'   => 'IN' . $random,
+                'kode_mutasi'       => 'IN' . $random,
+                'masuk'             => $jml,
+                'kategori_lab'      => $this->lab,
+                'keluar'            => 0,
+                'total_mutasi'      => $jum,
+                'total_inventaris'  => 0,
+            ]);
+
+            // inventaris update
+            $Inventaris = Inventaris::whereId($id_inventaris)->update([
+                'total_inventaris'   => $inventastok + $jml,
+            ]);
+        }
+
+        if ($Inventaris) {
+            return redirect()->route('barang.damaged')->with('success', 'Stok Barang Berhasil dibaharui!.');
+        } else {
+            return redirect()->route('barang.damaged')->with('error', 'Stok Barang Gagal dibaharui!.');
+        }
+    }
+
+
     public function showStok()
     {
         $barang = Barang::where('kategori_lab', $this->lab)->get();
@@ -538,7 +639,7 @@ class BarangController extends Controller
         $random = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
         $mutasi = Inventaris::create([
             'barang_id'         => $id_barang,
-            'status'            => 0,
+            'status'            => 1,
             'deskripsi'         => 'Update',
             'kode_inventaris'   => 'IN' . $random,
             'kode_mutasi'       => 'IN' . $random,
