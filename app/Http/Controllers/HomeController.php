@@ -67,8 +67,8 @@ class HomeController extends Controller
         $riwayat = Peminjaman::with('barang')
             ->where('user_id',  $user_id)
             ->Where('status',  4)
-            ->select('created_at',  'kode_peminjaman', 'updated_at', DB::raw('count(*) as total'))
-            ->groupBy('created_at',  'kode_peminjaman', 'updated_at')
+            ->select('created_at',  'kode_peminjaman', 'tgl_end', DB::raw('count(*) as total'))
+            ->groupBy('created_at',  'kode_peminjaman', 'tgl_end')
             ->paginate(7);
         // Disetujui
         $setujui = Peminjaman::where('user_id', $user_id)->where('status', 2)->get();

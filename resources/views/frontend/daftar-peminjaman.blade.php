@@ -370,7 +370,7 @@
                             <thead>
                                 <tr>
                                     <th width="15%" class="text-center">Waktu Pengajuan Peminjaman</th>
-                                    <th width="15%" class="text-center">Waktu Barang Dikembalikan</th>
+                                    <th width="15%" class="text-center">Waktu Pemiunjaman Selesai</th>
                                     <th width="10%" class="text-center">Kode Peminjaman</th>
                                     <th width="10%" class="text-center">Jumlah Barang</th>
                                     <th width="10%" class="text-center">Aksi</th>
@@ -388,9 +388,9 @@
                                     </td>
                                     <td class="">
                                         <div class="col">
-                                            <div class="row">{{$data->updated_at->format('d M Y')}}</div>
+                                            <div class="row">{{$data->tgl_end}}</div>
                                             <div class="row text-muted">
-                                                <strong>({{$data->updated_at->format('H:i:s A')}})</strong></div>
+                                                <strong>({{$data->tgl_end}})</strong></div>
                                         </div>
                                     </td>
                                     <td class="text-center" style="text-transform: uppercase">

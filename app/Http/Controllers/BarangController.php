@@ -744,7 +744,7 @@ class BarangController extends Controller
             '</tr>';
         $body = "";
         $nama = "";
-        $peminjaman = Peminjaman::where('barang_id', $kode)->where('kategori_lab', $this->lab)->get();
+        $peminjaman = Peminjaman::where('barang_id', $kode)->whereBetween('status', [2, 3])->where('kategori_lab', $this->lab)->get();
         foreach ($peminjaman as $key => $data) {
             $nama = "Daftar Peminjam" . "<br>" . $data->barang->nama . " " . "-" . " " . $data->barang->tipe;
             $key = $key + 1;
