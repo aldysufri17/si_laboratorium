@@ -121,7 +121,7 @@
                                 </td>
                                 <td class="text-center">
                                     @if ($unduh)
-                                    <a href="{{route('surat.show', ['surat' => $data->kode])}}"
+                                    <a href="{{route('surat.show', ['surat' => encrypt($data->kode)])}}"
                                         class="btn btn-primary mx-2" title="Unduh">
                                         <i class="fa-solid fa-print"></i>
                                     </a>

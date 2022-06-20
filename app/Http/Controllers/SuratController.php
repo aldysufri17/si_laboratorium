@@ -97,18 +97,18 @@ class SuratController extends Controller
     {
         $surat = Surat::where('kode', $kode)->where('status', 2)->first();
         if ($surat) {
-            return redirect('/app')->with('info', "Surat Tidak Terdaftar");
+            return redirect('/app')->with('success', "Surat Terdaftar");
         } else {
-            return redirect('/app')->with('info', "Surat Terdaftar Pada Sistem");
+            return redirect('/app')->with('warning', "Surat Tidak Terdaftar");
         }
     }
     public function cekSuratPeminjaman($kode)
     {
         $surat = Peminjaman::where('kode_peminjaman', $kode)->first();
         if ($surat) {
-            return redirect('/app')->with('info', "Surat Tidak Terdaftar");
+            return redirect('/app')->with('success', "Surat Terdaftar");
         } else {
-            return redirect('/app')->with('info', "Surat Terdaftar Pada Sistem");
+            return redirect('/app')->with('warning', "Surat Tidak Terdaftar");
         }
     }
 }
