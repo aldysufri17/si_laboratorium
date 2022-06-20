@@ -152,6 +152,7 @@ class BarangController extends Controller
             'kategori_lab'      => $this->lab,
             'keluar'            => 0,
             'total_inventaris'  => $request->stock,
+            'total_mutasi'      => $request->stock,
         ]);
 
         // Inventaris

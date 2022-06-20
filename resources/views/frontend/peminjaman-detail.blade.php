@@ -102,8 +102,10 @@
                                     <span class="badge badge-danger">Ditolak</span>
                                     @elseif($data->status == 2)
                                     <span class="badge badge-success">Disetujui</span>
-                                    @elseif($data->status > 2)
+                                    @elseif($data->status == 3)
                                     <span class="badge badge-warning">Pengembalian</span>
+                                    @elseif($data->status == 4)
+                                    <span class="badge badge-info">Dikembalikan</span>
                                     @endif
                                 </td>
                                 @if($data->barang->satuan_id > 0)

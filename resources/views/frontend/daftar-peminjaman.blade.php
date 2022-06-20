@@ -170,22 +170,23 @@
                                     $status = $data->status;
                                     @endphp
                                     <td class="text-center">
-                                        @if ($data->tgl_end < date('Y-m-d')) @php
-                                            $start=\Carbon\Carbon::createFromFormat('Y-m-d', $data->tgl_end);
-                                            $now = \Carbon\Carbon::createFromFormat('Y-m-d', date('Y-m-d'));
-                                            $late = $start->diffInDays($now);
+                                        @if ($data->tgl_end < date('Y-m-d')) 
+                                            @php
+                                                $start=\Carbon\Carbon::createFromFormat('Y-m-d', $data->tgl_end);
+                                                $now = \Carbon\Carbon::createFromFormat('Y-m-d', date('Y-m-d'));
+                                                $late = $start->diffInDays($now);
                                             @endphp
                                             @if ($status > 1)
                                             <span class="badge badge-danger">Telat {{ $late.' '.'Hari' }}</span>
                                             @else
                                             <span>-</span>
                                             @endif
-                                            @else
-                                            <span>-</span>
-                                            @endif
+                                        @else
+                                        <span>-</span>
+                                        @endif
                                     </td>
                                     <td class="text-center">
-                                        @if ($status == 3)
+                                        @if ($status >= 3)
                                         <p class="font-weight-bold text-center text-danger">MENUNGGU KONFIRMASI
                                             PENGEMBALIAN</p>
                                         @else
@@ -370,7 +371,7 @@
                             <thead>
                                 <tr>
                                     <th width="15%" class="text-center">Waktu Pengajuan Peminjaman</th>
-                                    <th width="15%" class="text-center">Waktu Pemiunjaman Selesai</th>
+                                    <th width="15%" class="text-center">Waktu Peminjaman Selesai</th>
                                     <th width="10%" class="text-center">Kode Peminjaman</th>
                                     <th width="10%" class="text-center">Jumlah Barang</th>
                                     <th width="10%" class="text-center">Aksi</th>

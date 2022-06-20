@@ -67,7 +67,7 @@
                                         <i class="fas fa-trash"></i>
                                     </button>
                                     <input type="text" id="id_user" hidden value="{{$id}}">
-                                    @if ($data->status == 3)
+                                    @if ($data->status >= 3)
                                     <button class="btn btn-warning terima-btn" title="Barang diterima"
                                         value="{{$item->kode_peminjaman}}">
                                         <i class="fas fa-dolly-flatbed"></i>

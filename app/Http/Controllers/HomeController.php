@@ -117,14 +117,17 @@ class HomeController extends Controller
         if (Auth::user()->role_id == 1) {
             $user_id = Auth::user()->id;
             $peminjaman = Peminjaman::where('kode_peminjaman', $kode)
+                ->where('status', 4)
                 ->where('user_id', $user_id)
                 ->get();
         } else if (Auth::user()->role_id == 2) {
             $peminjaman = Peminjaman::where('kode_peminjaman', $kode)
+                ->where('status', 4)
                 ->get();
         } else {
             $peminjaman = Peminjaman::where('kode_peminjaman', $kode)
                 ->where('kategori_lab', $lab)
+                ->where('status', 4)
                 ->get();
         }
         foreach ($peminjaman as $data) {
