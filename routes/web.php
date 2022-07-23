@@ -1,21 +1,22 @@
 <?php
 
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\OperatorController;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\BarangController;
-use App\Http\Controllers\PersuratanController;
-use App\Http\Controllers\InventarisController;
-use App\Http\Controllers\PeminjamanController;
-use App\Http\Controllers\SuratController;
-use App\Http\Controllers\KeranjangController;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\{
+    DashboardController,
+    UserController,
+    OperatorController,
+    HomeController,
+    BarangController,
+    PersuratanController,
+    InventarisController,
+    PeminjamanController,
+    SuratController,
+    KeranjangController
+};
+use Illuminate\Support\Facades\{Auth, Route};
 
-Route::get('/', [HomeController::class, 'credit']);
-// Route::get('/', [HomeController::class, 'index']);
-Route::get('/app', [HomeController::class, 'index']);
+Route::get('/author', [HomeController::class, 'author'])->name('author');
+Route::get('/', [HomeController::class, 'index']);
+// Route::get('/app', [HomeController::class, 'index']);
 Route::get('/daftar', [App\Http\Controllers\Auth\RegisterController::class, 'daftar'])->name('daftar');
 Route::get('/daftar-barang', [HomeController::class, 'daftarBarang'])->name('search');
 Route::get('/langkah-peminjaman', [HomeController::class, 'langkahPeminjaman'])->name('langkahPeminjaman');
@@ -23,7 +24,6 @@ Route::get('/home/inventaris', [HomeController::class, 'inventaris'])->name('hom
 Route::get('/detail/{id}', [HomeController::class, 'detailBarang'])->name('detail.barang');
 Route::get('/verifikasi/surat-bebas/{kode}', [SuratController::class, 'cekSuratBebas']);
 Route::get('/verifikasi/surat-peminjaman/_{kode}', [SuratController::class, 'cekSuratPeminjaman']);
-
 
 Auth::routes();
 
@@ -44,7 +44,6 @@ Route::middleware(['auth'])->group(function () {
 
     // Surat
     Route::resource('surat', App\Http\Controllers\SuratController::class);
-
 
     // ---------------------------Role Admin atau Operator--------------------------
     Route::group(['middleware' => ['role:admin|operator embedded|operator rpl|operator jarkom|operator mulmed']], function () {
@@ -110,7 +109,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/PDF/{id}', [InventarisController::class, 'inventarisPdf'])->name('inventaris.pdf');
         Route::get('mutasi/export-csv/{data}/{status}', [InventarisController::class, 'mutasiExport'])->name('export.mutasi');
         Route::get('mutasi/exportpdf/{data}/{status}', [InventarisController::class, 'mutasiPdf'])->name('mutasi.pdf');
-
 
         // pengajuan
         Route::get('/konfirmasi-pengajuan', [PeminjamanController::class, 'pengajuan'])->name('konfirmasi.pengajuan');

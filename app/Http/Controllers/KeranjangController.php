@@ -42,6 +42,7 @@ class KeranjangController extends Controller
                 return redirect()->back()->with('max', 'Barang sudah dipilih!.');
             }
 
+
             if ($stock < $request->jumlah) {
                 return redirect()->back()->with('stock', 'Stock tidak mencukupi!.');
             } else {

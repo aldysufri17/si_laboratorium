@@ -64,20 +64,19 @@
                                         @endphp
                                         <tr>
                                             <td>
-                                                <div class="card rounded-3 mb-4" 
-                                                   @if ($stock == 0)
-                                                   style="background-color: rgb(184, 184, 184)"
-                                                   @endif >
+                                                @if ($data->barang->deleted_at != null)
+                                                <div class="card rounded-3 mb-4"
+                                                    style="background-color: rgb(184, 184, 184)">
                                                     <div class="card-body p-4">
                                                         <div
                                                             class="row d-flex justify-content-between align-items-center">
                                                             <div class="col-md-1 col-lg-1 col-xl-1">
                                                                 <input style="border: 1px solid black"
                                                                     class="form-check-input checkbox" type="checkbox"
-                                                                    id="ckd" name="ckd_chld[]" value="{{$data->id}}" {{$stock == 0 ? "disabled" : ""}}>
+                                                                    id="ckd" name="ckd_chld[]" disabled>
                                                             </div>
                                                             <div class="col-md-2 col-lg-2 col-xl-2">
-                                                                <img  src="{{ asset($data->barang->gambar ? 'images/barang/'. $data->barang->gambar : 'images/empty.jpg') }}"
+                                                                <img src="{{ asset($data->barang->gambar ? 'images/barang/'. $data->barang->gambar : 'images/empty.jpg') }}"
                                                                     class="img-fluid rounded-3">
                                                             </div>
                                                             <div class="col-md-3 col-lg-3 col-xl-3">
@@ -85,16 +84,9 @@
                                                                     {{$data->barang->nama}} -
                                                                     {{$data->barang->tipe}}
                                                                 </p>
-                                                                <p> <span class="badge badge-secondary"> <span
-                                                                            class="text-light">Stock:</span>
-                                                                        {{$data->barang->stock}}
-                                                                        {{$data->barang->satuan->nama_satuan}}</span>
-                                                                </p>
-                                                                @if ($stock <= 10)
                                                                 <span class="font-weight-bold text-danger">
-                                                                    Tersisa {{$stock}} Barang
+                                                                    Barang Sudah Tidak Tersedia
                                                                 </span>
-                                                                @endif
                                                             </div>
                                                             <div class="col-md-2 col-lg-2 col-xl-2 text-center">
                                                                 <p><span class="text-muted">Kategori Lab:<br> </span>
@@ -111,16 +103,16 @@
                                                             </div>
                                                             <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
                                                                 <button type="button" class="btn btn-link px-2"
-                                                                    id="minus" {{$stock == 0 ? "disabled" : ""}} value="{{$data->id}}">
+                                                                    id="minus" disabled>
                                                                     <i class="fas fa-minus"></i>
                                                                 </button>
 
-                                                                <input id="jumlah" min="0" name="quantity"
-                                                                    value="{{$data->jumlah}}" type="number" readonly
+                                                                <input id="jumlah" min="0" name="quantity" disabled
+                                                                    type="number" readonly
                                                                     class="form-control form-control-sm" />
 
                                                                 <button type="button" class="btn btn-link px-2"
-                                                                    id="plus" value="{{$data->id}}" {{$stock == 0 ? "disabled" : ""}}>
+                                                                    id="plus" disabled>
                                                                     <i class="fas fa-plus"></i>
                                                                 </button>
                                                             </div>
@@ -133,6 +125,78 @@
                                                         </div>
                                                     </div>
                                                 </div>
+                                                @else
+                                                <div class="card rounded-3 mb-4" @if ($stock==0)
+                                                    style="background-color: rgb(184, 184, 184)" @endif>
+                                                    <div class="card-body p-4">
+                                                        <div
+                                                            class="row d-flex justify-content-between align-items-center">
+                                                            <div class="col-md-1 col-lg-1 col-xl-1">
+                                                                <input style="border: 1px solid black"
+                                                                    class="form-check-input checkbox" type="checkbox"
+                                                                    id="ckd" name="ckd_chld[]" value="{{$stock == 0 ? "" : $data->id}}"
+                                                                    {{$stock == 0 ? "disabled" : ""}}>
+                                                            </div>
+                                                            <div class="col-md-2 col-lg-2 col-xl-2">
+                                                                <img src="{{ asset($data->barang->gambar ? 'images/barang/'. $data->barang->gambar : 'images/empty.jpg') }}"
+                                                                    class="img-fluid rounded-3">
+                                                            </div>
+                                                            <div class="col-md-3 col-lg-3 col-xl-3">
+                                                                <p class="lead font-weight-bold mb-2">
+                                                                    {{$data->barang->nama}} -
+                                                                    {{$data->barang->tipe}}
+                                                                </p>
+                                                                <p> <span class="badge badge-secondary"> <span
+                                                                            class="text-light">Stock:</span>
+                                                                        {{$data->barang->stock}}
+                                                                        {{$data->barang->satuan->nama_satuan}}</span>
+                                                                </p>
+                                                                @if ($stock <= 10) <span
+                                                                    class="font-weight-bold text-danger">
+                                                                    Tersisa {{$stock}} Barang
+                                                                    </span>
+                                                                    @endif
+                                                            </div>
+                                                            <div class="col-md-2 col-lg-2 col-xl-2 text-center">
+                                                                <p><span class="text-muted">Kategori Lab:<br> </span>
+                                                                    @if ($data->barang->kategori_lab == 1)
+                                                                    Sistem Tertanam dan Robotika
+                                                                    @elseif ($data->barang->kategori_lab == 2)
+                                                                    Rekayasa Perangkat Lunak
+                                                                    @elseif($data->barang->kategori_lab == 3)
+                                                                    Jaringan dan Keamanan Komputer
+                                                                    @elseif($data->barang->kategori_lab == 4)
+                                                                    Multimedia
+                                                                    @endif
+                                                                </p>
+                                                            </div>
+                                                            <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                                                                <button type="button" class="btn btn-link px-2"
+                                                                    id="minus" {{$stock == 0 ? "disabled" : ""}}
+                                                                    value="{{$data->id}}">
+                                                                    <i class="fas fa-minus"></i>
+                                                                </button>
+
+                                                                <input id="jumlah" min="0" name="quantity"
+                                                                    value="{{$data->jumlah}}" type="number" readonly
+                                                                    class="form-control form-control-sm" />
+
+                                                                <button type="button" class="btn btn-link px-2"
+                                                                    id="plus" value="{{$data->id}}"
+                                                                    {{$stock == 0 ? "disabled" : ""}}>
+                                                                    <i class="fas fa-plus"></i>
+                                                                </button>
+                                                            </div>
+                                                            <div class="col-md-3 col-lg-3 col-xl-2 d-flex">
+                                                                <button type="button" class="btn delete-btn"
+                                                                    title="Delete" value="{{$data->id}}">
+                                                                    <i class="fas fa-trash fa-lg text-danger"></i>
+                                                                </button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                @endif
                                             </td>
                                         </tr>
                                         @endforeach

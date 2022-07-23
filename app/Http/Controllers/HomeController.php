@@ -13,9 +13,9 @@ use Illuminate\Support\Facades\Crypt;
 class HomeController extends Controller
 {
 
-    public function credit()
+    public function author()
     {
-        return view('frontend.creadit');
+        return view('frontend.author');
     }
 
     public function index(Request $request)

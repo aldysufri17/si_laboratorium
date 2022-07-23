@@ -27,7 +27,7 @@
             </div>
         </div>
         <div class="copyright text-light">
-            &copy; Copyright <strong>Lab.Dept.Tekkom</strong>.2022
+            <a href="{{route('author')}}" style="color: white">&copy; Copyright <strong>Aldy Sufriyanto</strong>.2022</a>
         </div>
     </div>
 </footer><!-- End Footer -->

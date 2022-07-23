@@ -442,7 +442,10 @@ class PeminjamanController extends Controller
         $barang_id = Keranjang::whereIn('id', $id_cart)->pluck('barang_id');
         $stok = Barang::whereIn('id', $barang_id)->pluck('stock');
         $nama = Barang::whereIn('id', $barang_id)->pluck('nama');
-        $kode_peminjaman = $user_id . substr(str_shuffle("0123456789"), 0, 8);
+        $id_peminjaman = Barang::max('id');
+        $date = Date('ymd');
+        $id = $id_peminjaman + 1;
+        // $kode_peminjaman = $user_id . substr(str_shuffle("0123456789"), 0, 8)
         // $nama_keranjang = str_replace(' ', '_', strtolower($request->nama_keranjang));
         // // cek nama keranjang
         // $cek = Peminjaman::where('nama_keranjang', $nama_keranjang)->where('user_id', $user_id)->get();
@@ -468,7 +471,7 @@ class PeminjamanController extends Controller
         foreach ($keranjang as $data) {
 
             $peminjaman = Peminjaman::create([
-                'kode_peminjaman'   => "FTK-" . $kode_peminjaman,
+                'kode_peminjaman'   => "TK-" . $user_id . $date . $id,
                 // 'nama_keranjang'    => $nama_keranjang,
                 'user_id'           => $user_id,
                 'barang_id'         => $data->barang_id,

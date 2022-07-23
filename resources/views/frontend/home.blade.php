@@ -33,7 +33,6 @@
 </a>
 @endforeach
 {{-- end ditolak--}}
-
 @foreach ($telat as $data)
 @if ($data->tgl_end < date('Y-m-d')) @php $start=\Carbon\Carbon::createFromFormat('Y-m-d', $data->tgl_end);
     $now = \Carbon\Carbon::createFromFormat('Y-m-d', date('Y-m-d'));

@@ -9,7 +9,7 @@
             <div class="d-flex justify-content-between align-items-center">
                 <h2 class="font-weight-bold">Profile</h2>
                 <ol>
-                    <li><a href="{{route('home')}}">Beranda</a></li>
+                    <li><a href="/">Beranda</a></li>
                     <li>Profile</li>
                 </ol>
             </div>

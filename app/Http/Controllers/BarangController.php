@@ -219,8 +219,9 @@ class BarangController extends Controller
             if (file_exists(public_path() . '/images/barang/' . $bb->gambar)) {
                 unlink(public_path() . '/images/barang/' . $bb->gambar);
             }
+            $date = Date('ymd');
             $gambar = $request->gambar;
-            $new_gambar = $request->nama . "-" . $request->tipe . "." . $gambar->getClientOriginalExtension();
+            $new_gambar = $request->nama . "-" . $request->tipe . "-" . $date . "." . $gambar->getClientOriginalExtension();
             $destination = 'images/barang/';
             $gambar->move($destination, $new_gambar);
             $barang_update = Barang::whereid($barang->id)->update([
@@ -290,16 +291,16 @@ class BarangController extends Controller
         $barang_id = $request->delete_id;
         $peminjaman = Peminjaman::where('barang_id', $barang_id)->where('status', '<', 4)->get();
         if ($peminjaman->isNotEmpty()) {
-            request()->session()->flash('active', "Barang gagal dihapus, Barang masih dalam pinjaman");
+            request()->session()->flash('active', "Barang gagal dihapus, Barang masih dalam proses pinjaman");
             return redirect()->route('barang.index');
         }
 
-        $fotoBarang = Barang::whereId($barang_id)->first();
-        if ($fotoBarang->gambar) {
-            if (file_exists(public_path() . '/images/barang/' . $fotoBarang->gambar)) {
-                unlink(public_path() . '/images/barang/' . $fotoBarang->gambar);
-            }
-        }
+        // $fotoBarang = Barang::whereId($barang_id)->first();
+        // if ($fotoBarang->gambar) {
+        //     if (file_exists(public_path() . '/images/barang/' . $fotoBarang->gambar)) {
+        //         unlink(public_path() . '/images/barang/' . $fotoBarang->gambar);
+        //     }
+        // }
 
         Peminjaman::where('barang_id', $barang_id)->delete();
         Inventaris::where('barang_id', $barang_id)->delete();

@@ -10,7 +10,7 @@
             <div class="d-flex justify-content-between align-items-center">
                 <h2 class="font-weight-bold">Detail Peminjaman</h2>
                 <ol>
-                    <li><a href="{{route('home')}}">Beranda</a></li>
+                    <li><a href="/">Beranda</a></li>
                     <li><a href="{{route('daftar.pinjaman')}}">Peminjaman Saya</a></li>
                     <li>Detail Peminjaman</li>
                 </ol>

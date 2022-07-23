@@ -16,7 +16,7 @@
               <h6 class="card-title text-center">Perancangan Sistem Informasi Inventaris dan Peminjaman Barang pada Laboratorium Departement Teknik Komputer Menggunakan Kerangka Kerja Laravel</h6>
               <p class="card-text text-center">Aldy Sufriyanto</p>
               <p class="card-text text-center">21120118120021</p>
-              <center><a href="/app" class="btn btn-primary">Aplikasi</a></center>
+              <center><a href="/" class="btn btn-primary">Aplikasi</a></center>
             </div>
           </div>
     </div>

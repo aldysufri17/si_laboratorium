@@ -20,13 +20,13 @@
         <div class="container d-flex justify-content-between px-5">
 
             <div id="logo">
-                <a href="/app"><img
+                <a href="/"><img
                         src="https://tekkom.ft.undip.ac.id/wp-content/uploads/2020/10/DEPARTEMEN-TEKKOM.png"></a>
             </div>
 
             <nav id="navbar" class="navbar">
                 <ul>
-                    <li><a class="nav-link scrollto" href="/app">BERANDA</a></li>
+                    <li><a class="nav-link scrollto" href="/">BERANDA</a></li>
                     <li class="dropdown"><a href="#"><span>BARANG</span> <i
                                 class="bi bi-chevron-down"></i></a>
                         <ul>
