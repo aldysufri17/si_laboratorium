@@ -114,7 +114,7 @@ class DashboardController extends Controller
         $user_id = Auth::user()->id;
         if ($request->foto) {
             $usercek = User::whereid($user_id)->first();
-            if (unlink(public_path() . '/images/user/' . $usercek->foto)) {
+            if (!file_exists(public_path() . '/images/user/' . $usercek->foto)) {
                 unlink(public_path() . '/images/user/' . $usercek->foto);
             }
             $foto = $request->foto;

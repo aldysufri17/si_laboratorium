@@ -94,7 +94,7 @@
                                 </div>
                                 <div class="modal-body text-center">
                                     <img class="rounded-circle my-2 profilepic__image" width="150px"
-                                        src="{{ asset(auth()->user()->foto ? 'storage/user/'. auth()->user()->foto : 'admin/img/undraw_profile.svg') }}">
+                                        src="{{ asset(auth()->user()->foto ? 'images/user/'. auth()->user()->foto : 'admin/img/undraw_profile.svg') }}">
                                     <form action="{{route('profile.foto')}}" method="POST"
                                         enctype="multipart/form-data">
                                         @csrf

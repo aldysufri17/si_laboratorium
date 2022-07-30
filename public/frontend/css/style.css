@@ -1211,9 +1211,7 @@ section {
   padding-bottom: 8px;
 }
 
-.fas {
-  font-size: 20px;
-}
+
 
 .profilepic__text {
   text-transform: uppercase;
@@ -1221,6 +1219,10 @@ section {
   width: 50%;
   color: #000;
   text-align: center;
+}
+
+.fas {
+  font-size: 20px;
 }
 
 .shake {
