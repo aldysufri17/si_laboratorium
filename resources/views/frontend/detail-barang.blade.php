@@ -46,8 +46,10 @@
                 <button type="submit" class="btn btn-success btn-user float-right mb-3"> <i
                         class="fas fa-cart-plus"></i> Tambah</button>
                 </form> --}}
+                @if (Auth::check())
                 <button type="button" id="jumlah" class="btn btn-success btn-user float-right mb-3">
                     <i class="fas fa-cart-plus"></i> Tambah</button>
+                @endif
             </div>
             <div class="card-body px-4">
                 <div class="d-flex flex-column align-items-center mb-3 text-center">

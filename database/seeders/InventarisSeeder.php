@@ -20,7 +20,7 @@ class InventarisSeeder extends Seeder
         $id_id = Barang::pluck('id');
         foreach ($id_id as $index => $value) {
             // Mutasi
-            $random = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
+            $random = date('dmY') . substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 5);
             Inventaris::create([
                 'barang_id'         => $value,
                 'status'            => 1,

@@ -22,6 +22,7 @@ class BarangSearch extends Component
             $data = Keranjang::where('user_id', Auth::user()->id)->pluck('barang_id');
             $barang = Barang::where('show', 1)
                 ->where('pengadaan_id', '!=', 4)
+                ->where('stock', '!=', 0)
                 ->where('nama', 'like', '%' . $this->search . '%')
                 ->where('kategori_lab', $this->lab)
                 ->whereNotIn('id', $data)
@@ -29,6 +30,7 @@ class BarangSearch extends Component
         } else {
             $barang = Barang::where('show', 1)
                 ->where('pengadaan_id', '!=', 4)
+                ->where('stock', '!=', 0)
                 ->where('nama', 'like', '%' . $this->search . '%')
                 ->where('kategori_lab', $this->lab)
                 ->paginate(7);

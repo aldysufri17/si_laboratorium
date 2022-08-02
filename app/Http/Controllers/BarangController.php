@@ -141,7 +141,7 @@ class BarangController extends Controller
         }
 
         // Mutasi
-        $random = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
+        $random = date('dmY') . substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 5);
         Inventaris::create([
             'barang_id'         => $id,
             'status'            => 1,
@@ -167,7 +167,6 @@ class BarangController extends Controller
         }
         $Date = date("Y/m/d");
         $year = date('Y', strtotime($Date));
-        $random = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
         $Inventaris = Inventaris::create([
             'barang_id'         => $id,
             'status'            => 2,
@@ -329,6 +328,7 @@ class BarangController extends Controller
 
         if (Auth::user()->role_id == 3) {
             $kategori_lab = 1;
+            $name = 'Laboratorium Sistem Tertanam dan Robotika';
         } elseif (Auth::user()->role_id == 4) {
             $kategori_lab = 2;
             $name = 'Laboratorium Rekayasa Perangkat Lunak';
@@ -468,7 +468,7 @@ class BarangController extends Controller
         $jmlInventaris = Inventaris::whereId($id_inventaris)->value('total_inventaris');
 
         if ($jml > $brgstk || $jml > $jmlInventaris) {
-            return redirect()->route('barang.damaged')->with('info', 'Stok Barang Tidak Mencukupi!.');
+            return redirect()->route('barang.index')->with('info', 'Stok Barang Tidak Mencukupi!.');
         }
 
         if ($brgstk - $jml <= 0) {
@@ -476,7 +476,7 @@ class BarangController extends Controller
         } else {
             $jum = $brgstk - $jml;
             // mutasi
-            $random = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
+            $random = date('dmY') . substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 5);
             Inventaris::create([
                 'barang_id'         => $id_barang,
                 'status'            => 0,
@@ -536,6 +536,8 @@ class BarangController extends Controller
         } else {
             $ket = $request->keterangan;
         }
+        $random = date('dmY') . substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 5);
+
 
         if ($request->kategori == 1) {
             if ($jml > $stok || $jml > $inventastok) {
@@ -547,7 +549,6 @@ class BarangController extends Controller
             } else {
                 $jum = $stok - $jml;
                 // mutasi
-                $random = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
                 Inventaris::create([
                     'barang_id'         => $id_barang,
                     'status'            => 0,
@@ -569,9 +570,30 @@ class BarangController extends Controller
             $Inventaris = Inventaris::whereId($id_inventaris)->update([
                 'total_inventaris'   => $inventastok - $jml,
             ]);
+        } elseif ($request->kategori == 2) {
+            if ($jml > $rsk) {
+                return redirect()->route('barang.damaged')->with('info', 'Barang Tidak Mencukupi!.');
+            }
+
+            // Barang Update
+            Barang::whereId($id_barang)->update(['jml_rusak' => $rsk - $jml, 'keterangan_rusak' => $ket]);
+
+            // mutasi
+            Inventaris::create([
+                'barang_id'         => $id_barang,
+                'status'            => 0,
+                'deskripsi'         => 'Hapus Barang Rusak',
+                'kode_inventaris'   => 'OUT' . $random,
+                'kode_mutasi'       => 'OUT' . $random,
+                'masuk'             => 0,
+                'kategori_lab'      => $this->lab,
+                'keluar'            => $jml,
+                'total_mutasi'      => $stok,
+                'total_inventaris'  => 0,
+            ]);
         } else {
             if ($jml > $rsk) {
-                return redirect()->route('barang.damaged')->with('info', 'Stok Barang Tidak Mencukupi!.');
+                return redirect()->route('barang.damaged')->with('info', 'Barang Tidak Mencukupi!.');
             }
 
             $jum = $jml + $stok;
@@ -580,7 +602,6 @@ class BarangController extends Controller
             Barang::whereId($id_barang)->update(['stock' => $jum, 'jml_rusak' => $rsk - $jml, 'keterangan_rusak' => $ket]);
 
             // mutasi
-            $random = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
             Inventaris::create([
                 'barang_id'         => $id_barang,
                 'status'            => 1,
@@ -600,11 +621,7 @@ class BarangController extends Controller
             ]);
         }
 
-        if ($Inventaris) {
-            return redirect()->route('barang.damaged')->with('success', 'Stok Barang Berhasil dibaharui!.');
-        } else {
-            return redirect()->route('barang.damaged')->with('error', 'Stok Barang Gagal dibaharui!.');
-        }
+        return redirect()->route('barang.damaged')->with('success', 'Stok Barang Berhasil dibaharui!.');
     }
 
 
@@ -638,7 +655,7 @@ class BarangController extends Controller
         ]);
 
         // mutasi
-        $random = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
+        $random = date('dmY') . substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 5);
         $mutasi = Inventaris::create([
             'barang_id'         => $id_barang,
             'status'            => 1,

@@ -245,9 +245,7 @@ class UserController extends Controller
 
     public function reset($user, Request $request)
     {
-        $id = User::whereId($request->reset_id)->first();
-        $trim = str_replace(' ', '', $id->name);
-        $user = User::whereId($user)->update(['password' => bcrypt(strtolower($trim))]);
+        $user = User::whereId($user)->update(['password' => bcrypt('secret')]);
         return redirect()->back()->with('success', 'Password Berhasil direset!.');
     }
 

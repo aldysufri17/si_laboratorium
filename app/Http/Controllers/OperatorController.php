@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\DB;
@@ -24,7 +25,9 @@ class OperatorController extends Controller
 
     public function index()
     {
-        $users = User::where('role_id', '>', 1)->with('roles')->get();
+        $users = User::where('role_id', '>', 1)
+            ->where('id', '!=', Auth::user()->id)
+            ->with('roles')->get();
 
         return view('backend.operator.index', ['users' => $users]);
     }

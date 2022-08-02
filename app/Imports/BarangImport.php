@@ -59,13 +59,22 @@ class BarangImport implements ToModel, WithStartRow, WithCustomCsvSettings
         } else {
             $kode_barang = $kode;
         }
+
+        if ($row[3] == null) {
+            $info = '-';
+        } else {
+            $info = $row[3];
+        }
+
+
+
         $barang = new Barang([
             'id'            => $kode,
             'kode_barang'   => $kbrg . $kode_barang,
             'nama'          => $row[0],
             'tipe'          => $row[1],
             'stock'         => $row[2],
-            'info'          => $row[3],
+            'info'          => $info,
             'lokasi'        => $lokasi,
             'satuan_id'     => 0,
             'pengadaan_id'  => 1,
@@ -74,19 +83,34 @@ class BarangImport implements ToModel, WithStartRow, WithCustomCsvSettings
             'tgl_masuk'     => date('Y-m-d'),
             'kategori_lab'  => $kategori_lab
         ]);
-
-        $random = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
+        $Date = date("Y/m/d");
+        $year = date('Y', strtotime($Date));
+        $random = date('dmY') . substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 5);
         $invetaris = new Inventaris([
             'barang_id'         => $kode,
             'status'            => 1,
-            'deskripsi'         => 'New',
+            'deskripsi'         => 'Created',
             'kode_mutasi'       => 'IN' . $random,
-            'kode_inventaris'   => 0,
+            'kode_inventaris'   => $kode . '.' . $random . '.' . $year,
             'masuk'             => $row[2],
             'kategori_lab'      => $kategori_lab,
             'keluar'            => 0,
-            'total'             => $row[2],
+            'total_inventaris'  => $row[2],
+            'total_mutasi'       => 0,
         ]);
-        return [$barang, $invetaris];
+
+        $mutasi = new Inventaris([
+            'barang_id'         => $kode,
+            'status'            => 1,
+            'deskripsi'         => 'Baru',
+            'kode_mutasi'       => 'IN' . $random,
+            'kode_inventaris'   => 'IN' . $random,
+            'masuk'             => $row[2],
+            'kategori_lab'      => $kategori_lab,
+            'keluar'            => 0,
+            'total_inventaris'  => 0,
+            'total_mutasi'      => $row[2],
+        ]);
+        return [$barang, $invetaris, $mutasi];
     }
 }

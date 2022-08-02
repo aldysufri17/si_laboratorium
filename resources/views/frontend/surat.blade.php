@@ -130,11 +130,11 @@
                                         class="btn btn-secondary mx-2" title="Unduh">
                                         <i class="fa-solid fa-print"></i>
                                     </a>
-                                    @endif
                                     <a class="btn btn-danger" href="#" data-toggle="modal" title="Delete"
                                         data-target="#deleteModal">
                                         <i class="fas fa-trash"></i>
                                     </a>
+                                    @endif
                                 </td>
                                 @endforeach
                             </tr>

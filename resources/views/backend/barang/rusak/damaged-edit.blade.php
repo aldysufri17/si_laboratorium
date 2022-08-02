@@ -55,6 +55,7 @@
                             <option selected disabled>Pilih Barang</option>
                             <option value="1">Tambah Barang Rusak</option>
                             <option value="2">Kurangi Barang Rusak</option>
+                            <option value="3">Kurangi Barang Rusak (Reparasi)</option>
                         </select>
                         @error('kategori')
                         <span class="text-danger">{{$message}}</span>
@@ -75,7 +76,7 @@
                         @enderror
                     </div>
 
-                    <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
+                    {{-- <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
                         <div class="form-group">
                             <span style="color:red;">*</span>Keterangan</label>
                             <textarea class="form-control @error('keterangan') is-invalid @enderror"
@@ -84,7 +85,7 @@
                         @error('keterangan')
                         <span class="text-danger">{{$message}}</span>
                         @enderror
-                    </div>
+                    </div> --}}
                 </div>
             </div>
 

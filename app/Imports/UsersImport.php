@@ -23,7 +23,7 @@ class UsersImport implements ToModel
             'mobile_number' => $row[5],
             'role_id'       => 1,
             'status'        => 1,
-            'password'      => bcrypt('12345678'),
+            'password'      => bcrypt('secret'),
         ]);
     }
 }

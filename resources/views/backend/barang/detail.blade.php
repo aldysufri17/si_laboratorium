@@ -38,11 +38,19 @@
                     </tr>
                     <tr>
                         <th scope="row">Kategori</th>
+                        @if($barang->kategori_id == 0)
+                        <td>Default</td>
+                        @else
                         <td>{{$barang->kategori->nama_kategori}}</td>
+                        @endif
                     </tr>
                     <tr>
                         <th scope="row">Stok</th>
-                        <td>{{ $barang->stock }} {{ $barang->satuan->nama_satuan }}</td>
+                        @if($barang->satuan_id == 0)
+                        <td>{{ $barang->stock }} - Default</td>
+                        @else
+                        <td>{{ $barang->stock }} - {{ $barang->satuan->nama_satuan }}</td>
+                        @endif
                     </tr>
                     <tr>
                         <th scope="row">Lokasi Barang</th>
@@ -85,10 +93,13 @@
                 <div class="modal-body text-center bgdark">
                     @php
                     $qr = 'Kode = '.$barang->kode_barang . ' - '. 'Nama = '. $barang->nama .' '. $barang->tipe .' - '.
-                    'Lokasi = '. $barang->lokasi
+                    'Lokasi = '. $barang->lokasi;
                     @endphp
-                    <img src="data:image/png;base64,{{DNS2D::getBarcodePNG(strval($qr), 'QRCODE',5,5)}}"
-                        style="background-color: rgb(255, 255, 255); padding:5px; border-radius:1px" alt="barcode" />
+                    <td rowspan="1">
+                        <img src="data:image/png;base64,{{DNS2D::getBarcodePNG(strval($qr), 'QRCODE',3,3)}}"
+                            style="background-color: rgb(255, 255, 255); padding:5px; border-radius:1px"
+                            alt="barcode" />
+                    </td>
                 </div>
                 <div class="modal-footer bgdark">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>

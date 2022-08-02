@@ -114,6 +114,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/konfirmasi-pengajuan', [PeminjamanController::class, 'pengajuan'])->name('konfirmasi.pengajuan');
         Route::get('/pengajuan/show/{id}', [PeminjamanController::class, 'showPengajuan'])->name('show.pengajuan');
         Route::get('/konfirmasi/pengajuan/{id}/{kode}', [PeminjamanController::class, 'pengajuanDetail'])->name('pengajuan.detail');
+        Route::get('/konfirmasi/all/{id}', [PeminjamanController::class, 'pengajuanAll'])->name('pengajuan.all');
 
         // peminjaman
         Route::get('/konfirmasi-peminjaman', [PeminjamanController::class, 'peminjaman'])->name('konfirmasi.peminjaman');

@@ -7,6 +7,7 @@ use App\Models\Barang;
 use App\Models\Keranjang;
 use App\Models\Peminjaman;
 use App\Models\Inventaris;
+use App\Models\Surat;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -88,6 +89,32 @@ class PeminjamanController extends Controller
             ->get();
 
         return view('backend.transaksi.pengajuan.index', compact('peminjaman'));
+    }
+
+    public function pengajuanAll($id)
+    {
+        if ($id == 1) {
+            Peminjaman::where('status', 0)
+                ->where('kategori_lab', $this->lab)
+                ->update(['status' => 1]);
+        } elseif ($id == 3) {
+            $peminjaman = Peminjaman::where('status', 3)
+                ->where('kategori_lab', $this->lab)
+                ->first();
+            if ($peminjaman) {
+                Peminjaman::where('status', 3)
+                    ->where('kategori_lab', $this->lab)
+                    ->update(['status' => 4]);
+            } else {
+                return redirect()->back()->with('info', 'Belum terdapat pengajuan pengembalian.!');
+            }
+        } else {
+            Peminjaman::where('status', 0)
+                ->where('kategori_lab', $this->lab)
+                ->update(['status' => 2]);
+        }
+
+        return redirect()->back()->with('success', 'Status Pengajuan Berhasil diubah.!');
     }
 
     public function showPengajuan($id)
@@ -465,6 +492,12 @@ class PeminjamanController extends Controller
             if ($stok[$index] - $jml <= 0 || $stok[$index] == 0) {
                 return redirect()->back()->with('errr', "Stok $nama[$index] tidak mencukupi...!!");
             }
+        }
+
+        // cek surat
+        $surat = Surat::where('user_id', $user_id)->first();
+        if ($surat) {
+            return redirect()->back()->with('errr', "Pengajuan Gagal, Anda membuat surat bebas lab..!!!");
         }
 
         // // dd($keranjang_name);

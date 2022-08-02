@@ -78,14 +78,14 @@ class MutasiExport implements FromCollection, WithHeadings
 
         if ($this->status == 2) {
             $inventaris = Inventaris::join('barang', 'barang.id', '=', 'inventaris.barang_id')
-                ->select('inventaris.created_at', 'kode_mutasi', 'barang.nama', 'barang.tipe', 'masuk', 'keluar', 'total', 'deskripsi')
+                ->select('inventaris.created_at', 'kode_mutasi', 'barang.nama', 'barang.tipe', 'masuk', 'keluar', 'total_mutasi', 'deskripsi')
                 ->where('inventaris.kategori_lab', $kategori_lab)
                 ->where('status', '<', 2)
                 ->orderBy('inventaris.created_at', 'DESC')
                 ->get();
         } else {
             $inventaris = Inventaris::join('barang', 'barang.id', '=', 'inventaris.barang_id')
-                ->select('inventaris.created_at', 'kode_mutasi', 'barang.nama', 'barang.tipe', 'masuk', 'keluar', 'total', 'deskripsi')
+                ->select('inventaris.created_at', 'kode_mutasi', 'barang.nama', 'barang.tipe', 'masuk', 'keluar', 'total_mutasi', 'deskripsi')
                 ->where('inventaris.kategori_lab', $kategori_lab)
                 ->where('status', $this->status)
                 ->orderBy('inventaris.created_at', 'DESC')

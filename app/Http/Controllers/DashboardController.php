@@ -138,7 +138,7 @@ class DashboardController extends Controller
         $user_id = Auth::user()->id;
         if ($request->ktm) {
             $bb = User::whereid($user_id)->first();
-            if (file_exists(public_path() . '/images/user/ktm/' . $bb->ktm)) {
+            if (!file_exists(public_path() . '/images/user/ktm/' . $bb->ktm)) {
                 unlink(public_path() . '/images/user/ktm/' . $bb->ktm);
             }
             $ktm = $request->ktm;
