@@ -604,7 +604,13 @@ class PeminjamanController extends Controller
     {
         $user_id = Auth::user()->id;
         $kode = $request->pem_id;
-        $peminjaman = Peminjaman::where('kode_peminjaman', $kode)->where('user_id', $user_id)->update(['status' => 3]);
+        Peminjaman::where('kode_peminjaman', $kode)
+            ->where('user_id', $user_id)
+            ->where('status', 1)
+            ->delete();
+        $peminjaman = Peminjaman::where('kode_peminjaman', $kode)
+            ->where('user_id', $user_id)
+            ->update(['status' => 3]);
         if ($peminjaman) {
             return redirect()->back()->with('success', 'Pengajuan Berhasil di Lakukan!.');
         } else {

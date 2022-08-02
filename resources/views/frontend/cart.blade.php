@@ -328,7 +328,7 @@
         </div>
         @else
         <div class="mx-4 mb-3 d-sm-flex justify-content-between">
-            <a class="btn btn-success" href="{{url('/search')}}">
+            <a class="btn btn-success" href="{{route('search')}}">
                 <i class="fa-solid fa-magnifying-glass"></i> Pencarian Barang
             </a>
             <a class="btn btn-info" href="{{route('daftar.pinjaman')}}">

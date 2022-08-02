@@ -64,9 +64,9 @@ class KeranjangController extends Controller
         }
     }
 
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
-        $cart = Keranjang::find($id)->delete();
+        $cart = Keranjang::find($request->delete_id)->delete();
         if ($cart) {
             return redirect()->route('cart')->with('success', 'Berhasil dihapus!.');
         } else {
