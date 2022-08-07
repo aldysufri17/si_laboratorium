@@ -72,14 +72,15 @@ class PengadaanController extends Controller
         }
     }
 
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
+        $id = $request->delete_id;
         if ($id > 5) {
-            return redirect()->route('satuan.index')->with(['success', 'Satuan berhasil dihapus']);
+            return redirect()->route('satuan.index')->with(['success', 'Pengadaan berhasil dihapus']);
         } else {
             $barang = Barang::where('satuan_id', $id)->get();
             if ($barang->isNotEmpty()) {
-                return redirect()->route('satuan.index')->with(['success', 'Satuan berhasil dihapus']);
+                return redirect()->route('satuan.index')->with(['success', 'Pengadaan berhasil dihapus']);
             } else {
                 $pengadaan = Pengadaan::whereId($id)->delete();
                 if ($pengadaan) {

@@ -120,18 +120,9 @@
                         <span style="color:red;">*</span>Lokasi Barang</label>
                         <select class="form-control form-control-user  @error('lokasi') is-invalid @enderror"
                             name="lokasi" aria-label="Default select example">
-                            <option value="Laboratorium Sistem Tertanam dan Robotika"
-                                {{old('lokasi') ? ((old('lokasi') == "Laboratorium Sistem Tertanam dan Robotika") ? 'selected' : '') : (($barang->lokasi == "Laboratorium Sistem Tertanam dan Robotika") ? 'selected' : '')}}>
-                                Laboratorium Sistem Tertanam dan Robotika</option>
-                            <option value="Laboratorium Rekayasa Perangkat Lunak"
-                                {{old('lokasi') ? ((old('lokasi') == "Laboratorium Rekayasa Perangkat Lunak") ? 'selected' : '') : (($barang->lokasi == "Laboratorium Rekayasa Perangkat Lunak") ? 'selected' : '')}}>
-                                Laboratorium Rekayasa Perangkat Lunak</option>
-                            <option value="Laboratorium Jaringan dan Keamanan Komputer"
-                                {{old('lokasi') ? ((old('lokasi') == "Laboratorium Jaringan dan Keamanan Komputer") ? 'selected' : '') : (($barang->lokasi == "Laboratorium Jaringan dan Keamanan Komputer") ? 'selected' : '')}}>
-                                Laboratorium Jaringan dan Keamanan Komputer</option>
-                            <option value="Laboratorium Multimedia"
-                                {{old('lokasi') ? ((old('lokasi') == "Laboratorium Multimedia") ? 'selected' : '') : (($barang->lokasi == "Laboratorium Multimedia") ? 'selected' : '')}}>
-                                Laboratorium Multimedia</option>
+                            @foreach ($laboratorium as $lab)
+                            <option value="{{$lab->nama}}" @if (auth()->user()->laboratorium_id == $lab->id) selected @endif >{{$lab->nama}}</option>
+                            @endforeach
                         </select>
                         @error('lokasi')
                         <span class="text-danger">{{$message}}</span>

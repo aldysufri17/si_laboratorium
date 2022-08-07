@@ -8,40 +8,25 @@ use App\Models\Peminjaman;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Storage;
 use Barryvdh\DomPDF\Facade as PDF;
 use App\Exports\BarangExport;
 use App\Exports\DamagedExport;
 use App\Imports\BarangImport;
 use App\Models\Kategori;
+use App\Models\Laboratorium;
 use App\Models\Pengadaan;
 use App\Models\Satuan;
 use App\Models\User;
 use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Contracts\Auth\Guard;
-
 
 class BarangController extends Controller
 {
-    protected $lab;
-    protected $kode;
+    public $lab;
     public function __construct()
     {
+        $this->middleware('auth');
         $this->middleware(function ($request, $next) {
-            // $this->lab = Auth::user()->role_id;
-            if (Auth::user()->role_id == 3) {
-                $this->lab = 1;
-                $this->kode = "EM-";
-            } elseif (Auth::user()->role_id == 4) {
-                $this->lab = 2;
-                $this->kode = "RL-";
-            } elseif (Auth::user()->role_id == 5) {
-                $this->lab = 3;
-                $this->kode = "JK-";
-            } elseif (Auth::user()->role_id == 6) {
-                $this->lab = 4;
-                $this->kode = "MD-";
-            }
+            $this->lab = Auth::user()->laboratorium_id;
             return $next($request);
         });
     }
@@ -49,35 +34,34 @@ class BarangController extends Controller
     public function index()
     {
 
-        if (Auth::user()->role_id == 2) {
-            $barang = Barang::select('kategori_lab', DB::raw('count(*) as total'))
-                ->groupBy('kategori_lab')
-                ->get();
+        if (Auth::user()->role == 2) {
+            $barang = Laboratorium::all();
         } else {
             $barang = Barang::with('satuan', 'kategori')
-                ->where('kategori_lab', $this->lab)
+                ->where('laboratorium_id', $this->lab)
                 ->orderBy('updated_at', 'desc')
                 ->get();
         }
-        return view('backend.barang.index', ['barang' => $barang]);
+        return view('backend.barang.index', compact('barang'));
     }
 
     public function adminBarang($data)
     {
         $data = decrypt($data);
         $barang = Barang::with('satuan', 'kategori')
-            ->where('kategori_lab', $data)
+            ->where('laboratorium_id', $data)
             ->orderBy('id', 'desc')
             ->get();
-        return view('backend.barang.admin-detail', ['barang' => $barang]);
+        return view('backend.barang.admin-detail', compact('barang'));
     }
 
     public function create()
     {
-        $kategori = Kategori::where('kategori_lab', $this->lab)->get();
-        $satuan = Satuan::where('kategori_lab', $this->lab)->get();
+        $kategori = Kategori::where('laboratorium_id', $this->lab)->get();
+        $satuan = Satuan::where('laboratorium_id', $this->lab)->get();
         $pengadaan = Pengadaan::all();
-        return view('backend.barang.add', compact('kategori', 'satuan', 'pengadaan'));
+        $laboratorium = Laboratorium::all();
+        return view('backend.barang.add', compact('kategori', 'satuan', 'pengadaan', 'laboratorium'));
     }
 
     public function store(Request $request)
@@ -96,9 +80,11 @@ class BarangController extends Controller
             'required' => ':attribute wajib diisi',
         ]);
 
-        $id_barang = Barang::max('id');
+        $id_barang = Barang::withTrashed()->max('id');
         $date = Date('ymd');
         $id = $id_barang + 1;
+        $kode = Laboratorium::whereId($this->lab)->value('kode');
+        $name = Laboratorium::whereId($request->lokasi)->value('nama');
         if ($request->gambar) {
             $gambar = $request->gambar;
             $new_gambar = date('Y-m-d') . "-" . $request->nama . "-" . $request->tipe . "." . $gambar->getClientOriginalExtension();
@@ -107,14 +93,14 @@ class BarangController extends Controller
             $gambar->move($destination, $new_gambar);
             $barang = Barang::create([
                 'id'            => $id,
-                'kode_barang'   => $this->kode . $id . $date,
+                'kode_barang'   => $kode . '-' . $id . $date,
                 'nama'          => $request->nama,
                 'stock'         => $request->stock,
                 'tipe'          => $request->tipe,
                 'tgl_masuk'     => $request->tgl_masuk,
                 'show'          => $request->show,
-                'lokasi'        => $request->lokasi,
-                'kategori_lab'  => $this->lab,
+                'lokasi'        => $name,
+                'laboratorium_id'  => $this->lab,
                 'satuan_id'     => $request->satuan_id,
                 'kategori_id'   => $request->kategori_id,
                 'pengadaan_id'  => $request->pengadaan_id,
@@ -125,7 +111,7 @@ class BarangController extends Controller
             // Barang
             $barang = Barang::create([
                 'id'            => $id,
-                'kode_barang'   => $this->kode . $id . $date,
+                'kode_barang'   => $kode . '-' . $id . $date,
                 'nama'          => $request->nama,
                 'stock'         => $request->stock,
                 'tipe'          => $request->tipe,
@@ -134,7 +120,7 @@ class BarangController extends Controller
                 'tgl_masuk'     => $request->tgl_masuk,
                 'show'          => $request->show,
                 'lokasi'        => $request->lokasi,
-                'kategori_lab'  => $this->lab,
+                'laboratorium_id'  => $this->lab,
                 'pengadaan_id'  => $request->pengadaan_id,
                 'info'          => $request->info,
             ]);
@@ -149,7 +135,6 @@ class BarangController extends Controller
             'kode_mutasi'       => 'IN' . $random,
             'kode_inventaris'   => 'IN' . $random,
             'masuk'             => $request->stock,
-            'kategori_lab'      => $this->lab,
             'keluar'            => 0,
             'total_inventaris'  => $request->stock,
             'total_mutasi'      => $request->stock,
@@ -174,7 +159,6 @@ class BarangController extends Controller
             'kode_mutasi'       => 'Kosong',
             'kode_inventaris'   => $kode . '.' . $id . '.' . $id_barang . '.' . $year,
             'masuk'             => 0,
-            'kategori_lab'      => $this->lab,
             'keluar'            => 0,
             'total_inventaris'  => $request->stock
         ]);
@@ -195,10 +179,11 @@ class BarangController extends Controller
     public function edit($barang)
     {
         $barang = Barang::whereId(decrypt($barang))->first();
-        $kategori = Kategori::where('kategori_lab', $this->lab)->get();
-        $satuan = Satuan::where('kategori_lab', $this->lab)->get();
+        $kategori = Kategori::where('laboratorium_id', $this->lab)->get();
+        $satuan = Satuan::where('laboratorium_id', $this->lab)->get();
         $pengadaan = Pengadaan::all();
-        return view('backend.barang.edit', compact('barang', 'satuan', 'kategori', 'pengadaan'));
+        $laboratorium = Laboratorium::all();
+        return view('backend.barang.edit', compact('barang', 'satuan', 'kategori', 'pengadaan', 'laboratorium'));
     }
 
     public function update(Request $request, Barang $barang)
@@ -258,32 +243,6 @@ class BarangController extends Controller
         }
     }
 
-    public function damaged()
-    {
-        if (Auth::user()->role_id == 2) {
-            $barang = Barang::whereNotNull('jml_rusak')
-                ->select('kategori_lab', DB::raw('count(*) as total'))
-                // ->selectRaw(DB::raw("SUM(jml_rusak) as total"))
-                ->groupBy('kategori_lab')
-                ->get();
-            // dd($barang);
-            return view('backend.barang.rusak.damaged', compact('barang'));
-        } else {
-            $barang = Barang::whereNotNull('jml_rusak')
-                ->where('kategori_lab', $this->lab)
-                ->where('jml_rusak', '>', 0)
-                ->orderBy('updated_at', 'Desc')
-                ->get();
-            return view('backend.barang.rusak.damaged', compact('barang'));
-        }
-    }
-
-    public function adminDamaged($data)
-    {
-        $data = decrypt($data);
-        $barang = Barang::whereNotNull('jml_rusak')->where('kategori_lab', $data)->get();
-        return view('backend.barang.rusak.admin-damaged', compact('barang'));
-    }
 
     public function destroy(Barang $barang, Request $request)
     {
@@ -313,63 +272,30 @@ class BarangController extends Controller
 
     public function qrcode($data)
     {
-        if (Auth::user()->role_id == 2) {
-            $kategori_lab = $data;
-            if ($data == 1) {
-                $name = 'Laboratorium Sistem Tertanam dan Robotika';
-            } elseif ($data == 2) {
-                $name = 'Laboratorium Rekayasa Perangkat Lunak';
-            } elseif ($data == 3) {
-                $name = 'Laboratorium Jaringan dan Keamanan Komputer';
-            } elseif ($data == 4) {
-                $name = 'Laboratorium Multimedia';
-            }
+        if (Auth::user()->role == 2) {
+            $data = decrypt($data);
+            $laboratorium_id = $data;
+            $name = Laboratorium::whereId($data)->value('nama');
+        } else {
+            $laboratorium_id = $this->lab;
+            $name = Laboratorium::whereId($this->lab)->value('nama');
         }
-
-        if (Auth::user()->role_id == 3) {
-            $kategori_lab = 1;
-            $name = 'Laboratorium Sistem Tertanam dan Robotika';
-        } elseif (Auth::user()->role_id == 4) {
-            $kategori_lab = 2;
-            $name = 'Laboratorium Rekayasa Perangkat Lunak';
-        } elseif (Auth::user()->role_id == 5) {
-            $kategori_lab = 3;
-            $name = 'Laboratorium Jaringan dan Keamanan Komputer';
-        } elseif (Auth::user()->role_id == 6) {
-            $kategori_lab = 4;
-            $name = 'Laboratorium Multimedia';
-        }
-        $barang = Barang::where('kategori_lab', $kategori_lab)->get();
+        $barang = Barang::where('laboratorium_id', $laboratorium_id)->get();
         $pdf = PDF::loadview('backend.barang.qrcode', compact('barang'));
         return $pdf->download("Qr-Code_barang" . "-" . $name . '.pdf');
     }
 
     public function export($data)
     {
-        if (Auth::user()->role_id == 2) {
-            if (Auth::user()->role_id == 2) {
-                if ($data == 1) {
-                    $name = 'Laboratorium Sistem Tertanam dan Robotika';
-                } elseif ($data == 2) {
-                    $name = 'Laboratorium Rekayasa Perangkat Lunak';
-                } elseif ($data == 3) {
-                    $name = 'Laboratorium Jaringan dan Keamanan Komputer';
-                } elseif ($data == 4) {
-                    $name = 'Laboratorium Multimedia';
-                }
-            }
+        if (Auth::user()->role == 2) {
+            $dec = decrypt($data);
+            $data = $dec;
+            $name = Laboratorium::whereId($data)->value('nama');
+        } else {
+            $data = $this->lab;
+            $name = Laboratorium::whereId($this->lab)->value('nama');
         }
-
-        if (Auth::user()->role_id == 3) {
-            $name = "Laboratorium Sistem Tertanam dan Robotika";
-        } elseif (Auth::user()->role_id == 4) {
-            $name = "Laboratorium Rekayasa Perangkat Lunak";
-        } elseif (Auth::user()->role_id == 5) {
-            $name = "Laboratorium Jaringan dan Keamanan Komputer";
-        } elseif (Auth::user()->role_id == 6) {
-            $name = "Laboratorium Multimedia";
-        }
-        return Excel::download(new BarangExport($data), 'Data Barang' . '-' . $name . date('Y-m-d') . '.xlsx');
+        return Excel::download(new BarangExport($data, $name), 'Data Barang' . '-' . $name . date('Y-m-d') . '.xlsx');
     }
 
     public function import()
@@ -379,15 +305,7 @@ class BarangController extends Controller
         ], [
             'required' => ':attribute Format file tidak terbaca',
         ]);
-        if (Auth::user()->role_id == 3) {
-            $name = "Laboratorium Sistem Tertanam dan Robotika";
-        } elseif (Auth::user()->role_id == 4) {
-            $name = "Laboratorium Rekayasa Perangkat Lunak";
-        } elseif (Auth::user()->role_id == 5) {
-            $name = "Laboratorium Jaringan dan Keamanan Komputer";
-        } elseif (Auth::user()->role_id == 6) {
-            $name = "Laboratorium Multimedia";
-        }
+        $name = Laboratorium::whereId($this->lab)->value('nama');
 
         if (request()->file('file') == null) {
             return redirect()->back()->with('info', 'Masukkan file terlebih dahulu!.');
@@ -400,48 +318,48 @@ class BarangController extends Controller
 
     public function barangPdf($data)
     {
-        if (Auth::user()->role_id == 2) {
-            if (Auth::user()->role_id == 2) {
-                if ($data == 1) {
-                    $name = 'Laboratorium Sistem Tertanam dan Robotika';
-                    $kategori_lab = 1;
-                } elseif ($data == 2) {
-                    $name = 'Laboratorium Rekayasa Perangkat Lunak';
-                    $kategori_lab = 2;
-                } elseif ($data == 3) {
-                    $name = 'Laboratorium Jaringan dan Keamanan Komputer';
-                    $kategori_lab = 3;
-                } elseif ($data == 4) {
-                    $name = 'Laboratorium Multimedia';
-                    $kategori_lab = 4;
-                }
-            }
+        if (Auth::user()->role == 2) {
+            $data = decrypt($data);
+            $laboratorium_id = $data;
+            $name = Laboratorium::whereId($data)->value('nama');
+        } else {
+            $laboratorium_id = $this->lab;
+            $name = Laboratorium::whereId($this->lab)->value('nama');
         }
 
-        if (Auth::user()->role_id == 3) {
-            $name = "Laboratorium Sistem Tertanam dan Robotika";
-            $kategori_lab = 1;
-        } elseif (Auth::user()->role_id == 4) {
-            $name = "Laboratorium Rekayasa Perangkat Lunak";
-            $kategori_lab = 2;
-        } elseif (Auth::user()->role_id == 5) {
-            $name = "Laboratorium Jaringan dan Keamanan Komputer";
-            $kategori_lab = 3;
-        } elseif (Auth::user()->role_id == 6) {
-            $name = "Laboratorium Multimedia";
-            $kategori_lab = 4;
-        }
-        $barang = Barang::where('kategori_lab', $kategori_lab)->get();
+        $barang = Barang::where('laboratorium_id', $laboratorium_id)->get();
         // return view('backend.inventaris.pdf_inventaris', compact('name', 'inventaris'));
         $pdf = Pdf::loadview('backend.barang.pdf_barang', compact('name', 'barang'));
 
         return $pdf->download("Data Barang" . "_" . $name . '_' . date('d-m-Y') . '.pdf');
     }
 
+    // Barang Rusak
+    public function damaged()
+    {
+        if (Auth::user()->role == 2) {
+            $barang = Laboratorium::all();
+            return view('backend.barang.rusak.damaged', compact('barang'));
+        } else {
+            $barang = Barang::whereNotNull('jml_rusak')
+                ->where('laboratorium_id', $this->lab)
+                ->where('jml_rusak', '>', 0)
+                ->orderBy('updated_at', 'Desc')
+                ->get();
+            return view('backend.barang.rusak.damaged', compact('barang'));
+        }
+    }
+
+    public function adminDamaged($data)
+    {
+        $data = decrypt($data);
+        $barang = Barang::whereNotNull('jml_rusak')->where('laboratorium_id', $data)->get();
+        return view('backend.barang.rusak.admin-damaged', compact('barang'));
+    }
 
     public function createDamaged()
     {
-        $barang = Barang::where('kategori_lab', $this->lab)->get();
+        $barang = Barang::where('laboratorium_id', $this->lab)->get();
         return view('backend.barang.rusak.damaged-add', compact('barang'));
     }
 
@@ -484,7 +402,7 @@ class BarangController extends Controller
                 'kode_inventaris'   => 'OUT' . $random,
                 'kode_mutasi'       => 'OUT' . $random,
                 'masuk'             => 0,
-                'kategori_lab'      => $this->lab,
+                'laboratorium_id'   => $this->lab,
                 'keluar'            => $jml,
                 'total_mutasi'      => $jum,
                 'total_inventaris'  => 0,
@@ -556,7 +474,7 @@ class BarangController extends Controller
                     'kode_inventaris'   => 'OUT' . $random,
                     'kode_mutasi'       => 'OUT' . $random,
                     'masuk'             => 0,
-                    'kategori_lab'      => $this->lab,
+                    'laboratorium_id'      => $this->lab,
                     'keluar'            => $jml,
                     'total_mutasi'      => $jum,
                     'total_inventaris'  => 0,
@@ -586,7 +504,7 @@ class BarangController extends Controller
                 'kode_inventaris'   => 'OUT' . $random,
                 'kode_mutasi'       => 'OUT' . $random,
                 'masuk'             => 0,
-                'kategori_lab'      => $this->lab,
+                'laboratorium_id'      => $this->lab,
                 'keluar'            => $jml,
                 'total_mutasi'      => $stok,
                 'total_inventaris'  => 0,
@@ -609,7 +527,7 @@ class BarangController extends Controller
                 'kode_inventaris'   => 'IN' . $random,
                 'kode_mutasi'       => 'IN' . $random,
                 'masuk'             => $jml,
-                'kategori_lab'      => $this->lab,
+                'laboratorium_id'      => $this->lab,
                 'keluar'            => 0,
                 'total_mutasi'      => $jum,
                 'total_inventaris'  => 0,
@@ -627,7 +545,7 @@ class BarangController extends Controller
 
     public function showStok()
     {
-        $barang = Barang::where('kategori_lab', $this->lab)->get();
+        $barang = Barang::where('laboratorium_id', $this->lab)->get();
         return view('backend.barang.stok-update', compact('barang'));
     }
 
@@ -663,7 +581,7 @@ class BarangController extends Controller
             'kode_inventaris'   => 'IN' . $random,
             'kode_mutasi'       => 'IN' . $random,
             'masuk'             => $jml,
-            'kategori_lab'      => $this->lab,
+            'laboratorium_id'      => $this->lab,
             'keluar'            => 0,
             'total_inventaris'  => 0,
             'total_mutasi'      => $brgstk + $jml,
@@ -678,66 +596,28 @@ class BarangController extends Controller
 
     public function damagedExport($data)
     {
-        if (Auth::user()->role_id == 2) {
-            if (Auth::user()->role_id == 2) {
-                if ($data == 1) {
-                    $name = 'Laboratorium Sistem Tertanam dan Robotika';
-                } elseif ($data == 2) {
-                    $name = 'Laboratorium Rekayasa Perangkat Lunak';
-                } elseif ($data == 3) {
-                    $name = 'Laboratorium Jaringan dan Keamanan Komputer';
-                } elseif ($data == 4) {
-                    $name = 'Laboratorium Multimedia';
-                }
-            }
+        if (Auth::user()->role == 2) {
+            $dec = decrypt($data);
+            $data = $dec;
+            $name = Laboratorium::whereId($data)->value('nama');
+        } else {
+            $data = $this->lab;
+            $name = Laboratorium::whereId($this->lab)->value('nama');
         }
-
-        if (Auth::user()->role_id == 3) {
-            $name = "Laboratorium Sistem Tertanam dan Robotika";
-        } elseif (Auth::user()->role_id == 4) {
-            $name = "Laboratorium Rekayasa Perangkat Lunak";
-        } elseif (Auth::user()->role_id == 5) {
-            $name = "Laboratorium Jaringan dan Keamanan Komputer";
-        } elseif (Auth::user()->role_id == 6) {
-            $name = "Laboratorium Multimedia";
-        }
-        return Excel::download(new DamagedExport($data), 'Data Barang Rusak' . '-' . $name . date('Y-m-d') . '.xlsx');
+        return Excel::download(new DamagedExport($data, $name), 'Data Barang Rusak' . '-' . $name . date('Y-m-d') . '.xlsx');
     }
 
     public function damagedPdf($data)
     {
-        if (Auth::user()->role_id == 2) {
-            if (Auth::user()->role_id == 2) {
-                if ($data == 1) {
-                    $name = 'Laboratorium Sistem Tertanam dan Robotika';
-                    $kategori_lab = 1;
-                } elseif ($data == 2) {
-                    $name = 'Laboratorium Rekayasa Perangkat Lunak';
-                    $kategori_lab = 2;
-                } elseif ($data == 3) {
-                    $name = 'Laboratorium Jaringan dan Keamanan Komputer';
-                    $kategori_lab = 3;
-                } elseif ($data == 4) {
-                    $name = 'Laboratorium Multimedia';
-                    $kategori_lab = 4;
-                }
-            }
+        if (Auth::user()->role == 2) {
+            $data = decrypt($data);
+            $laboratorium_id = $data;
+            $name = Laboratorium::whereId($data)->value('nama');
+        } else {
+            $laboratorium_id = $this->lab;
+            $name = Laboratorium::whereId($this->lab)->value('nama');
         }
-
-        if (Auth::user()->role_id == 3) {
-            $name = "Laboratorium Sistem Tertanam dan Robotika";
-            $kategori_lab = 1;
-        } elseif (Auth::user()->role_id == 4) {
-            $name = "Laboratorium Rekayasa Perangkat Lunak";
-            $kategori_lab = 2;
-        } elseif (Auth::user()->role_id == 5) {
-            $name = "Laboratorium Jaringan dan Keamanan Komputer";
-            $kategori_lab = 3;
-        } elseif (Auth::user()->role_id == 6) {
-            $name = "Laboratorium Multimedia";
-            $kategori_lab = 4;
-        }
-        $barang = Barang::where('kategori_lab', $kategori_lab)->whereNotNull('jml_rusak')->get();
+        $barang = Barang::where('laboratorium_id', $laboratorium_id)->whereNotNull('jml_rusak')->get();
         // return view('backend.inventaris.pdf_inventaris', compact('name', 'inventaris'));
         $pdf = Pdf::loadview('backend.barang.rusak.pdf_damaged', compact('name', 'barang'));
 
@@ -746,7 +626,9 @@ class BarangController extends Controller
 
     public function barangDipinjam()
     {
-        $barang = Peminjaman::where('kategori_lab', $this->lab)->whereBetween('status', [2, 3])->groupBy('barang_id')->select('barang_id')->get();
+        $barang = Peminjaman::whereHas('barang', function ($q) {
+            $q->where('laboratorium_id', $this->lab);
+        })->whereBetween('status', [2, 3])->groupBy('barang_id')->select('barang_id')->get();
         return view('backend.barang.barang-dipinjam', compact('barang'));
     }
 
@@ -763,7 +645,9 @@ class BarangController extends Controller
             '</tr>';
         $body = "";
         $nama = "";
-        $peminjaman = Peminjaman::where('barang_id', $kode)->whereBetween('status', [2, 3])->where('kategori_lab', $this->lab)->get();
+        $peminjaman = Peminjaman::where('barang_id', $kode)->whereBetween('status', [2, 3])->whereHas('barang', function ($q) {
+            $q->where('laboratorium_id', $this->lab);
+        })->get();
         foreach ($peminjaman as $key => $data) {
             $nama = "Daftar Peminjam" . "<br>" . $data->barang->nama . " " . "-" . " " . $data->barang->tipe;
             $key = $key + 1;

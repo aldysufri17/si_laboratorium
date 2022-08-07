@@ -18,7 +18,6 @@ class CreateKeranjangTable extends Migration
             $table->integer('user_id');
             $table->integer('barang_id');
             $table->integer('jumlah')->nullable();
-            $table->text('kategori_lab')->nullable();
             $table->integer('status');
             $table->timestamps();
         });

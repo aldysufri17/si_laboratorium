@@ -12,6 +12,16 @@ use Illuminate\Support\Facades\Crypt;
 
 class HomeController extends Controller
 {
+    protected $lab;
+    public function __construct()
+    {
+        $this->middleware(function ($request, $next) {
+            if (Auth::check()) {
+                $this->lab = Auth::user()->laboratorium_id;
+            }
+            return $next($request);
+        });
+    }
 
     public function author()
     {
@@ -102,31 +112,24 @@ class HomeController extends Controller
 
     public function riwayatDetail(Request $request)
     {
-        if (Auth::user()->role_id == 3) {
-            $lab = 1;
-        } elseif (Auth::user()->role_id == 4) {
-            $lab = 2;
-        } elseif (Auth::user()->role_id == 5) {
-            $lab = 3;
-        } elseif (Auth::user()->role_id == 6) {
-            $lab = 4;
-        }
         $kode = $request->kode;
         $output = "";
         $user = "";
-        if (Auth::user()->role_id == 1) {
+        if (Auth::user()->role == 1) {
             $user_id = Auth::user()->id;
             $peminjaman = Peminjaman::where('kode_peminjaman', $kode)
                 ->where('status', 4)
                 ->where('user_id', $user_id)
                 ->get();
-        } else if (Auth::user()->role_id == 2) {
+        } else if (Auth::user()->role == 2) {
             $peminjaman = Peminjaman::where('kode_peminjaman', $kode)
                 ->where('status', 4)
                 ->get();
         } else {
             $peminjaman = Peminjaman::where('kode_peminjaman', $kode)
-                ->where('kategori_lab', $lab)
+                ->whereHas('barang', function ($q) {
+                    $q->where('laboratorium_id', $this->lab);
+                })
                 ->where('status', 4)
                 ->get();
         }
@@ -149,20 +152,10 @@ class HomeController extends Controller
                 '</tr>' .
                 '<tr>';
 
-            if (Auth::user()->role_id == 2) {
-
-                if ($data->kategori_lab == 1) {
-                    $lab = "Laboratorium Sistem Tertanam dan Robotika";
-                } elseif ($data->kategori_lab == 2) {
-                    $lab = "Laboratorium Rekayasa Perangkat Lunak";
-                } elseif ($data->kategori_lab == 3) {
-                    $lab = "Laboratorium Jaringan dan Keamanan Komputer";
-                } elseif ($data->kategori_lab == 4) {
-                    $lab = "Laboratorium Multimedia";
-                }
-
+            if (Auth::user()->role == 2) {
+                $labname = $data->laboratorium->nama;
                 $output .= '<tr>' .
-                    '<td>' . $lab . '</td>' .
+                    '<td>' . $labname . '</td>' .
                     '<td>' . $data->barang->kode_barang . '</td>' .
                     '<td>' . $data->barang->nama . "-" . $data->barang->tipe . '</td>' .
                     '<td>' . $data->jumlah . $data->barang->satuan->nama_satuan . '</td>' .

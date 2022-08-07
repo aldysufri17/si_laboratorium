@@ -46,7 +46,7 @@ Route::middleware(['auth'])->group(function () {
     Route::resource('surat', App\Http\Controllers\SuratController::class);
 
     // ---------------------------Role Admin atau Operator--------------------------
-    Route::group(['middleware' => ['role:admin|operator embedded|operator rpl|operator jarkom|operator mulmed']], function () {
+    Route::group(['middleware' => ['role:admin|operator']], function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
         // Users 
@@ -67,6 +67,9 @@ Route::middleware(['auth'])->group(function () {
 
         // Roles
         Route::resource('roles', App\Http\Controllers\RolesController::class);
+
+        // Laboratorium
+        Route::resource('lab', App\Http\Controllers\LaboratoriumController::class);
 
         // Operator
         Route::resource('operator', OperatorController::class);

@@ -14,7 +14,7 @@
             <li class="breadcrumb-item">Inventaris Barang</li>
         </ol>
     </div>
-    @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
+    @role('operator')
     <div class="d-sm-flex align-items-center mb-4">
 
         {{-- <a href="{{ route('inventaris.add', auth()->user()->role_id) }}" class="btn btn-sm btn-success">
@@ -36,7 +36,7 @@
     <div class="card shadow mb-4 border-0 bgdark">
         <div class="card-body">
             <div class="table-responsive">
-                @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
+                @role('operator')
                 <div class="my-2">
                     <form action="{{route('inventaris.index')}}" method="GET">
                         @csrf
@@ -53,7 +53,7 @@
                 </div>
                 @endrole
                 <table id="dataTable" class="table table-borderless dt-responsive" cellspacing="0" width="100%">
-                    @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
+                    @role('operator')
                     <thead>
                         <tr>
                             <th width="15%">Date</th>
@@ -87,7 +87,7 @@
                             <td>{{ $data->total_inventaris + $data->barang->jml_rusak }}</td>
                             <td>{{$data->barang->pengadaan->nama_pengadaan}}</td>
                             {{-- <td style="display: flex">
-                                @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
+                                @role('operator')
                                 <a href="{{ route('inventaris.edit', $data->id) }}" class="btn btn-primary mx-2"
                                     title="Edit">
                                     <i class="fa fa-pen"></i>
@@ -105,26 +105,16 @@
                     <thead>
                         <tr>
                             <th width="20%" class="text-center">Kategori</th>
-                            <th width="10%" class="text-center">Jumlah</th>
                             <th width="10%" class="text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($inventaris as $data)
                         <tr>
-                            <td class="text-center">
-                                @if ($data->kategori_lab == 1)
-                                Laboratorium Sistem Tertanam dan Robotika
-                                @elseif ($data->kategori_lab == 2)
-                                Laboratorium Rekayasa Perangkat Lunak
-                                @elseif($data->kategori_lab == 3)
-                                Laboratorium Jaringan dan Keamanan Komputer
-                                @elseif($data->kategori_lab == 4)
-                                Laboratorium Multimedia
-                                @endif</td>
-                            <td class="text-center">{{ $data->total }}</td>
+                            <td class="text-center">{{$data->nama}}</td>
+                            {{-- <td class="text-center">{{ $data->total }}</td> --}}
                             <td class="d-sm-flex justify-content-center">
-                                <a href="{{route('admin.inventaris', encrypt($data->kategori_lab))}}" class="btn btn-primary"
+                                <a href="{{route('admin.inventaris', encrypt($data->id))}}" class="btn btn-primary"
                                     data-toggle="tooltip" data-placement="top" title="Show">
                                     <i class="fa fa-eye"></i>
                                 </a>
@@ -139,7 +129,7 @@
         </div>
     </div>
 </div>
-@role('operator embedded|operator rpl|operator jarkom|operator mulmed')
+@role('operator')
 <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalExample"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -180,7 +170,7 @@
         </ol>
     </div>
     @include('sweetalert::alert')
-    @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
+    @role('operator')
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
          @if (app('request')->input('start_date') || app('request')->input('start_date') )
          <a class="btn btn-sm btn-danger" href="{{route('inventaris.index')}}"><i class="fas fa-angle-double-left"></i> Tampilkan Semua Data</a>

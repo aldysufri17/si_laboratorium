@@ -24,7 +24,7 @@ class BarangSearch extends Component
                 ->where('pengadaan_id', '!=', 4)
                 ->where('stock', '!=', 0)
                 ->where('nama', 'like', '%' . $this->search . '%')
-                ->where('kategori_lab', $this->lab)
+                ->where('laboratorium_id', $this->lab)
                 ->whereNotIn('id', $data)
                 ->paginate(7);
         } else {
@@ -32,7 +32,7 @@ class BarangSearch extends Component
                 ->where('pengadaan_id', '!=', 4)
                 ->where('stock', '!=', 0)
                 ->where('nama', 'like', '%' . $this->search . '%')
-                ->where('kategori_lab', $this->lab)
+                ->where('laboratorium_id', $this->lab)
                 ->paginate(7);
         }
 

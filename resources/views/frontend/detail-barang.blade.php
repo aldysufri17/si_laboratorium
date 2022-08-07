@@ -79,16 +79,7 @@
                         <tbody>
                             <tr>
                                 <th scope="row">Kategori Laboratorium</th>
-                                <td class="">
-                                    @if ($barang->kategori_lab == 1)
-                                    Laboratorium Sistem Tertanam dan Robotika
-                                    @elseif ($barang->kategori_lab == 2)
-                                    Laboratorium Rekayasa Perangkat Lunak
-                                    @elseif($barang->kategori_lab == 3)
-                                    Laboratorium Jaringan dan Keamanan Komputer
-                                    @elseif($barang->kategori_lab == 4)
-                                    Laboratorium Multimedia
-                                    @endif</td>
+                                <td class="">{{$barang->laboratorium->nama}}</td>
                             </tr>
                             <tr>
                                 <th scope="row">Nama</th>

@@ -85,15 +85,7 @@
                                     </div>
                                 </td>
                                 <td>
-                                    @if ($data->kategori_lab == 1)
-                                    <span class="badge badge-info">Sistem Tertanam dan Robotika</span>
-                                    @elseif ($data->kategori_lab == 2)
-                                    <span class="badge badge-info">Rekayasa Perangkat Lunak</span>
-                                    @elseif($data->kategori_lab == 3)
-                                    <span class="badge badge-info">Jaringan dan Keamanan Komputer</span>
-                                    @elseif($data->kategori_lab == 4)
-                                    <span class="badge badge-info">Multimedia</span>
-                                    @endif
+                                    <span class="badge badge-info">{{$data->barang->laboratorium->nama}}</span>
                                 </td>
                                 <td class="text-center">
                                     @if ($data->status == 0)

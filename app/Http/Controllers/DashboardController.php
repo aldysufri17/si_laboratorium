@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Barang;
+use App\Models\Laboratorium;
 use App\Models\Peminjaman;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -14,54 +15,60 @@ use Illuminate\Support\Facades\Http;
 
 class DashboardController extends Controller
 {
-
+    public $lab;
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware(function ($request, $next) {
+            $this->lab = Auth::user()->laboratorium_id;
+            return $next($request);
+        });
     }
 
     public function index(Request $request)
     {
         // notifikasi
-        if (Auth::user()->role_id > 2) {
-            if (Auth::user()->role_id == 3) {
-                $kategori_lab = 1;
-            } elseif (Auth::user()->role_id == 4) {
-                $kategori_lab = 2;
-            } elseif (Auth::user()->role_id == 5) {
-                $kategori_lab = 3;
-            } elseif (Auth::user()->role_id == 6) {
-                $kategori_lab = 4;
-            }
-            $barang = Peminjaman::whereBetween('status', [2, 3])
-                ->where('kategori_lab', $kategori_lab)
+        if (Auth::user()->role > 2) {
+            $barang = Peminjaman::whereHas('barang', function ($q) {
+                $q->where('laboratorium_id', $this->lab);
+            })
+                ->whereBetween('status', [2, 3])
                 ->groupBy('barang_id')
                 ->selectRaw('barang_id, sum(jumlah) as sum')
                 ->get();
-            $peminjaman = Peminjaman::where('kategori_lab', $kategori_lab)
+
+            $notif = Peminjaman::whereHas('barang', function ($q) {
+                $q->where('laboratorium_id', $this->lab);
+            })
                 ->where('status', 0)
                 ->select('kode_peminjaman')
                 ->groupBy('kode_peminjaman')
                 ->get();
-            $total = count($peminjaman);
+            $total = count($notif);
             $request->session()->flash('eror', "$total Pengajuan belum disetujui !!!");
 
             $telat = Peminjaman::whereBetween('status', [2, 3])
                 ->where('tgl_end', '<', date('Y-m-d'))
-                ->where('kategori_lab', $kategori_lab)
+                ->whereHas('barang', function ($q) {
+                    $lab = Auth::user()->laboratorium_id;
+                    $q->where('laboratorium_id', $lab);
+                })
                 ->select('kode_peminjaman', 'user_id', 'tgl_end')
                 ->groupBy('kode_peminjaman', 'user_id', 'tgl_end')
                 ->paginate(5);
-            // dd($telat);
-            $habis = Barang::where('stock', 0)->paginate(5);
-            return view('backend.dashboard',  compact(['peminjaman', 'telat', 'habis', 'barang']));
+
+            $habis = Barang::where('stock', 0)
+                ->where('laboratorium_id', $this->lab)
+                ->paginate(5);
+            return view('backend.dashboard',  compact(['barang', 'habis', 'telat', 'notif']));
         }
-        return view('backend.dashboard');
+        $laboratorium = Laboratorium::all();
+        return view('backend.dashboard', compact('laboratorium'));
     }
 
     public function getProfile()
     {
-        if (Auth::user()->role_id == 1) {
+        if (Auth::user()->role == 1) {
             return view('frontend.profile');
         }
         return view('backend.profile');

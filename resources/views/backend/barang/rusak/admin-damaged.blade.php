@@ -65,6 +65,13 @@
             <li class="breadcrumb-item">Daftar Barang Rusak</li>
         </ol>
     </div>
+    <div class="d-sm-flex align-items-center mb-4">
+        @role('admin')
+        <a href="{{ url('damaged/barang') }}" class="btn btn-sm btn-danger mr-3">
+            <i class="fas fa-angle-double-left"></i> Kembali
+        </a>
+        @endrole
+    </div>
     @include('sweetalert::alert')
     <div class="align-items-center bg-light p-3 border-left-success rounded">
         <span class="">Oops!</span><br>

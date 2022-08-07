@@ -16,7 +16,7 @@ class InventarisSeeder extends Seeder
     public function run()
     {
         $barang = Barang::pluck('stock');
-        $lab = Barang::pluck('kategori_lab');
+        // $lab = Barang::pluck('kategori_lab');
         $id_id = Barang::pluck('id');
         foreach ($id_id as $index => $value) {
             // Mutasi
@@ -28,7 +28,7 @@ class InventarisSeeder extends Seeder
                 'kode_mutasi'       => 'IN' . $random,
                 'kode_inventaris'   => 'IN' . $random,
                 'masuk'             => $barang[$index],
-                'kategori_lab'      => $lab[$index],
+                // 'kategori_lab'      => $lab[$index],
                 'keluar'            => 0,
                 'total_mutasi'      => $barang[$index],
                 'total_inventaris'  => 0,
@@ -55,7 +55,7 @@ class InventarisSeeder extends Seeder
                 'kode_mutasi'       => 'Kosong',
                 'kode_inventaris'   => $kode . '.' . $value . '.' . $num . '.' . $year,
                 'masuk'             => 0,
-                'kategori_lab'      => $lab[$index],
+                // 'kategori_lab'      => $lab[$index],
                 'keluar'            => 0,
                 'total_inventaris'              => $barang[$index]
             ]);

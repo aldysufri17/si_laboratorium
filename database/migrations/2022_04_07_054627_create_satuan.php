@@ -15,9 +15,9 @@ class CreateSatuan extends Migration
     {
         Schema::create('satuan', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->text('kode');
-            $table->text('nama_satuan');
-            $table->text('kategori_lab');
+            $table->integer('laboratorium_id');
+            $table->string('kode', 110);
+            $table->string('nama_satuan', 110);
             $table->timestamps();
         });
     }

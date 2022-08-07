@@ -66,8 +66,8 @@
                                     <i class="fa fa-pen"></i>
                                 </a>
                                 @endif
-                                <button class="btn btn-danger m-2" href="#" data-toggle="modal" data-target="#deleteModal" @if ($default) disabled @else {{$barang ? "disabled" : ""}} @endif
-                                    title="Delete">
+                                <button class="btn btn-danger delete-btn m-2" href="#" data-toggle="modal" data-target="#deleteModal" @if ($default) disabled @else {{$barang ? "disabled" : ""}} @endif
+                                    title="Delete" value="{{$data->id}}">
                                     <i class="fas fa-trash"></i>
                                 </button>
                             </td>
@@ -118,6 +118,10 @@
             ]
         });
     });
-
+    $(document).on('click', '.delete-btn', function () {
+            var sid = $(this).val();
+            $('#deleteModal').modal('show')
+            $('#delete_id').val(sid)
+        });
 </script>
 @endsection

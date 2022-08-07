@@ -14,7 +14,7 @@
             <li class="breadcrumb-item">Riwayat Peminjaman</li>
         </ol>
     </div>
-    @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
+    @role('operator')
     <div class="d-sm-flex align-items-center mb-4">
         <a href="{{ route('export.peminjaman', 0) }}" class="btn btn-sm btn-warning">
             <i class="fa-solid fa-file-csv"></i> Export Exel
@@ -29,7 +29,7 @@
     <div class="card shadow mb-4 border-0 bgdark">
         <div class="card-body">
             <div class="table-responsive">
-                @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
+                @role('operator')
                 <div class="my-2">
                     <form action="{{route('daftar.riwayat')}}" method="GET">
                         @csrf
@@ -48,7 +48,7 @@
                 </div>
                 @endrole
                 <table class="table table-borderless table-dark bgdark" id="dataTable" width="100%" cellspacing="0">
-                    {{-- @role('operator embedded|operator rpl|operator jarkom|operator mulmed') --}}
+                    {{-- @role('operator') --}}
                     <thead>
                         <tr>
                             <th width="20%" class="text-center">Tanggal Selesai</th>
@@ -168,6 +168,7 @@
     $(".detail-btn").click(function () {
         $('#detailModal').modal('show')
         var did = $(this).val();
+        console.log(did);
         $.ajax({
             url: "{{ route('riwayat.detail') }}",
             type: "GET",
@@ -175,6 +176,8 @@
                 kode: did
             },
             success: function (data) {
+                console.log(data.output);
+                console.log(data.user);
                 $('#barang').html(data.output);
                 $('.t-user').html(data.user);
             }

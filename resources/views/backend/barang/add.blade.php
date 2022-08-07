@@ -46,7 +46,7 @@
                         <span class="text-danger">{{$message}}</span>
                         @enderror
                     </div>
-
+                    
                     {{-- Kategori --}}
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
                         <span style="color:red;">*</span>Kategori</label>
@@ -110,14 +110,9 @@
                         <span style="color:red;">*</span>Lokasi Barang</label>
                         <select class="form-control form-control-user  @error('lokasi') is-invalid @enderror"
                             name="lokasi" aria-label="Default select example">
-                            <option selected disabled>Pilih Lokasi</option>
-                            <option value="Laboratorium Sistem Tertanam dan
-                                Robotika" @if (auth()->user()->role_id == 3) selected @endif >Laboratorium Sistem Tertanam dan Robotika</option>
-                            <option value="Laboratorium Rekayasa Perangkat Lunak" @if (auth()->user()->role_id == 4) selected @endif>Laboratorium Rekayasa Perangkat Lunak
-                            </option>
-                            <option value="Laboratorium Jaringan dan Keamanan Komputer" @if (auth()->user()->role_id == 5) selected @endif>Laboratorium Jaringan dan
-                                Keamanan Komputer</option>
-                            <option value="Laboratorium Multimedia" @if (auth()->user()->role_id == 6) selected @endif>Laboratorium Multimedia</option>
+                            @foreach ($laboratorium as $lab)
+                            <option value="{{$lab->nama}}" @if (auth()->user()->laboratorium_id == $lab->id) selected @endif >{{$lab->nama}}</option>
+                            @endforeach
                         </select>
                         @error('lokasi')
                         <span class="text-danger">{{$message}}</span>

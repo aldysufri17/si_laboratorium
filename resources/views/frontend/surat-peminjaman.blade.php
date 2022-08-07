@@ -185,17 +185,7 @@
                     <td align="center" class="pd">{{$key+1}}</td>
                     <td align="center" class="pd">{{$a->barang->kode_barang}}</td>
                     <td align="center" class="pd">{{ $a->barang->nama}} - {{ $a->barang->tipe}}</td>
-                    <td align="center" class="pd">
-                        @if ($a->kategori_lab == 1)
-                        Sistem Tertanam dan Robotika
-                        @elseif ($a->kategori_lab == 2)
-                        Rekayasa Perangkat Lunak
-                        @elseif($a->kategori_lab == 3)
-                        Jaringan dan Keamanan Komputer
-                        @elseif($a->kategori_lab == 4)
-                        Multimedia
-                        @endif
-                    </td>
+                    <td align="center" class="pd">{{$a->barang->laboratorium->nama}}</td>
                     <td class="pd" align="center">{{$a->jumlah }} {{$a->barang->satuan->nama_satuan}}</td>
                 </tr>
                 @endforeach

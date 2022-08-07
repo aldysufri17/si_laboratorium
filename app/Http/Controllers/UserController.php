@@ -34,7 +34,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::where('role_id', 1)->get();
+        $users = User::where('role', 1)->get();
 
         return view('backend.users.index', ['users' => $users]);
     }
@@ -95,7 +95,7 @@ class UserController extends Controller
                 'nim'           => $request->nim,
                 'alamat'        => $request->alamat,
                 'mobile_number' => $request->mobile_number,
-                'role_id'       => 1,
+                'role'       => 1,
                 'jk'            => $request->jk,
                 'status'        => $request->status,
                 'foto'          => $new_foto,
@@ -109,14 +109,14 @@ class UserController extends Controller
                 'nim'           => $request->nim,
                 'alamat'        => $request->alamat,
                 'mobile_number' => $request->mobile_number,
-                'role_id'       => 1,
+                'role'       => 1,
                 'jk'            => $request->jk,
                 'status'        => $request->status,
                 'password'      => bcrypt(12345678)
             ]);
         }
         // Assign Role To User
-        $user->assignRole($user->role_id);
+        $user->assignRole($user->role);
         if ($user) {
             return redirect()->route('users.index')->with('success', 'User Berhasil ditambah!.');
         }

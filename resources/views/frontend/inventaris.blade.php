@@ -38,17 +38,7 @@
                             @foreach ($barang as $data)
                             <tr>
                                 <td>{{ $data->tgl_masuk }}</td>
-                                <td>
-                                    @if ($data->kategori_lab == 1)
-                                    Laboratorium Sistem Tertanam dan Robotika
-                                    @elseif ($data->kategori_lab == 2)
-                                    Laboratorium Rekayasa Perangkat Lunak
-                                    @elseif($data->kategori_lab == 3)
-                                    Laboratorium Jaringan dan Keamanan Komputer
-                                    @elseif($data->kategori_lab == 4)
-                                    Laboratorium Multimedia
-                                    @endif
-                                </td>
+                                <td>{{$data->laboratorium->nama}}</td>
                                 <td>{{ $data->nama }} - {{ $data->tipe }}</td>
                                 <td>{{ $data->stock }} {{ $data->satuan->nama_satuan }}</td>
                                 <td>{{ $data->lokasi }}</td>

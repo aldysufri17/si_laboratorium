@@ -12,10 +12,10 @@
             <div class="modal-footer border-0">
                 <button class="btn btn-danger" type="button" data-dismiss="modal">Batal</button>
                 <a class="btn btn-primary" href="{{ route('logout') }}"
-                    onclick="event.preventDefault(); document.getElementById('satuan-delete-form').submit();">
+                    onclick="event.preventDefault(); document.getElementById('lab-delete-form').submit();">
                     Oke
                 </a>
-                <form id="satuan-delete-form" method="POST" action="{{ route('satuan.destroy', ['satuan' => $data->id]) }}">
+                <form id="lab-delete-form" method="POST" action="{{ route('lab.destroy', ['lab' => $lab->id]) }}">
                     @csrf
                     @method('DELETE')
                     <input type="hidden" name="delete_id" id="delete_id">

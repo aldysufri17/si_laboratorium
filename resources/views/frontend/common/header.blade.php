@@ -36,7 +36,7 @@
                     </li>
                     <li><a class="nav-link scrollto" href="{{route('langkahPeminjaman')}}">LANGKAH PENGGUNAAN</a></li>
                     @auth
-                    @if (auth()->user()->role_id == 1)
+                    @if (auth()->user()->role == 1)
                     <li><a class="nav-link scrollto " href="{{ route('cart') }}">
                         <div class="d-flex">
                             <i class="fas fa-shopping-cart" style="font-size: 18px"></i>

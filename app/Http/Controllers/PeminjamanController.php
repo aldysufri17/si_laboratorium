@@ -7,6 +7,7 @@ use App\Models\Barang;
 use App\Models\Keranjang;
 use App\Models\Peminjaman;
 use App\Models\Inventaris;
+use App\Models\Laboratorium;
 use App\Models\Surat;
 use App\Models\User;
 use Carbon\Carbon;
@@ -22,15 +23,7 @@ class PeminjamanController extends Controller
     public function __construct()
     {
         $this->middleware(function ($request, $next) {
-            if (Auth::user()->role_id == 3) {
-                $this->lab = 1;
-            } elseif (Auth::user()->role_id == 4) {
-                $this->lab = 2;
-            } elseif (Auth::user()->role_id == 5) {
-                $this->lab = 3;
-            } elseif (Auth::user()->role_id == 6) {
-                $this->lab = 4;
-            }
+            $this->lab = Auth::user()->laboratorium_id;
             return $next($request);
         });
     }
@@ -38,7 +31,7 @@ class PeminjamanController extends Controller
     // Riwayat
     public function index()
     {
-        if (Auth::user()->role_id == 2) {
+        if (Auth::user()->role == 2) {
             if (request()->start_date || request()->end_date) {
                 $start_date = Carbon::parse(request()->start_date)->toDateTimeString();
                 $end_date = Carbon::parse(request()->end_date)->toDateTimeString();
@@ -60,7 +53,9 @@ class PeminjamanController extends Controller
                 $start_date = Carbon::parse(request()->start_date)->toDateTimeString();
                 $end_date = Carbon::parse(request()->end_date)->toDateTimeString();
                 $peminjaman = Peminjaman::with('user', 'barang')
-                    ->where('kategori_lab', $this->lab)
+                    ->whereHas('barang', function ($q) {
+                        $q->where('laboratorium_id', $this->lab);
+                    })
                     ->where('status', 4)
                     ->select('kode_peminjaman', 'updated_at', 'user_id', DB::raw('count(*) as total'))
                     ->groupBy('kode_peminjaman', 'updated_at', 'user_id',)
@@ -68,7 +63,9 @@ class PeminjamanController extends Controller
                     ->get();
             } else {
                 $peminjaman = Peminjaman::with('user', 'barang')
-                    ->where('kategori_lab', $this->lab)
+                    ->whereHas('barang', function ($q) {
+                        $q->where('laboratorium_id', $this->lab);
+                    })
                     ->where('status', 4)
                     ->select('kode_peminjaman', 'updated_at', 'user_id', DB::raw('count(*) as total'))
                     ->groupBy('kode_peminjaman', 'updated_at', 'user_id')
@@ -83,7 +80,9 @@ class PeminjamanController extends Controller
     {
         $peminjaman = Peminjaman::withCount('user')
             ->select('user_id', DB::raw('count(*) as total'))
-            ->where('kategori_lab', $this->lab)
+            ->whereHas('barang', function ($q) {
+                $q->where('laboratorium_id', $this->lab);
+            })
             ->where('status', 0)
             ->groupBy('user_id')
             ->get();
@@ -95,22 +94,30 @@ class PeminjamanController extends Controller
     {
         if ($id == 1) {
             Peminjaman::where('status', 0)
-                ->where('kategori_lab', $this->lab)
+                ->whereHas('barang', function ($q) {
+                    $q->where('laboratorium_id', $this->lab);
+                })
                 ->update(['status' => 1]);
         } elseif ($id == 3) {
             $peminjaman = Peminjaman::where('status', 3)
-                ->where('kategori_lab', $this->lab)
+                ->whereHas('barang', function ($q) {
+                    $q->where('laboratorium_id', $this->lab);
+                })
                 ->first();
             if ($peminjaman) {
                 Peminjaman::where('status', 3)
-                    ->where('kategori_lab', $this->lab)
+                    ->whereHas('barang', function ($q) {
+                        $q->where('laboratorium_id', $this->lab);
+                    })
                     ->update(['status' => 4]);
             } else {
                 return redirect()->back()->with('info', 'Belum terdapat pengajuan pengembalian.!');
             }
         } else {
             Peminjaman::where('status', 0)
-                ->where('kategori_lab', $this->lab)
+                ->whereHas('barang', function ($q) {
+                    $q->where('laboratorium_id', $this->lab);
+                })
                 ->update(['status' => 2]);
         }
 
@@ -122,7 +129,9 @@ class PeminjamanController extends Controller
         $id = decrypt($id);
         $peminjaman = Peminjaman::where('user_id', $id)
             ->select('kode_peminjaman', 'created_at', DB::raw('count(*) as total'))
-            ->where('kategori_lab', $this->lab)
+            ->whereHas('barang', function ($q) {
+                $q->where('laboratorium_id', $this->lab);
+            })
             ->where('status', 0)
             ->groupBy('kode_peminjaman', 'created_at')
             ->get();
@@ -133,12 +142,16 @@ class PeminjamanController extends Controller
     {
         $kode = decrypt($kode);
         $peminjaman = Peminjaman::with('user', 'barang')
-            ->where('kategori_lab', $this->lab)
+            ->whereHas('barang', function ($q) {
+                $q->where('laboratorium_id', $this->lab);
+            })
             ->where('user_id', $id)
             ->where('kode_peminjaman', $kode)
             ->get();
         $detail = Peminjaman::with('user', 'barang')
-            ->where('kategori_lab', $this->lab)
+            ->whereHas('barang', function ($q) {
+                $q->where('laboratorium_id', $this->lab);
+            })
             ->where('kode_peminjaman', $kode)
             ->where('user_id', $id)
             ->first();
@@ -150,7 +163,9 @@ class PeminjamanController extends Controller
     {
         $peminjaman = Peminjaman::withCount('user')
             ->select('user_id', DB::raw('count(*) as total'))
-            ->where('kategori_lab', $this->lab)
+            ->whereHas('barang', function ($q) {
+                $q->where('laboratorium_id', $this->lab);
+            })
             ->whereBetween('status', [2, 3])
             ->groupBy('user_id')
             ->get();
@@ -162,7 +177,9 @@ class PeminjamanController extends Controller
         $id = decrypt($id);
         $peminjaman = Peminjaman::where('user_id', $id)
             ->select('kode_peminjaman', DB::raw('count(*) as total'))
-            ->where('kategori_lab', $this->lab)
+            ->whereHas('barang', function ($q) {
+                $q->where('laboratorium_id', $this->lab);
+            })
             ->whereBetween('status', [2, 3])
             ->groupBy('kode_peminjaman')
             ->get();
@@ -185,7 +202,7 @@ class PeminjamanController extends Controller
             }
         } else {
             // Delete peminjaman dari Peminjam
-            if (Auth::user()->role_id == 1) {
+            if (Auth::user()->role == 1) {
                 $pem = $request->delete_id;
                 $user_id = Auth::user()->id;
                 $jumlah = Peminjaman::where('user_id', $user_id)
@@ -215,23 +232,31 @@ class PeminjamanController extends Controller
                 $user_id = $request->deleteuser_id;
                 $jumlah = Peminjaman::where('user_id', $user_id)
                     ->where('kode_peminjaman', $kode)
-                    ->where('kategori_lab', $this->lab)
+                    ->whereHas('barang', function ($q) {
+                        $q->where('laboratorium_id', $this->lab);
+                    })
                     ->pluck('jumlah');
                 $barang_id = Peminjaman::where('user_id', $user_id)
                     ->where('kode_peminjaman', $kode)
-                    ->where('kategori_lab', $this->lab)
+                    ->whereHas('barang', function ($q) {
+                        $q->where('laboratorium_id', $this->lab);
+                    })
                     ->pluck('barang_id');
                 $stock = Barang::whereIn('id', $barang_id)->pluck('stock');
                 foreach ($barang_id as $index => $id) {
                     Barang::whereid($id)->update(['stock' => $stock[$index] + $jumlah[$index]]);
                     Keranjang::where('user_id', $user_id)
-                        ->where('kategori_lab', $this->lab)
+                        ->whereHas('barang', function ($q) {
+                            $q->where('laboratorium_id', $this->lab);
+                        })
                         ->where('barang_id', $id)
                         ->delete();
                 }
                 $peminjaman = Peminjaman::where('user_id', $user_id)
                     ->where('kode_peminjaman', $kode)
-                    ->where('kategori_lab', $this->lab)
+                    ->whereHas('barang', function ($q) {
+                        $q->where('laboratorium_id', $this->lab);
+                    })
                     ->delete();
                 if ($peminjaman) {
                     return redirect()->route('peminjaman')->with('success', 'Keranjang Berhasil dihapus!.');
@@ -248,17 +273,23 @@ class PeminjamanController extends Controller
         if ($status == 2) {
             $barang_id = Peminjaman::where('user_id', $id)
                 ->where('kode_peminjaman', $kode)
-                ->where('kategori_lab', $this->lab)
+                ->whereHas('barang', function ($q) {
+                    $q->where('laboratorium_id', $this->lab);
+                })
                 ->pluck('barang_id');
             $jumlah = Peminjaman::where('user_id', $id)
                 ->where('kode_peminjaman', $kode)
-                ->where('kategori_lab', $this->lab)
+                ->whereHas('barang', function ($q) {
+                    $q->where('laboratorium_id', $this->lab);
+                })
                 ->pluck('jumlah');
             $stock = Barang::whereIn('id', $barang_id)
                 ->pluck('stock');
             $telat = Peminjaman::where('user_id', $id)
                 ->where('kode_peminjaman', $kode)
-                ->where('kategori_lab', $this->lab)
+                ->whereHas('barang', function ($q) {
+                    $q->where('laboratorium_id', $this->lab);
+                })
                 ->first();
             if ($telat->tgl_end < date('Y-m-d')) {
                 return redirect()->back()->with('warning', 'Konfirmasi pengajuan telat!.');
@@ -275,7 +306,6 @@ class PeminjamanController extends Controller
                     'kode_inventaris'   => 'OUT' . $random,
                     'masuk'             => 0,
                     'keluar'            => $jumlah[$index],
-                    'kategori_lab'      => $this->lab,
                     'total_mutasi'             => $stock[$index] - $jumlah[$index],
                     'total_inventaris'              => 0
                 ]);
@@ -283,7 +313,9 @@ class PeminjamanController extends Controller
                 Peminjaman::where('user_id', $id)
                     ->where('kode_peminjaman', $kode)
                     ->where('barang_id', $barang)
-                    ->where('kategori_lab', $this->lab)
+                    ->whereHas('barang', function ($q) {
+                        $q->where('laboratorium_id', $this->lab);
+                    })
                     ->update(['status' => $status]);
             }
 
@@ -295,17 +327,23 @@ class PeminjamanController extends Controller
             $user_id = $request->terimauser_id;
             $barang_id = Peminjaman::where('user_id', $user_id)
                 ->where('kode_peminjaman', $kode)
-                ->where('kategori_lab', $this->lab)
+                ->whereHas('barang', function ($q) {
+                    $q->where('laboratorium_id', $this->lab);
+                })
                 ->pluck('barang_id');
             $jumlah = Peminjaman::where('user_id', $user_id)
                 ->where('kode_peminjaman', $kode)
-                ->where('kategori_lab', $this->lab)
+                ->whereHas('barang', function ($q) {
+                    $q->where('laboratorium_id', $this->lab);
+                })
                 ->pluck('jumlah');
             $stock = Barang::whereIn('id', $barang_id)
                 ->pluck('stock');
             $telat = Peminjaman::where('user_id', $user_id)
                 ->where('kode_peminjaman', $kode)
-                ->where('kategori_lab', $this->lab)
+                ->whereHas('barang', function ($q) {
+                    $q->where('laboratorium_id', $this->lab);
+                })
                 ->first();
 
             foreach ($barang_id as $index => $barang) {
@@ -319,7 +357,6 @@ class PeminjamanController extends Controller
                     'kode_inventaris'   => 'IN' . $random,
                     'masuk'             => $jumlah[$index],
                     'keluar'            => 0,
-                    'kategori_lab'      => $this->lab,
                     'total_mutasi'      => $stock[$index] + $jumlah[$index],
                     'total_inventaris'  => 0
                 ]);
@@ -328,7 +365,9 @@ class PeminjamanController extends Controller
                 Peminjaman::where('user_id', $id)
                     ->where('kode_peminjaman', $kode)
                     ->where('barang_id', $barang)
-                    ->where('kategori_lab', $this->lab)
+                    ->whereHas('barang', function ($q) {
+                        $q->where('laboratorium_id', $this->lab);
+                    })
                     ->update(['status' => $status]);
                 Keranjang::where('user_id', $user_id)->where('barang_id', $barang)->delete();
             }
@@ -348,7 +387,9 @@ class PeminjamanController extends Controller
             $pesan = "Terdapat Kesalahan Data";
         }
         $peminjaman = Peminjaman::where('kode_peminjaman', $kode)
-            ->where('kategori_lab', $this->lab)
+            ->whereHas('barang', function ($q) {
+                $q->where('laboratorium_id', $this->lab);
+            })
             ->where('user_id', $user_id)
             ->update(['status' => 1, 'pesan' => $pesan]);
         if ($peminjaman) {
@@ -376,21 +417,29 @@ class PeminjamanController extends Controller
         } else {
             $cekcld = Peminjaman::where('kode_peminjaman', $id)
                 ->where('status', 4)
-                ->where('kategori_lab', $this->lab)
+                ->whereHas('barang', function ($q) {
+                    $q->where('laboratorium_id', $this->lab);
+                })
                 ->get();
             if ($cekcld->IsNotEmpty()) {
                 return redirect()->back()->with('info', 'Peminjaman Sudah dikembalikan!.');
             } else {
                 $barang_id = Peminjaman::where('kode_peminjaman', $id)
-                    ->where('kategori_lab', $this->lab)
+                    ->whereHas('barang', function ($q) {
+                        $q->where('laboratorium_id', $this->lab);
+                    })
                     ->pluck('barang_id');
 
                 $jumlah = Peminjaman::where('kode_peminjaman', $id)
-                    ->where('kategori_lab', $this->lab)
+                    ->whereHas('barang', function ($q) {
+                        $q->where('laboratorium_id', $this->lab);
+                    })
                     ->pluck('jumlah');
 
                 $user_id = Peminjaman::where('kode_peminjaman', $id)
-                    ->where('kategori_lab', $this->lab)
+                    ->whereHas('barang', function ($q) {
+                        $q->where('laboratorium_id', $this->lab);
+                    })
                     ->first();
                 $user = $user_id->user_id;
 
@@ -409,7 +458,6 @@ class PeminjamanController extends Controller
                         'kode_inventaris'   => 'IN' . $random,
                         'masuk'             => $jumlah[$index],
                         'keluar'            => 0,
-                        'kategori_lab'      => $this->lab,
                         'total_mutasi'      => $stock[$index] + $jumlah[$index],
                         'total_inventaris'  => 0
                     ]);
@@ -417,7 +465,9 @@ class PeminjamanController extends Controller
                     Peminjaman::where('user_id', $user)
                         ->where('kode_peminjaman', $id)
                         ->where('barang_id', $barang)
-                        ->where('kategori_lab', $this->lab)
+                        ->whereHas('barang', function ($q) {
+                            $q->where('laboratorium_id', $this->lab);
+                        })
                         ->update(['status' => 4]);
                     Keranjang::where('user_id', $user)->where('barang_id', $barang)->delete();
                 }
@@ -428,32 +478,17 @@ class PeminjamanController extends Controller
 
     public function export($data)
     {
-        if (Auth::user()->role_id == 2) {
-            if (Auth::user()->role_id == 2) {
-                if ($data == 1) {
-                    $name = 'Laboratorium Sistem Tertanam dan Robotika';
-                } elseif ($data == 2) {
-                    $name = 'Laboratorium Rekayasa Perangkat Lunak';
-                } elseif ($data == 3) {
-                    $name = 'Laboratorium Jaringan dan Keamanan Komputer';
-                } elseif ($data == 4) {
-                    $name = 'Laboratorium Multimedia';
-                }
-            }
-        }
-
-        if (Auth::user()->role_id == 3) {
-            $name = "Laboratorium Sistem Tertanam dan Robotika";
-        } elseif (Auth::user()->role_id == 4) {
-            $name = "Laboratorium Rekayasa Perangkat Lunak";
-        } elseif (Auth::user()->role_id == 5) {
-            $name = "Laboratorium Jaringan dan Keamanan Komputer";
-        } elseif (Auth::user()->role_id == 6) {
-            $name = "Laboratorium Multimedia";
+        if (Auth::user()->role == 2) {
+            $dec = decrypt($data);
+            $data = $dec;
+            $name = Laboratorium::whereId($data)->value('nama');
+        } else {
+            $data = $this->lab;
+            $name = Laboratorium::whereId($this->lab)->value('nama');
         }
         $peminjaman = Peminjaman::where('status', 4)->get();
         if ($peminjaman->IsNotEmpty()) {
-            return Excel::download(new PeminjamanExport($data), 'Data Peminjaman' . '-' . $name . '-' . date('Y-m-d') . '.xlsx');
+            return Excel::download(new PeminjamanExport($data, $name), 'Data Peminjaman' . '-' . $name . '-' . date('Y-m-d') . '.xlsx');
         } else {
             return redirect()->back()->with('info', 'Belum terdapat peminjaman selesai!.');
         }
@@ -511,7 +546,6 @@ class PeminjamanController extends Controller
                 'tgl_start'         => $request->tgl_start,
                 'tgl_end'           => $request->tgl_end,
                 'jumlah'            => $data->jumlah,
-                'kategori_lab'      => $data->kategori_lab,
                 'alasan'            => $request->alasan,
                 'status'            => 0,
             ]);
@@ -589,7 +623,8 @@ class PeminjamanController extends Controller
         }
         $peminjaman = Peminjaman::where('kode_peminjaman', $id_peminjaman)
             ->where('user_id', $user_id)
-            ->where('status', '>', 1)
+            //where > 1
+            ->whereBetween('status', [1, 4])
             ->get();
         $detail = $peminjaman->first();
         // $nama_keranjang = strtoupper($detail->nama_keranjang);

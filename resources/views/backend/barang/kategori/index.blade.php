@@ -58,7 +58,7 @@
                                     title="Edit">
                                     <i class="fa fa-pen"></i>
                                 </a>
-                                <button class="btn btn-danger m-2" href="#" data-toggle="modal" data-target="#deleteModal" {{$barang ? "disabled" : ""}}
+                                <button class="btn btn-danger m-2 delete-btn" href="#" data-toggle="modal" data-target="#deleteModal" {{$barang ? "disabled" : ""}} value="{{$data->id}}"
                                     title="Delete">
                                     <i class="fas fa-trash"></i>
                                 </button>
@@ -110,6 +110,10 @@
             ]
         });
     });
-
+    $(document).on('click', '.delete-btn', function () {
+            var sid = $(this).val();
+            $('#deleteModal').modal('show')
+            $('#delete_id').val(sid)
+        });
 </script>
 @endsection

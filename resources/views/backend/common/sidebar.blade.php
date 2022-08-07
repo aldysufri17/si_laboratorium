@@ -25,11 +25,12 @@
             <div class="py-2 collapse-inner rounded" style="background-color: rgb(230, 230, 230)">
                 <h6 class="collapse-header text-dark">Admin Management:</h6>
                 @role('admin')
-                <a class="collapse-item text-red" href="{{ route('roles.index') }}">Data Roles</a>
+                <a class="collapse-item text-red" href="{{ route('lab.index') }}">Data Laboratorium</a>
+                {{-- <a class="collapse-item text-red" href="{{ route('roles.index') }}">Data Roles</a> --}}
                 <a class="collapse-item text-red" href="{{ route('operator.index') }}">Data Pengurus</a>
                 @endrole
                 <a class="collapse-item text-red" href="{{ route('users.index') }}">Data Pengguna</a>
-                @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
+                @role('operator')
                 <a class="collapse-item text-red" href="{{ route('satuan.index') }}">Data Satuan</a>
                 <a class="collapse-item text-red" href="{{ route('kategori.index') }}">Data Kategori</a>
                 <a class="collapse-item text-red" href="{{ route('pengadaan.index') }}">Jenis Pengadaan</a>
@@ -50,7 +51,7 @@
                 <a class="collapse-item text-red" href="{{ route('barang.index') }}">Data Barang</a>
                 <a class="collapse-item text-red" href="{{ route('mutasi') }}">Data Mutasi</a>
                 <a class="collapse-item text-red" href="{{ route('barang.damaged') }}">Barang Rusak</a>
-                @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
+                @role('operator')
                 <a class="collapse-item text-red" href="{{ route('stok.show') }}">Update Stok</a>
                 <a class="collapse-item text-red" href="{{ route('barang.dipinjam') }}">Barang Dipinjam</a>
                 @endrole
@@ -68,7 +69,7 @@
         <div id="inventarisDropDown" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class=" py-2 collapse-inner rounded" style="background-color: rgb(230, 230, 230)">
                 <a class="collapse-item text-red" href="{{ route('inventaris.index') }}">Data Inventaris</a>
-                {{-- @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
+                {{-- @role('operator')
                 <a class="collapse-item text-red" href="{{ route('inventaris.add', auth()->user()->role_id) }}">Tambah Inventaris</a>
                 @endrole --}}
             </div>
@@ -76,7 +77,7 @@
     </li>
 
     <!-- Nav Item - Pages Collapse Menu -->
-    @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
+    @role('operator')
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#peminjamanDropDown"
             aria-expanded="true" aria-controls="peminjamanDropDown">

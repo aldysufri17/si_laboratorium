@@ -15,7 +15,7 @@
     </div>
 
     <div class="d-sm-flex align-items-center mb-4">
-        @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
+        @role('operator')
         <a href="{{ route('damaged.create') }}" class="btn btn-sm btn-success mr-3">
             <i class="fas fa-plus"></i> Tambah Barang Rusak
         </a>
@@ -45,18 +45,9 @@
                     <tbody>
                         @foreach ($barang as $data)
                         <tr>
-                            <td class="text-center">
-                                @if ($data->kategori_lab == 1)
-                                Laboratorium Sistem Tertanam dan Robotika
-                                @elseif ($data->kategori_lab == 2)
-                                Laboratorium Rekayasa Perangkat Lunak
-                                @elseif($data->kategori_lab == 3)
-                                Laboratorium Jaringan dan Keamanan Komputer
-                                @elseif($data->kategori_lab == 4)
-                                Laboratorium Multimedia
-                                @endif</td>
+                            <td class="text-center">{{$data->nama}}</td>
                             <td class="d-sm-flex justify-content-center">
-                                <a href="{{route('admin.damaged', encrypt($data->kategori_lab))}}" class="btn btn-primary" data-toggle="tooltip" data-placement="top"
+                                <a href="{{route('admin.damaged', encrypt($data->id))}}" class="btn btn-primary" data-toggle="tooltip" data-placement="top"
                                     title="Show">
                                     <i class="fa fa-eye"></i>
                                 </a>
@@ -84,7 +75,7 @@
                             <td>{{ $data->jml_rusak }} - {{$data->satuan->nama_satuan}}</td>
                             <td>{{$data->keterangan_rusak}}</td>
                             <td style="display: flex">
-                                @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
+                                @role('operator')
                                 <a href="{{ route('damaged.edit', $data->id) }}" class="btn btn-primary mx-2"
                                     title="Edit">
                                     <i class="fa fa-pen"></i>
@@ -111,7 +102,7 @@
         </ol>
     </div>
     <div class="d-sm-flex align-items-center mb-4">
-        @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
+        @role('operator')
         <a href="{{ route('damaged.create') }}" class="btn btn-sm btn-success">
             <i class="fas fa-plus"></i> Tambah Barang Rusak
         </a>

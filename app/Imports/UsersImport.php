@@ -21,7 +21,7 @@ class UsersImport implements ToModel
             'alamat'        => $row[3],
             'jk'            => $row[4],
             'mobile_number' => $row[5],
-            'role_id'       => 1,
+            'role'       => 1,
             'status'        => 1,
             'password'      => bcrypt('secret'),
         ]);

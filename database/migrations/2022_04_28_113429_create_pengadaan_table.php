@@ -15,8 +15,8 @@ class CreatePengadaanTable extends Migration
     {
         Schema::create('pengadaan', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->text('kode');
-            $table->text('nama_pengadaan');
+            $table->string('kode', 110);
+            $table->string('nama_pengadaan', 110);
             $table->timestamps();
         });
     }

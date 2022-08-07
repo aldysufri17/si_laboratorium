@@ -159,15 +159,7 @@
                                                             </div>
                                                             <div class="col-md-2 col-lg-2 col-xl-2 text-center">
                                                                 <p><span class="text-muted">Kategori Lab:<br> </span>
-                                                                    @if ($data->barang->kategori_lab == 1)
-                                                                    Sistem Tertanam dan Robotika
-                                                                    @elseif ($data->barang->kategori_lab == 2)
-                                                                    Rekayasa Perangkat Lunak
-                                                                    @elseif($data->barang->kategori_lab == 3)
-                                                                    Jaringan dan Keamanan Komputer
-                                                                    @elseif($data->barang->kategori_lab == 4)
-                                                                    Multimedia
-                                                                    @endif
+                                                                    {{$data->barang->laboratorium->nama}}
                                                                 </p>
                                                             </div>
                                                             <div class="col-md-3 col-lg-3 col-xl-2 d-flex">

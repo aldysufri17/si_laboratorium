@@ -4,7 +4,7 @@
 
 @section('content')
 <div class="container-fluid">
-
+    @if ($inventaris->IsNotEmpty())
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-2">
         <h1 class="h5 mb-0 text-light">Catatan Inventaris</h1>
@@ -14,7 +14,8 @@
         </ol>
     </div>
     <div class="d-sm-flex mb-4">
-        <a class="btn btn-sm btn-danger" href="{{route('inventaris.index')}}"><i class="fas fa-angle-double-left"></i> Kembali</a>
+        <a class="btn btn-sm btn-danger" href="{{route('inventaris.index')}}"><i class="fas fa-angle-double-left"></i>
+            Kembali</a>
         <a href="{{ route('export.inventaris', Request::route('data')) }}" class="btn btn-sm btn-warning mx-3">
             <i class="fa-solid fa-file-csv"></i> Export Exel
         </a>
@@ -36,8 +37,10 @@
                         @csrf
                         <h6 class="mb-0 my-3 text-warning">* Filter Berdasarkan Tanggal Mutasi</h6>
                         <div class="input-group mb-3">
-                            <input type="date" class="form-control" value="{{Request::get('start_date')}}" name="start_date">
-                            <input type="date" class="form-control" value="{{Request::get('end_date')}}" name="end_date">
+                            <input type="date" class="form-control" value="{{Request::get('start_date')}}"
+                                name="start_date">
+                            <input type="date" class="form-control" value="{{Request::get('end_date')}}"
+                                name="end_date">
                             <button class="btn btn-primary" type="submit">Filter</button>
                             @if (Request::get('start_date') != "" || Request::get('end_date') != "")
                             <a class="btn btn-warning" href="/inventaris">Clear</a>
@@ -84,7 +87,26 @@
             </div>
         </div>
     </div>
-
+    @else
+    <div class="container-fluid">
+        <!-- Page Heading -->
+        <div class="d-sm-flex align-items-center justify-content-between mb-2">
+            <h1 class="h5 mb-0 text-light">Mutasi Stock Barang</h1>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Dashboard</a></li>
+                <li class="breadcrumb-item">Mutasi Stock Barang</li>
+            </ol>
+        </div>
+        <div class="d-sm-flex mb-4">
+            <a class="btn btn-sm btn-danger mr-3" href="javascript:history.back()"><i
+                    class="fas fa-angle-double-left"></i> Kembali</a>
+        </div>
+        <div class="align-items-center bg-light p-3 border-left-success rounded">
+            <span class="">Oops!</span><br>
+            <p><i class="fa-solid fa-circle-info text-info"></i> Belum Terdapat Data Mutasi</p>
+        </div>
+    </div>
+    @endif
 </div>
 @endsection
 
@@ -96,5 +118,6 @@
             autoWidth: false,
         });
     });
+
 </script>
 @endsection

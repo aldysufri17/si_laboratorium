@@ -4,6 +4,7 @@ namespace App\Imports;
 
 use App\Models\Barang;
 use App\Models\Inventaris;
+use App\Models\Laboratorium;
 use Illuminate\Support\Facades\Auth;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithStartRow;
@@ -30,25 +31,12 @@ class BarangImport implements ToModel, WithStartRow, WithCustomCsvSettings
      */
     public function model(array $row)
     {
-        if (Auth::user()->role_id == 3) {
-            $kategori_lab = 1;
-            $lokasi = "Laboratorium Sistem Tertanam dan Robotika";
-            $kbrg = 'EM-';
-        } elseif (Auth::user()->role_id == 4) {
-            $kategori_lab = 2;
-            $lokasi = "Laboratorium Rekayasa Perangkat Lunak";
-            $kbrg = 'RL-';
-        } elseif (Auth::user()->role_id == 5) {
-            $kategori_lab = 3;
-            $lokasi = "Laboratorium Jaringan dan Keamanan Komputer";
-            $kbrg = 'JK-';
-        } elseif (Auth::user()->role_id == 6) {
-            $kategori_lab = 4;
-            $lokasi = "Laboratorium Multimedia";
-            $kbrg = 'MD-';
-        }
 
-        $max = Barang::max('id');
+        $lab = Auth::user()->laboratorium_id;
+        $lokasi = Laboratorium::whereId($lab)->value('nama');
+        $kbrg = Laboratorium::whereId($lab)->value('kode');
+
+        $max = Barang::withTrashed()->max('id');
         $kode = $max + 1;
         if (strlen($kode) == 1) {
             $kode_barang = "000" . $kode;
@@ -66,11 +54,9 @@ class BarangImport implements ToModel, WithStartRow, WithCustomCsvSettings
             $info = $row[3];
         }
 
-
-
         $barang = new Barang([
             'id'            => $kode,
-            'kode_barang'   => $kbrg . $kode_barang,
+            'kode_barang'   => $kbrg . '-' . $kode_barang,
             'nama'          => $row[0],
             'tipe'          => $row[1],
             'stock'         => $row[2],
@@ -81,7 +67,7 @@ class BarangImport implements ToModel, WithStartRow, WithCustomCsvSettings
             'kategori_id'   => 0,
             'show'          => 0,
             'tgl_masuk'     => date('Y-m-d'),
-            'kategori_lab'  => $kategori_lab
+            'laboratorium_id'  => $lab
         ]);
         $Date = date("Y/m/d");
         $year = date('Y', strtotime($Date));
@@ -93,7 +79,6 @@ class BarangImport implements ToModel, WithStartRow, WithCustomCsvSettings
             'kode_mutasi'       => 'IN' . $random,
             'kode_inventaris'   => $kode . '.' . $random . '.' . $year,
             'masuk'             => $row[2],
-            'kategori_lab'      => $kategori_lab,
             'keluar'            => 0,
             'total_inventaris'  => $row[2],
             'total_mutasi'       => 0,
@@ -106,7 +91,6 @@ class BarangImport implements ToModel, WithStartRow, WithCustomCsvSettings
             'kode_mutasi'       => 'IN' . $random,
             'kode_inventaris'   => 'IN' . $random,
             'masuk'             => $row[2],
-            'kategori_lab'      => $kategori_lab,
             'keluar'            => 0,
             'total_inventaris'  => 0,
             'total_mutasi'      => $row[2],

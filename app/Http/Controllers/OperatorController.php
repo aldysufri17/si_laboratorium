@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Laboratorium;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -25,7 +26,7 @@ class OperatorController extends Controller
 
     public function index()
     {
-        $users = User::where('role_id', '>', 1)
+        $users = User::where('role', '>', 1)
             ->where('id', '!=', Auth::user()->id)
             ->with('roles')->get();
 
@@ -34,22 +35,37 @@ class OperatorController extends Controller
 
     public function create()
     {
-        $roles = Role::all();
-
-        return view('backend.operator.add', ['roles' => $roles]);
+        $roles = Role::where('id', '>', 1)->get();
+        $laboratorium = Laboratorium::all();
+        return view('backend.operator.add', compact('roles', 'laboratorium'));
     }
 
     public function store(Request $request)
     {
-        // Validations
-        $request->validate([
-            'name'          => 'required',
-            'jk'          => 'required',
-            'email'         => 'required|unique:users,email',
-            'mobile_number' => 'required|numeric',
-            'role_id'       =>  'required|exists:roles,id',
-            'status'        =>  'required|numeric|in:0,1',
-        ]);
+        if ($request->role > 2) {
+            // Validations
+            $request->validate([
+                'name'          => 'required',
+                'jk'          => 'required',
+                'email'         => 'required|unique:users,email',
+                'mobile_number' => 'required|numeric|digits:15',
+                'role'       =>  'required|exists:roles,id',
+                'laboratorium_id'       =>  'required',
+                'status'        =>  'required|numeric|in:0,1',
+            ]);
+            $lab = $request->laboratorium_id;
+        } else {
+            // Validations
+            $request->validate([
+                'name'          => 'required',
+                'jk'          => 'required',
+                'email'         => 'required|unique:users,email',
+                'mobile_number' => 'required|numeric|digits:15',
+                'role'       =>  'required|exists:roles,id',
+                'status'        =>  'required|numeric|in:0,1',
+            ]);
+            $lab = 0;
+        }
 
         // Store Data
         $user = User::create([
@@ -60,13 +76,14 @@ class OperatorController extends Controller
             'jk'            => $request->jk,
             'nim'           => time(),
             'mobile_number' => $request->mobile_number,
-            'role_id'       => $request->role_id,
+            'role'       => $request->role,
+            'laboratorium_id' => $lab,
             'status'        => $request->status,
             'password'      => Hash::make(12345678)
         ]);
 
         // Assign Role To User
-        $user->assignRole($user->role_id);
+        $user->assignRole($user->role);
         if ($user) {
             return redirect()->route('operator.index')->with('success', 'User Berhasil ditambah!.');
         } else {
@@ -84,23 +101,42 @@ class OperatorController extends Controller
     public function edit($operator)
     {
         $operator = User::whereId(decrypt($operator))->first();
-        $roles = Role::all();
+        $roles = Role::where('id', '>', 1)->get();
+        $laboratorium = Laboratorium::all();
         return view('backend.operator.edit')->with([
             'roles'     => $roles,
-            'operator'  => $operator
+            'operator'  => $operator,
+            'laboratorium' => $laboratorium
         ]);
     }
 
     public function update(Request $request, User $operator)
     {
-        // Validations
-        $request->validate([
-            'name'          => 'required',
-            'jk'            => 'required',
-            'email'         => 'required|unique:users,email,' . $operator->id . ',id',
-            'mobile_number' => 'required|numeric|digits:10',
-            'role_id'       =>  'required|exists:roles,id',
-        ]);
+
+        if ($request->role > 2) {
+            // Validations
+            // Validations
+            $request->validate([
+                'name'          => 'required',
+                'jk'            => 'required',
+                'email'         => 'required|unique:users,email,' . $operator->id . ',id',
+                'mobile_number' => 'required|numeric|digits:12',
+                'role'       =>  'required|exists:roles,id',
+                'laboratorium_id'       =>  'required',
+            ]);
+            $lab = $request->laboratorium_id;
+        } else {
+            // Validations
+            $request->validate([
+                'name'          => 'required',
+                'jk'            => 'required',
+                'email'         => 'required|unique:users,email,' . $operator->id . ',id',
+                'mobile_number' => 'required|numeric|digits:12',
+                'role'       =>  'required|exists:roles,id',
+            ]);
+
+            $lab = 0;
+        }
 
         // Store Data
         User::whereId($operator->id)->update([
@@ -109,14 +145,15 @@ class OperatorController extends Controller
             'alamat'        => $request->alamat,
             'jk'            => $request->jk,
             'mobile_number' => $request->mobile_number,
-            'role_id'       => $request->role_id,
+            'role'       => $lab,
+            'laboratorium_id' => $request->laboratorium_id,
         ]);
 
         // Delete Any Existing Role
         DB::table('model_has_roles')->where('model_id', $operator->id)->delete();
 
         // Assign Role To User
-        $operator->assignRole($request->role_id);
+        $operator->assignRole($request->role);
 
         if ($operator) {
             return redirect()->route('operator.index')->with('success', 'Master Berhasil dibaharui!.');

@@ -28,7 +28,6 @@ class KeranjangController extends Controller
 
     public function store(Request $request, $id)
     {
-        $kategori_lab = Barang::whereId($id)->value('kategori_lab');
         $stock = Barang::whereId($id)->value('stock');
         if (Auth::check()) {
             // Cek duplicate data
@@ -51,7 +50,6 @@ class KeranjangController extends Controller
                     'barang_id' => $id,
                     'status' => 0,
                     'jumlah' => $request->jumlah,
-                    'kategori_lab' => $kategori_lab,
                 ]);
                 if ($cart) {
                     return redirect()->route('cart')->with('success', 'Barang berhasil ditambah!.');

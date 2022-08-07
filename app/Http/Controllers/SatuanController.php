@@ -9,18 +9,19 @@ use Illuminate\Support\Facades\Auth;
 
 class SatuanController extends Controller
 {
+    public $lab;
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware(function ($request, $next) {
+            $this->lab = Auth::user()->laboratorium_id;
+            return $next($request);
+        });
+    }
+
     public function index()
     {
-        if (Auth::user()->role_id == 3) {
-            $kategori_lab = 1;
-        } elseif (Auth::user()->role_id == 4) {
-            $kategori_lab = 2;
-        } elseif (Auth::user()->role_id == 5) {
-            $kategori_lab = 3;
-        } elseif (Auth::user()->role_id == 6) {
-            $kategori_lab = 4;
-        }
-        $satuan = Satuan::where('kategori_lab', $kategori_lab)->paginate(5);
+        $satuan = Satuan::where('laboratorium_id', $this->lab)->paginate(5);
         return view('backend.barang.satuan.index', compact('satuan'));
     }
 
@@ -34,16 +35,6 @@ class SatuanController extends Controller
         $request->validate([
             'nama_satuan' => 'required',
         ]);
-
-        if (Auth::user()->role_id == 3) {
-            $kategori_lab = 1;
-        } elseif (Auth::user()->role_id == 4) {
-            $kategori_lab = 2;
-        } elseif (Auth::user()->role_id == 5) {
-            $kategori_lab = 3;
-        } elseif (Auth::user()->role_id == 6) {
-            $kategori_lab = 4;
-        }
 
         $max = Satuan::max('id');
         $kode = $max + 1;
@@ -62,7 +53,7 @@ class SatuanController extends Controller
         $satuan = Satuan::create([
             'id'  => $kode,
             'nama_satuan' => $request->nama_satuan,
-            'kategori_lab' => $kategori_lab,
+            'laboratorium_id' => $this->lab,
             'kode' => $kode_id,
         ]);
 
@@ -94,8 +85,9 @@ class SatuanController extends Controller
         }
     }
 
-    public function destroy($id)
+    public function destroy($id, Request $request)
     {
+        $id = $request->delete_id;
         $barang = Barang::where('satuan_id', $id)->get();
         if ($barang->isNotEmpty()) {
             return redirect()->route('satuan.index')->with(['success', 'Satuan berhasil dihapus']);
