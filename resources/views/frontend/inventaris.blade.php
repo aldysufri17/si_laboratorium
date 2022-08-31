@@ -9,7 +9,7 @@
             <div class="d-flex justify-content-between align-items-center">
                 <h2 class="font-weight-bold">Daftar Barang Laboratorium</h2>
                 <ol>
-                    <li><a href="{{route('home')}}">Beranda</a></li>
+                    <li><a href="/">Beranda</a></li>
                     <li>Daftar Barang Laboratorium</li>
                 </ol>
             </div>
@@ -31,32 +31,18 @@
                                 <th width="15%">Nama</th>
                                 <th width="15%">Stock</th>
                                 <th width="15%">Lokasi Barang</th>
-                                <th width="15%">Keterangan</th>
+                                <th width="15%">Jenis Pengadaan</th>
                             </tr>
                         </thead>
                         <tbody>
                             @foreach ($barang as $data)
                             <tr>
                                 <td>{{ $data->tgl_masuk }}</td>
-                                <td>
-                                    @if ($data->kategori_lab == 1)
-                                    Laboratorium Sistem Tertanam dan Robotika
-                                    @elseif ($data->kategori_lab == 2)
-                                    Laboratorium Rekayasa Perangkat Lunak
-                                    @elseif($data->kategori_lab == 3)
-                                    Laboratorium Jaringan dan Keamanan Komputer
-                                    @elseif($data->kategori_lab == 4)
-                                    Laboratorium Multimedia
-                                    @endif
-                                </td>
+                                <td>{{$data->laboratorium->nama}}</td>
                                 <td>{{ $data->nama }} - {{ $data->tipe }}</td>
                                 <td>{{ $data->stock }} {{ $data->satuan->nama_satuan }}</td>
                                 <td>{{ $data->lokasi }}</td>
-                                <td>@if ($data->info == null)
-                                    -
-                                @else
-                                    {{ $data->info }}
-                                @endif</td>
+                                <td>{{ $data->pengadaan->nama_pengadaan }}</td>
                             </tr>
                             @endforeach
                         </tbody>

@@ -72,6 +72,10 @@
             font-size: 8pt
         }
 
+        .pd {
+            padding: 10px;
+        }
+
         .yth {
             padding: 20px 0
         }
@@ -103,10 +107,11 @@
                 @php
                 date_default_timezone_set('Asia/jakarta');
                 $date = date("l jS \of F Y h:i:s A");
-                $surat = "Created $date \n website: http://silab18.herokuapp.com/"
+                $surat = "Created $date \n Cek Verifikasi Surat: 127.0.0.1:8000/verifikasi/surat-peminjaman/_$detail->kode_peminjaman"
                 @endphp
+
                 <td rowspan="1"><img src="data:image/png;base64,{{DNS2D::getBarcodePNG(strval($surat), 'QRCODE',3,3)}}"
-                        style="background-color: rgb(255, 255, 255); padding:5px; border-radius:1px" alt="barcode" />
+                    style="background-color: rgb(255, 255, 255); padding:5px; border-radius:1px" alt="barcode" />
                 </td>
             </tr>
         </table>
@@ -121,17 +126,38 @@
             <tr>
                 <td style="width: 20%">Nama</td>
                 <td style="width: 2%">:</td>
-                <td>{{$name}}</td>
-            </tr>
-            <tr>
-                <td>NIM</td>
-                <td>:</td>
-                <td>{{$nim}}</td>
+                <td>{{$name}} / {{$nim}}</td>
             </tr>
             <tr>
                 <td>Alamat</td>
                 <td>:</td>
                 <td>{{$alamat}}</td>
+            </tr>
+            <tr>
+                <td>Kode Peminjaman</td>
+                <td>:</td>
+                <td style="text-transform: uppercase; font-weight:bold">{{$detail->kode_peminjaman}}</td>
+            </tr>
+            <tr>
+                <td>Waktu Pengajuan</td>
+                <td>:</td>
+                <td>{{$detail->created_at->format('d M Y')}}
+                    <strong>({{$detail->created_at->format('H:i:s A')}})</strong></td>
+            </tr>
+            <tr>
+                <td>Tanggal Peminjaman</td>
+                <td>:</td>
+                <td>{{Carbon\Carbon::parse($detail->tgl_start)->format('d M Y') }}</td>
+            </tr>
+            <tr>
+                <td>Tanggal Peminjaman</td>
+                <td>:</td>
+                <td>{{Carbon\Carbon::parse($detail->tgl_end)->format('d M Y') }}</td>
+            </tr>
+            <tr>
+                <td>Keperluan</td>
+                <td>:</td>
+                <td>{{$detail->alasan}}</td>
             </tr>
         </table>
     </section>
@@ -146,38 +172,21 @@
         <table border="1" class="bordered highlight responsive-table">
             <thead>
                 <tr>
-                    <th>Barcode</th>
-                    <th>Nama Barang</th>
-                    <th>Laboratorium</th>
-                    <th>jumlah</th>
-                    <th>Tanggal Peminjaman</th>
-                    <th>Tanggal Pengembalian</th>
+                    <th width="3%" class="pd">No</th>
+                    <th class="pd" width="15%">Kode Barang</th>
+                    <th class="pd" width="15%">Nama Barang</th>
+                    <th class="pd" width="15%">Kategori Laboratorium</th>
+                    <th class="pd" width="5%">Jumlah</th>
                 </tr>
             </thead>
             <tbody>
                 @foreach ($peminjaman as $key=>$a)
                 <tr>
-                    <td>
-                        {!! DNS1D::getBarcodeHTML(strval($a->id), "C128",3.5,45) !!}
-                    </td>
-                    <td align="center">
-                        <div class="row">{{ $a->barang->nama}}</div>
-                        <div class="row text-muted">{{ $a->barang->tipe}}</div>
-                    </td>
-                    <td align="center">
-                        @if ($a->barang->kategori_lab == 1)
-                        Laboratorium Sistem Tertanam dan Robotika
-                        @elseif ($a->barang->kategori_lab == 2)
-                        Laboratorium Rekayasa Perangkat Lunak
-                        @elseif($a->barang->kategori_lab == 3)
-                        Laboratorium Jaringan dan Keamanan Komputer
-                        @elseif($a->barang->kategori_lab == 4)
-                        Laboratorium Multimedia
-                        @endif
-                    </td>
-                    <td align="center">{{$a->jumlah }}</td>
-                    <td align="center">{{$a->tgl_start }}</td>
-                    <td align="center">{{ $a->tgl_end}}</td>
+                    <td align="center" class="pd">{{$key+1}}</td>
+                    <td align="center" class="pd">{{$a->barang->kode_barang}}</td>
+                    <td align="center" class="pd">{{ $a->barang->nama}} - {{ $a->barang->tipe}}</td>
+                    <td align="center" class="pd">{{$a->barang->laboratorium->nama}}</td>
+                    <td class="pd" align="center">{{$a->jumlah }} {{$a->barang->satuan->nama_satuan}}</td>
                 </tr>
                 @endforeach
             </tbody>
@@ -188,33 +197,22 @@
         <table>
             <tr>
                 <td style="width: 70%;"></td>
-                <td style="width: 30%;">Semarang, <?= date('d-m-Y') ?></td>
+                <td style="width: 30%;">Semarang, {{date('d-m-Y')}}</td>
             </tr>
             <tr>
-                <td colspan="2">Mengetahui,</td>
+                <td colspan="2"></td>
             </tr>
             <tr>
-                <td>Dosen pengampu/pembimbing,</td>
+                <td></td>
                 <td>Hormat saya,</td>
             </tr>
             <tr>
-                <td colspan="2" style="height: 70px"></td>
-            </tr>
-            <tr>
-                <td class="align-top">(............................................................)</td>
-                <td class="align-top">(............................................................)</td>
-            </tr>
-        </table>
-        <br>
-        <table>
-            <tr>
-                <td class="col-center">Menyetujui,<br>Kepala Laboratorium</td>
-            </tr>
-            <tr>
+                <td style="height: 70px"></td>
                 <td style="height: 70px"></td>
             </tr>
             <tr>
-                <td class="align-top col-center">(............................................................)</td>
+                <td class="align-top" style="font-size: 8pt;"></td>
+                <td class="align-top">({{$name}})</td>
             </tr>
         </table>
     </section>

@@ -20,9 +20,12 @@
             <i class="fas fa-plus"></i> Tambah Pengguna
         </a>
         <a class="btn btn-sm btn-info mx-3" data-toggle="modal" data-target="#importModal">
-            <i class="fa-solid fa-file-csv"></i> Import .csv</a>
-        <a href="{{ route('users.export') }}" class="btn btn-sm btn-warning">
-            <i class="fa-solid fa-file-csv"></i> Export .csv
+            <i class="fa-solid fa-file-csv"></i> Import Exel</a>
+        <a href="{{ route('users.export') }}" class="btn btn-sm btn-warning mr-3">
+            <i class="fa-solid fa-file-csv"></i> Export Exel
+        </a>
+        <a href="{{ route('users.pdf') }}" class="btn btn-sm btn-danger">
+            <i class="fa-solid fa-file-export"></i> Export PDF
         </a>
     </div>
     @endrole
@@ -31,18 +34,17 @@
     @include('sweetalert::alert')
     <div class="card shadow mb-4 border-0 bgdark">
         <div class="card-body">
-            <h6 class="m-0 font-weight-bold text-light">Daftar Semua Pengguna</h6>
             <div class="table-responsive">
-                <table class="table table-borderless table-dark bgdark" id="dataTable" width="100%" cellspacing="0">
+                <table id="dataTable" class="table table-borderless dt-responsive" cellspacing="0" width="100%">
                     <thead>
                         <tr>
-                            <th width="20%">Nama</th>
-                            <th width="15%">NIM</th>
-                            <th width="25%">Email</th>
-                            <th width="15%">Status</th>
-                            <th width="10%">Detail</th>
+                            <th>Nama</th>
+                            <th>NIM</th>
+                            <th>Email</th>
+                            <th>Status</th>
+                            <th>Detail</th>
                             @role('admin')
-                            <th width="10%">Aksi</th>
+                            <th>Aksi</th>
                             @endrole
                         </tr>
                     </thead>
@@ -59,19 +61,19 @@
                                 <span class="badge badge-success">Active</span>
                                 @endif
                             </td>
-                            <td><a class="btn btn-info" href="{{ route('users.show', ['user' => $user->id]) }}"
+                            <td><a class="btn btn-info" href="{{ route('users.show', ['user' => encrypt($user->id)]) }}"
                                     title="Show">
                                     <i class="fas fa-eye"></i>
                                 </a></td>
                             @role('admin')
                             <td style="display: flex">
                                 @if ($user->status == 0)
-                                <a href="{{ route('users.status', ['user_id' => $user->id, 'status' => 1]) }}"
+                                <a href="{{ route('users.status', ['user_id' => encrypt($user->id), 'status' => 1]) }}"
                                     title="Inactive" class="btn btn-success">
                                     <i class="fa fa-check"></i>
                                 </a>
                                 @elseif ($user->status == 1)
-                                <a href="{{ route('users.status', ['user_id' => $user->id, 'status' => 0]) }}"
+                                <a href="{{ route('users.status', ['user_id' => encrypt($user->id), 'status' => 0]) }}"
                                     title="Active" class="btn btn-danger">
                                     <i class="fa fa-ban"></i>
                                 </a>
@@ -79,7 +81,7 @@
                                 <button class="btn btn-warning reset-btn ml-2" title="Reset" value="{{$user->id}}">
                                     <i class="fa-solid fa-clock-rotate-left"></i>
                                 </button>
-                                <a href="{{ route('users.edit', ['user' => $user->id]) }}" class="btn btn-primary mx-2"
+                                <a href="{{ route('users.edit', ['user' => encrypt($user->id)]) }}" class="btn btn-primary mx-2"
                                     title="Edit">
                                     <i class="fa fa-pen"></i>
                                 </a>
@@ -92,7 +94,6 @@
                         @endforeach
                     </tbody>
                 </table>
-                {{ $users->links() }}
             </div>
         </div>
     </div>
@@ -114,7 +115,7 @@
             <i class="fas fa-plus"></i> Tambah Pengguna
         </a>
         <a class="btn btn-sm btn-info mx-3" data-toggle="modal" data-target="#importModal">
-            <i class="fa-solid fa-file-csv"></i> Import .csv</a>
+            <i class="fa-solid fa-file-csv"></i> Import Exel</a>
     </div>
     @endrole
     <div class="align-items-center bg-light p-3 border-left-success rounded">
@@ -129,8 +130,8 @@
 <script>
     $(document).ready(function () {
         $('#dataTable').DataTable({
-            "bInfo": false,
-            "paging": false
+            responsive: true,
+            autoWidth: false,
         });
 
         $(document).on('click', '.delete-btn', function () {

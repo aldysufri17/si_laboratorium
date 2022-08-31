@@ -5,13 +5,14 @@
 @auth
 {{-- Pengajuan Disetujui --}}
 @foreach ($peminjaman as $data)
-<a href="{{route('cart')}}">
+<a href="{{route('daftar.pinjaman')}}">
     @if ($message = Session::get('in'))
     <div class="alert alert-success alert-dismissible shake" style="margin-bottom: -6px; margin:0 5px" role="alert">
         <button id="notif" type="button" class="close" data-dismiss="alert">
             <i class="fa fa-times"></i>
         </button>
-        <strong>Pengajuan barang {{$data->barang->nama}} {{ $message }}</strong> {{ session('error') }}
+        <strong>Pengajuan barang {{$data->barang->nama}}-{{$data->barang->tipe}} {{ $message }}</strong>
+        {{ session('error') }}
     </div>
     @endif
 </a>
@@ -20,46 +21,31 @@
 
 {{-- Pengajuan ditolak --}}
 @foreach ($tolak as $data)
-<a href="{{route('cart')}}">
+<a href="{{route('daftar.pinjaman')}}">
     @if ($message = Session::get('tolak'))
     <div class="alert alert-danger alert-dismissible shake" style="margin-bottom: -6px; margin:0 5px" role="alert">
         <button id="notif" type="button" class="close" data-dismiss="alert">
             <i class="fa fa-times"></i>
         </button>
-        <strong>Pengajuan barang {{$data->barang->nama}} {{ $message }}</strong> {{ session('error') }}
+        <strong>Pengajuan {{$data->barang->nama}}-{{$data->barang->tipe}} {{ $message }}</strong> {{ session('error') }}
     </div>
     @endif
 </a>
 @endforeach
 {{-- end ditolak--}}
-
-{{-- Aktif --}}
-@foreach ($aktif as $data)
-<a href="{{route('daftar.pinjaman')}}">
-    @if ($message = Session::get('aktif'))
-    <div class="alert alert-info alert-dismissible shake" style="margin-bottom: -6px; margin:0 5px" role="alert">
-        <button id="notif" type="button" class="close" data-dismiss="alert">
-            <i class="fa fa-times"></i>
-        </button>
-        <strong>Pengajuan barang {{$data->barang->nama}} {{ $message }}</strong> {{ session('error') }}
-    </div>
-    @endif
-</a>
-@endforeach
-{{-- Aktif--}}
-
 @foreach ($telat as $data)
 @if ($data->tgl_end < date('Y-m-d')) @php $start=\Carbon\Carbon::createFromFormat('Y-m-d', $data->tgl_end);
     $now = \Carbon\Carbon::createFromFormat('Y-m-d', date('Y-m-d'));
     $late = $start->diffInDays($now);
     @endphp
-    <a href="{{route('cart')}}">
+    <a href="{{route('daftar.pinjaman')}}">
         @if ($message = Session::get('telat'))
         <div class="alert alert-warning alert-dismissible shake" style="margin-bottom: -6px; margin:0 5px" role="alert">
             <button id="notif" type="button" class="close" data-dismiss="alert">
                 <i class="fa fa-times"></i>
             </button>
-            <strong>Pengembalian Barang {{$data->barang->nama}} {{ $message }} {{ $late }} Hari!!!</strong>
+            <strong>Pengembalian Barang {{$data->barang->nama}}-{{$data->barang->tipe}} {{ $message }} {{ $late }}
+                Hari!!!</strong>
             {{ session('error') }}
         </div>
         @endif
@@ -264,6 +250,7 @@
             </div>
         </section><!-- End kegiatan Section -->
     </main><!-- End #main -->
+    <button type="button" hidden id="stopBtn">Stop</button>
     @endsection
 
     @section('script')
@@ -280,9 +267,17 @@
             autoInsertCss: true
         });
 
-        setInterval(function () {
-            document.getElementById('notif').click();
+        intervalID = setInterval(function () {
+            if (document.getElementById('notif')) {
+                document.getElementById('notif').click();
+            } else {
+                document.getElementById("stopBtn").addEventListener("click", stop);
+            }
         }, 4000);
+
+        function stop() {
+            clearInterval(intervalID);
+        }
 
     </script>
     @endsection

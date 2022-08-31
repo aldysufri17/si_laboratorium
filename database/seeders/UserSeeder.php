@@ -17,104 +17,106 @@ class UserSeeder extends Seeder
     {
         // Peminjam
         $user = User::create([
-            'id'            => substr(str_shuffle("0123456789"), 0, 8),
             'name'          => 'Peminjam',
             'nim'           => '21131412',
+            'post' => 0,
             'alamat'        =>  'Semarang',
             'email'         =>  'peminjam@admin.com',
             'mobile_number' =>  '9028187696',
-            'role_id'       =>  1,
+            'role'       =>  1,
             'status'        =>  1,
             'jk'            => 'L',
             'password'      =>  bcrypt('peminjam'),
         ]);
 
-        $role = Role::create(['name' => 'peminjam']);
+        $rolePengguna = Role::create(['name' => 'peminjam']);
 
-        $user->assignRole([$role->id]);
+        $user->assignRole([$rolePengguna->id]);
 
         // Admin
         $user = User::create([
-            'id'            => substr(str_shuffle("0123456789"), 5, 9),
             'name'          => 'Admin',
             'nim'           => '2161312',
+            'post' => 0,
             'alamat'        =>   'Semarang',
             'email'         =>  'admin@admin.com',
             'mobile_number' =>  '9028187696',
-            'role_id'       =>  2,
+            'role'       =>  2,
             'status'        =>  1,
             'jk'            => 'L',
             'password'      =>  bcrypt('admin'),
         ]);
 
-        $role = Role::create(['name' => 'admin']);
+        $roleAdmin = Role::create(['name' => 'admin']);
 
-        $user->assignRole([$role->id]);
+        $user->assignRole([$roleAdmin->id]);
 
         // Operator
         $user = User::create([
-            'id'            => substr(str_shuffle("0123456789"), 5, 9),
             'name'          => 'Operator Embedded',
             'nim'           => '211315253',
+            'post' => 1,
             'alamat'        =>  'Semarang',
             'email'         =>  'embedded@operator.com',
             'mobile_number' =>  '9028187696',
-            'role_id'       => 3,
+            'role'       => 3,
             'status'        =>  1,
             'jk'            => 'L',
             'password'      =>  bcrypt('embedded'),
         ]);
 
-        $role = Role::create(['name' => 'operator embedded']);
+        $roleOperator = Role::create(['name' => 'operator']);
 
-        $user->assignRole([$role->id]);
+        $user->assignRole([$roleOperator->id]);
         $user = User::create([
-            'id'            => substr(str_shuffle("0123456789"), 5, 9),
             'name'          => 'Operator RPL',
             'nim'           => '211315723',
+            'post' => 2,
             'alamat'        =>   'Semarang',
             'email'         =>  'rpl@operator.com',
             'mobile_number' =>  '9028187696',
-            'role_id'       => 4,
+            'role'       => 3,
             'status'        =>  1,
             'jk'            => 'L',
             'password'      =>  bcrypt('rpl'),
         ]);
 
-        $role = Role::create(['name' => 'operator rpl']);
+        // $role = Role::create(['name' => 'operator rpl']);
 
-        $user->assignRole([$role->id]);
+        $user->assignRole([$roleOperator->id]);
         $user = User::create([
-            'id'            => substr(str_shuffle("0123456789"), 5, 9),
             'name'          => 'Operator Jarkom',
             'nim'           => '211315239',
+            'post' => 3,
             'alamat'        =>   'Semarang',
             'email'         =>  'jarkom@operator.com',
             'mobile_number' =>  '9028187696',
-            'role_id'       => 5,
+            'role'       => 3,
             'status'        =>  1,
             'jk'            => 'L',
             'password'      =>  bcrypt('jarkom'),
         ]);
 
-        $role = Role::create(['name' => 'operator jarkom']);
+        // $role = Role::create(['name' => 'operator jarkom']);
+        $user->assignRole([$roleOperator->id]);
 
-        $user->assignRole([$role->id]);
+        // $user->assignRole([$role->id]);
         $user = User::create([
-            'id'            => substr(str_shuffle("0123456789"), 5, 9),
             'name'          => 'Operator Mulmed',
             'nim'           => '211315023',
+            'post' => 4,
             'alamat'        =>   'Semarang',
             'email'         =>  'mulmed@operator.com',
             'mobile_number' =>  '9028187696',
-            'role_id'       => 6,
+            'role'       => 3,
             'status'        =>  1,
             'jk'            => 'L',
             'password'      =>  bcrypt('mulmed'),
         ]);
 
-        $role = Role::create(['name' => 'operator mulmed']);
+        // $role = Role::create(['name' => 'operator mulmed']);
+        $user->assignRole([$roleOperator->id]);
 
-        $user->assignRole([$role->id]);
+        // $user->assignRole([$role->id]);
     }
 }

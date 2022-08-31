@@ -27,10 +27,10 @@
                         <span style="color:red;">*</span>Nama</label>
                         <input type="text"
                             class="form-control form-control-user @error('nama') is-invalid @enderror"
-                            autocomplete="off" id="examplenama" placeholder="Nama" name="name"
+                            autocomplete="off" id="examplenama" placeholder="Nama" name="nama"
                             value="{{ old('nama') }}">
 
-                        @error('name')
+                        @error('nama')
                         <span class="text-danger">{{$message}}</span>
                         @enderror
                     </div>
@@ -53,10 +53,22 @@
                         <span style="color:red;">*</span>Alamat</label>
                         <input type="text"
                             class="form-control  form-control-user @error('alamat') is-invalid @enderror"
-                            autocomplete="off" id="examplealamat" autocomplete="off" placeholder="alamat" name="alamat" min="1"
+                            autocomplete="off" id="examplealamat" autocomplete="off" placeholder="Alamat" name="alamat" min="1"
                             value="{{ old('alamat') }}">
 
                         @error('alamat')
+                        <span class="text-danger">{{$message}}</span>
+                        @enderror
+                    </div>
+
+                    {{-- No Telp --}}
+                    <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
+                        <span style="color:red;">*</span>No.Telp</label>
+                        <input type="text"
+                            class="form-control  form-control-user @error('mobile_number') is-invalid @enderror"
+                            autocomplete="off" id="examplemobile_number" autocomplete="off" placeholder="No_telp" name="mobile_number" value="{{ old('mobile_number') }}">
+
+                        @error('mobile_number')
                         <span class="text-danger">{{$message}}</span>
                         @enderror
                     </div>
@@ -64,10 +76,10 @@
             </div>
 
             <div class="card-footer bgdark border-0">
-                <button type="submit" class="btn btn-primary btn-user float-right mb-3">Cetak</button>
+                <button type="submit" class="btn btn-primary btn-user float-right mb-3 ml-3">Simpan</button>
+                <a href="{{route('persuratan.riwayat')}}" class="btn btn-danger btn-user float-right mb-3">Batal</a>
             </div>
         </form>
     </div>
-
 </div>
 @endsection

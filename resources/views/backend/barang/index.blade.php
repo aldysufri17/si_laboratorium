@@ -24,18 +24,21 @@
     </div>
 
     <div class="d-sm-flex align-items-center mb-4">
-        @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
+        @role('operator')
         <a href="{{ route('barang.create') }}" class="btn btn-sm btn-success">
             <i class="fas fa-plus"></i> Tambah Barang
         </a>
         <a href="{{ route('qrcode', 0) }}" class="btn btn-sm btn-primary mx-3">
             <i class="fas fa-qrcode"></i> Cetak Semua QR-Code
         </a>
+        <a class="btn btn-sm btn-info mr-3" data-toggle="modal" data-target="#importModal">
+            <i class="fa-solid fa-file-csv"></i> Import Exel</a>
         <a href="{{ route('export.barang', 0) }}" class="btn btn-sm btn-warning">
-            <i class="fa-solid fa-file-csv"></i> Export .csv
+            <i class="fa-solid fa-file-csv"></i> Export Exel
         </a>
-        <a class="btn btn-sm btn-info ml-3" data-toggle="modal" data-target="#importModal">
-            <i class="fa-solid fa-file-csv"></i> Import .csv</a>
+        <a href="{{ route('barang.pdf',0) }}" class="btn btn-sm btn-danger ml-3">
+            <i class="fa-solid fa-file-export"></i> Export PDF
+        </a>
         @endrole
     </div>
 
@@ -45,55 +48,48 @@
     <!-- DataTales Example -->
     <div class="card shadow mb-4 border-0 bgdark">
         <div class="card-body">
-            @hasanyrole('admin')
-            <h6 class="m-0 font-weight-bold text-light">Daftar Laboratorium</h6>
-            @else
-            <h6 class="m-0 font-weight-bold text-light">Daftar Semua Barang</h6>
-            @endhasanyrole
             <div class="table-responsive">
                 <table id="dataTable" class="table table-borderless dt-responsive" cellspacing="0" width="100%">
-                    @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
+                    @role('operator')
                     <thead>
                         <tr>
-                            <th width="15%">Kategori</th>
+                            <th width="5%">No</th>
+                            <th width="15%">Kode Barang</th>
                             <th width="15%">Nama</th>
-                            <th width="15%">Stock</th>
+                            <th width="15%">Stok</th>
+                            <th width="15%">Pengadaan</th>
                             <th width="10%">Tampilkan</th>
-                            <th width="15%">Lokasi Barang</th>
-                            @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
+                            @role('operator')
                             <th width="25%">Aksi</th>
                             @endrole
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($barang as $data)
+                        @foreach ($barang as $key=>$data)
                         <tr>
-                            @if($data->kategori_id == 0)
-                            <td>Default</td>
-                            @else
-                            <td>{{ $data->kategori->nama_kategori }}</td>
-                            @endif
-                            
+                            <td>{{$key+1}}</td>
+                            <td>{{$data->kode_barang}}</td>
+
                             <td>{{ $data->nama }} - {{ $data->tipe }}</td>
-                            
+
                             @if($data->satuan_id == 0)
                             <td>{{ $data->stock }} - Default</td>
                             @else
                             <td>{{ $data->stock }} - {{ $data->satuan->nama_satuan }}</td>
                             @endif
-                            
+                            <td>{{$data->pengadaan->nama_pengadaan}}</td>
+
                             <td>@if ($data->show == 0)
                                 <span class="badge badge-danger">Tidak</span>
                                 @elseif ($data->show == 1)
                                 <span class="badge badge-success">Tampil</span>
                                 @endif</td>
-                            <td>{{ $data->lokasi }}</td>
                             <td style="display: flex">
-                                <a class="btn btn-info m-2" href="{{ route('barang.show', $data->id) }}" title="Show">
+                                <a class="btn btn-info" href="{{ route('barang.show', encrypt($data->id)) }}" title="Show">
                                     <i class="fas fa-eye"></i>
                                 </a>
-                                @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
-                                <a href="{{ route('barang.edit', $data->id) }}" class="btn btn-primary mx-2"
+                                @role('operator')
+                                <a href="{{ route('barang.edit', encrypt($data->id)) }}" class="btn btn-primary mx-2"
                                     title="Edit">
                                     <i class="fa fa-pen"></i>
                                 </a>
@@ -110,26 +106,15 @@
                     <thead>
                         <tr>
                             <th width="20%" class="text-center">Kategori</th>
-                            <th width="10%" class="text-center">Jumlah</th>
                             <th width="10%" class="text-center">Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
                         @foreach ($barang as $data)
                         <tr>
-                            <td class="text-center">
-                                @if ($data->kategori_lab == 1)
-                                Laboratorium Sistem Tertanam dan Robotika
-                                @elseif ($data->kategori_lab == 2)
-                                Laboratorium Rekayasa Perangkat Lunak
-                                @elseif($data->kategori_lab == 3)
-                                Laboratorium Jaringan dan Keamanan Komputer
-                                @elseif($data->kategori_lab == 4)
-                                Laboratorium Multimedia
-                                @endif</td>
-                            <td class="text-center">{{ $data->total }}</td>
+                            <td class="text-center">{{$data->nama}}</td>
                             <td class="d-sm-flex justify-content-center">
-                                <a href="{{route('admin.barang', $data->kategori_lab)}}" class="btn btn-primary"
+                                <a href="{{route('admin.barang', encrypt($data->id))}}" class="btn btn-primary"
                                     data-toggle="tooltip" data-placement="top" title="Show">
                                     <i class="fa fa-eye"></i>
                                 </a>
@@ -139,7 +124,7 @@
                     </tbody>
                     @endrole
                 </table>
-                {{ $barang->links() }}
+                {{-- {{ $barang->links() }} --}}
             </div>
         </div>
     </div>
@@ -155,13 +140,13 @@
         </ol>
     </div>
     @include('sweetalert::alert')
-    @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
+    @role('operator')
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
         <a href="{{ route('barang.create') }}" class="btn btn-sm btn-success">
             <i class="fas fa-plus"></i> Tambah Barang
         </a>
         <a class="btn btn-sm btn-info ml-3" data-toggle="modal" data-target="#importModal">
-            <i class="fa-solid fa-file-csv"></i> Import .csv</a>
+            <i class="fa-solid fa-file-csv"></i> Import Exel</a>
     </div>
     @endrole
     <div class="align-items-center bg-light p-3 border-left-success rounded">
@@ -176,20 +161,16 @@
 <script>
     $(document).ready(function () {
         $('#dataTable').DataTable({
-            "bInfo": false,
-            "paging": false,
             responsive: true,
             autoWidth: false,
-            "order": [
-                [0, "desc"]
-            ]
         });
 
-        $(document).on('click', '.delete-btn',function () {
+        $(document).on('click', '.delete-btn', function () {
             var sid = $(this).val();
             $('#deleteModal').modal('show')
             $('#delete_id').val(sid)
         });
     });
+
 </script>
 @endsection

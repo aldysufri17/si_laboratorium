@@ -1211,9 +1211,7 @@ section {
   padding-bottom: 8px;
 }
 
-.fas {
-  font-size: 20px;
-}
+
 
 .profilepic__text {
   text-transform: uppercase;
@@ -1221,6 +1219,10 @@ section {
   width: 50%;
   color: #000;
   text-align: center;
+}
+
+.fas {
+  font-size: 20px;
 }
 
 .shake {
@@ -1296,4 +1298,12 @@ section {
 
 .img-hover-zoom:hover img {
   transform: scale(1.1);
+}
+
+input[type="checkbox"]:disabled{
+  background: gray;
+}
+input[type="checkbox"]:disabled{
+  background: gray;
+  border: 1px solid #d4d4d5;
 }

@@ -89,16 +89,16 @@
                     {{-- Role --}}
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
                         <span style="color:red;">*</span>Role</label>
-                        <select class="form-control form-control-user @error('role_id') is-invalid @enderror"
-                            name="role_id">
+                        <select id="select"
+                            class="form-control slc form-control-user @error('role') is-invalid @enderror"
+                            name="role">
                             <option selected disabled>Pilih Role</option>
-                            <option value="2">Admin</option>
-                            <option value="3">Operator Sistem Embedded dan Robotika</option>
-                            <option value="4">Operator Rekayasa Perangkat Lunak</option>
-                            <option value="5">Operator Jaringan dan Keamanan Komputer</option>
-                            <option value="6">Operator Multimedia</option>
+                            @foreach ($roles as $role)
+                            <option value="{{$role->id}}" @if(old('role')==$role->id) selected @endif>{{$role->name}}
+                            </option>
+                            @endforeach
                         </select>
-                        @error('role_id')
+                        @error('role')
                         <span class="text-danger">{{$message}}</span>
                         @enderror
                     </div>
@@ -117,6 +117,21 @@
                         @enderror
                     </div>
 
+                    {{-- Hak akses --}}
+                    <div class="col-sm-6 mb-3 mt-3 mb-sm-0" id="operator">
+                        <span style="color:red;">*</span>Pilih Hak Akses Operator</label>
+                        <select required
+                            class="form-control form-control-user @error('laboratorium_id') is-invalid @enderror"
+                            name="laboratorium_id">
+                            <option selected disabled>Pilih Hak Akses</option>
+                            @foreach ($laboratorium as $lab)
+                            <option value="{{$lab->id}}">{{$lab->nama}}</option>
+                            @endforeach
+                        </select>
+                        @error('laboratorium_id')
+                        <span class="text-danger">{{$message}}</span>
+                        @enderror
+                    </div>
                 </div>
             </div>
 
@@ -126,8 +141,23 @@
             </div>
         </form>
     </div>
-
 </div>
+@endsection
 
+@section('scripts')
+<script>
+    $('#operator').hide();
+    if ($('#select').val() == 3) {
+        $('#operator').show();
+    }
+    $(document).on('change', '.slc', function () {
+        var select = $('#select option:selected').val()
+        if (select == 3) {
+            $('#operator').show();
+        } else {
+            $('#operator').hide();
+        }
+    });
 
+</script>
 @endsection

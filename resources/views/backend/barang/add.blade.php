@@ -46,7 +46,7 @@
                         <span class="text-danger">{{$message}}</span>
                         @enderror
                     </div>
-
+                    
                     {{-- Kategori --}}
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
                         <span style="color:red;">*</span>Kategori</label>
@@ -75,7 +75,7 @@
                             <span class="text-danger">{{$message}}</span>
                             @enderror
                         </div>
-                        
+
                         {{-- Satuan --}}
                         <div class="col-sm-5">
                             <span style="color:red;">*</span>Satuan</label>
@@ -108,23 +108,30 @@
                     {{-- Lokasi Barang --}}
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
                         <span style="color:red;">*</span>Lokasi Barang</label>
-                            <select class="form-control form-control-user  @error('lokasi') is-invalid @enderror" name="lokasi" aria-label="Default select example">
-                                <option selected disabled>Pilih Lokasi</option>
-                                <option  value="Laboratorium Sistem Tertanam dan
-                                Robotika">Laboratorium Sistem Tertanam dan Robotika</option>
-                                <option value="Laboratorium Rekayasa Perangkat Lunak">Laboratorium Rekayasa Perangkat Lunak</option>
-                                <option value="Laboratorium Jaringan dan Keamanan Komputer">Laboratorium Jaringan dan Keamanan Komputer</option>
-                                <option value="Laboratorium Multimedia">Laboratorium Multimedia</option>
-                            </select>
+                        <select class="form-control form-control-user  @error('lokasi') is-invalid @enderror"
+                            name="lokasi" aria-label="Default select example">
+                            @foreach ($laboratorium as $lab)
+                            <option value="{{$lab->nama}}" @if (auth()->user()->laboratorium_id == $lab->id) selected @endif >{{$lab->nama}}</option>
+                            @endforeach
+                        </select>
                         @error('lokasi')
                         <span class="text-danger">{{$message}}</span>
                         @enderror
                     </div>
 
-                    {{-- Gambar Barang --}}
+                    {{-- keterangan --}}
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
-                        <span style="color:red;">*</span>Gambar</label>
-                        <input type="file" class="form-control" name="gambar" id="gambar">
+                        <span style="color:red;">*</span>Jenis Pengadaan</label>
+                        <select class="form-control form-control-user @error('pengadaan_id') is-invalid @enderror"
+                            name="pengadaan_id">
+                            <option selected disabled>Pilih Jenis Pengadaan</option>
+                            @foreach ($pengadaan as $data)
+                            <option value="{{$data->id}}">{{$data->nama_pengadaan}}</option>
+                            @endforeach
+                        </select>
+                        @error('pengadaan_id')
+                        <span class="text-danger">{{$message}}</span>
+                        @enderror
                     </div>
 
                     {{-- Tampil --}}
@@ -140,7 +147,6 @@
                         @enderror
                     </div>
 
-                    {{-- info --}}
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
                         <div class="form-group">
                             <span style="color:red;">*</span>Informasi Tambahan</label>
@@ -150,6 +156,12 @@
                         @error('info')
                         <span class="text-danger">{{$message}}</span>
                         @enderror
+                    </div>
+
+                    {{-- Gambar Barang --}}
+                    <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
+                        <span style="color:red;">*</span>Gambar</label>
+                        <input type="file" class="form-control" name="gambar" id="gambar">
                     </div>
                 </div>
             </div>

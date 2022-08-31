@@ -9,7 +9,7 @@
             <div class="d-flex justify-content-between align-items-center">
                 <h2 class="font-weight-bold">Langkah Penggunaan Sistem</h2>
                 <ol>
-                    <li><a href="{{route('home')}}">Beranda</a></li>
+                    <li><a href="/">Beranda</a></li>
                     <li>Langkah Penggunaan Sistem</li>
                 </ol>
             </div>
@@ -64,41 +64,60 @@
                     </div>
                 </div>
                 <div class="card mt-3" style="width: 25rem;">
-                    <img class="card-img-top p-2" src="{{asset('frontend/img/langkah/form pengajuan.png')}}"
+                    <img class="card-img-top p-2" src="{{asset('frontend/img/langkah/detail.png')}}"
                         height="230px" alt="Card image cap">
                     <div class="card-body">
                         <h5><strong>Langkah 4</strong></h5>
                         <p class="card-text text-justify">Setelah memilih barang yang diinginkan, maka akan menuju
-                            halaman
-                            detail, pada halaman ini anda diwajibkan mengisi informasi seperti jumlah alat,
-                            keperluaan alat,
-                            tanggal pinjam dan tanggal kembali.</p>
+                            halaman detail, pada halaman ini berisi detail dari barang yang dipilih, untuk menambahkan barang ke keranjang pilih tombol tambah.</p>
                     </div>
                 </div>
                 <div class="card mt-3" style="width: 25rem;">
-                    <img class="card-img-top p-2" src="{{asset('frontend/img/langkah/keranjang.png')}}" height="230px"
+                    <img class="card-img-top p-2" src="{{asset('frontend/img/langkah/cart.png')}}" height="230px"
                         alt="Card image cap">
                     <div class="card-body">
                         <h5><strong>Langkah 5</strong></h5>
-                        <p class="card-text text-justify">Setelah mengisi informasi pengajuan, Anda akan diarahkan ke
-                            halaman keranjang pengajuan, halaman ini berisi daftar
-                            barang yang anda ajukan, <strong>tunggu hingga status pengajuan disetujui operator laboratorium terkait.</strong></p>
+                        <p class="card-text text-justify">Barang akan ditambahkan kedalam keranjang pengajuan, checkout untuk melakukan pengajuan</p>
                     </div>
                 </div>
                 <div class="card mt-3" style="width: 25rem;">
-                    <img class="card-img-top p-2" src="{{asset('frontend/img/langkah/print.png')}}" height="230px"
+                    <img class="card-img-top p-2" src="{{asset('frontend/img/langkah/form.png')}}" height="230px"
                         alt="Card image cap">
                     <div class="card-body">
                         <h5><strong>Langkah 6</strong></h5>
-                        <p class="card-text text-justify">Setelah status pengajuan disetujui, <strong> anda bisa melakukan unduh surat dan cetak surat.<p class="text-danger">(pada tahap ini peminjaman belum aktif)</p></strong></p>
+                        <p class="card-text text-justify">Anda diharuskan mengisi formulir penggunaan barang untuk melakukan pengajuan, Setelah mengisi formulir pilih tombol simpan</p>
+                    </div>
+                </div>
+                <div class="card mt-3" style="width: 25rem;">
+                    <img class="card-img-top p-2" src="{{asset('frontend/img/langkah/pengajuan.png')}}" height="230px"
+                        alt="Card image cap">
+                    <div class="card-body">
+                        <h5><strong>Langkah 7</strong></h5>
+                        <p class="card-text text-justify">Setelah anda mengisi formulir penggunaan, barang yang anda pilih akan ditambahkan pada daftar pengajuan dengan status dalam proses, tunggu hingga status pengajuan disetujui operator terkait.</p>
+                    </div>
+                </div>
+                <div class="card mt-3" style="width: 25rem;">
+                    <img class="card-img-top p-2" src="{{asset('frontend/img/langkah/setujui.png')}}" height="230px"
+                        alt="Card image cap">
+                    <div class="card-body">
+                        <h5><strong>Langkah 8</strong></h5>
+                        <p class="card-text text-justify">Setelah pengajuan anda disetujui, anda bisa melakukan cetak surat peminjaman pada halaman detail peminjaman.</p>
                     </div>
                 </div>
                 <div class="card mt-3" style="width: 25rem;">
                     <center><img class="card-img-top p-2" src="{{asset('frontend/img/langkah/surat.png')}}"
                             height="230px" style="width: 250px" alt="Card image cap"></center>
                     <div class="card-body">
-                        <h5><strong>Langkah 7</strong></h5>
-                        <p class="card-text text-justify">Peminjaman akan diaktifkan ketika anda mengambil barang pada laboratorium terkait. <strong><p class="text-danger">(dibuktikan dengan surat tersebut)</p></strong></p>
+                        <h5><strong>Surat Peminjaman</strong></h5>
+                        <p class="card-text text-justify">Surat peminjaman dapat digunakan ketika melakukan pengembalian barang.</p>
+                    </div>
+                </div>
+                <div class="card mt-3" style="width: 25rem;">
+                    <img class="card-img-top p-2" src="{{asset('frontend/img/langkah/aktif.png')}}"
+                            height="230px" alt="Card image cap">
+                    <div class="card-body">
+                        <h5><strong>Langkah 9</strong></h5>
+                        <p class="card-text text-justify">Setelah peminjaman selesai, akan tersedia tombol pengajuan pengembalian barang, yang dapat anda gunakan untuk melakukan pengembalian barang.</p>
                     </div>
                 </div>
             </div>

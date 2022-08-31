@@ -36,16 +36,16 @@
                     </li>
                     <li><a class="nav-link scrollto" href="{{route('langkahPeminjaman')}}">LANGKAH PENGGUNAAN</a></li>
                     @auth
-                    @if (auth()->user()->role_id == 1)
+                    @if (auth()->user()->role == 1)
                     <li><a class="nav-link scrollto " href="{{ route('cart') }}">
                         <div class="d-flex">
                             <i class="fas fa-shopping-cart" style="font-size: 18px"></i>
-                            @if(App\Models\Cart::where('user_id', auth()->user()->id)->where('status',0)->count() >= 1)
+                            @if(App\Models\Peminjaman::where('user_id', auth()->user()->id)->where('status',-1)->count() >= 1)
                                 <div class="fisa">
-                                    @if(App\Models\Cart::where('user_id', auth()->user()->id)->where('status',0)->count() == 100)
+                                    @if(App\Models\Peminjaman::where('user_id', auth()->user()->id)->where('status',-1)->count() == 100)
                                     99++
                                     @else
-                                    {{ App\Models\Cart::where('user_id', auth()->user()->id)->where('status',0)->count() }}
+                                    {{ App\Models\Peminjaman::where('user_id', auth()->user()->id)->where('status',-1)->count() }}
                                     @endif
                                 </div>
                             @endif
@@ -62,15 +62,11 @@
                                 src="{{ asset(auth()->user()->foto ? 'images/user/'. auth()->user()->foto : 'images/'. $foto) }}"></a>
                         <ul>
                             <li><a href="{{ route('profile.detail') }}">Profile</a></li>
-                            <li><a href="{{ route('daftar.pinjaman') }}">Pinjaman Saya @if(App\Models\Peminjaman::where('user_id', auth()->user()->id)->where('status',3)->count() >= 1)
-                                <div class="fisa" style="background-color: blue">
-                                    @if(App\Models\Peminjaman::where('user_id', auth()->user()->id)->where('status',3)->count() == 100)
-                                    99++
-                                    @else
-                                    {{ App\Models\Peminjaman::where('user_id', auth()->user()->id)->where('status',3)->count() }}
-                                    @endif
-                                </div>
-                            @endif</a></li>
+                            <li><a href="{{ route('daftar.pinjaman') }}">Pinjaman Saya 
+                                @if(App\Models\Peminjaman::where('user_id', auth()->user()->id)->where('status','<',4)->count() >= 1)
+                                <div style="background-color: #ff0000; width:10px; height:10px; border-radius:50%"></div>
+                                @endif
+                            </a></li>
                             <li><a href="{{ route('surat.index') }}">Surat Bebas Lab</a></li>
                             <li><a class="nav-link scrollto" href="{{ route('logout') }}"
                                     onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>

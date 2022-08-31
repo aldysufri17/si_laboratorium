@@ -32,7 +32,7 @@ class RegisterController extends Controller
      */
     protected function registered(Request $request, $user)
     {
-        return redirect()->route('login')->with('toast_warning', "Registrasi berhasil, Silahkan Login");
+        return redirect()->route('login')->with('toast_success', "Registrasi berhasil");
     }
 
     /**
@@ -83,7 +83,7 @@ class RegisterController extends Controller
             'jk' => $data['jk'],
             'mobile_number' => $data['telp'],
             'status' => 1,
-            'role_id' => 1,
+            'role' => 1,
             'password' => bcrypt($data['password']),
         ]);
         $user->assignRole(1);

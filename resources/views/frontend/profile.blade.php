@@ -9,7 +9,7 @@
             <div class="d-flex justify-content-between align-items-center">
                 <h2 class="font-weight-bold">Profile</h2>
                 <ol>
-                    <li><a href="{{route('home')}}">Beranda</a></li>
+                    <li><a href="/">Beranda</a></li>
                     <li>Profile</li>
                 </ol>
             </div>
@@ -94,7 +94,7 @@
                                 </div>
                                 <div class="modal-body text-center">
                                     <img class="rounded-circle my-2 profilepic__image" width="150px"
-                                        src="{{ asset(auth()->user()->foto ? 'storage/user/'. auth()->user()->foto : 'admin/img/undraw_profile.svg') }}">
+                                        src="{{ asset(auth()->user()->foto ? 'images/user/'. auth()->user()->foto : 'admin/img/undraw_profile.svg') }}">
                                     <form action="{{route('profile.foto')}}" method="POST"
                                         enctype="multipart/form-data">
                                         @csrf

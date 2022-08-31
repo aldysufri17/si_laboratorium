@@ -67,10 +67,8 @@
             </table>
         </div>
         <div class="pb-5 text-center">
-            <button class="btn btn-info profile-button" data-toggle="modal" data-target="#ktmModal"><i
-                    class="fa-solid fa-address-card"></i> Lihat KTM</button>
             @role('admin')
-            <a href="{{ route('operator.edit', ['operator' => $user->id]) }}" class="btn btn-primary mx-2" title="Edit"><i
+            <a href="{{ route('operator.edit', ['operator' => encrypt($user->id)]) }}" class="btn btn-primary mx-2" title="Edit"><i
                     class="fa fa-pen"></i> Edit</a>
             @endrole
         </div>

@@ -12,7 +12,7 @@
             <div class="d-flex justify-content-between align-items-center">
                 <h2 class="font-weight-bold">Surat Bebas Laboratorium</h2>
                 <ol>
-                    <li><a href="{{route('home')}}">Beranda</a></li>
+                    <li><a href="/">Beranda</a></li>
                     <li>Surat Bebas Laboratorium</li>
                 </ol>
             </div>
@@ -40,102 +40,101 @@
                     <table id="dataTable" class="table table-borderless dt-responsive" cellspacing="0" width="100%">
                         <thead>
                             <tr>
-                                <th width="10%">Date</th>
-                                <th width="10%">Nama</th>
-                                <th width="10%">Nim</th>
-                                <th width="15%">Nomor Telepon</th>
-                                <th width="15%">Alamat</th>
-                                <th width="15%" class="text-center">Tracking</th>
-                                <th width="15%">Aksi</th>
+                                <th class="text-center" width="10%">Waktu Pengajuan</th>
+                                <th class="text-center" width="15%" class="text-center">Tracking</th>
+                                <th class="text-center" width="15%">Aksi</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
                                 @foreach ($surat as $data)
-                                <td>{{$data->created_at}}</td>
-                                <td>{{$data->user->name}}</td>
-                                <td>{{$data->user->nim}}</td>
-                                <td>{{$data->user->mobile_number}}</td>
-                                <td>{{$data->user->alamat}}</td>
-                                <td>
-                                    <div class="d-flex">
-                                        @if($data->status == 0)
-                                        <div class="circle">
-                                            <center><span class="dot text-center"
-                                                    style="border: 2px solid rgb(0, 185, 40);">
-                                                    <p>1</p>
-                                                </span></center>
-                                            <p class="text-center" style="font-size: 12px; color: rgb(0, 185, 40)">
-                                                PENGAJUAN</p>
-                                        </div>
-                                        <div class="circle mx-2">
-                                            <center><span class="dot text-center">2</span></center>
-                                            <p class="text-center" style="font-size: 12px">DITOLAK</p>
-                                        </div>
-                                        <div class="circle">
-                                            <center><span class="dot text-center">3</span></center>
-                                            <p class="text-center" style="font-size: 12px">DISETUJUI</p>
-                                        </div>
-                                        {{-- diTolak --}}
-                                        @elseif($data->status == 1)
-                                        <div class="circle">
-                                            <center><span class="dot text-center"
-                                                    style="border: 2px solid rgb(0, 185, 40);">
-                                                    <p>1</p>
-                                                </span></center>
-                                            <p class="text-center" style="font-size: 12px; color: rgb(0, 185, 40)">
-                                                PENGAJUAN</p>
-                                        </div>
-                                        <div class="circle mx-2">
-                                            <center><span class="dot text-center"
-                                                    style="border: 2px solid rgb(214, 0, 0);">
-                                                    <p style="color: rgb(214, 0, 0)">2</p>
-                                                </span></center>
-                                            <p class="text-center" style="font-size: 12px; color: rgb(214, 0, 0)">
-                                                DITOLAK</p>
-                                        </div>
-                                        <div class="circle">
-                                            <center><span class="dot text-center">3</span></center>
-                                            <p class="text-center" style="font-size: 12px">DISETUJUI</p>
-                                        </div>
-
-                                        {{-- diSetujui --}}
-                                        @elseif($data->status == 2)
-                                        <div class="circle">
-                                            <center><span class="dot text-center"
-                                                    style="border: 2px solid rgb(0, 185, 40);">
-                                                    <p>1</p>
-                                                </span></center>
-                                            <p class="text-center" style="font-size: 12px; color: rgb(0, 185, 40)">
-                                                PENGAJUAN</p>
-                                        </div>
-                                        <div class="circle mx-2">
-                                            <center><span
-                                                    style="border: 2px solid rgb(133, 133, 133); color:rgb(133, 133, 133)"
-                                                    class="dot text-center">2</span></center>
-                                            <p class="text-center" style="font-size: 12px; color:rgb(133, 133, 133)">
-                                                DITOLAK</p>
-                                        </div>
-                                        <div class="circle">
-                                            <center><span class="dot text-center"
-                                                    style="border: 2px solid rgb(0, 185, 40);">
-                                                    <p>3</p>
-                                                </span></center>
-                                            <p class="text-center" style="font-size: 12px; color: rgb(0, 185, 40)">
-                                                DISETUJUI</p>
-                                        </div>
-                                        @endif
+                                <td class="text-center">
+                                        {{$data->created_at->format('d M Y')}}<br><strong>({{$data->created_at->format('H:i:s A')}})</strong>
                                     </div>
                                 </td>
-                                <td>
-                                    <a href="{{route('surat.show', ['surat' => $data->id])}}"
-                                        class="btn {{$unduh ? 'btn-primary':'btn-secondary'}} mx-2" title="Unduh">
+                                <td class="text-center d-flex" style="justify-content: center;">
+                                    @if($data->status == 0)
+                                    <div class="circle">
+                                        <center><span class="dot text-center"
+                                                style="border: 2px solid rgb(0, 185, 40);">
+                                                <p>1</p>
+                                            </span></center>
+                                        <p class="text-center" style="font-size: 12px; color: rgb(0, 185, 40)">
+                                            PENGAJUAN</p>
+                                    </div>
+                                    <div class="circle mx-2">
+                                        <center><span class="dot text-center">2</span></center>
+                                        <p class="text-center" style="font-size: 12px">DITOLAK</p>
+                                    </div>
+                                    <div class="circle">
+                                        <center><span class="dot text-center">3</span></center>
+                                        <p class="text-center" style="font-size: 12px">DISETUJUI</p>
+                                    </div>
+                                    {{-- diTolak --}}
+                                    @elseif($data->status == 1)
+                                    <div class="circle">
+                                        <center><span class="dot text-center"
+                                                style="border: 2px solid rgb(0, 185, 40);">
+                                                <p>1</p>
+                                            </span></center>
+                                        <p class="text-center" style="font-size: 12px; color: rgb(0, 185, 40)">
+                                            PENGAJUAN</p>
+                                    </div>
+                                    <div class="circle mx-2">
+                                        <center><span class="dot text-center" style="border: 2px solid rgb(214, 0, 0);">
+                                                <p style="color: rgb(214, 0, 0)">2</p>
+                                            </span></center>
+                                        <p class="text-center" style="font-size: 12px; color: rgb(214, 0, 0)">
+                                            DITOLAK</p>
+                                    </div>
+                                    <div class="circle">
+                                        <center><span class="dot text-center">3</span></center>
+                                        <p class="text-center" style="font-size: 12px">DISETUJUI</p>
+                                    </div>
+
+                                    {{-- diSetujui --}}
+                                    @elseif($data->status == 2)
+                                    <div class="circle">
+                                        <center><span class="dot text-center"
+                                                style="border: 2px solid rgb(0, 185, 40);">
+                                                <p>1</p>
+                                            </span></center>
+                                        <p class="text-center" style="font-size: 12px; color: rgb(0, 185, 40)">
+                                            PENGAJUAN</p>
+                                    </div>
+                                    <div class="circle mx-2">
+                                        <center><span
+                                                style="border: 2px solid rgb(133, 133, 133); color:rgb(133, 133, 133)"
+                                                class="dot text-center">2</span></center>
+                                        <p class="text-center" style="font-size: 12px; color:rgb(133, 133, 133)">
+                                            DITOLAK</p>
+                                    </div>
+                                    <div class="circle">
+                                        <center><span class="dot text-center"
+                                                style="border: 2px solid rgb(0, 185, 40);">
+                                                <p>3</p>
+                                            </span></center>
+                                        <p class="text-center" style="font-size: 12px; color: rgb(0, 185, 40)">
+                                            DISETUJUI</p>
+                                    </div>
+                                    @endif
+                                </td>
+                                <td class="text-center">
+                                    @if ($unduh)
+                                    <a href="{{route('surat.show', ['surat' => encrypt($data->kode)])}}"
+                                        class="btn btn-primary mx-2" title="Unduh">
+                                        <i class="fa-solid fa-print"></i>
+                                    </a>
+                                    @else
+                                    <a href="#"
+                                        class="btn btn-secondary mx-2" title="Unduh">
                                         <i class="fa-solid fa-print"></i>
                                     </a>
                                     <a class="btn btn-danger" href="#" data-toggle="modal" title="Delete"
                                         data-target="#deleteModal">
                                         <i class="fas fa-trash"></i>
                                     </a>
+                                    @endif
                                 </td>
                                 @endforeach
                             </tr>
@@ -252,9 +251,11 @@
         });
     });
 
-    setInterval(function () {
-        document.getElementById('notif').click();
-    }, 4000);
+    if (document.getElementById('notif')) {
+            setTimeout(function () {
+            document.getElementById('notif').click();
+        }, 4000);
+        }
 
 </script>
 @endsection

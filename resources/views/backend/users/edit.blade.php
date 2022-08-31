@@ -113,10 +113,10 @@
                             name="status">
                             <option selected disabled>Select Status</option>
                             <option value="1"
-                                {{old('role_id') ? ((old('role_id') == 1) ? 'selected' : '') : (($user->status == 1) ? 'selected' : '')}}>
+                                {{old('role') ? ((old('role') == 1) ? 'selected' : '') : (($user->status == 1) ? 'selected' : '')}}>
                                 Active</option>
                             <option value="0"
-                                {{old('role_id') ? ((old('role_id') == 0) ? 'selected' : '') : (($user->status == 0) ? 'selected' : '')}}>
+                                {{old('role') ? ((old('role') == 0) ? 'selected' : '') : (($user->status == 0) ? 'selected' : '')}}>
                                 Inactive</option>
                         </select>
                         @error('status')

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Exports\UsersExport;
 use App\Imports\UsersImport;
 use App\Models\User;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
@@ -33,7 +34,7 @@ class UserController extends Controller
      */
     public function index()
     {
-        $users = User::where('role_id', 1)->paginate(5);
+        $users = User::where('role', 1)->get();
 
         return view('backend.users.index', ['users' => $users]);
     }
@@ -46,7 +47,7 @@ class UserController extends Controller
      */
     public function show($id)
     {
-        $user = User::FindorFail($id);
+        $user = User::FindorFail(decrypt($id));
         return view('backend.users.detail', compact('user'));
     }
 
@@ -81,7 +82,6 @@ class UserController extends Controller
             'nim'           => 'required|numeric',
             'status'        =>  'required|numeric|in:0,1',
         ]);
-        $trim = str_replace(' ', '', $request->name);
 
         if ($request->foto) {
             $foto = $request->foto;
@@ -95,11 +95,13 @@ class UserController extends Controller
                 'nim'           => $request->nim,
                 'alamat'        => $request->alamat,
                 'mobile_number' => $request->mobile_number,
-                'role_id'       => 1,
+                'post'          => 0,
+                'role'          => 1,
                 'jk'            => $request->jk,
                 'status'        => $request->status,
                 'foto'          => $new_foto,
-                'password'      => bcrypt($trim)
+                'password'      => bcrypt(12345678),
+
             ]);
         } else {
             $user = User::create([
@@ -109,14 +111,15 @@ class UserController extends Controller
                 'nim'           => $request->nim,
                 'alamat'        => $request->alamat,
                 'mobile_number' => $request->mobile_number,
-                'role_id'       => 1,
+                'post'          => 0,
+                'role'          => 1,
                 'jk'            => $request->jk,
                 'status'        => $request->status,
-                'password'      => bcrypt($trim)
+                'password'      => bcrypt(12345678),
             ]);
         }
         // Assign Role To User
-        $user->assignRole($user->role_id);
+        $user->assignRole($user->role);
         if ($user) {
             return redirect()->route('users.index')->with('success', 'User Berhasil ditambah!.');
         }
@@ -139,7 +142,7 @@ class UserController extends Controller
             'user_id'   =>  'required|exists:users,id',
             'status'    =>  'required|in:0,1',
         ]);
-
+        $user_id = decrypt($user_id);
         // Update Status
         $user = User::whereId($user_id)->update(['status' => $status]);
 
@@ -160,8 +163,9 @@ class UserController extends Controller
      * @return Collection $user
      * @author Shani Singh
      */
-    public function edit(User $user)
+    public function edit($user)
     {
+        $user = User::whereId(decrypt($user))->first();
         $roles = Role::all();
         return view('backend.users.edit')->with([
             'roles' => $roles,
@@ -244,9 +248,7 @@ class UserController extends Controller
 
     public function reset($user, Request $request)
     {
-        $id = User::whereId($request->reset_id)->first();
-        $trim = str_replace(' ', '', $id->name);
-        $user = User::whereId($user)->update(['password' => bcrypt(strtolower($trim))]);
+        $user = User::whereId($user)->update(['password' => bcrypt('secret')]);
         return redirect()->back()->with('success', 'Password Berhasil direset!.');
     }
 
@@ -269,5 +271,13 @@ class UserController extends Controller
     {
         $fileName = date('Y-m-d') . '_' . 'Data Pengguna' . '.xlsx';
         return Excel::download(new UsersExport,  $fileName);
+    }
+
+    public function userPdf()
+    {
+        $user = User::where('status', 1)->get();
+        $pdf = Pdf::loadview('backend.users.pdf_user', compact('user'));
+
+        return $pdf->download("Data Pengguna" . "_" . date('d-m-Y') . '.pdf');
     }
 }

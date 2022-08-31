@@ -25,10 +25,16 @@
             <div class="py-2 collapse-inner rounded" style="background-color: rgb(230, 230, 230)">
                 <h6 class="collapse-header text-dark">Admin Management:</h6>
                 @role('admin')
-                <a class="collapse-item text-red" href="{{ route('roles.index') }}">Roles</a>
-                <a class="collapse-item text-red" href="{{ route('operator.index') }}">Pengurus</a>
+                <a class="collapse-item text-red" href="{{ route('lab.index') }}">Data Laboratorium</a>
+                {{-- <a class="collapse-item text-red" href="{{ route('roles.index') }}">Data Roles</a> --}}
+                <a class="collapse-item text-red" href="{{ route('operator.index') }}">Data Pengurus</a>
                 @endrole
-                <a class="collapse-item text-red" href="{{ route('users.index') }}">Pengguna</a>
+                <a class="collapse-item text-red" href="{{ route('users.index') }}">Data Pengguna</a>
+                @role('operator')
+                <a class="collapse-item text-red" href="{{ route('satuan.index') }}">Data Satuan</a>
+                <a class="collapse-item text-red" href="{{ route('kategori.index') }}">Data Kategori</a>
+                <a class="collapse-item text-red" href="{{ route('pengadaan.index') }}">Jenis Pengadaan</a>
+                @endrole
             </div>
         </div>
     </li>
@@ -42,12 +48,13 @@
         </a>
         <div id="barangDropDown" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class=" py-2 collapse-inner rounded" style="background-color: rgb(230, 230, 230)">
-                @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
-                <a class="collapse-item text-red" href="{{ route('satuan.index') }}">Data Satuan</a>
-                <a class="collapse-item text-red" href="{{ route('kategori.index') }}">Data Kategori</a>
-                @endrole
                 <a class="collapse-item text-red" href="{{ route('barang.index') }}">Data Barang</a>
+                <a class="collapse-item text-red" href="{{ route('mutasi') }}">Data Mutasi</a>
                 <a class="collapse-item text-red" href="{{ route('barang.damaged') }}">Barang Rusak</a>
+                @role('operator')
+                <a class="collapse-item text-red" href="{{ route('stok.show') }}">Update Stok</a>
+                <a class="collapse-item text-red" href="{{ route('barang.dipinjam') }}">Barang Dipinjam</a>
+                @endrole
             </div>
         </div>
     </li>
@@ -61,39 +68,40 @@
         </a>
         <div id="inventarisDropDown" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class=" py-2 collapse-inner rounded" style="background-color: rgb(230, 230, 230)">
-                <a class="collapse-item text-red" href="{{ route('inventaris.index') }}">Catatan Inventaris</a>
-                @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
-                <a class="collapse-item text-red" href="{{ route('inventaris.add', auth()->user()->role_id) }}">Data Inventaris</a>
-                @endrole
+                <a class="collapse-item text-red" href="{{ route('inventaris.index') }}">Data Inventaris</a>
+                {{-- @role('operator')
+                <a class="collapse-item text-red" href="{{ route('inventaris.add', auth()->user()->role_id) }}">Tambah Inventaris</a>
+                @endrole --}}
             </div>
         </div>
     </li>
 
     <!-- Nav Item - Pages Collapse Menu -->
-    @role('operator embedded|operator rpl|operator jarkom|operator mulmed')
+    @role('operator')
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#peminjamanDropDown"
             aria-expanded="true" aria-controls="peminjamanDropDown">
             <i class="fa-solid fa-handshake"></i>
-            <span>Konfirmasi</span>
+            <span>Peminjaman</span>
         </a>
         <div id="peminjamanDropDown" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
             <div class=" py-2 collapse-inner rounded" style="background-color: rgb(230, 230, 230)">
                 <a class="collapse-item text-red" href="{{ route('konfirmasi.pengajuan') }}">Pengajuan</a>
-                <a class="collapse-item text-red" href="{{ route('konfirmasi.peminjaman') }}">Peminjaman</a>
-                <a class="collapse-item text-red" href="{{route('konfirmasi.pengembalian')}}">Pengembalian</a>
+                <a class="collapse-item text-red" href="{{ route('konfirmasi.peminjaman') }}">Daftar Peminjam</a>
+                <a class="collapse-item text-red" href="{{ route('daftar.riwayat') }}">Riwayat Peminjam</a>
+                {{-- <a class="collapse-item text-red" href="{{route('konfirmasi.pengembalian')}}">Pengembalian</a> --}}
             </div>
         </div>
     </li>
     @endrole
     <!-- Nav Item - Pages Collapse Menu -->
+    @role('admin')
     <li class="nav-item">
-        <a class="nav-link" href="{{route('daftar.peminjaman')}}">
+        <a class="nav-link" href="{{route('daftar.riwayat')}}">
             <i class="fa-solid fa-book"></i>
-            <span>Daftar Peminjaman</span>
+            <span>Riwayat Peminjam</span>
         </a>
     </li>
-    @role('admin')
     <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#suratDropDown"
             aria-expanded="true" aria-controls="suratDropDown">

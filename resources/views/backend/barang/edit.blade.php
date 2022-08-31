@@ -60,7 +60,8 @@
                             @endif
                             @foreach ($kategori as $data)
                             <option value="{{$data->id}}"
-                                {{old('kategori_id') ? ((old('kategori_id') == $data->id) ? 'selected' : '') : (($barang->kategori_id == $data->id) ? 'selected' : '')}}>{{ $data->nama_kategori }}</option>
+                                {{old('kategori_id') ? ((old('kategori_id') == $data->id) ? 'selected' : '') : (($barang->kategori_id == $data->id) ? 'selected' : '')}}>
+                                {{ $data->nama_kategori }}</option>
                             @endforeach
                         </select>
                         @error('kategori_id')
@@ -86,13 +87,14 @@
                             <span style="color:red;">*</span>Satuan</label>
                             <select class="form-control form-control-user @error('satuan_id') is-invalid @enderror"
                                 name="satuan_id">
-                            @if($barang->satuan_id == 0)
-                            <option selected value="0">Default</option>
-                            @endif
-                            @foreach ($satuan as $data)
-                            <option value="{{$data->id}}"
-                                {{old('satuan_id') ? ((old('satuan_id') == $data->id) ? 'selected' : '') : (($barang->satuan_id == $data->id) ? 'selected' : '')}}>{{ $data->nama_satuan }}</option>
-                            @endforeach
+                                @if($barang->satuan_id == 0)
+                                <option selected value="0">Default</option>
+                                @endif
+                                @foreach ($satuan as $data)
+                                <option value="{{$data->id}}"
+                                    {{old('satuan_id') ? ((old('satuan_id') == $data->id) ? 'selected' : '') : (($barang->satuan_id == $data->id) ? 'selected' : '')}}>
+                                    {{ $data->nama_satuan }}</option>
+                                @endforeach
                             </select>
                             @error('satuan_id')
                             <span class="text-danger">{{$message}}</span>
@@ -116,23 +118,32 @@
                     {{-- Lokasi Barang --}}
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
                         <span style="color:red;">*</span>Lokasi Barang</label>
-                            <select class="form-control form-control-user  @error('lokasi') is-invalid @enderror" name="lokasi" aria-label="Default select example">
-                                <option  value="Laboratorium Sistem Tertanam dan Robotika" {{old('lokasi') ? ((old('lokasi') == "Laboratorium Sistem Tertanam dan Robotika") ? 'selected' : '') : (($barang->lokasi == "Laboratorium Sistem Tertanam dan Robotika") ? 'selected' : '')}}>Laboratorium Sistem Tertanam dan Robotika</option>
-                                <option value="Laboratorium Rekayasa Perangkat Lunak" {{old('lokasi') ? ((old('lokasi') == "Laboratorium Rekayasa Perangkat Lunak") ? 'selected' : '') : (($barang->lokasi == "Laboratorium Rekayasa Perangkat Lunak") ? 'selected' : '')}}>Laboratorium Rekayasa Perangkat Lunak</option>
-                                <option value="Laboratorium Jaringan dan Keamanan Komputer" {{old('lokasi') ? ((old('lokasi') == "Laboratorium Jaringan dan Keamanan Komputer") ? 'selected' : '') : (($barang->lokasi == "Laboratorium Jaringan dan Keamanan Komputer") ? 'selected' : '')}}>Laboratorium Jaringan dan Keamanan Komputer</option>
-                                <option value="Laboratorium Multimedia" {{old('lokasi') ? ((old('lokasi') == "Laboratorium Multimedia") ? 'selected' : '') : (($barang->lokasi == "Laboratorium Multimedia") ? 'selected' : '')}}>Laboratorium Multimedia</option>
-                            </select>
+                        <select class="form-control form-control-user  @error('lokasi') is-invalid @enderror"
+                            name="lokasi" aria-label="Default select example">
+                            @foreach ($laboratorium as $lab)
+                            <option value="{{$lab->nama}}" @if (auth()->user()->laboratorium_id == $lab->id) selected @endif >{{$lab->nama}}</option>
+                            @endforeach
+                        </select>
                         @error('lokasi')
                         <span class="text-danger">{{$message}}</span>
                         @enderror
                     </div>
 
-
-                    {{-- Gambar Barang --}}
+                    {{-- pengadaan --}}
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
-                        <span style="color:red;">*</span>Gambar</label>
-                        <input type="file" class="form-control"
-                            value="{{old('gambar') ? old('gambar') : $barang->lokasi}}" name="gambar" id="gambar">
+                        <span style="color:red;">*</span>Jenis Pengadaan</label>
+                        <select class="form-control form-control-user @error('pengadaan_id') is-invalid @enderror"
+                            name="pengadaan_id">
+                            <option selected disabled>Pilih Jenis Pengadaan</option>
+                            @foreach ($pengadaan as $data)
+                            <option value="{{$data->id}}"
+                                {{old('pengadaan_id') ? ((old('pengadaan_id') == $data->id) ? 'selected' : '') : (($barang->pengadaan_id == $data->id) ? 'selected' : '')}}>
+                                {{ $data->nama_pengadaan }}</option>
+                            @endforeach
+                        </select>
+                        @error('pengadaan_id')
+                        <span class="text-danger">{{$message}}</span>
+                        @enderror
                     </div>
 
                     {{-- Tampil --}}
@@ -147,8 +158,8 @@
                         <span class="text-danger">{{$message}}</span>
                         @enderror
                     </div>
-                    
-                    {{-- info --}}
+
+                    {{-- Gambar Barang --}}
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
                         <div class="form-group">
                             <span style="color:red;">*</span>Informasi Tambahan</label>
@@ -158,6 +169,13 @@
                         @error('info')
                         <span class="text-danger">{{$message}}</span>
                         @enderror
+                    </div>
+                    
+                    {{-- Gambar Barang --}}
+                    <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
+                        <span style="color:red;">*</span>Gambar</label>
+                        <input type="file" class="form-control"
+                            value="{{old('gambar') ? old('gambar') : $barang->lokasi}}" name="gambar" id="gambar">
                     </div>
                 </div>
             </div>

@@ -18,6 +18,7 @@
                 <form id="kategori-delete-form" method="POST" action="{{ route('kategori.destroy', ['kategori' => $data->id]) }}">
                     @csrf
                     @method('DELETE')
+                    <input type="hidden" name="delete_id" id="delete_id">
                 </form>
             </div>
         </div>

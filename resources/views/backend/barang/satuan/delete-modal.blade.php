@@ -18,6 +18,7 @@
                 <form id="satuan-delete-form" method="POST" action="{{ route('satuan.destroy', ['satuan' => $data->id]) }}">
                     @csrf
                     @method('DELETE')
+                    <input type="hidden" name="delete_id" id="delete_id">
                 </form>
             </div>
         </div>

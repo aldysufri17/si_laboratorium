@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Barang;
+use App\Models\Laboratorium;
 use App\Models\Peminjaman;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -14,64 +15,65 @@ use Illuminate\Support\Facades\Http;
 
 class DashboardController extends Controller
 {
-
-
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
+    public $lab;
     public function __construct()
     {
         $this->middleware('auth');
+        $this->middleware(function ($request, $next) {
+            $this->lab = Auth::user()->post;
+            return $next($request);
+        });
     }
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Contracts\Support\Renderable
-     */
     public function index(Request $request)
     {
         // notifikasi
-        if (Auth::user()->role_id > 2) {
-            if (Auth::user()->role_id == 3) {
-                $kategori_lab = 1;
-            } elseif (Auth::user()->role_id == 4) {
-                $kategori_lab = 2;
-            } elseif (Auth::user()->role_id == 5) {
-                $kategori_lab = 3;
-            } elseif (Auth::user()->role_id == 6) {
-                $kategori_lab = 4;
-            }
-            $peminjaman = Peminjaman::where('kategori_lab', $kategori_lab)->where('status', 0)->get();
-            $total = Peminjaman::where('kategori_lab', $kategori_lab)->where('status', 0)->count();
-            $request->session()->flash('eror', "$total pengajuan belum disetujui !!!");
-            return view('backend.dashboard',  compact(['peminjaman']));
+        if (Auth::user()->role > 2) {
+            $barang = Peminjaman::whereHas('barang', function ($q) {
+                $q->where('laboratorium_id', $this->lab);
+            })
+                ->whereBetween('status', [2, 3])
+                ->groupBy('barang_id')
+                ->selectRaw('barang_id, sum(jumlah) as sum')
+                ->get();
+
+            $notif = Peminjaman::whereHas('barang', function ($q) {
+                $q->where('laboratorium_id', $this->lab);
+            })
+                ->where('status', 0)
+                ->select('kode_peminjaman')
+                ->groupBy('kode_peminjaman')
+                ->get();
+            $total = count($notif);
+            $request->session()->flash('eror', "$total Pengajuan belum disetujui !!!");
+
+            $telat = Peminjaman::whereBetween('status', [2, 3])
+                ->where('tgl_end', '<', date('Y-m-d'))
+                ->whereHas('barang', function ($q) {
+                    $lab = Auth::user()->post;
+                    $q->where('laboratorium_id', $lab);
+                })
+                ->select('kode_peminjaman', 'user_id', 'tgl_end')
+                ->groupBy('kode_peminjaman', 'user_id', 'tgl_end')
+                ->paginate(5);
+
+            $habis = Barang::where('stock', 0)
+                ->where('laboratorium_id', $this->lab)
+                ->paginate(5);
+            return view('backend.dashboard',  compact(['barang', 'habis', 'telat', 'notif']));
         }
-        return view('backend.dashboard');
+        $laboratorium = Laboratorium::all();
+        return view('backend.dashboard', compact('laboratorium'));
     }
 
-    /**
-     * User Profile
-     * @param Nill
-     * @return View Profile
-     * @author Shani Singh
-     */
     public function getProfile()
     {
-        if (Auth::user()->role_id == 1) {
+        if (Auth::user()->role == 1) {
             return view('frontend.profile');
         }
         return view('backend.profile');
     }
 
-    /**
-     * Update Profile
-     * @param $profileData
-     * @return Boolean With Success Message
-     * @author Shani Singh
-     */
     public function updateProfile(Request $request)
     {
         #Validations
@@ -97,12 +99,6 @@ class DashboardController extends Controller
         }
     }
 
-    /**
-     * Change Password
-     * @param Old Password, New Password, Confirm New Password
-     * @return Boolean With Success Message
-     * @author Shani Singh
-     */
     public function changePassword(Request $request)
     {
         $request->validate([
@@ -125,11 +121,11 @@ class DashboardController extends Controller
         $user_id = Auth::user()->id;
         if ($request->foto) {
             $usercek = User::whereid($user_id)->first();
-            if ($usercek->foto) {
-                unlink('images/user/' . $usercek->foto);
+            if (!file_exists(public_path() . '/images/user/' . $usercek->foto)) {
+                unlink(public_path() . '/images/user/' . $usercek->foto);
             }
             $foto = $request->foto;
-            $new_foto = date('Y-m-d') . "-" . Auth::user()->name . "-" . Auth::user()->nim . "." . $foto->getClientOriginalExtension();
+            $new_foto = Auth::user()->name . "-" . Auth::user()->nim . "." . $foto->getClientOriginalExtension();
             $destination = 'images/user/';
             $foto->move($destination, $new_foto);
             // Store Data
@@ -149,11 +145,11 @@ class DashboardController extends Controller
         $user_id = Auth::user()->id;
         if ($request->ktm) {
             $bb = User::whereid($user_id)->first();
-            if (file_exists(public_path('images/user/ktm/' . $bb->ktm))) {
-                unlink('images/user/ktm/' . $bb->ktm);
+            if (!file_exists(public_path() . '/images/user/ktm/' . $bb->ktm)) {
+                unlink(public_path() . '/images/user/ktm/' . $bb->ktm);
             }
             $ktm = $request->ktm;
-            $new_ktm = date('Y-m-d') . "-" . Auth::user()->name . "-" . Auth::user()->nim . "." . $ktm->getClientOriginalExtension();
+            $new_ktm = Auth::user()->name . "-" . Auth::user()->nim . "." . $ktm->getClientOriginalExtension();
             $destination = 'images/user/ktm/';
             $ktm->move($destination, $new_ktm);
             // Store Data

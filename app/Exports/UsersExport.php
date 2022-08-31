@@ -21,7 +21,7 @@ class UsersExport implements FromCollection, WithHeadings
     {
         $user = DB::table('users')
             ->select('nim', 'name', 'email', 'alamat', 'jk', 'mobile_number',)
-            ->where('role_id', 1)
+            ->where('role', 1)
             ->get();
         return $user;
     }

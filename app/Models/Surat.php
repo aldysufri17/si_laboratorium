@@ -9,7 +9,7 @@ class Surat extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['id', 'user_id', 'status'];
+    protected $fillable = ['id', 'user_id', 'status', 'nama', 'nim', 'alamat', 'no_telp', 'kode'];
     protected $table = 'surat';
 
     public function user()

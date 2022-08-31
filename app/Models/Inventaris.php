@@ -9,5 +9,9 @@ class Inventaris extends Model
 {
     use HasFactory;
     protected $table = 'inventaris';
-    protected $fillable = ['id', 'barang_id', 'kategori_lab', 'kode_inventaris', 'masuk', 'keluar', 'total', 'status', 'deskripsi', 'created_at'];
+    protected $fillable = ['id', 'barang_id', 'kode_mutasi', 'kode_inventaris', 'masuk', 'keluar', 'total_inventaris', 'status', 'deskripsi', 'keterangan', 'total_mutasi', 'created_at'];
+    public function barang()
+    {
+        return $this->belongsTo(Barang::class);
+    }
 }

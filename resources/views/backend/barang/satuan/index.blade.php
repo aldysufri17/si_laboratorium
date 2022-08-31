@@ -51,14 +51,17 @@
                             <td>{{ $data->kode }}</td>
                             <td>{{ $data->nama_satuan }}</td>
                             <td style="display: flex">
+                                @php
+                                $barang = App\Models\Barang::where('satuan_id', $data->id)->first();
+                                @endphp
                                 <a href="{{ route('satuan.edit', $data->id) }}" class="btn btn-primary m-2"
                                     title="Edit">
                                     <i class="fa fa-pen"></i>
                                 </a>
-                                <a class="btn btn-danger m-2" href="#" data-toggle="modal" data-target="#deleteModal"
+                                <button class="btn btn-danger m-2  delete-btn" href="#" data-toggle="modal" data-target="#deleteModal"  {{$barang ? "disabled" : ""}} value="{{$data->id}}"
                                     title="Delete">
                                     <i class="fas fa-trash"></i>
-                                </a>
+                                </button>
                             </td>
                         </tr>
                         @endforeach
@@ -108,5 +111,10 @@
         });
     });
 
+    $(document).on('click', '.delete-btn', function () {
+            var sid = $(this).val();
+            $('#deleteModal').modal('show')
+            $('#delete_id').val(sid)
+        });
 </script>
 @endsection
