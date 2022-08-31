@@ -8,11 +8,11 @@
 <div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-2">
-        <h1 class="h5 mb-0 text-light">Daftar Keranjang</h1>
+        <h1 class="h5 mb-0 text-light">Daftar Peminjaman</h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Dashboard</a></li>
             <li class="breadcrumb-item"><a href="{{ route('konfirmasi.peminjaman')}}">Daftar Peminjam</a></li>
-            <li class="breadcrumb-item">Daftar Keranjang</li>
+            <li class="breadcrumb-item">Daftar Peminjaman</li>
         </ol>
     </div>
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -57,15 +57,15 @@
                                 <td class="text-center">-</td>
                                 @endif
                                 <td class="d-sm-flex justify-content-center">
-                                    <a class="btn btn-primary"
-                                        href="{{route('pengajuan.detail', ['id'=>$id,'kode'=>encrypt($item->kode_peminjaman)])}}"
+                                    <a class="btn btn-primary mr-3"
+                                        href="{{route('peminjaman.admin.detail', ['id'=>$id,'kode'=>encrypt($item->kode_peminjaman)])}}"
                                         title="Show">
                                         <i class="fa fa-eye"></i>
                                     </a>
-                                    <button class="btn btn-danger delete-btn mx-2" title="Delete"
+                                    {{-- <button class="btn btn-danger delete-btn mx-2" title="Delete"
                                         value="{{$item->kode_peminjaman}}">
                                         <i class="fas fa-trash"></i>
-                                    </button>
+                                    </button> --}}
                                     <input type="text" id="id_user" hidden value="{{$id}}">
                                     @if ($data->status >= 3)
                                     <button class="btn btn-warning terima-btn" title="Barang diterima"
@@ -84,36 +84,6 @@
                     </tbody>
                 </table>
             </div>
-        </div>
-    </div>
-</div>
-
-{{-- Tolak Modal --}}
-<div class="modal fade" id="tolakModal" tabindex="-1" role="dialog" aria-labelledby="tolakModalExample"
-    aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content bgdark shadow-2-strong ">
-            <div class="modal-header bg-danger">
-                <h5 class="modal-title text-light" id="tolakModalExample">Anda yakin ingin
-                    Menghapus?
-                </h5>
-                <button class="close close-mdl" type="button" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">×</span>
-                </button>
-            </div>
-            <form method="GET" action="{{ route('peminjaman.tolak') }}">
-                @csrf
-                <div class="modal-body border-0 text-dark">
-                    <input type="text" class="form-control form-control-user" placeholder="Tambahkan alasan penolakan"
-                        name="pesan">
-                    <input type="hidden" name="date_id" id="date_id">
-                    <input type="hidden" name="user_id" id="user_id">
-                </div>
-                <div class="modal-footer border-0">
-                    <button class="btn btn-danger close-mdl" type="button" data-dismiss="modal">Batal</button>
-                    <button class="btn btn-primary" type="submit">Oke</button>
-                </div>
-            </form>
         </div>
     </div>
 </div>
@@ -211,13 +181,7 @@
             autoWidth: false,
         });
     });
-    $(document).on('click', '.tolak-btn', function () {
-        var sid = $(this).val();
-        var uid = $('#id_user').val();
-        $('#tolakModal').modal('show')
-        $('#date_id').val(sid)
-        $('#user_id').val(uid)
-    });
+
     $(document).on('click', '.delete-btn', function () {
         $('#deleteModal').modal('show')
         var sid = $(this).val();
@@ -225,6 +189,7 @@
         $('#deletekode').val(sid)
         $('#deleteuser_id').val(uid)
     });
+    
     $(document).on('click', '.terima-btn', function () {
         $('#terimaModal').modal('show')
         var sid = $(this).val();

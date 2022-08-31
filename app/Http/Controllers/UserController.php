@@ -95,11 +95,13 @@ class UserController extends Controller
                 'nim'           => $request->nim,
                 'alamat'        => $request->alamat,
                 'mobile_number' => $request->mobile_number,
-                'role'       => 1,
+                'post'          => 0,
+                'role'          => 1,
                 'jk'            => $request->jk,
                 'status'        => $request->status,
                 'foto'          => $new_foto,
-                'password'      => bcrypt(12345678)
+                'password'      => bcrypt(12345678),
+
             ]);
         } else {
             $user = User::create([
@@ -109,10 +111,11 @@ class UserController extends Controller
                 'nim'           => $request->nim,
                 'alamat'        => $request->alamat,
                 'mobile_number' => $request->mobile_number,
-                'role'       => 1,
+                'post'          => 0,
+                'role'          => 1,
                 'jk'            => $request->jk,
                 'status'        => $request->status,
-                'password'      => bcrypt(12345678)
+                'password'      => bcrypt(12345678),
             ]);
         }
         // Assign Role To User

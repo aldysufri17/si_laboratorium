@@ -16,7 +16,6 @@ use App\Models\Kategori;
 use App\Models\Laboratorium;
 use App\Models\Pengadaan;
 use App\Models\Satuan;
-use App\Models\User;
 use Maatwebsite\Excel\Facades\Excel;
 
 class BarangController extends Controller
@@ -26,7 +25,7 @@ class BarangController extends Controller
     {
         $this->middleware('auth');
         $this->middleware(function ($request, $next) {
-            $this->lab = Auth::user()->laboratorium_id;
+            $this->lab = Auth::user()->post;
             return $next($request);
         });
     }
@@ -402,7 +401,6 @@ class BarangController extends Controller
                 'kode_inventaris'   => 'OUT' . $random,
                 'kode_mutasi'       => 'OUT' . $random,
                 'masuk'             => 0,
-                'laboratorium_id'   => $this->lab,
                 'keluar'            => $jml,
                 'total_mutasi'      => $jum,
                 'total_inventaris'  => 0,
@@ -474,7 +472,6 @@ class BarangController extends Controller
                     'kode_inventaris'   => 'OUT' . $random,
                     'kode_mutasi'       => 'OUT' . $random,
                     'masuk'             => 0,
-                    'laboratorium_id'      => $this->lab,
                     'keluar'            => $jml,
                     'total_mutasi'      => $jum,
                     'total_inventaris'  => 0,
@@ -504,7 +501,6 @@ class BarangController extends Controller
                 'kode_inventaris'   => 'OUT' . $random,
                 'kode_mutasi'       => 'OUT' . $random,
                 'masuk'             => 0,
-                'laboratorium_id'      => $this->lab,
                 'keluar'            => $jml,
                 'total_mutasi'      => $stok,
                 'total_inventaris'  => 0,
@@ -527,7 +523,6 @@ class BarangController extends Controller
                 'kode_inventaris'   => 'IN' . $random,
                 'kode_mutasi'       => 'IN' . $random,
                 'masuk'             => $jml,
-                'laboratorium_id'      => $this->lab,
                 'keluar'            => 0,
                 'total_mutasi'      => $jum,
                 'total_inventaris'  => 0,
@@ -581,7 +576,6 @@ class BarangController extends Controller
             'kode_inventaris'   => 'IN' . $random,
             'kode_mutasi'       => 'IN' . $random,
             'masuk'             => $jml,
-            'laboratorium_id'      => $this->lab,
             'keluar'            => 0,
             'total_inventaris'  => 0,
             'total_mutasi'      => $brgstk + $jml,

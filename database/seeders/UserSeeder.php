@@ -19,7 +19,7 @@ class UserSeeder extends Seeder
         $user = User::create([
             'name'          => 'Peminjam',
             'nim'           => '21131412',
-            'laboratorium_id' => 0,
+            'post' => 0,
             'alamat'        =>  'Semarang',
             'email'         =>  'peminjam@admin.com',
             'mobile_number' =>  '9028187696',
@@ -37,7 +37,7 @@ class UserSeeder extends Seeder
         $user = User::create([
             'name'          => 'Admin',
             'nim'           => '2161312',
-            'laboratorium_id' => 0,
+            'post' => 0,
             'alamat'        =>   'Semarang',
             'email'         =>  'admin@admin.com',
             'mobile_number' =>  '9028187696',
@@ -55,7 +55,7 @@ class UserSeeder extends Seeder
         $user = User::create([
             'name'          => 'Operator Embedded',
             'nim'           => '211315253',
-            'laboratorium_id' => 1,
+            'post' => 1,
             'alamat'        =>  'Semarang',
             'email'         =>  'embedded@operator.com',
             'mobile_number' =>  '9028187696',
@@ -71,7 +71,7 @@ class UserSeeder extends Seeder
         $user = User::create([
             'name'          => 'Operator RPL',
             'nim'           => '211315723',
-            'laboratorium_id' => 2,
+            'post' => 2,
             'alamat'        =>   'Semarang',
             'email'         =>  'rpl@operator.com',
             'mobile_number' =>  '9028187696',
@@ -87,7 +87,7 @@ class UserSeeder extends Seeder
         $user = User::create([
             'name'          => 'Operator Jarkom',
             'nim'           => '211315239',
-            'laboratorium_id' => 3,
+            'post' => 3,
             'alamat'        =>   'Semarang',
             'email'         =>  'jarkom@operator.com',
             'mobile_number' =>  '9028187696',
@@ -104,7 +104,7 @@ class UserSeeder extends Seeder
         $user = User::create([
             'name'          => 'Operator Mulmed',
             'nim'           => '211315023',
-            'laboratorium_id' => 4,
+            'post' => 4,
             'alamat'        =>   'Semarang',
             'email'         =>  'mulmed@operator.com',
             'mobile_number' =>  '9028187696',

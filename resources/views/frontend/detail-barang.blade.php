@@ -39,9 +39,8 @@
     <section id="portfolio-details" class="portfolio-details">
         <div class="card shadow-sm mx-5 bg-white rounded">
             <div class="d-sm-flex justify-content-between mb-2 p-2">
-                <button type="button" onclick="javascript:history.back()"
-                    class="btn btn-danger btn-user float-right mb-3"> <i class="fas fa-angle-double-left"></i>
-                    Kembali</button>
+                <a href="{{route('search')}}" class="btn btn-danger btn-user float-right mb-3"> <i class="fas fa-angle-double-left"></i>
+                    Kembali</a>
                 {{-- <form action="{{route('cart.store', ['id' => $barang->id])}}">
                 <button type="submit" class="btn btn-success btn-user float-right mb-3"> <i
                         class="fas fa-cart-plus"></i> Tambah</button>

@@ -94,7 +94,6 @@
                     </div>
 
                     {{-- Role --}}
-                    {{-- Role --}}
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
                         <span style="color:red;">*</span>Role</label>
                         <select id="select"

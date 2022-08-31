@@ -26,10 +26,10 @@
             <!-- Dropdown - User Information -->
             <div class="dropdown-menu  dropdown-menu-right bgdark shadow animated--grow-in"
                 aria-labelledby="userDropdown">
-                <a class="dropdown-item text-light" href="{{ route('profile.detail') }}">
+                {{-- <a class="dropdown-item text-light" href="{{ route('profile.detail') }}">
                     <i class="fas fa-user fa-sm fa-fw mr-2 text-light"></i>
                     Profile
-                </a>
+                </a> --}}
                 <div class="dropdown-divider border-0"></div>
                 <a class="dropdown-item text-light" href="#" data-toggle="modal" data-target="#logoutModal">
                     <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-light"></i>

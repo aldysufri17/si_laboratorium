@@ -15,12 +15,12 @@
         </ol>
     </div>
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
-        <a href="{{ route('pengajuan.all',2) }}" class="btn btn-sm btn-success">
+        {{-- <a href="{{ route('pengajuan.all',2) }}" class="btn btn-sm btn-success">
             <i class="fas fa-check"></i> Setujui Semua Pengajuan
         </a>
         <a href="{{ route('pengajuan.all',1) }}" class="btn btn-sm btn-danger">
             <i class="fas fa-ban"></i> Tolak Semua Pengajuan
-        </a>
+        </a> --}}
         {{-- <a href="https://aldysufri17.github.io/scan.github.io/" class="btn btn-sm btn-info">
             <i class="fas fa-qrcode"></i> Scan Pengembalian
         </a> --}}

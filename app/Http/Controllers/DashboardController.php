@@ -20,7 +20,7 @@ class DashboardController extends Controller
     {
         $this->middleware('auth');
         $this->middleware(function ($request, $next) {
-            $this->lab = Auth::user()->laboratorium_id;
+            $this->lab = Auth::user()->post;
             return $next($request);
         });
     }
@@ -50,7 +50,7 @@ class DashboardController extends Controller
             $telat = Peminjaman::whereBetween('status', [2, 3])
                 ->where('tgl_end', '<', date('Y-m-d'))
                 ->whereHas('barang', function ($q) {
-                    $lab = Auth::user()->laboratorium_id;
+                    $lab = Auth::user()->post;
                     $q->where('laboratorium_id', $lab);
                 })
                 ->select('kode_peminjaman', 'user_id', 'tgl_end')

@@ -15,14 +15,14 @@ class CreatePeminjamanTable extends Migration
     {
         Schema::create('peminjaman', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('kode_peminjaman', 110);
+            $table->string('kode_peminjaman', 110)->nullable();
             $table->integer('user_id');
             $table->integer('barang_id');
-            $table->date('tgl_start');
-            $table->date('tgl_end');
+            $table->date('tgl_start')->nullable();
+            $table->date('tgl_end')->nullable();
             $table->integer('jumlah');
             $table->integer('status');
-            $table->string('alasan');
+            $table->string('alasan')->nullable();
             $table->string('pesan')->nullable();
             $table->timestamps();
         });

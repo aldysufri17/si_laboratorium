@@ -16,7 +16,6 @@ use Illuminate\Support\Facades\{Auth, Route};
 
 Route::get('/author', [HomeController::class, 'author'])->name('author');
 Route::get('/', [HomeController::class, 'index']);
-// Route::get('/app', [HomeController::class, 'index']);
 Route::get('/daftar', [App\Http\Controllers\Auth\RegisterController::class, 'daftar'])->name('daftar');
 Route::get('/daftar-barang', [HomeController::class, 'daftarBarang'])->name('search');
 Route::get('/langkah-peminjaman', [HomeController::class, 'langkahPeminjaman'])->name('langkahPeminjaman');
@@ -116,11 +115,12 @@ Route::middleware(['auth'])->group(function () {
         // pengajuan
         Route::get('/konfirmasi-pengajuan', [PeminjamanController::class, 'pengajuan'])->name('konfirmasi.pengajuan');
         Route::get('/pengajuan/show/{id}', [PeminjamanController::class, 'showPengajuan'])->name('show.pengajuan');
-        Route::get('/konfirmasi/pengajuan/{id}/{kode}', [PeminjamanController::class, 'pengajuanDetail'])->name('pengajuan.detail');
+        Route::get('/konfirmasi/pengajuan/{id}/{kode}', [PeminjamanController::class, 'pengajuanDetail'])->name('pengajuan.admin.detail');
         Route::get('/konfirmasi/all/{id}', [PeminjamanController::class, 'pengajuanAll'])->name('pengajuan.all');
 
         // peminjaman
         Route::get('/konfirmasi-peminjaman', [PeminjamanController::class, 'peminjaman'])->name('konfirmasi.peminjaman');
+        Route::get('/konfirmasi/peminjaman/{id}/{kode}', [PeminjamanController::class, 'peminjamanDetail'])->name('peminjaman.admin.detail');
         Route::get('/peminjaman/show/{id}', [PeminjamanController::class, 'showPeminjaman'])->name('show.peminjaman');
         Route::get('/konfirmasi/peminjaman/{data}', [PeminjamanController::class, 'konfirmasiPeminjamanDetail'])->name('konfirmasi.peminjaman.detail');
         Route::get('/konfirmasi/tolak', [PeminjamanController::class, 'tolak'])->name('peminjaman.tolak');
@@ -162,12 +162,12 @@ Route::middleware(['auth'])->group(function () {
         Route::get('/cart/store/{id}', [KeranjangController::class, 'store'])->name('cart.store');
         Route::delete('/cart/delete/{id}', [KeranjangController::class, 'destroy'])->name('cart.destroy');
         Route::post('/checkout/store', [PeminjamanController::class, 'checkout'])->name('pengajuan.form');
-        Route::get('/decrement/{status}', [KeranjangController::class, 'decrement'])->name('keranjang.dec');
-        Route::get('/increment/{status}', [KeranjangController::class, 'increment'])->name('keranjang.inc');
+        Route::get('/decrement', [KeranjangController::class, 'decrement'])->name('keranjang.dec');
+        Route::get('/increment/{id}', [KeranjangController::class, 'increment'])->name('keranjang.inc');
         Route::get('/cart/selected', [KeranjangController::class, 'cartSelected'])->name('cart.selected');
         // Peminjaman
         Route::get('/daftar/pinjaman', [HomeController::class, 'daftarPeminjaman'])->name('daftar.pinjaman');
-        Route::get('/daftar/peminjaman/detail/{id}', [PeminjamanController::class, 'peminjamanDetail'])->name('peminjaman.detail');
+        Route::get('/daftar/peminjaman/detail/{id}', [PeminjamanController::class, 'peminjamanDetailFrontend'])->name('peminjaman.detail');
         Route::post('/peminjaman/update/{date}', [PeminjamanController::class, 'update'])->name('peminjaman.update');
         Route::get('/peminjaman/edit/{id}', [PeminjamanController::class, 'edit'])->name('peminjaman.edit');
         Route::get('/cetak-surat', [PeminjamanController::class, 'print'])->name('print');

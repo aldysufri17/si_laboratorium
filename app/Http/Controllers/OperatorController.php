@@ -48,9 +48,9 @@ class OperatorController extends Controller
                 'name'          => 'required',
                 'jk'          => 'required',
                 'email'         => 'required|unique:users,email',
-                'mobile_number' => 'required|numeric|digits:15',
+                'mobile_number' => 'required|numeric',
                 'role'       =>  'required|exists:roles,id',
-                'laboratorium_id'       =>  'required',
+                'post'       =>  'required',
                 'status'        =>  'required|numeric|in:0,1',
             ]);
             $lab = $request->laboratorium_id;
@@ -60,7 +60,7 @@ class OperatorController extends Controller
                 'name'          => 'required',
                 'jk'          => 'required',
                 'email'         => 'required|unique:users,email',
-                'mobile_number' => 'required|numeric|digits:15',
+                'mobile_number' => 'required|numeric',
                 'role'       =>  'required|exists:roles,id',
                 'status'        =>  'required|numeric|in:0,1',
             ]);
@@ -76,8 +76,8 @@ class OperatorController extends Controller
             'jk'            => $request->jk,
             'nim'           => time(),
             'mobile_number' => $request->mobile_number,
-            'role'       => $request->role,
-            'laboratorium_id' => $lab,
+            'role'          => $request->role,
+            'post' => $lab,
             'status'        => $request->status,
             'password'      => Hash::make(12345678)
         ]);
@@ -120,9 +120,9 @@ class OperatorController extends Controller
                 'name'          => 'required',
                 'jk'            => 'required',
                 'email'         => 'required|unique:users,email,' . $operator->id . ',id',
-                'mobile_number' => 'required|numeric|digits:12',
+                'mobile_number' => 'required|numeric',
                 'role'       =>  'required|exists:roles,id',
-                'laboratorium_id'       =>  'required',
+                'post'       =>  'required',
             ]);
             $lab = $request->laboratorium_id;
         } else {
@@ -131,7 +131,7 @@ class OperatorController extends Controller
                 'name'          => 'required',
                 'jk'            => 'required',
                 'email'         => 'required|unique:users,email,' . $operator->id . ',id',
-                'mobile_number' => 'required|numeric|digits:12',
+                'mobile_number' => 'required|numeric',
                 'role'       =>  'required|exists:roles,id',
             ]);
 
@@ -145,8 +145,8 @@ class OperatorController extends Controller
             'alamat'        => $request->alamat,
             'jk'            => $request->jk,
             'mobile_number' => $request->mobile_number,
-            'role'       => $lab,
-            'laboratorium_id' => $request->laboratorium_id,
+            'role'          => $request->role,
+            'post' => $lab,
         ]);
 
         // Delete Any Existing Role

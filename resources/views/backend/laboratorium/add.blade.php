@@ -17,7 +17,7 @@
 
     <!-- DataTales Example -->
     <div class="card shadow border-0 mb-4 bgdark ">
-        <form method="POST" action="{{route('satuan.store')}}" enctype="multipart/form-data">
+        <form method="POST" action="{{route('lab.store')}}" enctype="multipart/form-data">
             @csrf
             <div class="card-body ">
 

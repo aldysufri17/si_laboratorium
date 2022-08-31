@@ -142,6 +142,36 @@ class BarangSeeder extends Seeder
             'gambar'        => 'uap.jpg',
         ]);
 
+        Barang::create([
+            'kode_barang'   => "EM-10" . $date,
+            'laboratorium_id'  => 1,
+            'nama'          => "Multimeter Digital ",
+            'tipe'          => "CD800a",
+            'stock'         => 10,
+            'tgl_masuk'     => date('Y-m-d'),
+            'show'          => 1,
+            'lokasi'        => "Laboratorium Sistem Tertanam dan Robotika",
+            'satuan_id'     => 1,
+            'kategori_id'   => 1,
+            'pengadaan_id'          => 1,
+            'gambar'        => 'multi.jfif',
+        ]);
+
+        Barang::create([
+            'kode_barang'   => "EM-11" . $date,
+            'laboratorium_id'  => 1,
+            'nama'          => "Osiloskop digital",
+            'tipe'          => "DS1052E",
+            'stock'         => 10,
+            'tgl_masuk'     => date('Y-m-d'),
+            'show'          => 1,
+            'lokasi'        => "Laboratorium Sistem Tertanam dan Robotika",
+            'satuan_id'     => 1,
+            'kategori_id'   => 1,
+            'pengadaan_id'          => 1,
+            'gambar'        => 'osci.jpg',
+        ]);
+
         // RPL
         Barang::create([
             'kode_barang'   => "RL-10" . $date,

@@ -40,12 +40,12 @@
                     <li><a class="nav-link scrollto " href="{{ route('cart') }}">
                         <div class="d-flex">
                             <i class="fas fa-shopping-cart" style="font-size: 18px"></i>
-                            @if(App\Models\Keranjang::where('user_id', auth()->user()->id)->where('status',0)->count() >= 1)
+                            @if(App\Models\Peminjaman::where('user_id', auth()->user()->id)->where('status',-1)->count() >= 1)
                                 <div class="fisa">
-                                    @if(App\Models\Keranjang::where('user_id', auth()->user()->id)->where('status',0)->count() == 100)
+                                    @if(App\Models\Peminjaman::where('user_id', auth()->user()->id)->where('status',-1)->count() == 100)
                                     99++
                                     @else
-                                    {{ App\Models\Keranjang::where('user_id', auth()->user()->id)->where('status',0)->count() }}
+                                    {{ App\Models\Peminjaman::where('user_id', auth()->user()->id)->where('status',-1)->count() }}
                                     @endif
                                 </div>
                             @endif

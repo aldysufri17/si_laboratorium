@@ -15,8 +15,7 @@ class KeranjangController extends Controller
     public function index(Request $request)
     {
         $user_id = Auth::user()->id;
-        $cart = Keranjang::where('user_id', $user_id)->where('status', 0)->orderBy('id', 'DESC')->get();
-
+        $cart = Peminjaman::where('user_id', $user_id)->where('status', -1)->orderBy('id', 'DESC')->get();
         return view('frontend.cart', compact('cart'));
     }
 
@@ -28,34 +27,68 @@ class KeranjangController extends Controller
 
     public function store(Request $request, $id)
     {
+        $user = Auth::user()->id;
         $stock = Barang::whereId($id)->value('stock');
         if (Auth::check()) {
-            // Cek duplicate data
-            $duplicated = Keranjang::where('user_id', Auth::user()->id)
-                ->where('status', 0)
+            $cek_keranjang = Peminjaman::where('user_id', $user)
                 ->where('barang_id', $id)
-                ->select('barang_id')
-                ->groupBy('barang_id')
+                ->where('status', -1)
                 ->first();
-            if ($duplicated != null) {
-                return redirect()->back()->with('max', 'Barang sudah dipilih!.');
-            }
-
-
-            if ($stock < $request->jumlah) {
-                return redirect()->back()->with('stock', 'Stock tidak mencukupi!.');
-            } else {
-                $cart = Keranjang::create([
-                    'user_id' => Auth::user()->id,
-                    'barang_id' => $id,
-                    'status' => 0,
-                    'jumlah' => $request->jumlah,
-                ]);
-                if ($cart) {
-                    return redirect()->route('cart')->with('success', 'Barang berhasil ditambah!.');
+            $cekPengajuan =  Peminjaman::where('user_id', $user)
+                ->where('barang_id', $id)
+                ->whereBetween('status', [0, 3])
+                ->get();
+            $sum = array_sum($cekPengajuan->pluck('jumlah')->toArray());
+            if ($cek_keranjang) {
+                if ($cekPengajuan->IsNotEmpty()) {
+                    if ($stock < $request->jumlah + $sum) {
+                        return redirect()->back()->with('stock', "Anda sudah memilih barang ini sebanyak $sum Unit , Stock tidak mencukupi!.");
+                    } else {
+                        $cart = Peminjaman::create([
+                            'user_id'           => $user,
+                            'barang_id'         => $id,
+                            'jumlah'            => $request->jumlah,
+                            'status'            => -1,
+                        ]);
+                    }
                 } else {
-                    return redirect()->route('cart')->with('error', 'Barang Gagal ditambah!.');
+                    if ($stock < $request->jumlah + $cek_keranjang->jumlah) {
+                        return redirect()->back()->with('stock', 'Stock tidak mencukupi!.');
+                    } else {
+                        $cart = Peminjaman::whereId($cek_keranjang->id)->update([
+                            'jumlah' => $request->jumlah + $cek_keranjang->jumlah
+                        ]);
+                    }
                 }
+            } else {
+                if ($cekPengajuan->IsNotEmpty()) {
+                    if ($stock < $request->jumlah + $sum) {
+                        return redirect()->back()->with('stock', "Anda sudah memilih barang ini sebanyak $sum Unit , Stock tidak mencukupi!.");
+                    } else {
+                        $cart = Peminjaman::create([
+                            'user_id'           => $user,
+                            'barang_id'         => $id,
+                            'jumlah'            => $request->jumlah,
+                            'status'            => -1,
+                        ]);
+                    }
+                } else {
+                    if ($stock < $request->jumlah) {
+                        return redirect()->back()->with('stock', 'Stock tidak mencukupi!.');
+                    } else {
+                        $cart = Peminjaman::create([
+                            'user_id'           => $user,
+                            'barang_id'         => $id,
+                            'jumlah'            => $request->jumlah,
+                            'status'            => -1,
+                        ]);
+                    }
+                }
+            }
+            if ($cart) {
+                return redirect()->route('cart')->with('success', 'Barang berhasil ditambah!.');
+            } else {
+                return redirect()->route('cart')->with('error', 'Barang Gagal ditambah!.');
             }
         } else {
             return redirect()->route('login')->with('info', 'Anda harus login dahulu!.');
@@ -64,7 +97,7 @@ class KeranjangController extends Controller
 
     public function destroy($id, Request $request)
     {
-        $cart = Keranjang::find($request->delete_id)->delete();
+        $cart = Peminjaman::find($request->delete_id)->delete();
         if ($cart) {
             return redirect()->route('cart')->with('success', 'Berhasil dihapus!.');
         } else {
@@ -72,57 +105,63 @@ class KeranjangController extends Controller
         }
     }
 
-    public function decrement($status, Request $request)
+    public function decrement(Request $request)
     {
-        if ($status == 0) {
-            $cart_id = $request->id;
-            $jml = Keranjang::where('id', $cart_id)->value('jumlah');
-            if ($jml <= 1) {
-                Keranjang::where('id', $cart_id)->update(['jumlah' => 1]);
-            } else {
-                Keranjang::where('id', $cart_id)->update(['jumlah' => $jml - 1]);
-            }
+        $cart_id = $request->id;
+        $jml = Peminjaman::where('id', $cart_id)->value('jumlah');
+        if ($jml <= 1) {
+            Peminjaman::where('id', $cart_id)->update(['jumlah' => 1]);
         } else {
-            $cart_id = $request->id;
-            $jml = Peminjaman::where('id', $cart_id)->value('jumlah');
-            if ($jml <= 1) {
-                Peminjaman::where('id', $cart_id)->update(['jumlah' => 1]);
-            } else {
-                Peminjaman::where('id', $cart_id)->update(['jumlah' => $jml - 1]);
-            }
+            Peminjaman::where('id', $cart_id)->update(['jumlah' => $jml - 1]);
         }
     }
 
-    public function increment($status, Request $request)
+    public function increment($id, Request $request)
     {
-        if ($status == 0) {
-            $cart_id = $request->id;
-            $jml = Keranjang::where('id', $cart_id)->value('jumlah');
-            $barang = Keranjang::where('id', $cart_id)->value('barang_id');
-            $stock = Barang::where('id', $barang)->value('stock');
-            if ($jml >= $stock) {
-                Keranjang::where('id', $cart_id)->update(['jumlah' => $stock]);
+        $cart_id = $request->id; // id peminjaman
+        $barang = Peminjaman::where('id', $cart_id)->value('barang_id'); // id barang dari peminjaman
+        $jml = Peminjaman::where('id', $cart_id)->value('jumlah'); //jumlah dari peminjaman
+        $stock = Barang::where('id', $barang)->value('stock');
+        $cekPengajuan =  Peminjaman::where('user_id', Auth::user()->id)
+            ->where('barang_id', $barang)
+            ->whereBetween('status', [0, 3])
+            ->get();
+        $sum = array_sum($cekPengajuan->pluck('jumlah')->toArray());
+        if ($id == 0) {
+            $pemjum = $sum + $jml;
+        } else {
+            $pemjum = $sum;
+        }
+
+        if ($cekPengajuan) {
+            if ($pemjum >= $stock) {
+                Peminjaman::where('id', $cart_id)->update(['jumlah' => $jml]);
             } else {
-                Keranjang::where('id', $cart_id)->update(['jumlah' => $jml + 1]);
+                Peminjaman::where('id', $cart_id)->update(['jumlah' => $jml + 1]);
             }
         } else {
-            $cart_id = $request->id;
-            $barang = Peminjaman::where('id', $cart_id)->value('barang_id');
-            $jml = Peminjaman::where('id', $cart_id)->value('jumlah');
-            $stock = Barang::where('id', $barang)->value('stock');
             if ($jml >= $stock) {
                 Peminjaman::where('id', $cart_id)->update(['jumlah' => $stock]);
             } else {
                 Peminjaman::where('id', $cart_id)->update(['jumlah' => $jml + 1]);
             }
         }
+        // $cart_id = $request->id;
+        // $barang = Peminjaman::where('id', $cart_id)->value('barang_id');
+        // $jml = Peminjaman::where('id', $cart_id)->value('jumlah');
+        // $stock = Barang::where('id', $barang)->value('stock');
+        // if ($jml >= $stock) {
+        //     Peminjaman::where('id', $cart_id)->update(['jumlah' => $stock]);
+        // } else {
+        //     Peminjaman::where('id', $cart_id)->update(['jumlah' => $jml + 1]);
+        // }
     }
 
     public function cartSelected(Request $request)
     {
         $id = $request->ckd;
         $output = "";
-        $barang = Keranjang::whereIn('id', $id)->get();
+        $barang = Peminjaman::whereIn('id', $id)->get();
         foreach ($barang as $data) {
             $output .= '<tr>' .
                 '<td>' . $data->barang->kode_barang . '</td>' .

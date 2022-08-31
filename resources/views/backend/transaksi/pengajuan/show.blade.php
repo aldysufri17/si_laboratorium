@@ -8,11 +8,11 @@
 <div class="container-fluid">
     <!-- Page Heading -->
     <div class="d-sm-flex align-items-center justify-content-between mb-2">
-        <h1 class="h5 mb-0 text-light">Daftar Keranjang</h1>
+        <h1 class="h5 mb-0 text-light">Daftar Pengajuan</h1>
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{{ route('dashboard')}}">Dashboard</a></li>
             <li class="breadcrumb-item"><a href="{{ route('konfirmasi.pengajuan')}}">Daftar Pengajuan</a></li>
-            <li class="breadcrumb-item">Daftar Keranjang</li>
+            <li class="breadcrumb-item">Daftar Pengajuan</li>
         </ol>
     </div>
     <div class="d-sm-flex align-items-center justify-content-between mb-4">
@@ -43,9 +43,9 @@
                         <tr>
                             <td >
                                 <div class="col">
-                                    <div class="row">{{$item->created_at->format('d M Y')}}</div>
+                                    <div class="row">{{$item->updated_at->format('d M Y')}}</div>
                                     <div class="row text-muted">
-                                        <strong>({{$item->created_at->format('H:i:s A')}})</strong></div>
+                                        <strong>({{$item->updated_at->format('H:i:s A')}})</strong></div>
                                 </div>
                             </td>
                             <td class="text-center">{{ $item->kode_peminjaman }}</td>
@@ -53,7 +53,7 @@
                             <td class="text-center">{{ $item->total }}</td>
                             <td class="d-sm-flex justify-content-center">
                                 <a class="btn btn-primary"
-                                    href="{{route('pengajuan.detail', ['id'=>$id,'kode'=>encrypt($item->kode_peminjaman)])}}"
+                                    href="{{route('pengajuan.admin.detail', ['id'=>$id,'kode'=>encrypt($item->kode_peminjaman)])}}"
                                     title="Detail">
                                     <i class="fa fa-eye"></i>
                                 </a>

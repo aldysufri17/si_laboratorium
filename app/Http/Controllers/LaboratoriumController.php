@@ -61,7 +61,7 @@ class LaboratoriumController extends Controller
     public function show($id)
     {
         $lab = Laboratorium::whereId($id)->first();
-        $user = User::where('laboratorium_id', $id)->get();
+        $user = User::where('post', $id)->get();
         $barang = Barang::where('laboratorium_id', $id)->count();
         return view('backend.laboratorium.detail', compact('lab', 'user', 'barang'));
     }
@@ -123,7 +123,7 @@ class LaboratoriumController extends Controller
         Inventaris::whereHas('barang', function ($q) {
             $q->where('laboratorium_id', $this->id);
         })->delete();
-        User::where('laboratorium_id', $this->id)->delete();
+        User::where('post', $this->id)->delete();
         $lab = Laboratorium::whereId($this->id)->delete();
 
         if ($lab) {

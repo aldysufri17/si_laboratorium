@@ -14,7 +14,7 @@ class KategoriController extends Controller
     {
         $this->middleware('auth');
         $this->middleware(function ($request, $next) {
-            $this->lab = Auth::user()->laboratorium_id;
+            $this->lab = Auth::user()->post;
             return $next($request);
         });
     }

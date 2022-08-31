@@ -53,7 +53,7 @@
                     </tr>
                     <tr>
                         <td class="font-weight-bold">Waktu Masuk Pengajuan</td>
-                        <td>: {{$detail->created_at}}</td>
+                        <td>: {{$detail->updated_at}}</td>
                     </tr>
                 </table>
             </div>
@@ -158,6 +158,5 @@
         $('#deleteModal').modal('show')
         $('#delete_id').val(sid)
     });
-
 </script>
 @endsection

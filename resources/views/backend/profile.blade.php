@@ -26,10 +26,10 @@
                         <img class="rounded-circle mt-5" width="150px"
                             src="{{ asset('admin/img/undraw_profile.svg') }}">
                         <span class="font-weight-bold">{{ auth()->user()->name }}</span>
-                        <span class="text-light"><i>Role:
+                        <span class="text-light"><i>Role:<br>
                                 {{ auth()->user()->roles
                                 ? auth()->user()->roles->pluck('name')->first()
-                                : 'N/A' }}</i></span>
+                                : 'N/A' }} {{App\Models\Laboratorium::whereId(auth()->user()->laboratorium_id)->value('nama')}}</i></span>
                         <span class="text-light">{{ auth()->user()->email }}</span>
                     </div>
                 </div>

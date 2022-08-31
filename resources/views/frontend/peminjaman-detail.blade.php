@@ -122,10 +122,6 @@
                                         disabled @endif>
                                         <i class="fas fa-trash"></i>
                                     </button>
-                                    <input type="hidden" value="{{$detail->kategori_lab}}" name="kategori_lab" id="kategori_lab">
-                                    {{-- Data Unduh Surat --}}
-                                    <input type="hidden" value="{{$data->created_at}}" name="date_id" id="date_id">
-                                    <input type="hidden" value="{{$data->kode_peminjaman}}" name="kode_id" id="kode_id">
                                 </td>
                             </tr>
                             @endforeach
@@ -162,7 +158,6 @@
                                     @csrf
                                     @method('DELETE')
                                     <input type="hidden" name="delete_id" id="delete_id">
-                                    <input type="hidden" name="lab" id="lab">
                                 </form>
                             </div>
                         </div>
@@ -230,10 +225,8 @@
 
     $(document).on('click', '.delete-btn', function () {
         var sid = $(this).val();
-        var kid = $('#kategori_lab').val();
         $('#deleteModal').modal('show')
         $('#delete_id').val(sid)
-        $('#lab').val(kid)
     });
     $(document).on('click', '.btn-cetak', function () {
         $('#cetak').modal('show')
@@ -251,7 +244,7 @@
     $(document).on('click', '#minus', function () {
         var id = $(this).val();
         $.ajax({
-            url: "{{ route('keranjang.dec', 1) }}",
+            url: "{{ route('keranjang.dec') }}",
             type: "GET",
             data: {
                 id: id
@@ -271,6 +264,7 @@
                 id: id
             },
             success: function (data) {
+                // console.log(data);
                 location.reload();
             }
         });

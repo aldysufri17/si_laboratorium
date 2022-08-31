@@ -385,7 +385,7 @@
         $(document).on('click', '#minus', function () {
             var id = $(this).val();
             $.ajax({
-                url: "{{ route('keranjang.dec',0) }}",
+                url: "{{ route('keranjang.dec') }}",
                 type: "GET",
                 data: {
                     id: id
@@ -405,6 +405,7 @@
                     id: id
                 },
                 success: function (data) {
+                    // console.log(data);
                     location.reload();
                 }
             });

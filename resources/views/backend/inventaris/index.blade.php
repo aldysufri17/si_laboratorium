@@ -175,7 +175,7 @@
          @if (app('request')->input('start_date') || app('request')->input('start_date') )
          <a class="btn btn-sm btn-danger" href="{{route('inventaris.index')}}"><i class="fas fa-angle-double-left"></i> Tampilkan Semua Data</a>
          @endif
-        <a href="{{ route('inventaris.add', auth()->user()->role_id)}}" class="btn btn-sm btn-success">
+        <a href="{{ route('inventaris.add', auth()->user()->role)}}" class="btn btn-sm btn-success">
             <i class="fas fa-plus"></i> Tambah Inventaris
         </a>
     </div>

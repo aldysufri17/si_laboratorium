@@ -27,7 +27,7 @@ class User extends Authenticatable
         'alamat',
         'mobile_number',
         'role',
-        'laboratorium_id',
+        'post',
         'status',
         'detail',
         'password',

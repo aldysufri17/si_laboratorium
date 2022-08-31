@@ -17,7 +17,7 @@ class HomeController extends Controller
     {
         $this->middleware(function ($request, $next) {
             if (Auth::check()) {
-                $this->lab = Auth::user()->laboratorium_id;
+                $this->lab = Auth::user()->post;
             }
             return $next($request);
         });
@@ -70,7 +70,7 @@ class HomeController extends Controller
         $user_id = Auth::user()->id;
         $peminjaman = Peminjaman::with('barang')
             ->where('user_id',  $user_id)
-            ->Where('status', '<', 4)
+            ->WhereBetween('status', [0, 3])
             ->select('kode_peminjaman', DB::raw('count(*) as total'))
             ->groupBy('kode_peminjaman')
             ->paginate(7);

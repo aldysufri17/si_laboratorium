@@ -21,7 +21,7 @@ class InventarisController extends Controller
     public function __construct()
     {
         $this->middleware(function ($request, $next) {
-            $this->lab = Auth::user()->laboratorium_id;
+            $this->lab = Auth::user()->post;
             return $next($request);
         });
     }
@@ -80,139 +80,6 @@ class InventarisController extends Controller
         return view('backend.inventaris.admin-inventaris', compact('inventaris'));
     }
 
-    // public function add($data)
-    // {
-    //     if ($data == 3) {
-    //         $kategori_lab = 1;
-    //     } elseif ($data == 4) {
-    //         $kategori_lab = 2;
-    //     } elseif ($data == 5) {
-    //         $kategori_lab = 3;
-    //     } elseif ($data == 6) {
-    //         $kategori_lab = 4;
-    //     }
-    //     $inventaris = Inventaris::where('kategori_lab', $kategori_lab)->where('status', 2)->pluck('barang_id');
-    //     $barang = Barang::where('kategori_lab', $kategori_lab)
-    //         // ->where('pengadaan_id', 1)
-    //         ->whereNotIn('id', $inventaris)
-    //         ->get();
-    //     return view('backend.inventaris.add', compact('barang'));
-    // }
-
-    // public function store(Request $request)
-    // {
-    //     $request->validate(
-    //         [
-    //             'kode1' => 'required',
-    //             'kode2' => 'required',
-    //             'kode3' => 'required',
-    //             'kode4' => 'required',
-    //             'barang' => 'required',
-    //             'stok' => 'required',
-    //         ],
-    //         [
-    //             'unique' => 'Kode sudah digunakan',
-    //             'required' => 'Masukan Tidak boleh kosong.!!'
-    //         ]
-    //     );
-    //     $inventaris = Inventaris::create([
-    //         'barang_id'         => $request->barang,
-    //         'kode_inventaris'   => $request->kode1 . '.' . $request->kode2 . '.' . $request->kode3 . '.' . $request->kode4,
-    //         'kode_mutasi'       => 'Kosong',
-    //         'status'            => 2,
-    //         'deskripsi'         => 'Created',
-    //         'keterangan'        => $request->keterangan,
-    //         'stok'              => $request->stok,
-    //         'kategori_lab'      => $this->lab,
-    //         'masuk'             => 0,
-    //         'keluar'            => 0,
-    //         'total'             => 0,
-    //     ]);
-
-    //     Barang::whereId($request->barang)->update(['show' => 2]);
-
-    //     if ($inventaris) {
-    //         return redirect()->route('inventaris.index')->with('success', 'Inventaris Berhasil dibuat!.');
-    //     } else {
-    //         return redirect()->route('inventaris.index')->with('error', 'Inventaris Gagal dibuat!.');
-    //     }
-    // }
-
-
-    // public function edit(Inventaris $inventaris, $id)
-    // {
-    //     $inventaris = Inventaris::whereId($id)->first();
-    //     return view('backend.inventaris.edit', compact('inventaris'));
-    // }
-
-    // public function update(Request $request, Inventaris $inventaris)
-    // {
-    //     $total_brg = $request->stok_brg + $request->jumlah;
-    //     $jml_rusak = $request->jml_rusak;
-    //     $id_brg = $request->id_brg;
-    //     $stok_inventaris = $request->stok_inventaris;
-    //     $id_inven = $request->id_inventaris;
-    //     if ($request->status == 1) {
-    //         Barang::whereId($id_brg)->update(['stock' => $total_brg]);
-    //         $inventaris = Inventaris::whereId($id_inven)->update(['stok' => $stok_inventaris + $request->jumlah]);
-    //         // mutasi dan ineventaris
-    //         $random = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
-    //         Inventaris::create([
-    //             'barang_id'         => $id_brg,
-    //             'status'            => 1,
-    //             'deskripsi'         => 'Masuk',
-    //             'keterangan'        => $request->keterangan,
-    //             'kode_inventaris'   => 'IN' . $random,
-    //             'kode_mutasi'       => 'IN' . $random,
-    //             'masuk'             => $request->jumlah,
-    //             'kategori_lab'      => $this->lab,
-    //             'keluar'            => 0,
-    //             'total'             => $total_brg,
-    //             'stok'              => $stok_inventaris + $request->jumlah,
-    //         ]);
-    //     } else {
-    //         $random = substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 8);
-    //         if ($request->stok_brg < $request->jumlah || $stok_inventaris < $request->jumlah) {
-    //             return redirect()->route('inventaris.index')->with('warning', 'Jumlah Stok Kurang!.');
-    //         }
-
-    //         Barang::whereId($id_brg)->update([
-    //             'stock'     => $request->stok_brg - $request->jumlah,
-    //             'jml_rusak' => $jml_rusak + $request->jumlah
-    //         ]);
-    //         $inventaris = Inventaris::whereId($id_inven)->update(['stok' => $stok_inventaris - $request->jumlah]);
-
-    //         // mutasi dan ineventaris
-    //         Inventaris::create([
-    //             'barang_id'         => $id_brg,
-    //             'status'            => 0,
-    //             'deskripsi'         => 'Rusak',
-    //             'keterangan'        => $request->keterangan,
-    //             'kode_inventaris'   => 'OUT' . $random,
-    //             'kode_mutasi'       => 'OUT' . $random,
-    //             'masuk'             => 0,
-    //             'kategori_lab'      => $this->lab,
-    //             'keluar'            => $request->jumlah,
-    //             'total'             => $request->stok_brg - $request->jumlah,
-    //             'stok'              => $stok_inventaris - $request->jumlah,
-    //         ]);
-    //     }
-    //     if ($inventaris) {
-    //         return redirect()->route('inventaris.index')->with('success', 'Inventaris Berhasil diperbarui!.');
-    //     } else {
-    //         return redirect()->route('inventaris.index')->with('error', 'Inventaris Gagal diperbarui!.');
-    //     }
-    // }
-
-    // public function destroy(Inventaris $inventaris, Request $request)
-    // {
-    //     $inventaris = Inventaris::whereId($request->delete_id)->delete();
-    //     if ($inventaris) {
-    //         return redirect()->back()->with('success', 'Inventaris Berhasil dihapus!.');
-    //     } else {
-    //         return redirect()->back()->with('error', 'Inventaris Gagal dihapus!.');
-    //     }
-    // }
 
     public function export($data)
     {
@@ -353,12 +220,12 @@ class InventarisController extends Controller
 
         if ($status < 2) {
             $inventaris = Inventaris::where('status', $status)->whereHas('barang', function ($q) {
-                $lab = Auth::user()->laboratorium_id;
+                $lab = Auth::user()->post;
                 $q->where('laboratorium_id', $lab);
             })->get();
         } else {
             $inventaris = Inventaris::where('status', '<', 2)->whereHas('barang', function ($q) {
-                $lab = Auth::user()->laboratorium_id;
+                $lab = Auth::user()->post;
                 $q->where('laboratorium_id', $lab);
             })->get();
         }
