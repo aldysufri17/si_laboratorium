@@ -305,7 +305,7 @@ class BarangController extends Controller
             'required' => ':attribute Format file tidak terbaca',
         ]);
         $name = Laboratorium::whereId($this->lab)->value('nama');
-        $kode = Laboratorium::whereId($this->lab)->value('nama');
+        $kode = Laboratorium::whereId($this->lab)->value('kode');
 
         if (request()->file('file') == null) {
             return redirect()->back()->with('info', 'Masukkan file terlebih dahulu!.');
