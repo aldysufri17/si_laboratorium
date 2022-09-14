@@ -305,13 +305,14 @@ class BarangController extends Controller
             'required' => ':attribute Format file tidak terbaca',
         ]);
         $name = Laboratorium::whereId($this->lab)->value('nama');
+        $kode = Laboratorium::whereId($this->lab)->value('nama');
 
         if (request()->file('file') == null) {
             return redirect()->back()->with('info', 'Masukkan file terlebih dahulu!.');
         }
         $fileName = date('Y-m-d') . '_' . 'Import Barang' . '_' . $name;
         request()->file('file')->storeAs('reports', $fileName, 'public');
-        Excel::import(new BarangImport, request()->file('file'));
+        Excel::import(new BarangImport($name, $kode, $this->lab), request()->file('file'));
         return redirect()->back()->with('success', 'Barang berhasil ditambah!.');
     }
 

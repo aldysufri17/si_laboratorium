@@ -40,7 +40,13 @@
                                 <td>{{ $data->tgl_masuk }}</td>
                                 <td>{{$data->laboratorium->nama}}</td>
                                 <td>{{ $data->nama }} - {{ $data->tipe }}</td>
-                                <td>{{ $data->stock }} {{ $data->satuan->nama_satuan }}</td>
+                                <td>
+                                    @if ($data->satuan_id == 0)
+                                    {{ $data->stock }}
+                                    @else
+                                    {{ $data->stock }} {{ $data->satuan->nama_satuan }}
+                                    @endif
+                                </td>
                                 <td>{{ $data->lokasi }}</td>
                                 <td>{{ $data->pengadaan->nama_pengadaan }}</td>
                             </tr>
@@ -52,13 +58,13 @@
             </div>
         </div>
         @else
-            <div class="card shadow-sm p-3 mb-4 bg-white rounded" style="border-left: solid 4px rgb(0, 54, 233);">
-                <div class="card-block">
-                    <span class="">Oops!</span><br>
-                    <p><i class="fa-solid fa-circle-info text-primary"></i> Data tidak ditemukan</p>
-                </div>
+        <div class="card shadow-sm p-3 mb-4 bg-white rounded" style="border-left: solid 4px rgb(0, 54, 233);">
+            <div class="card-block">
+                <span class="">Oops!</span><br>
+                <p><i class="fa-solid fa-circle-info text-primary"></i> Data tidak ditemukan</p>
             </div>
-            @endif
+        </div>
+        @endif
     </div>
 </main>
 @endsection

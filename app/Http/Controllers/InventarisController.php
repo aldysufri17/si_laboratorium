@@ -38,6 +38,7 @@ class InventarisController extends Controller
                     ->whereHas('barang', function ($q) {
                         $q->where('laboratorium_id', $this->lab);
                     })
+                    ->orderBy('created_at', 'DESC')
                     ->whereBetween('created_at', [$start_date, $end_date])
                     ->where('status', 2)
                     ->get();
@@ -46,6 +47,7 @@ class InventarisController extends Controller
                     $q->where('laboratorium_id', $this->lab);
                 })
                     ->where('status', 2)
+                    ->orderBy('created_at', 'DESC')
                     ->get();
             }
         }
