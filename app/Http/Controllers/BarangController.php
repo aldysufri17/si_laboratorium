@@ -156,7 +156,8 @@ class BarangController extends Controller
             'status'            => 2,
             'deskripsi'         => 'Created',
             'kode_mutasi'       => 'Kosong',
-            'kode_inventaris'   => $kode . '.' . $id . '.' . $id_barang . '.' . $year,
+            // 'kode_inventaris'   => $kode . '.' . $id . '.' . $id_barang . '.' . $year,
+            'kode_inventaris'   => null,
             'masuk'             => 0,
             'keluar'            => 0,
             'total_inventaris'  => $request->stock

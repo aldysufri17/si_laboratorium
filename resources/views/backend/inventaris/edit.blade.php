@@ -18,60 +18,18 @@
 
     <!-- DataTales Example -->
     <div class="card shadow border-0 mb-4 bgdark ">
-        <form method="POST" action="{{route('inventaris.update', $inventaris->kode_inventaris)}}">
+        <form method="POST" action="{{route('inventaris.update', $inventaris->id)}}">
             @csrf
             @method('PUT')
-            <input type="text" hidden name="stok_brg" value="{{$inventaris->barang->stock}}">
-            <input type="text" hidden name="id_brg" value="{{$inventaris->barang->id}}">
-            <input type="text" hidden name="id_inventaris" value="{{$inventaris->id}}">
             <div class="card-body ">
                 <div class="form-group row">
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
                         <span style="color:red;">*</span>Kode Inventaris</label>
-                        <input type="text" readonly name="kode_inventaris" class="form-control form-control-user" value="{{$inventaris->kode_inventaris}}">
-                    </div>
-
-                    <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
-                        <span style="color:red;">*</span>Nama Barang</label>
-                        <input type="text" disabled class="form-control form-control-user" value="{{$inventaris->barang->nama}}">
-                    </div>
-
-                    <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
-                        <span style="color:red;">*</span>Total Stok Barang Inventaris</label>
-                        <input type="text" readonly class="form-control form-control-user"  name="stok_inventaris" value="{{$inventaris->stok}}">
-                    </div>
-
-                    <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
-                        <span style="color:red;">*</span>Total Barang Rusak Sekarang</label>
-                        <input type="text" readonly class="form-control form-control-user" name="jml_rusak" value="{{$inventaris->barang->jml_rusak ? $inventaris->barang->jml_rusak : 0}}">
-                    </div>
-
-                    <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
-                        <span style="color:red;">*</span>Status Barang</label>
-                        <select class="form-control form-control-user @error('status') is-invalid @enderror"
-                            name="status">
-                            <option selected disabled>Pilih Status</option>
-                            <option value="1">Tambah Stok</option>
-                            <option value="2">Barang Rusak</option>
-                        </select>
-                        @error('status')
+                        <input type="text" name="kode" class="form-control form-control-user @error('kode') is-invalid @enderror" value="{{$inventaris->kode_inventaris}}">
+                        @error('kode')
                         <span class="text-danger">{{$message}}</span>
                         @enderror
                     </div>
-
-                    {{-- Jumlah --}}
-                    <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
-                        <span style="color:red;">*</span>Jumlah</label>
-                        <input type="number"
-                            class="form-control  form-control-user @error('jumlah') is-invalid @enderror"
-                            autocomplete="off" id="examplejumlah" autocomplete="off" placeholder="Jumlah" name="jumlah" min="1"
-                            value="{{ old('jumlah') }}">
-
-                        @error('jumlah')
-                        <span class="text-danger">{{$message}}</span>
-                        @enderror
-                    </div>
-
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
                         <div class="form-group">
                             <span style="color:red;">*</span>Keterangan</label>

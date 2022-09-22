@@ -38,6 +38,9 @@ class InventarisController extends Controller
                     ->whereHas('barang', function ($q) {
                         $q->where('laboratorium_id', $this->lab);
                     })
+                    ->whereHas('barang', function ($q) {
+                        $q->where('pengadaan_id', 1);
+                    })
                     ->orderBy('created_at', 'DESC')
                     ->whereBetween('created_at', [$start_date, $end_date])
                     ->where('status', 2)
@@ -46,6 +49,9 @@ class InventarisController extends Controller
                 $inventaris = Inventaris::whereHas('barang', function ($q) {
                     $q->where('laboratorium_id', $this->lab);
                 })
+                    ->whereHas('barang', function ($q) {
+                        $q->where('pengadaan_id', 1);
+                    })
                     ->where('status', 2)
                     ->orderBy('created_at', 'DESC')
                     ->get();
@@ -65,6 +71,9 @@ class InventarisController extends Controller
                 ->whereHas('barang', function ($q) {
                     $q->where('laboratorium_id', $this->dataIn);
                 })
+                ->whereHas('barang', function ($q) {
+                    $q->where('pengadaan_id', 1);
+                })
                 ->where('status', 2)
                 ->orderBy('created_at', 'desc')
                 ->whereBetween('created_at', [$start_date, $end_date])
@@ -74,6 +83,9 @@ class InventarisController extends Controller
                 ->whereHas('barang', function ($q) {
                     $q->where('laboratorium_id', $this->dataIn);
                 })
+                ->whereHas('barang', function ($q) {
+                    $q->where('pengadaan_id', 1);
+                })
                 ->where('status', 2)
                 ->orderBy('created_at', 'desc')
                 ->get();
@@ -82,6 +94,24 @@ class InventarisController extends Controller
         return view('backend.inventaris.admin-inventaris', compact('inventaris'));
     }
 
+    public function edit($id)
+    {
+        $inventaris = Inventaris::whereId($id)->first();
+        return view('backend.inventaris.edit', compact('inventaris'));
+    }
+
+    public function update($id, Request $request)
+    {
+        $request->validate([
+            'kode' => 'required'
+        ]);
+
+        Inventaris::whereId($id)->update([
+            'kode_inventaris' => $request->kode,
+            'keterangan' => $request->keterangan
+        ]);
+        return redirect()->route('inventaris.index')->with('success', 'Barang berhasil ditambah!.');
+    }
 
     public function export($data)
     {
