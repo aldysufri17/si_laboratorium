@@ -83,7 +83,7 @@ class BarangController extends Controller
         $date = Date('ymd');
         $id = $id_barang + 1;
         $kode = Laboratorium::whereId($this->lab)->value('kode');
-        $name = Laboratorium::whereId($request->lokasi)->value('nama');
+        $name = Laboratorium::whereId($this->lab)->value('nama');
         if ($request->gambar) {
             $gambar = $request->gambar;
             $new_gambar = date('Y-m-d') . "-" . $request->nama . "-" . $request->tipe . "." . $gambar->getClientOriginalExtension();
