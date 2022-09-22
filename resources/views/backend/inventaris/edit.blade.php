@@ -25,8 +25,8 @@
                 <div class="form-group row">
                     <div class="col-sm-6 mb-3 mt-3 mb-sm-0">
                         <span style="color:red;">*</span>Kode Inventaris</label>
-                        <input type="text" name="kode" class="form-control form-control-user @error('kode') is-invalid @enderror" value="{{$inventaris->kode_inventaris}}">
-                        @error('kode')
+                        <input type="text" name="kode_inventaris" class="form-control form-control-user @error('kode_inventaris') is-invalid @enderror" value="{{$inventaris->kode_inventaris}}">
+                        @error('kode_inventaris')
                         <span class="text-danger">{{$message}}</span>
                         @enderror
                     </div>

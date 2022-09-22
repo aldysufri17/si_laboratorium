@@ -103,11 +103,10 @@ class InventarisController extends Controller
     public function update($id, Request $request)
     {
         $request->validate([
-            'kode' => 'required'
+            'kode_inventaris'         => 'required|unique:inventaris,kode_inventaris,' . $id,
         ]);
-
         Inventaris::whereId($id)->update([
-            'kode_inventaris' => $request->kode,
+            'kode_inventaris' => $request->kode_inventaris,
             'keterangan' => $request->keterangan
         ]);
         return redirect()->route('inventaris.index')->with('success', 'Barang berhasil ditambah!.');
