@@ -83,7 +83,7 @@ class BarangController extends Controller
         $date = Date('ymd');
         $id = $id_barang + 1;
         $kode = Laboratorium::whereId($this->lab)->value('kode');
-        $name = Laboratorium::whereId($request->lokasi)->value('nama');
+        $name = Laboratorium::whereId($this->lab)->value('nama');
         if ($request->gambar) {
             $gambar = $request->gambar;
             $new_gambar = date('Y-m-d') . "-" . $request->nama . "-" . $request->tipe . "." . $gambar->getClientOriginalExtension();
@@ -156,7 +156,8 @@ class BarangController extends Controller
             'status'            => 2,
             'deskripsi'         => 'Created',
             'kode_mutasi'       => 'Kosong',
-            'kode_inventaris'   => $kode . '.' . $id . '.' . $id_barang . '.' . $year,
+            // 'kode_inventaris'   => $kode . '.' . $id . '.' . $id_barang . '.' . $year,
+            'kode_inventaris'   => null,
             'masuk'             => 0,
             'keluar'            => 0,
             'total_inventaris'  => $request->stock
@@ -305,13 +306,14 @@ class BarangController extends Controller
             'required' => ':attribute Format file tidak terbaca',
         ]);
         $name = Laboratorium::whereId($this->lab)->value('nama');
+        $kode = Laboratorium::whereId($this->lab)->value('kode');
 
         if (request()->file('file') == null) {
             return redirect()->back()->with('info', 'Masukkan file terlebih dahulu!.');
         }
         $fileName = date('Y-m-d') . '_' . 'Import Barang' . '_' . $name;
         request()->file('file')->storeAs('reports', $fileName, 'public');
-        Excel::import(new BarangImport, request()->file('file'));
+        Excel::import(new BarangImport($name, $kode, $this->lab), request()->file('file'));
         return redirect()->back()->with('success', 'Barang berhasil ditambah!.');
     }
 

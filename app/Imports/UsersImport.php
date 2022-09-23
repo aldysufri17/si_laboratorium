@@ -14,16 +14,20 @@ class UsersImport implements ToModel
      */
     public function model(array $row)
     {
-        return new User([
+        $user = User::create([
             'nim'           => $row[0],
             'name'          => $row[1],
             'email'         => $row[2],
             'alamat'        => $row[3],
             'jk'            => $row[4],
             'mobile_number' => $row[5],
-            'role'       => 1,
+            'post'          => 0,
+            'role'          => 1,
             'status'        => 1,
             'password'      => bcrypt('secret'),
         ]);
+        $user->assignRole(1);
+
+        return $user;
     }
 }

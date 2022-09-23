@@ -12,6 +12,16 @@ use Maatwebsite\Excel\Concerns\WithCustomCsvSettings;
 
 class BarangImport implements ToModel, WithStartRow, WithCustomCsvSettings
 {
+    private $name;
+    private $kode;
+    private $lab;
+    public function __construct($name, $kode, $lab)
+    {
+        $this->name = $name;
+        $this->kode = $kode;
+        $this->lab = $lab;
+    }
+
     public function startRow(): int
     {
         return 2;
@@ -31,10 +41,6 @@ class BarangImport implements ToModel, WithStartRow, WithCustomCsvSettings
      */
     public function model(array $row)
     {
-
-        $lab = Auth::user()->laboratorium_id;
-        $lokasi = Laboratorium::whereId($lab)->value('nama');
-        $kbrg = Laboratorium::whereId($lab)->value('kode');
 
         $max = Barang::withTrashed()->max('id');
         $kode = $max + 1;
@@ -56,18 +62,18 @@ class BarangImport implements ToModel, WithStartRow, WithCustomCsvSettings
 
         $barang = new Barang([
             'id'            => $kode,
-            'kode_barang'   => $kbrg . '-' . $kode_barang,
+            'kode_barang'   => $this->kode . '-' . $kode_barang,
             'nama'          => $row[0],
             'tipe'          => $row[1],
             'stock'         => $row[2],
             'info'          => $info,
-            'lokasi'        => $lokasi,
+            'lokasi'        => $this->name,
             'satuan_id'     => 0,
             'pengadaan_id'  => 1,
             'kategori_id'   => 0,
             'show'          => 0,
             'tgl_masuk'     => date('Y-m-d'),
-            'laboratorium_id'  => $lab
+            'laboratorium_id'  => $this->lab
         ]);
         $Date = date("Y/m/d");
         $year = date('Y', strtotime($Date));
@@ -77,7 +83,8 @@ class BarangImport implements ToModel, WithStartRow, WithCustomCsvSettings
             'status'            => 1,
             'deskripsi'         => 'Created',
             'kode_mutasi'       => 'IN' . $random,
-            'kode_inventaris'   => $kode . '.' . $random . '.' . $year,
+            // 'kode_inventaris'   => $kode . '.' . $random . '.' . $year,
+            'kode_inventaris'   => null,
             'masuk'             => $row[2],
             'keluar'            => 0,
             'total_inventaris'  => $row[2],

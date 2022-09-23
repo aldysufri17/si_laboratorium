@@ -56,14 +56,14 @@
                     @role('operator')
                     <thead>
                         <tr>
-                            <th width="15%">Date</th>
-                            <th width="15%">Kode Inventaris</th>
-                            <th width="15%">Nama Barang</th>
-                            <th width="5%">Baik</th>
-                            <th width="5%">Rusak</th>
-                            <th width="5%">Total</th>
-                            <th width="20%">Pengadaan</th>
-                            {{-- <th width="15%">Aksi</th> --}}
+                            <th>Date</th>
+                            <th>Kode Inventaris</th>
+                            <th>Nama Barang</th>
+                            <th>Baik</th>
+                            <th>Rusak</th>
+                            <th>Total</th>
+                            <th>Keterangan</th>
+                            <th>Aksi</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -85,18 +85,15 @@
                             <td>{{ $data->barang->jml_rusak }}</td>
                             @endif
                             <td>{{ $data->total_inventaris + $data->barang->jml_rusak }}</td>
-                            <td>{{$data->barang->pengadaan->nama_pengadaan}}</td>
-                            {{-- <td style="display: flex">
+                            <td>{{ $data->keterangan }}</td>
+                            <td style="display: flex">
                                 @role('operator')
                                 <a href="{{ route('inventaris.edit', $data->id) }}" class="btn btn-primary mx-2"
                                     title="Edit">
                                     <i class="fa fa-pen"></i>
                                 </a>
-                                <button class="btn btn-danger delete-btn" title="Delete" value="{{$data->id}}">
-                                    <i class="fas fa-trash"></i>
-                                </button>
                                 @endrole
-                            </td> --}}
+                            </td>
                         </tr>
                         @endforeach
                     </tbody>
