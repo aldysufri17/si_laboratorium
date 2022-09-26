@@ -75,15 +75,15 @@ class BarangImport implements ToModel, WithStartRow, WithCustomCsvSettings
             'tgl_masuk'     => date('Y-m-d'),
             'laboratorium_id'  => $this->lab
         ]);
+
         $Date = date("Y/m/d");
         $year = date('Y', strtotime($Date));
         $random = date('dmY') . substr(str_shuffle("0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"), 0, 5);
         $invetaris = new Inventaris([
             'barang_id'         => $kode,
-            'status'            => 1,
+            'status'            => 2,
             'deskripsi'         => 'Created',
             'kode_mutasi'       => 'IN' . $random,
-            // 'kode_inventaris'   => $kode . '.' . $random . '.' . $year,
             'kode_inventaris'   => null,
             'masuk'             => $row[2],
             'keluar'            => 0,
