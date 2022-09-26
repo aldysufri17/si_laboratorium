@@ -120,10 +120,10 @@ class DashboardController extends Controller
     {
         $user_id = Auth::user()->id;
         if ($request->foto) {
-            $usercek = User::whereid($user_id)->first();
-            if (!file_exists(public_path() . '/images/user/' . $usercek->foto)) {
-                unlink(public_path() . '/images/user/' . $usercek->foto);
+            if ($request->gambar_old && file_exists(public_path('images/user/' . $request->gambar_old))) {
+                unlink(public_path('images/user/' . $request->gambar_old));
             }
+
             $foto = $request->foto;
             $new_foto = Auth::user()->name . "-" . Auth::user()->nim . "." . $foto->getClientOriginalExtension();
             $destination = 'images/user/';
@@ -144,9 +144,8 @@ class DashboardController extends Controller
     {
         $user_id = Auth::user()->id;
         if ($request->ktm) {
-            $bb = User::whereid($user_id)->first();
-            if (!file_exists(public_path() . '/images/user/ktm/' . $bb->ktm)) {
-                unlink(public_path() . '/images/user/ktm/' . $bb->ktm);
+            if ($request->gambar_old && file_exists(public_path('images/user/ktm/' . $request->gambar_old))) {
+                unlink(public_path('images/user/ktm/' . $request->gambar_old));
             }
             $ktm = $request->ktm;
             $new_ktm = Auth::user()->name . "-" . Auth::user()->nim . "." . $ktm->getClientOriginalExtension();

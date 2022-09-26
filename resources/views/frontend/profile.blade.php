@@ -72,6 +72,7 @@
                                     <form action="{{route('profile.ktm')}}" method="POST" enctype="multipart/form-data">
                                         @csrf
                                         <input type="file" name="ktm">
+                                        <input type="text" hidden name="gambar_old" value="{{auth()->user()->ktm}}">
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-danger" data-dismiss="modal">Batal</button>
@@ -99,7 +100,8 @@
                                         enctype="multipart/form-data">
                                         @csrf
                                         <input type="file" name="foto">
-                                </div>
+                                        <input type="text" hidden name="gambar_old" value="{{auth()->user()->foto}}">
+                                </div> 
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
                                     <button type="submit" class="btn btn-primary">Ubah</button>

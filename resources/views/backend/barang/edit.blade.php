@@ -177,6 +177,7 @@
                         <input type="file" class="form-control"
                             value="{{old('gambar') ? old('gambar') : $barang->lokasi}}" name="gambar" id="gambar">
                     </div>
+                    <input type="text" hidden name="gambar_old" value="{{$barang->gambar}}">
                 </div>
             </div>
 

@@ -199,9 +199,8 @@ class BarangController extends Controller
             'required' => ':attribute Bagian ini wajib diisi',
         ]);
         if ($request->gambar) {
-            $bb = Barang::whereid($barang->id)->first();
-            if (file_exists(public_path() . '/images/barang/' . $bb->gambar)) {
-                unlink(public_path() . '/images/barang/' . $bb->gambar);
+            if ($request->gambar_old && file_exists(public_path('images/barang/' . $request->gambar_old))) {
+                unlink(public_path('images/barang/' . $request->gambar_old));
             }
             $date = Date('ymd');
             $gambar = $request->gambar;
