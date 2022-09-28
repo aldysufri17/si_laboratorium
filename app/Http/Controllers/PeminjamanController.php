@@ -377,7 +377,7 @@ class PeminjamanController extends Controller
                         $q->where('laboratorium_id', $this->lab);
                     })
                     ->update(['status' => $status]);
-                Keranjang::where('user_id', $user_id)->where('barang_id', $barang)->delete();
+                // Keranjang::where('user_id', $user_id)->where('barang_id', $barang)->delete();
             }
 
             if ($inventaris) {
@@ -477,7 +477,7 @@ class PeminjamanController extends Controller
                             $q->where('laboratorium_id', $this->lab);
                         })
                         ->update(['status' => 4]);
-                    Keranjang::where('user_id', $user)->where('barang_id', $barang)->delete();
+                    // Keranjang::where('user_id', $user)->where('barang_id', $barang)->delete();
                 }
                 return redirect()->back()->with('success', 'Pengembalian berhasil disetujui!.');
             }

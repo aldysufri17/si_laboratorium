@@ -60,7 +60,7 @@
                     <tbody>
                         @foreach ($peminjaman as $result => $data)
                         <tr>
-                            @if (auth()->user()->role_id == 2)
+                            @if (auth()->user()->role == 2)
                             <td class="text-center">{{$data->created_at->format('d M Y')}}
                                 <strong class="text-muted">({{$data->created_at->format('H:i:s A')}})</strong></td>
                             @else
@@ -105,7 +105,7 @@
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                    @if (auth()->user()->role_id == 2)
+                                    @if (auth()->user()->role == 2)
                                     <th>Laboratorium</th>
                                     @endif
                                     <th>Kode Barang</th>

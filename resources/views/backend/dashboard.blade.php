@@ -150,7 +150,7 @@
                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                 Total Barang Laboratorium</div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                {{App\Models\Barang::where('laboratorium_id', auth()->user()->laboratorium_id)->count()}}
+                                {{App\Models\Barang::where('laboratorium_id', auth()->user()->post)->count()}}
                             </div>
                         </div>
                         <div class="col-auto">
@@ -169,7 +169,7 @@
                             <div class="text-xs font-weight-bold text-success text-uppercase mb-1">
                                 Total Barang Rusak </div>
                             <div class="h5 mb-0 font-weight-bold text-gray-800">
-                                {{App\Models\Barang::where('laboratorium_id', auth()->user()->laboratorium_id)->sum('jml_rusak')}}
+                                {{App\Models\Barang::where('laboratorium_id', auth()->user()->post)->sum('jml_rusak')}}
                             </div>
                         </div>
                         <div class="col-auto">
@@ -191,7 +191,7 @@
                                 <div class="col-auto">
                                     <div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">
                                         {{App\Models\Peminjaman::whereHas('barang', function ($q) {
-                                            $q->where('laboratorium_id', auth()->user()->laboratorium_id);
+                                            $q->where('laboratorium_id', auth()->user()->post);
                                         })->whereBetween('status', [2,3])->sum('jumlah')}}
                                     </div>
                                 </div>
