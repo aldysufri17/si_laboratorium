@@ -21,6 +21,13 @@
         </a>
     </div>
     @endrole
+    @role('admin')
+    <div class="d-sm-flex align-items-center mb-4">
+        <a href="{{ route('export.peminjaman', 0) }}" class="btn btn-sm btn-warning">
+            <i class="fa-solid fa-file-csv"></i> Export Exel
+        </a>
+    </div>
+    @endrole
 
     {{-- Alert Messages --}}
     @include('sweetalert::alert')
@@ -60,13 +67,8 @@
                     <tbody>
                         @foreach ($peminjaman as $result => $data)
                         <tr>
-                            @if (auth()->user()->role == 2)
-                            <td class="text-center">{{$data->created_at->format('d M Y')}}
-                                <strong class="text-muted">({{$data->created_at->format('H:i:s A')}})</strong></td>
-                            @else
                             <td class="text-center">{{$data->updated_at->format('d M Y')}}
                                 <strong class="text-muted">({{$data->updated_at->format('H:i:s A')}})</strong></td>
-                            @endif
                             <td class="text-center">{{$data->user->nim}}</td>
                             <td class="text-center">{{$data->kode_peminjaman}}</td>
                             <td class="d-sm-flex justify-content-center">
@@ -161,7 +163,6 @@
     $(document).ready(function () {
         $(document).on('click', '.close-mdl', function () {
             $('#detailModal').modal('hide')
-
         });
     });
 

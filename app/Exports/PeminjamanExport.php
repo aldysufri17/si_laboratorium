@@ -19,10 +19,17 @@ class PeminjamanExport implements FromCollection, WithHeadings
     }
     public function headings(): array
     {
-        return [
-            ['Data Peminjaman ' . $this->name . " Pada " . date('Y-m-d')],
-            ['Date', 'Kode Peminjaman', 'NIM', 'Nama', 'Barang', 'Tipe', 'Jumlah', 'Tanggal Peminjaman', 'Tanggal Pengembalian', 'Alasan']
-        ];
+        if ($this->data == 0) {
+            return [
+                ['Data Peminjaman Admin Pada' . date('Y-m-d')],
+                ['Date', 'Kode Peminjaman', 'NIM', 'Nama', 'Barang', 'Tipe', 'Jumlah', 'Tanggal Peminjaman', 'Tanggal Pengembalian', 'Alasan']
+            ];
+        } else {
+            return [
+                ['Data Peminjaman ' . $this->name . " Pada " . date('Y-m-d')],
+                ['Date', 'Kode Peminjaman', 'NIM', 'Nama', 'Barang', 'Tipe', 'Jumlah', 'Tanggal Peminjaman', 'Tanggal Pengembalian', 'Alasan']
+            ];
+        }
     }
 
     /**
@@ -30,12 +37,22 @@ class PeminjamanExport implements FromCollection, WithHeadings
      */
     public function collection()
     {
-        $peminjaman = Peminjaman::join('barang', 'barang.id', '=', 'peminjaman.barang_id')
-            ->join('users', 'users.id', '=', 'peminjaman.user_id')
-            ->select('peminjaman.created_at', 'kode_peminjaman', 'users.nim', 'users.name', 'barang.nama', 'barang.tipe', 'jumlah', 'tgl_start', 'tgl_end', 'alasan',)
-            ->where('peminjaman.status', 4)
-            ->where('barang.laboratorium_id', $this->data)
-            ->get();
+        if ($this->data == 0) {
+            $peminjaman = Peminjaman::join('barang', 'barang.id', '=', 'peminjaman.barang_id')
+                ->join('users', 'users.id', '=', 'peminjaman.user_id')
+                ->select('peminjaman.created_at', 'kode_peminjaman', 'users.nim', 'users.name', 'barang.nama', 'barang.tipe', 'jumlah', 'tgl_start', 'tgl_end', 'alasan')
+                ->where('peminjaman.status', 4)
+                ->get();
+        } else {
+            $peminjaman = Peminjaman::join('barang', 'barang.id', '=', 'peminjaman.barang_id')
+                ->join('users', 'users.id', '=', 'peminjaman.user_id')
+                ->select('peminjaman.created_at', 'kode_peminjaman', 'users.nim', 'users.name', 'barang.nama', 'barang.tipe', 'jumlah', 'tgl_start', 'tgl_end', 'alasan')
+                ->whereHas('barang', function ($q) {
+                    $q->where('laboratorium_id', $this->data);
+                })
+                ->where('peminjaman.status', 4)
+                ->get();
+        }
         return $peminjaman;
     }
 }

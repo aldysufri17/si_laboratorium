@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Barang;
 use App\Models\Keranjang;
+use App\Models\Laboratorium;
 use App\Models\Peminjaman;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -77,8 +78,8 @@ class HomeController extends Controller
         $riwayat = Peminjaman::with('barang')
             ->where('user_id',  $user_id)
             ->Where('status',  4)
-            ->select('created_at',  'kode_peminjaman', 'tgl_end', DB::raw('count(*) as total'))
-            ->groupBy('created_at',  'kode_peminjaman', 'tgl_end')
+            ->select('kode_peminjaman', 'tgl_end', DB::raw('count(*) as total'))
+            ->groupBy('kode_peminjaman', 'tgl_end')
             ->paginate(7);
         // Disetujui
         $setujui = Peminjaman::where('user_id', $user_id)->where('status', 2)->get();
@@ -153,7 +154,8 @@ class HomeController extends Controller
                 '<tr>';
 
             if (Auth::user()->role == 2) {
-                $labname = $data->laboratorium->nama;
+                $brg = Barang::whereId($data->barang_id)->value('laboratorium_id');
+                $labname = Laboratorium::whereId($brg)->value('nama');
                 $output .= '<tr>' .
                     '<td>' . $labname . '</td>' .
                     '<td>' . $data->barang->kode_barang . '</td>' .

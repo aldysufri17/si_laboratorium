@@ -37,15 +37,15 @@ class PeminjamanController extends Controller
                 $end_date = Carbon::parse(request()->end_date)->toDateTimeString();
                 $peminjaman = Peminjaman::with('user', 'barang')
                     ->where('status', 4)
-                    ->select('kode_peminjaman', 'created_at', 'user_id', DB::raw('count(*) as total'))
-                    ->groupBy('kode_peminjaman', 'created_at', 'user_id',)
-                    ->whereBetween('created_at', [$start_date, $end_date])
+                    ->select('kode_peminjaman', 'updated_at', 'user_id', DB::raw('count(*) as total'))
+                    ->groupBy('kode_peminjaman', 'updated_at', 'user_id',)
+                    ->whereBetween('updated_at', [$start_date, $end_date])
                     ->get();
             } else {
                 $peminjaman = Peminjaman::with('user', 'barang')
                     ->where('status', 4)
-                    ->select('kode_peminjaman', 'created_at', 'user_id', DB::raw('count(*) as total'))
-                    ->groupBy('kode_peminjaman', 'created_at', 'user_id')
+                    ->select('kode_peminjaman', 'updated_at', 'user_id', DB::raw('count(*) as total'))
+                    ->groupBy('kode_peminjaman', 'updated_at', 'user_id')
                     ->get();
             }
         } else {
@@ -297,6 +297,7 @@ class PeminjamanController extends Controller
                     $q->where('laboratorium_id', $this->lab);
                 })
                 ->first();
+
             if ($telat->tgl_end < date('Y-m-d')) {
                 return redirect()->back()->with('warning', 'Konfirmasi pengajuan telat!.');
             }
@@ -322,7 +323,7 @@ class PeminjamanController extends Controller
                     Barang::whereid($barang)->update(['stock' => $stock[$index] - $jumlah[$index]]);
                     Peminjaman::where('user_id', $id)
                         ->where('kode_peminjaman', $kode)
-                        ->where('barang_id', $barang)
+                        // ->where('barang_id', $barang)
                         ->whereHas('barang', function ($q) {
                             $q->where('laboratorium_id', $this->lab);
                         })
@@ -487,9 +488,8 @@ class PeminjamanController extends Controller
     public function export($data)
     {
         if (Auth::user()->role == 2) {
-            $dec = decrypt($data);
-            $data = $dec;
-            $name = Laboratorium::whereId($data)->value('nama');
+            $data = 0;
+            $name = 'Admin';
         } else {
             $data = $this->lab;
             $name = Laboratorium::whereId($this->lab)->value('nama');

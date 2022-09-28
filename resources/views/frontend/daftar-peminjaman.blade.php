@@ -370,7 +370,7 @@
                         <table id="dataTable" class="table table-borderless dt-responsive" cellspacing="0" width="100%">
                             <thead>
                                 <tr>
-                                    <th width="15%" class="text-center">Waktu Pengajuan Peminjaman</th>
+                                    {{-- <th width="15%" class="text-center">Waktu Pengajuan Peminjaman</th> --}}
                                     <th width="15%" class="text-center">Waktu Peminjaman Selesai</th>
                                     <th width="10%" class="text-center">Kode Peminjaman</th>
                                     <th width="10%" class="text-center">Jumlah Barang</th>
@@ -380,13 +380,6 @@
                             <tbody>
                                 @foreach ($riwayat as $data)
                                 <tr>
-                                    <td class="">
-                                        <div class="col">
-                                            <div class="row">{{$data->created_at->format('d M Y')}}</div>
-                                            <div class="row text-muted">
-                                                <strong>({{$data->created_at->format('H:i:s A')}})</strong></div>
-                                        </div>
-                                    </td>
                                     <td class="">
                                         <div class="col">
                                             <div class="row">{{$data->tgl_end}}</div>
