@@ -1,4 +1,4 @@
-<h1 align="center">Sistem Informasi Inventaris dan Peminjaman Barang Laboratorium🏻</h1>
+<h1 align="center">Sistem Informasi Inventaris dan Peminjaman Barang Laboratorium</h1>
 
 
 
