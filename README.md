@@ -1,4 +1,5 @@
-<h1 align="center">Sistem Informasi Inventaris dan Peminjaman Barang Laboratorium ! 👋🏻</h1>
+<h1 align="center">Sistem Informasi Inventaris dan Peminjaman Barang Laboratorium🏻</h1>
+
 
 
 <h4 align="center">Website dibuat dengan <a href="https://laravel.com/" target="_blank">Laravel 8</a>.
@@ -34,7 +35,7 @@ Halaman demo dapat anda akses di [https://silab18.herokuapp.com/]
 
 <p></p>
 
-<h2 id="download">🐱‍💻 Panduan Menjalankan & Install Aplikasi</h2>
+<h2 id="download">💻 Panduan Menjalankan & Install Aplikasi</h2>
 
 Untuk menjalankan aplikasi atau web ini kamu harus install XAMPP atau web server lain dan mempunyai setidaknya satu web browser yang terinstall di komputer anda.
 
