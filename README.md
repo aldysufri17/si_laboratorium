@@ -6,7 +6,7 @@
 </h4>
 
 <h2 id="tentang">🎓 Tentang Website</h2>
-Tujuan yang ingin dicapai dari pembuatan Tugas Akhir ini adalah membuat sistem informasi yang dapat digunakan Departemen Teknik Komputer untuk melakukan pendataan inventaris secara terkomputerisasi dan mempercepat proses peminjaman barang.
+Tujuan yang ingin dicapai dari pembuatan Aplikasi ini adalah membuat sistem informasi yang dapat digunakan Departemen Teknik Komputer untuk melakukan pendataan inventaris secara terkomputerisasi dan mempercepat proses peminjaman barang.
 
 <p></p>
 
